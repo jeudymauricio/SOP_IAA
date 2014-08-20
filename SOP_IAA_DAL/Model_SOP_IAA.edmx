@@ -1,0 +1,1435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="boleta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numeroBoleta" Type="int" Nullable="false" />
+          <Property Name="idFondo" Type="smallint" Nullable="false" />
+          <Property Name="idRuta" Type="int" Nullable="false" />
+          <Property Name="idInspector" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="seccionControl" Type="smallint" Nullable="false" />
+          <Property Name="estacionamientoInicial" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="estacionamientoFinal" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="periodo" Type="tinyint" Nullable="false" />
+          <Property Name="observaciones" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="boletaItem">
+          <Key>
+            <PropertyRef Name="idItem" />
+            <PropertyRef Name="idBoleta" />
+          </Key>
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="idBoleta" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="int" Nullable="false" />
+          <Property Name="costoActual" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="contratista">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="contratistaProyecto">
+          <Key>
+            <PropertyRef Name="idProyecto" />
+            <PropertyRef Name="idContratista" />
+          </Key>
+          <Property Name="idProyecto" Type="int" Nullable="false" />
+          <Property Name="idContratista" Type="int" Nullable="false" />
+          <Property Name="fechaInicio" Type="date" Nullable="false" />
+          <Property Name="fechaFin" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="fondo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ingeniero">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="departamento" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="rol" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ingenieroProyecto">
+          <Key>
+            <PropertyRef Name="idProyecto" />
+            <PropertyRef Name="idIngeniero" />
+          </Key>
+          <Property Name="idProyecto" Type="int" Nullable="false" />
+          <Property Name="idIngeniero" Type="int" Nullable="false" />
+          <Property Name="fechaInicio" Type="date" Nullable="false" />
+          <Property Name="fechaFin" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="inspector">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigoItem" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="unidadMedida" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="precioUnitario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="labCalidadProyecto">
+          <Key>
+            <PropertyRef Name="idLabCalidad" />
+            <PropertyRef Name="idProyecto" />
+          </Key>
+          <Property Name="idLabCalidad" Type="smallint" Nullable="false" />
+          <Property Name="idProyecto" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="laboratorioCalidad">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="tipo" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="persona">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellido1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellido2" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cedula" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="programa">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="idProyecto" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idProyecto" Type="int" Nullable="false" />
+          <Property Name="ano" Type="smallint" Nullable="false" />
+          <Property Name="fechaInicio" Type="date" Nullable="false" />
+          <Property Name="fechaFinal" Type="date" Nullable="false" />
+          <Property Name="trimestre" Type="tinyint" Nullable="false" />
+          <Property Name="monto" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proyecto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="contratacion" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="lineaContrato" Type="smallint" Nullable="false" />
+          <Property Name="fechaInicio" Type="date" Nullable="false" />
+          <Property Name="plazo" Type="smallint" Nullable="false" />
+          <Property Name="lugar" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="idFondo" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ruta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="15" />
+          <Property Name="descripcion" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="subProyecto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idPrograma" Type="int" Nullable="false" />
+          <Property Name="idProyecto" Type="int" Nullable="false" />
+          <Property Name="idTipoSubProyecto" Type="int" Nullable="false" />
+          <Property Name="idRuta" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="subProyectoItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idSubProyecto" Type="int" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="fechaInicio" Type="date" Nullable="false" />
+          <Property Name="fechaFinal" Type="date" Nullable="false" />
+          <Property Name="costoEstimado" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="telefono">
+          <Key>
+            <PropertyRef Name="idPersona" />
+            <PropertyRef Name="telefono" />
+          </Key>
+          <Property Name="idPersona" Type="int" Nullable="false" />
+          <Property Name="telefono" Type="varchar" MaxLength="14" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoSubproyecto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="int" Nullable="false" />
+          <Property Name="nombreUsuario" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="contraseña" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="rol" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="zona">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="zonaProyecto">
+          <Key>
+            <PropertyRef Name="idZona" />
+            <PropertyRef Name="idProyecto" />
+          </Key>
+          <Property Name="idZona" Type="smallint" Nullable="false" />
+          <Property Name="idProyecto" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_id_telefono">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="telefono" Type="Self.telefono" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="telefono">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idBoleta_boletaItem">
+          <End Role="boleta" Type="Self.boleta" Multiplicity="1" />
+          <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boleta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boletaItem">
+              <PropertyRef Name="idBoleta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratista_contratistaProyecto">
+          <End Role="contratista" Type="Self.contratista" Multiplicity="1" />
+          <End Role="contratistaProyecto" Type="Self.contratistaProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratista">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratistaProyecto">
+              <PropertyRef Name="idContratista" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idFondo_boleta">
+          <End Role="fondo" Type="Self.fondo" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fondo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idFondo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idFondo_proyecto">
+          <End Role="fondo" Type="Self.fondo" Multiplicity="1" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fondo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Proyecto">
+              <PropertyRef Name="idFondo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idIngeniero_ingenieroProyecto">
+          <End Role="ingeniero" Type="Self.ingeniero" Multiplicity="1" />
+          <End Role="ingenieroProyecto" Type="Self.ingenieroProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ingeniero">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="ingenieroProyecto">
+              <PropertyRef Name="idIngeniero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idInspector_boleta">
+          <End Role="inspector" Type="Self.inspector" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inspector">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idInspector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idItem_boletaItem">
+          <End Role="item" Type="Self.item" Multiplicity="1" />
+          <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boletaItem">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idItem_subProyectoItem">
+          <End Role="item" Type="Self.item" Multiplicity="1" />
+          <End Role="subProyectoItem" Type="Self.subProyectoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subProyectoItem">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idLabControl_labCalidadProyecto">
+          <End Role="laboratorioCalidad" Type="Self.laboratorioCalidad" Multiplicity="1" />
+          <End Role="labCalidadProyecto" Type="Self.labCalidadProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="laboratorioCalidad">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="labCalidadProyecto">
+              <PropertyRef Name="idLabCalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_ingeniero">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="ingeniero" Type="Self.ingeniero" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ingeniero">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_inspector">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="inspector" Type="Self.inspector" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inspector">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_usuario">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPrograma_idProyecto_subProyecto">
+          <End Role="programa" Type="Self.programa" Multiplicity="1" />
+          <End Role="subProyecto" Type="Self.subProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="programa">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="idProyecto" />
+            </Principal>
+            <Dependent Role="subProyecto">
+              <PropertyRef Name="idPrograma" />
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idProyecto_contratistaProyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="contratistaProyecto" Type="Self.contratistaProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratistaProyecto">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idProyecto_ingenieroProyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="ingenieroProyecto" Type="Self.ingenieroProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ingenieroProyecto">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idProyecto_labCalidadProyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="labCalidadProyecto" Type="Self.labCalidadProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="labCalidadProyecto">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idProyecto_programa">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="programa" Type="Self.programa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="programa">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idProyecto_zonaProyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="zonaProyecto" Type="Self.zonaProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zonaProyecto">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_boleta">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idSubProyecto_subProyectoItem">
+          <End Role="subProyecto" Type="Self.subProyecto" Multiplicity="1" />
+          <End Role="subProyectoItem" Type="Self.subProyectoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subProyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subProyectoItem">
+              <PropertyRef Name="idSubProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idTipoSubProyecto_subProyecto">
+          <End Role="TipoSubproyecto" Type="Self.TipoSubproyecto" Multiplicity="1" />
+          <End Role="subProyecto" Type="Self.subProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSubproyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subProyecto">
+              <PropertyRef Name="idTipoSubProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idZona_zonaProyecto">
+          <End Role="zona" Type="Self.zona" Multiplicity="1" />
+          <End Role="zonaProyecto" Type="Self.zonaProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="zona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zonaProyecto">
+              <PropertyRef Name="idZona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Proyecto_IAAModelStoreContainer">
+          <EntitySet Name="boleta" EntityType="Self.boleta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="boletaItem" EntityType="Self.boletaItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="contratista" EntityType="Self.contratista" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="contratistaProyecto" EntityType="Self.contratistaProyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="fondo" EntityType="Self.fondo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ingeniero" EntityType="Self.ingeniero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ingenieroProyecto" EntityType="Self.ingenieroProyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inspector" EntityType="Self.inspector" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="item" EntityType="Self.item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="labCalidadProyecto" EntityType="Self.labCalidadProyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="laboratorioCalidad" EntityType="Self.laboratorioCalidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="persona" EntityType="Self.persona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="programa" EntityType="Self.programa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ruta" EntityType="Self.ruta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="subProyecto" EntityType="Self.subProyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="subProyectoItem" EntityType="Self.subProyectoItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="telefono" EntityType="Self.telefono" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoSubproyecto" EntityType="Self.TipoSubproyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zona" EntityType="Self.zona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zonaProyecto" EntityType="Self.zonaProyecto" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_id_telefono" Association="Self.fk_id_telefono">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="telefono" EntitySet="telefono" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idBoleta_boletaItem" Association="Self.fk_idBoleta_boletaItem">
+            <End Role="boleta" EntitySet="boleta" />
+            <End Role="boletaItem" EntitySet="boletaItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratista_contratistaProyecto" Association="Self.fk_idContratista_contratistaProyecto">
+            <End Role="contratista" EntitySet="contratista" />
+            <End Role="contratistaProyecto" EntitySet="contratistaProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idFondo_boleta" Association="Self.fk_idFondo_boleta">
+            <End Role="fondo" EntitySet="fondo" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idFondo_proyecto" Association="Self.fk_idFondo_proyecto">
+            <End Role="fondo" EntitySet="fondo" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idIngeniero_ingenieroProyecto" Association="Self.fk_idIngeniero_ingenieroProyecto">
+            <End Role="ingeniero" EntitySet="ingeniero" />
+            <End Role="ingenieroProyecto" EntitySet="ingenieroProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idInspector_boleta" Association="Self.fk_idInspector_boleta">
+            <End Role="inspector" EntitySet="inspector" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idItem_boletaItem" Association="Self.fk_idItem_boletaItem">
+            <End Role="item" EntitySet="item" />
+            <End Role="boletaItem" EntitySet="boletaItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idItem_subProyectoItem" Association="Self.fk_idItem_subProyectoItem">
+            <End Role="item" EntitySet="item" />
+            <End Role="subProyectoItem" EntitySet="subProyectoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idLabControl_labCalidadProyecto" Association="Self.fk_idLabControl_labCalidadProyecto">
+            <End Role="laboratorioCalidad" EntitySet="laboratorioCalidad" />
+            <End Role="labCalidadProyecto" EntitySet="labCalidadProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_ingeniero" Association="Self.fk_idPersona_ingeniero">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="ingeniero" EntitySet="ingeniero" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_inspector" Association="Self.fk_idPersona_inspector">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="inspector" EntitySet="inspector" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_usuario" Association="Self.fk_idPersona_usuario">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPrograma_idProyecto_subProyecto" Association="Self.fk_idPrograma_idProyecto_subProyecto">
+            <End Role="programa" EntitySet="programa" />
+            <End Role="subProyecto" EntitySet="subProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idProyecto_contratistaProyecto" Association="Self.fk_idProyecto_contratistaProyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="contratistaProyecto" EntitySet="contratistaProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idProyecto_ingenieroProyecto" Association="Self.fk_idProyecto_ingenieroProyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="ingenieroProyecto" EntitySet="ingenieroProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idProyecto_labCalidadProyecto" Association="Self.fk_idProyecto_labCalidadProyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="labCalidadProyecto" EntitySet="labCalidadProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idProyecto_programa" Association="Self.fk_idProyecto_programa">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="programa" EntitySet="programa" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idProyecto_zonaProyecto" Association="Self.fk_idProyecto_zonaProyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="zonaProyecto" EntitySet="zonaProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_boleta" Association="Self.fk_idRuta_boleta">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idSubProyecto_subProyectoItem" Association="Self.fk_idSubProyecto_subProyectoItem">
+            <End Role="subProyecto" EntitySet="subProyecto" />
+            <End Role="subProyectoItem" EntitySet="subProyectoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idTipoSubProyecto_subProyecto" Association="Self.fk_idTipoSubProyecto_subProyecto">
+            <End Role="TipoSubproyecto" EntitySet="TipoSubproyecto" />
+            <End Role="subProyecto" EntitySet="subProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idZona_zonaProyecto" Association="Self.fk_idZona_zonaProyecto">
+            <End Role="zona" EntitySet="zona" />
+            <End Role="zonaProyecto" EntitySet="zonaProyecto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="boleta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numeroBoleta" Type="Int32" Nullable="false" />
+          <Property Name="idFondo" Type="Int16" Nullable="false" />
+          <Property Name="idRuta" Type="Int32" Nullable="false" />
+          <Property Name="idInspector" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="seccionControl" Type="Int16" Nullable="false" />
+          <Property Name="estacionamientoInicial" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estacionamientoFinal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="periodo" Type="Byte" Nullable="false" />
+          <Property Name="observaciones" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="boletaItem" Relationship="Self.fk_idBoleta_boletaItem" FromRole="boleta" ToRole="boletaItem" />
+          <NavigationProperty Name="fondo" Relationship="Self.fk_idFondo_boleta" FromRole="boleta" ToRole="fondo" />
+          <NavigationProperty Name="inspector" Relationship="Self.fk_idInspector_boleta" FromRole="boleta" ToRole="inspector" />
+          <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_boleta" FromRole="boleta" ToRole="ruta" />
+        </EntityType>
+        <EntityType Name="boletaItem">
+          <Key>
+            <PropertyRef Name="idItem" />
+            <PropertyRef Name="idBoleta" />
+          </Key>
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="idBoleta" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" Nullable="false" />
+          <Property Name="costoActual" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="boleta" Relationship="Self.fk_idBoleta_boletaItem" FromRole="boletaItem" ToRole="boleta" />
+          <NavigationProperty Name="item" Relationship="Self.fk_idItem_boletaItem" FromRole="boletaItem" ToRole="item" />
+        </EntityType>
+        <EntityType Name="contratista">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="contratistaProyecto" Relationship="Self.fk_idContratista_contratistaProyecto" FromRole="contratista" ToRole="contratistaProyecto" />
+        </EntityType>
+        <EntityType Name="contratistaProyecto">
+          <Key>
+            <PropertyRef Name="idProyecto" />
+            <PropertyRef Name="idContratista" />
+          </Key>
+          <Property Name="idProyecto" Type="Int32" Nullable="false" />
+          <Property Name="idContratista" Type="Int32" Nullable="false" />
+          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fechaFin" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="contratista" Relationship="Self.fk_idContratista_contratistaProyecto" FromRole="contratistaProyecto" ToRole="contratista" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.fk_idProyecto_contratistaProyecto" FromRole="contratistaProyecto" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="fondo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="boleta" Relationship="Self.fk_idFondo_boleta" FromRole="fondo" ToRole="boleta" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.fk_idFondo_proyecto" FromRole="fondo" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="ingeniero">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="departamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="rol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ingenieroProyecto" Relationship="Self.fk_idIngeniero_ingenieroProyecto" FromRole="ingeniero" ToRole="ingenieroProyecto" />
+          <NavigationProperty Name="persona" Relationship="Self.fk_idPersona_ingeniero" FromRole="ingeniero" ToRole="persona" />
+        </EntityType>
+        <EntityType Name="ingenieroProyecto">
+          <Key>
+            <PropertyRef Name="idProyecto" />
+            <PropertyRef Name="idIngeniero" />
+          </Key>
+          <Property Name="idProyecto" Type="Int32" Nullable="false" />
+          <Property Name="idIngeniero" Type="Int32" Nullable="false" />
+          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fechaFin" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="ingeniero" Relationship="Self.fk_idIngeniero_ingenieroProyecto" FromRole="ingenieroProyecto" ToRole="ingeniero" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.fk_idProyecto_ingenieroProyecto" FromRole="ingenieroProyecto" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="inspector">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="boleta" Relationship="Self.fk_idInspector_boleta" FromRole="inspector" ToRole="boleta" />
+          <NavigationProperty Name="persona" Relationship="Self.fk_idPersona_inspector" FromRole="inspector" ToRole="persona" />
+        </EntityType>
+        <EntityType Name="item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigoItem" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="unidadMedida" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="precioUnitario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="boletaItem" Relationship="Self.fk_idItem_boletaItem" FromRole="item" ToRole="boletaItem" />
+          <NavigationProperty Name="subProyectoItem" Relationship="Self.fk_idItem_subProyectoItem" FromRole="item" ToRole="subProyectoItem" />
+        </EntityType>
+        <EntityType Name="laboratorioCalidad">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.labCalidadProyecto" FromRole="laboratorioCalidad" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="persona">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellido1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellido2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cedula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ingeniero" Relationship="Self.fk_idPersona_ingeniero" FromRole="persona" ToRole="ingeniero" />
+          <NavigationProperty Name="inspector" Relationship="Self.fk_idPersona_inspector" FromRole="persona" ToRole="inspector" />
+          <NavigationProperty Name="telefono" Relationship="Self.fk_id_telefono" FromRole="persona" ToRole="telefono" />
+          <NavigationProperty Name="usuario" Relationship="Self.fk_idPersona_usuario" FromRole="persona" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="programa">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="idProyecto" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idProyecto" Type="Int32" Nullable="false" />
+          <Property Name="ano" Type="Int16" Nullable="false" />
+          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fechaFinal" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="trimestre" Type="Byte" Nullable="false" />
+          <Property Name="monto" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="subProyecto" Relationship="Self.fk_idPrograma_idProyecto_subProyecto" FromRole="programa" ToRole="subProyecto" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.fk_idProyecto_programa" FromRole="programa" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="Proyecto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="contratacion" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lineaContrato" Type="Int16" Nullable="false" />
+          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="plazo" Type="Int16" Nullable="false" />
+          <Property Name="lugar" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idFondo" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="contratistaProyecto" Relationship="Self.fk_idProyecto_contratistaProyecto" FromRole="Proyecto" ToRole="contratistaProyecto" />
+          <NavigationProperty Name="fondo" Relationship="Self.fk_idFondo_proyecto" FromRole="Proyecto" ToRole="fondo" />
+          <NavigationProperty Name="ingenieroProyecto" Relationship="Self.fk_idProyecto_ingenieroProyecto" FromRole="Proyecto" ToRole="ingenieroProyecto" />
+          <NavigationProperty Name="programa" Relationship="Self.fk_idProyecto_programa" FromRole="Proyecto" ToRole="programa" />
+          <NavigationProperty Name="laboratorioCalidad" Relationship="Self.labCalidadProyecto" FromRole="Proyecto" ToRole="laboratorioCalidad" />
+          <NavigationProperty Name="zona" Relationship="Self.zonaProyecto" FromRole="Proyecto" ToRole="zona" />
+        </EntityType>
+        <EntityType Name="ruta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="boleta" Relationship="Self.fk_idRuta_boleta" FromRole="ruta" ToRole="boleta" />
+        </EntityType>
+        <EntityType Name="subProyecto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idPrograma" Type="Int32" Nullable="false" />
+          <Property Name="idProyecto" Type="Int32" Nullable="false" />
+          <Property Name="idTipoSubProyecto" Type="Int32" Nullable="false" />
+          <Property Name="idRuta" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="programa" Relationship="Self.fk_idPrograma_idProyecto_subProyecto" FromRole="subProyecto" ToRole="programa" />
+          <NavigationProperty Name="subProyectoItem" Relationship="Self.fk_idSubProyecto_subProyectoItem" FromRole="subProyecto" ToRole="subProyectoItem" />
+          <NavigationProperty Name="TipoSubproyecto" Relationship="Self.fk_idTipoSubProyecto_subProyecto" FromRole="subProyecto" ToRole="TipoSubproyecto" />
+        </EntityType>
+        <EntityType Name="subProyectoItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idSubProyecto" Type="Int32" Nullable="false" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fechaFinal" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="costoEstimado" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="item" Relationship="Self.fk_idItem_subProyectoItem" FromRole="subProyectoItem" ToRole="item" />
+          <NavigationProperty Name="subProyecto" Relationship="Self.fk_idSubProyecto_subProyectoItem" FromRole="subProyectoItem" ToRole="subProyecto" />
+        </EntityType>
+        <EntityType Name="telefono">
+          <Key>
+            <PropertyRef Name="idPersona" />
+            <PropertyRef Name="telefono1" />
+          </Key>
+          <Property Name="idPersona" Type="Int32" Nullable="false" />
+          <Property Name="telefono1" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="persona" Relationship="Self.fk_id_telefono" FromRole="telefono" ToRole="persona" />
+        </EntityType>
+        <EntityType Name="TipoSubproyecto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="subProyecto" Relationship="Self.fk_idTipoSubProyecto_subProyecto" FromRole="TipoSubproyecto" ToRole="subProyecto" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="Int32" Nullable="false" />
+          <Property Name="nombreUsuario" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contraseña" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="rol" Type="Byte" />
+          <NavigationProperty Name="persona" Relationship="Self.fk_idPersona_usuario" FromRole="usuario" ToRole="persona" />
+        </EntityType>
+        <EntityType Name="zona">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.zonaProyecto" FromRole="zona" ToRole="Proyecto" />
+        </EntityType>
+        <Association Name="fk_idBoleta_boletaItem">
+          <End Role="boleta" Type="Self.boleta" Multiplicity="1" />
+          <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boleta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boletaItem">
+              <PropertyRef Name="idBoleta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idFondo_boleta">
+          <End Role="fondo" Type="Self.fondo" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fondo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idFondo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idInspector_boleta">
+          <End Role="inspector" Type="Self.inspector" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inspector">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idInspector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_boleta">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idItem_boletaItem">
+          <End Role="item" Type="Self.item" Multiplicity="1" />
+          <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boletaItem">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratista_contratistaProyecto">
+          <End Role="contratista" Type="Self.contratista" Multiplicity="1" />
+          <End Role="contratistaProyecto" Type="Self.contratistaProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratista">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratistaProyecto">
+              <PropertyRef Name="idContratista" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idProyecto_contratistaProyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="contratistaProyecto" Type="Self.contratistaProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratistaProyecto">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idFondo_proyecto">
+          <End Role="fondo" Type="Self.fondo" Multiplicity="1" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fondo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Proyecto">
+              <PropertyRef Name="idFondo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idIngeniero_ingenieroProyecto">
+          <End Role="ingeniero" Type="Self.ingeniero" Multiplicity="1" />
+          <End Role="ingenieroProyecto" Type="Self.ingenieroProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ingeniero">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="ingenieroProyecto">
+              <PropertyRef Name="idIngeniero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_ingeniero">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="ingeniero" Type="Self.ingeniero" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ingeniero">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idProyecto_ingenieroProyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="ingenieroProyecto" Type="Self.ingenieroProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ingenieroProyecto">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_inspector">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="inspector" Type="Self.inspector" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inspector">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idItem_subProyectoItem">
+          <End Role="item" Type="Self.item" Multiplicity="1" />
+          <End Role="subProyectoItem" Type="Self.subProyectoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subProyectoItem">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_telefono">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="telefono" Type="Self.telefono" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="telefono">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_usuario">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPrograma_idProyecto_subProyecto">
+          <End Role="programa" Type="Self.programa" Multiplicity="1" />
+          <End Role="subProyecto" Type="Self.subProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="programa">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="idProyecto" />
+            </Principal>
+            <Dependent Role="subProyecto">
+              <PropertyRef Name="idPrograma" />
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idProyecto_programa">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="programa" Type="Self.programa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="programa">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idSubProyecto_subProyectoItem">
+          <End Role="subProyecto" Type="Self.subProyecto" Multiplicity="1" />
+          <End Role="subProyectoItem" Type="Self.subProyectoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subProyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subProyectoItem">
+              <PropertyRef Name="idSubProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idTipoSubProyecto_subProyecto">
+          <End Role="TipoSubproyecto" Type="Self.TipoSubproyecto" Multiplicity="1" />
+          <End Role="subProyecto" Type="Self.subProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSubproyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subProyecto">
+              <PropertyRef Name="idTipoSubProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="labCalidadProyecto">
+          <End Role="laboratorioCalidad" Type="Self.laboratorioCalidad" Multiplicity="*" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+        </Association>
+        <Association Name="zonaProyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <End Role="zona" Type="Self.zona" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Proyecto_IAAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="boleta" EntityType="Self.boleta" />
+          <EntitySet Name="boletaItem" EntityType="Self.boletaItem" />
+          <EntitySet Name="contratista" EntityType="Self.contratista" />
+          <EntitySet Name="contratistaProyecto" EntityType="Self.contratistaProyecto" />
+          <EntitySet Name="fondo" EntityType="Self.fondo" />
+          <EntitySet Name="ingeniero" EntityType="Self.ingeniero" />
+          <EntitySet Name="ingenieroProyecto" EntityType="Self.ingenieroProyecto" />
+          <EntitySet Name="inspector" EntityType="Self.inspector" />
+          <EntitySet Name="item" EntityType="Self.item" />
+          <EntitySet Name="laboratorioCalidad" EntityType="Self.laboratorioCalidad" />
+          <EntitySet Name="persona" EntityType="Self.persona" />
+          <EntitySet Name="programa" EntityType="Self.programa" />
+          <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
+          <EntitySet Name="ruta" EntityType="Self.ruta" />
+          <EntitySet Name="subProyecto" EntityType="Self.subProyecto" />
+          <EntitySet Name="subProyectoItem" EntityType="Self.subProyectoItem" />
+          <EntitySet Name="telefono" EntityType="Self.telefono" />
+          <EntitySet Name="TipoSubproyecto" EntityType="Self.TipoSubproyecto" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" />
+          <EntitySet Name="zona" EntityType="Self.zona" />
+          <AssociationSet Name="fk_idBoleta_boletaItem" Association="Self.fk_idBoleta_boletaItem">
+            <End Role="boleta" EntitySet="boleta" />
+            <End Role="boletaItem" EntitySet="boletaItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idFondo_boleta" Association="Self.fk_idFondo_boleta">
+            <End Role="fondo" EntitySet="fondo" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idInspector_boleta" Association="Self.fk_idInspector_boleta">
+            <End Role="inspector" EntitySet="inspector" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_boleta" Association="Self.fk_idRuta_boleta">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idItem_boletaItem" Association="Self.fk_idItem_boletaItem">
+            <End Role="item" EntitySet="item" />
+            <End Role="boletaItem" EntitySet="boletaItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratista_contratistaProyecto" Association="Self.fk_idContratista_contratistaProyecto">
+            <End Role="contratista" EntitySet="contratista" />
+            <End Role="contratistaProyecto" EntitySet="contratistaProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idProyecto_contratistaProyecto" Association="Self.fk_idProyecto_contratistaProyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="contratistaProyecto" EntitySet="contratistaProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idFondo_proyecto" Association="Self.fk_idFondo_proyecto">
+            <End Role="fondo" EntitySet="fondo" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idIngeniero_ingenieroProyecto" Association="Self.fk_idIngeniero_ingenieroProyecto">
+            <End Role="ingeniero" EntitySet="ingeniero" />
+            <End Role="ingenieroProyecto" EntitySet="ingenieroProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_ingeniero" Association="Self.fk_idPersona_ingeniero">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="ingeniero" EntitySet="ingeniero" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idProyecto_ingenieroProyecto" Association="Self.fk_idProyecto_ingenieroProyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="ingenieroProyecto" EntitySet="ingenieroProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_inspector" Association="Self.fk_idPersona_inspector">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="inspector" EntitySet="inspector" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idItem_subProyectoItem" Association="Self.fk_idItem_subProyectoItem">
+            <End Role="item" EntitySet="item" />
+            <End Role="subProyectoItem" EntitySet="subProyectoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_telefono" Association="Self.fk_id_telefono">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="telefono" EntitySet="telefono" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_usuario" Association="Self.fk_idPersona_usuario">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPrograma_idProyecto_subProyecto" Association="Self.fk_idPrograma_idProyecto_subProyecto">
+            <End Role="programa" EntitySet="programa" />
+            <End Role="subProyecto" EntitySet="subProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idProyecto_programa" Association="Self.fk_idProyecto_programa">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="programa" EntitySet="programa" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idSubProyecto_subProyectoItem" Association="Self.fk_idSubProyecto_subProyectoItem">
+            <End Role="subProyecto" EntitySet="subProyecto" />
+            <End Role="subProyectoItem" EntitySet="subProyectoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idTipoSubProyecto_subProyecto" Association="Self.fk_idTipoSubProyecto_subProyecto">
+            <End Role="TipoSubproyecto" EntitySet="TipoSubproyecto" />
+            <End Role="subProyecto" EntitySet="subProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="labCalidadProyecto" Association="Self.labCalidadProyecto">
+            <End Role="laboratorioCalidad" EntitySet="laboratorioCalidad" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+          <AssociationSet Name="zonaProyecto" Association="Self.zonaProyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="zona" EntitySet="zona" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Proyecto_IAAModelStoreContainer" CdmEntityContainer="Proyecto_IAAEntities">
+          <EntitySetMapping Name="boleta">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.boleta">
+              <MappingFragment StoreEntitySet="boleta">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="numeroBoleta" ColumnName="numeroBoleta" />
+                <ScalarProperty Name="idFondo" ColumnName="idFondo" />
+                <ScalarProperty Name="idRuta" ColumnName="idRuta" />
+                <ScalarProperty Name="idInspector" ColumnName="idInspector" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="seccionControl" ColumnName="seccionControl" />
+                <ScalarProperty Name="estacionamientoInicial" ColumnName="estacionamientoInicial" />
+                <ScalarProperty Name="estacionamientoFinal" ColumnName="estacionamientoFinal" />
+                <ScalarProperty Name="periodo" ColumnName="periodo" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="boletaItem">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.boletaItem">
+              <MappingFragment StoreEntitySet="boletaItem">
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="idBoleta" ColumnName="idBoleta" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="costoActual" ColumnName="costoActual" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="contratista">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.contratista">
+              <MappingFragment StoreEntitySet="contratista">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="contratistaProyecto">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.contratistaProyecto">
+              <MappingFragment StoreEntitySet="contratistaProyecto">
+                <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
+                <ScalarProperty Name="idContratista" ColumnName="idContratista" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fondo">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.fondo">
+              <MappingFragment StoreEntitySet="fondo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ingeniero">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.ingeniero">
+              <MappingFragment StoreEntitySet="ingeniero">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="departamento" ColumnName="departamento" />
+                <ScalarProperty Name="rol" ColumnName="rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ingenieroProyecto">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.ingenieroProyecto">
+              <MappingFragment StoreEntitySet="ingenieroProyecto">
+                <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
+                <ScalarProperty Name="idIngeniero" ColumnName="idIngeniero" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="inspector">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.inspector">
+              <MappingFragment StoreEntitySet="inspector">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="item">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.item">
+              <MappingFragment StoreEntitySet="item">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="codigoItem" ColumnName="codigoItem" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="unidadMedida" ColumnName="unidadMedida" />
+                <ScalarProperty Name="precioUnitario" ColumnName="precioUnitario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="laboratorioCalidad">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.laboratorioCalidad">
+              <MappingFragment StoreEntitySet="laboratorioCalidad">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="persona">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.persona">
+              <MappingFragment StoreEntitySet="persona">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido1" ColumnName="apellido1" />
+                <ScalarProperty Name="apellido2" ColumnName="apellido2" />
+                <ScalarProperty Name="cedula" ColumnName="cedula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="programa">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.programa">
+              <MappingFragment StoreEntitySet="programa">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
+                <ScalarProperty Name="ano" ColumnName="ano" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="fechaFinal" ColumnName="fechaFinal" />
+                <ScalarProperty Name="trimestre" ColumnName="trimestre" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proyecto">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.Proyecto">
+              <MappingFragment StoreEntitySet="Proyecto">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="contratacion" ColumnName="contratacion" />
+                <ScalarProperty Name="lineaContrato" ColumnName="lineaContrato" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="plazo" ColumnName="plazo" />
+                <ScalarProperty Name="lugar" ColumnName="lugar" />
+                <ScalarProperty Name="idFondo" ColumnName="idFondo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ruta">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.ruta">
+              <MappingFragment StoreEntitySet="ruta">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subProyecto">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.subProyecto">
+              <MappingFragment StoreEntitySet="subProyecto">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idPrograma" ColumnName="idPrograma" />
+                <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
+                <ScalarProperty Name="idTipoSubProyecto" ColumnName="idTipoSubProyecto" />
+                <ScalarProperty Name="idRuta" ColumnName="idRuta" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subProyectoItem">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.subProyectoItem">
+              <MappingFragment StoreEntitySet="subProyectoItem">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idSubProyecto" ColumnName="idSubProyecto" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="fechaFinal" ColumnName="fechaFinal" />
+                <ScalarProperty Name="costoEstimado" ColumnName="costoEstimado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="telefono">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.telefono">
+              <MappingFragment StoreEntitySet="telefono">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="telefono1" ColumnName="telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoSubproyecto">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.TipoSubproyecto">
+              <MappingFragment StoreEntitySet="TipoSubproyecto">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
+                <ScalarProperty Name="contraseña" ColumnName="contraseña" />
+                <ScalarProperty Name="rol" ColumnName="rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zona">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.zona">
+              <MappingFragment StoreEntitySet="zona">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="labCalidadProyecto" TypeName="Proyecto_IAAModel.labCalidadProyecto" StoreEntitySet="labCalidadProyecto">
+            <EndProperty Name="laboratorioCalidad">
+              <ScalarProperty Name="id" ColumnName="idLabCalidad" />
+            </EndProperty>
+            <EndProperty Name="Proyecto">
+              <ScalarProperty Name="id" ColumnName="idProyecto" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="zonaProyecto" TypeName="Proyecto_IAAModel.zonaProyecto" StoreEntitySet="zonaProyecto">
+            <EndProperty Name="Proyecto">
+              <ScalarProperty Name="id" ColumnName="idProyecto" />
+            </EndProperty>
+            <EndProperty Name="zona">
+              <ScalarProperty Name="id" ColumnName="idZona" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
