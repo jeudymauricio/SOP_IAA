@@ -14,20 +14,13 @@ namespace SOP_IAA_DAL
     
     public partial class programa
     {
-        public programa()
-        {
-            this.subProyecto = new HashSet<subProyecto>();
-        }
-    
         public int id { get; set; }
-        public int idProyecto { get; set; }
+        public int idContrato { get; set; }
         public short ano { get; set; }
-        public System.DateTime fechaInicio { get; set; }
-        public System.DateTime fechaFinal { get; set; }
         public byte trimestre { get; set; }
-        public int monto { get; set; }
+        public int idProgProy { get; set; }
     
-        public virtual ICollection<subProyecto> subProyecto { get; set; }
-        public virtual Proyecto Proyecto { get; set; }
+        public virtual Contrato Contrato { get; set; }
+        public virtual progProy progProy { get; set; }
     }
 }

@@ -12,19 +12,12 @@ namespace SOP_IAA_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class item
+    public partial class sysdiagrams
     {
-        public item()
-        {
-            this.proyectoItem = new HashSet<proyectoItem>();
-        }
-    
-        public int id { get; set; }
-        public string codigoItem { get; set; }
-        public string descripcion { get; set; }
-        public string unidadMedida { get; set; }
-        public int precioUnitario { get; set; }
-    
-        public virtual ICollection<proyectoItem> proyectoItem { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

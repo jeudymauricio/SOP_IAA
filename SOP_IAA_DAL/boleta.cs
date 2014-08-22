@@ -29,11 +29,13 @@ namespace SOP_IAA_DAL
         public string estacionamientoInicial { get; set; }
         public string estacionamientoFinal { get; set; }
         public byte periodo { get; set; }
+        public int idProyecto_Estructura { get; set; }
         public string observaciones { get; set; }
     
         public virtual ICollection<boletaItem> boletaItem { get; set; }
         public virtual fondo fondo { get; set; }
         public virtual inspector inspector { get; set; }
+        public virtual proyecto_estructura proyecto_estructura { get; set; }
         public virtual ruta ruta { get; set; }
     }
 }

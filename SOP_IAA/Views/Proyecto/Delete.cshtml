@@ -1,72 +1,56 @@
-﻿@model SOP_IAA_DAL.Proyecto
+﻿@model SOP_IAA_DAL.proyecto
 
 @{
-    ViewBag.Title = "Eliminar Proyecto";
+    ViewBag.Title = "Delete";
 }
 
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4 class="text-warning">
-        @SOP_IAA_Utilerias.Utilerias.ValorRecurso(SOP_IAA_Utilerias.Utilerias.ArchivoRecurso.UtilRecursos, "MSJ_CONFIRM_ELIMINAR_PROYECTO")
-    </h4>
+    <h4>proyecto</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.contratacion)
+            @Html.DisplayNameFor(model => model.nombre)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.contratacion)
+            @Html.DisplayFor(model => model.nombre)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.lineaContrato)
+            @Html.DisplayNameFor(model => model.progProy.id)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.lineaContrato)
+            @Html.DisplayFor(model => model.progProy.id)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.fechaInicio)
+            @Html.DisplayNameFor(model => model.ruta.nombre)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.fechaInicio)
+            @Html.DisplayFor(model => model.ruta.nombre)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.plazo)
+            @Html.DisplayNameFor(model => model.tipoProyecto.nombre)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.plazo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.lugar)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.lugar)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fondo.nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fondo.nombre)
+            @Html.DisplayFor(model => model.tipoProyecto.nombre)
         </dd>
 
     </dl>
 
-    @using (Html.BeginForm())
-    {
+    @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-            @Html.ActionLink("Atrás", "Index")
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
         </div>
     }
 </div>

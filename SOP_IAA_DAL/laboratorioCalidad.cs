@@ -16,13 +16,13 @@ namespace SOP_IAA_DAL
     {
         public laboratorioCalidad()
         {
-            this.Proyecto = new HashSet<Proyecto>();
+            this.Contrato = new HashSet<Contrato>();
         }
     
         public short id { get; set; }
         public string nombre { get; set; }
         public string tipo { get; set; }
     
-        public virtual ICollection<Proyecto> Proyecto { get; set; }
+        public virtual ICollection<Contrato> Contrato { get; set; }
     }
 }

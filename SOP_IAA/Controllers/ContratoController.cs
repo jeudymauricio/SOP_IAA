@@ -10,120 +10,120 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class proyectoController : Controller
+    public class ContratoController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
-        // GET: proyecto
+        // GET: Contrato
         public ActionResult Index()
         {
-            var proyecto = db.proyecto.Include(p => p.progProy).Include(p => p.ruta).Include(p => p.tipoProyecto);
-            return View(proyecto.ToList());
+            var contrato = db.Contrato.Include(c => c.contratista).Include(c => c.fondo).Include(c => c.zona);
+            return View(contrato.ToList());
         }
 
-        // GET: proyecto/Details/5
+        // GET: Contrato/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            proyecto proyecto = db.proyecto.Find(id);
-            if (proyecto == null)
+            Contrato contrato = db.Contrato.Find(id);
+            if (contrato == null)
             {
                 return HttpNotFound();
             }
-            return View(proyecto);
+            return View(contrato);
         }
 
-        // GET: proyecto/Create
+        // GET: Contrato/Create
         public ActionResult Create()
         {
-            ViewBag.idProgProy = new SelectList(db.progProy, "id", "id");
-            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre");
-            ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre");
+            ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre");
+            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre");
+            ViewBag.idZona = new SelectList(db.zona, "id", "nombre");
             return View();
         }
 
-        // POST: proyecto/Create
+        // POST: Contrato/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,idProgProy,idTipoProyecto,idRuta,nombre")] proyecto proyecto)
+        public ActionResult Create([Bind(Include = "id,idContratista,licitacion,lineaContrato,idZona,fechaInicio,plazo,lugar,idFondo")] Contrato contrato)
         {
             if (ModelState.IsValid)
             {
-                db.proyecto.Add(proyecto);
+                db.Contrato.Add(contrato);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
-            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", proyecto.idRuta);
-            ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre", proyecto.idTipoProyecto);
-            return View(proyecto);
+            ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre", contrato.idContratista);
+            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
+            ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
+            return View(contrato);
         }
 
-        // GET: proyecto/Edit/5
+        // GET: Contrato/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            proyecto proyecto = db.proyecto.Find(id);
-            if (proyecto == null)
+            Contrato contrato = db.Contrato.Find(id);
+            if (contrato == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
-            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", proyecto.idRuta);
-            ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre", proyecto.idTipoProyecto);
-            return View(proyecto);
+            ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre", contrato.idContratista);
+            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
+            ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
+            return View(contrato);
         }
 
-        // POST: proyecto/Edit/5
+        // POST: Contrato/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,idProgProy,idTipoProyecto,idRuta,nombre")] proyecto proyecto)
+        public ActionResult Edit([Bind(Include = "id,idContratista,licitacion,lineaContrato,idZona,fechaInicio,plazo,lugar,idFondo")] Contrato contrato)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(proyecto).State = EntityState.Modified;
+                db.Entry(contrato).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
-            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", proyecto.idRuta);
-            ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre", proyecto.idTipoProyecto);
-            return View(proyecto);
+            ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre", contrato.idContratista);
+            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
+            ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
+            return View(contrato);
         }
 
-        // GET: proyecto/Delete/5
+        // GET: Contrato/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            proyecto proyecto = db.proyecto.Find(id);
-            if (proyecto == null)
+            Contrato contrato = db.Contrato.Find(id);
+            if (contrato == null)
             {
                 return HttpNotFound();
             }
-            return View(proyecto);
+            return View(contrato);
         }
 
-        // POST: proyecto/Delete/5
+        // POST: Contrato/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            proyecto proyecto = db.proyecto.Find(id);
-            db.proyecto.Remove(proyecto);
+            Contrato contrato = db.Contrato.Find(id);
+            db.Contrato.Remove(contrato);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

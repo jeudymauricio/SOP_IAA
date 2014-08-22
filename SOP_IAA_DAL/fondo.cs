@@ -11,21 +11,19 @@ namespace SOP_IAA_DAL
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class fondo
     {
         public fondo()
         {
             this.boleta = new HashSet<boleta>();
-            this.Proyecto = new HashSet<Proyecto>();
+            this.Contrato = new HashSet<Contrato>();
         }
-
+    
         public short id { get; set; }
         public string nombre { get; set; }
     
         public virtual ICollection<boleta> boleta { get; set; }
-        public virtual ICollection<Proyecto> Proyecto { get; set; }
+        public virtual ICollection<Contrato> Contrato { get; set; }
     }
 }

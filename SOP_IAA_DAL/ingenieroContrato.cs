@@ -12,19 +12,14 @@ namespace SOP_IAA_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class item
+    public partial class ingenieroContrato
     {
-        public item()
-        {
-            this.proyectoItem = new HashSet<proyectoItem>();
-        }
+        public int idContrato { get; set; }
+        public int idIngeniero { get; set; }
+        public System.DateTime fechaInicio { get; set; }
+        public System.DateTime fechaFin { get; set; }
     
-        public int id { get; set; }
-        public string codigoItem { get; set; }
-        public string descripcion { get; set; }
-        public string unidadMedida { get; set; }
-        public int precioUnitario { get; set; }
-    
-        public virtual ICollection<proyectoItem> proyectoItem { get; set; }
+        public virtual Contrato Contrato { get; set; }
+        public virtual ingeniero ingeniero { get; set; }
     }
 }
