@@ -16,12 +16,13 @@ namespace SOP_IAA_DAL
     {
         public contratista()
         {
-            this.contratistaProyecto = new HashSet<contratistaProyecto>();
+            this.Contrato = new HashSet<Contrato>();
         }
     
         public int id { get; set; }
         public string nombre { get; set; }
+        public string descripcion { get; set; }
     
-        public virtual ICollection<contratistaProyecto> contratistaProyecto { get; set; }
+        public virtual ICollection<Contrato> Contrato { get; set; }
     }
 }
