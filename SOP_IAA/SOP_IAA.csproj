@@ -166,6 +166,8 @@
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\contratistaController.cs" />
     <Compile Include="Controllers\fondoController.cs" />
+    <Compile Include="Controllers\ingenieroController.cs" />
+    <Compile Include="Controllers\personaController.cs" />
     <Compile Include="Controllers\proyectoController.cs" />
     <Compile Include="Controllers\zonaController.cs" />
     <Compile Include="Global.asax.cs">
@@ -175,6 +177,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery.ui.datepicker.js" />
     <Content Include="Views\proyecto\Create.cshtml" />
     <Content Include="Views\proyecto\Delete.cshtml" />
     <Content Include="Views\proyecto\Details.cshtml" />
@@ -200,6 +204,16 @@
     <Content Include="Views\fondo\Details.cshtml" />
     <Content Include="Views\fondo\Edit.cshtml" />
     <Content Include="Views\fondo\Index.cshtml" />
+    <Content Include="Views\ingeniero\Create.cshtml" />
+    <Content Include="Views\ingeniero\Delete.cshtml" />
+    <Content Include="Views\ingeniero\Details.cshtml" />
+    <Content Include="Views\ingeniero\Edit.cshtml" />
+    <Content Include="Views\ingeniero\Index.cshtml" />
+    <Content Include="Views\persona\Create.cshtml" />
+    <Content Include="Views\persona\Delete.cshtml" />
+    <Content Include="Views\persona\Details.cshtml" />
+    <Content Include="Views\persona\Edit.cshtml" />
+    <Content Include="Views\persona\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

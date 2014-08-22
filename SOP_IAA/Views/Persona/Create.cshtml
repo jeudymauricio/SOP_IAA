@@ -1,16 +1,16 @@
 ﻿@model SOP_IAA_DAL.persona
 
 @{
-    ViewBag.Title = "Crear Persona";
+    ViewBag.Title = "Create";
 }
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
         <h4>persona</h4>
         <hr />
@@ -47,113 +47,6 @@
             </div>
         </div>
 
-        @*
-            <div id="rootCB" class="form-group">
-                <div class="col-md-offset-2 col-md-3 table-bordered">
-                    <div class="radio">
-                        <label for="radios-0">
-                            <a href="#tab1" data-toggle="tab">Ingeniero</a>
-                            <input type="radio" name="radios" id="radios-0" value="1" checked="checked" onclick="no_load_home()">
-                            Ingeniero
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label for="radios-1">
-                            <a data-toggle="tab">Inspector</a>
-                            <input type="radio" name="radios" id="radios-1" value="2" onclick="load_home()">
-                            Inspector
-                        </label>
-
-                    </div>
-                </div>
-
-                <div class="tab-content">
-                    <div class="tab-pane" id="tab1">
-                        panel 1
-                    </div>
-                    <div class="tab-pane" id="tab2">
-                        <p>
-                            <input type='text' name='name' id='name' placeholder='Enter Your Name'>
-                        </p>
-                    </div>
-                </div>
-            </div>*@
-        <!-- Multiple Radios -->
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-3 table-bordered">
-                <div class="checkbox">
-                    <label for="Tipo-0">
-                        <input type="checkbox" name="Tipo" id="Tipo-0" value="1" checked="checked">
-                        Inspector
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label for="Tipo-1">
-                        <input type="checkbox" name="Tipo" id="Tipo-1" value="2">
-                        Ingeniero
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div id="fill_it">
-            <!-- Aquí va la información que será cargada dinámicamente -->
-        </div>
-
-
-        <div id="rootwizard">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="container">
-                        <ul>
-                            <li><a href="#tab1" data-toggle="tab">First</a></li>
-                            <li><a href="#tab2" data-toggle="tab">Second</a></li>
-                            <li><a href="#tab3" data-toggle="tab">Third</a></li>
-                            <li><a href="#tab4" data-toggle="tab">Forth</a></li>
-                            <li><a href="#tab5" data-toggle="tab">Fifth</a></li>
-                            <li><a href="#tab6" data-toggle="tab">Sixth</a></li>
-                            <li><a href="#tab7" data-toggle="tab">Seventh</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div id="bar" class="progress progress-striped active">
-                <div class="bar"></div>
-            </div>
-            <div class="tab-content">
-                <div class="tab-pane" id="tab1">
-                    1
-                </div>
-                <div class="tab-pane" id="tab2">
-                    <p>
-                        <input type='text' name='name' id='name' placeholder='Enter Your Name'>
-                    </p>
-                </div>
-                <div class="tab-pane" id="tab3">
-                    3
-                </div>
-                <div class="tab-pane" id="tab4">
-                    4
-                </div>
-                <div class="tab-pane" id="tab5">
-                    5
-                </div>
-                <div class="tab-pane" id="tab6">
-                    6
-                </div>
-                <div class="tab-pane" id="tab7">
-                    7
-                </div>
-                <ul class="pager wizard">
-                    <li class="previous first" style="display:none;"><a href="#">First</a></li>
-                    <li class="previous"><a href="#">Previous</a></li>
-                    <li class="next last" style="display:none;"><a href="#">Last</a></li>
-                    <li class="next"><a href="#">Next</a></li>
-                </ul>
-            </div>
-        </div>
-
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -163,19 +56,9 @@
 }
 
 <div>
-    @Html.ActionLink("Atrás", "Index")
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jquery")
-    @*
-        <script>
-            function load_home() {
-                document.getElementById("fill_it").innerHTML = '<p><input type="text" name="name" id="name" placeholder="Enter Your Name"></p>';
-            }
-            function no_load_home() {
-                document.getElementById("fill_it").innerHTML = '';
-            }
-        </script>
-    *@
+    @Scripts.Render("~/bundles/jqueryval")
 }

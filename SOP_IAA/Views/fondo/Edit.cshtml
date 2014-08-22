@@ -1,9 +1,10 @@
 ﻿@model SOP_IAA_DAL.fondo
 
 @{
-    ViewBag.Title = "Editar Fondo";
+    ViewBag.Title = "Edit";
 }
 
+<h2>Edit</h2>
 
 
 @using (Html.BeginForm())
@@ -33,7 +34,7 @@
 }
 
 <div>
-    @Html.ActionLink("Atrás", "Index")
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {

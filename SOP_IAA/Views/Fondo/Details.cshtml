@@ -1,9 +1,10 @@
 ﻿@model SOP_IAA_DAL.fondo
 
 @{
-    ViewBag.Title = "Detalles de Fondo";
+    ViewBag.Title = "Details";
 }
 
+<h2>Details</h2>
 
 <div>
     <h4>fondo</h4>
@@ -20,6 +21,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Atrás", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
 </p>

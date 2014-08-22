@@ -10,17 +10,17 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class ZonaController : Controller
+    public class zonaController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
-        // GET: Zona
+        // GET: zona
         public ActionResult Index()
         {
             return View(db.zona.ToList());
         }
 
-        // GET: Zona/Details/5
+        // GET: zona/Details/5
         public ActionResult Details(short? id)
         {
             if (id == null)
@@ -35,13 +35,13 @@ namespace SOP_IAA.Controllers
             return View(zona);
         }
 
-        // GET: Zona/Create
+        // GET: zona/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Zona/Create
+        // POST: zona/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -58,7 +58,7 @@ namespace SOP_IAA.Controllers
             return View(zona);
         }
 
-        // GET: Zona/Edit/5
+        // GET: zona/Edit/5
         public ActionResult Edit(short? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace SOP_IAA.Controllers
             return View(zona);
         }
 
-        // POST: Zona/Edit/5
+        // POST: zona/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -89,7 +89,7 @@ namespace SOP_IAA.Controllers
             return View(zona);
         }
 
-        // GET: Zona/Delete/5
+        // GET: zona/Delete/5
         public ActionResult Delete(short? id)
         {
             if (id == null)
@@ -104,7 +104,7 @@ namespace SOP_IAA.Controllers
             return View(zona);
         }
 
-        // POST: Zona/Delete/5
+        // POST: zona/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(short id)

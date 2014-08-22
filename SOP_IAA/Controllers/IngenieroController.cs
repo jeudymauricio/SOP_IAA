@@ -10,18 +10,18 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class IngenieroController : PersonaController
+    public class ingenieroController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
-        // GET: Ingeniero
+        // GET: ingeniero
         public ActionResult Index()
         {
             var ingeniero = db.ingeniero.Include(i => i.persona);
             return View(ingeniero.ToList());
         }
 
-        // GET: Ingeniero/Details/5
+        // GET: ingeniero/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,14 +36,14 @@ namespace SOP_IAA.Controllers
             return View(ingeniero);
         }
 
-        // GET: Ingeniero/Create
+        // GET: ingeniero/Create
         public ActionResult Create()
         {
             ViewBag.idPersona = new SelectList(db.persona, "id", "nombre");
             return View();
         }
 
-        // POST: Ingeniero/Create
+        // POST: ingeniero/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -61,7 +61,7 @@ namespace SOP_IAA.Controllers
             return View(ingeniero);
         }
 
-        // GET: Ingeniero/Edit/5
+        // GET: ingeniero/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,7 +77,7 @@ namespace SOP_IAA.Controllers
             return View(ingeniero);
         }
 
-        // POST: Ingeniero/Edit/5
+        // POST: ingeniero/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -94,7 +94,7 @@ namespace SOP_IAA.Controllers
             return View(ingeniero);
         }
 
-        // GET: Ingeniero/Delete/5
+        // GET: ingeniero/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -109,7 +109,7 @@ namespace SOP_IAA.Controllers
             return View(ingeniero);
         }
 
-        // POST: Ingeniero/Delete/5
+        // POST: ingeniero/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
