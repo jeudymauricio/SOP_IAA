@@ -10,7 +10,7 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class PersonaController : Controller
+    public partial class PersonaController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
