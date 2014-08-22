@@ -8,17 +8,20 @@ using System.Threading.Tasks;
 
 namespace SOP_IAA_DAL
 {
-    [MetadataType(typeof(fondoMetaData))]
-    public partial class fondo
+    [MetadataType(typeof(contratistaMetaData))]
+    public partial class contratista
     {
     }
 
-    public class fondoMetaData
+    public class contratistaMetaData
     {
         [Required]
-        [DisplayName("Tipo de fondo")]
-        [StringLength(15)]
+        [DisplayName("Contratista")]
+        [StringLength(50)]
         public string nombre { get; set; }
 
+        [DisplayName("Descripción")]
+        [StringLength(60)]
+        public string descripcion { get; set; }
     }
 }

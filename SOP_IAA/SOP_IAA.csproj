@@ -164,7 +164,10 @@
     <None Include="Controllers\Mis_Controladores\LaboratorioCalidadController" />
     <None Include="Controllers\Mis_Controladores\ProyectoController" />
     <Compile Include="Controllers\ContratoController.cs" />
+    <Compile Include="Controllers\contratistaController.cs" />
+    <Compile Include="Controllers\fondoController.cs" />
     <Compile Include="Controllers\proyectoController.cs" />
+    <Compile Include="Controllers\zonaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -182,6 +185,21 @@
     <Content Include="Views\Contrato\Details.cshtml" />
     <Content Include="Views\Contrato\Edit.cshtml" />
     <Content Include="Views\Contrato\Index.cshtml" />
+    <Content Include="Views\zona\Create.cshtml" />
+    <Content Include="Views\zona\Delete.cshtml" />
+    <Content Include="Views\zona\Details.cshtml" />
+    <Content Include="Views\zona\Edit.cshtml" />
+    <Content Include="Views\zona\Index.cshtml" />
+    <Content Include="Views\contratista\Create.cshtml" />
+    <Content Include="Views\contratista\Delete.cshtml" />
+    <Content Include="Views\contratista\Details.cshtml" />
+    <Content Include="Views\contratista\Edit.cshtml" />
+    <Content Include="Views\contratista\Index.cshtml" />
+    <Content Include="Views\fondo\Create.cshtml" />
+    <Content Include="Views\fondo\Delete.cshtml" />
+    <Content Include="Views\fondo\Details.cshtml" />
+    <Content Include="Views\fondo\Edit.cshtml" />
+    <Content Include="Views\fondo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

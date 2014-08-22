@@ -42,7 +42,6 @@ namespace SOP_IAA_DAL
         public virtual DbSet<proyecto_estructura> proyecto_estructura { get; set; }
         public virtual DbSet<proyectoItem> proyectoItem { get; set; }
         public virtual DbSet<ruta> ruta { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<telefono> telefono { get; set; }
         public virtual DbSet<tipoProyecto> tipoProyecto { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }

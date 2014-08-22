@@ -54,19 +54,20 @@
     <Compile Include="boletaItem.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
-    <None Include="ClassAnnotations\ContratistaAnnotations" />
-    <None Include="ClassAnnotations\FondoAnnotations" />
+    <Compile Include="ClassAnnotations\ContratistaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\FondoAnnotations.cs" />
     <None Include="ClassAnnotations\IngenieroAnnotations" />
     <None Include="ClassAnnotations\LaboratorioCalidadAnnotations" />
     <None Include="ClassAnnotations\PersonaAnnotations" />
     <None Include="ClassAnnotations\TelefonoAnnotations" />
-    <None Include="ClassAnnotations\ZonaAnnotations" />
+    <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />
     <Compile Include="contratista.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
     <Compile Include="Contrato.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
+    <Compile Include="ClassAnnotations\ContratoAnnotations.cs" />
     <Compile Include="fondo.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
@@ -123,9 +124,6 @@
     </Compile>
     <Compile Include="Repositorio.cs" />
     <Compile Include="ruta.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
     <Compile Include="telefono.cs">
