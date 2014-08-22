@@ -183,6 +183,9 @@
   <data name="MSJ_CONFIRM_ELIMINAR_CONTRATISTA" xml:space="preserve">
     <value>¿Está seguro de eliminar este contratista?</value>
   </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_CONTRATO" xml:space="preserve">
+    <value>¿Está seguro de eliminar este contrato?</value>
+  </data>
   <data name="MSJ_CONFIRM_ELIMINAR_FONDO" xml:space="preserve">
     <value>¿Está seguro de eliminar este fondo?</value>
   </data>
