@@ -10,113 +10,115 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class fondoController : Controller
+    public class ingenieroController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
-        // GET: fondo
+        // GET: ingeniero
         public ActionResult Index()
         {
-            return View(db.fondo.ToList());
+            var ingeniero = db.ingeniero.Include(i => i.persona);
+            return View(ingeniero.ToList());
         }
 
-        // GET: fondo/Details/5
-        public ActionResult Details(short? id)
+        // GET: ingeniero/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            fondo fondo = db.fondo.Find(id);
-            if (fondo == null)
+            ingeniero ingeniero = db.ingeniero.Find(id);
+            if (ingeniero == null)
             {
                 return HttpNotFound();
             }
-            return View(fondo);
+            return View(ingeniero);
         }
 
-        // GET: fondo/Create
+        // GET: ingeniero/Create
         public ActionResult Create()
         {
+            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre");
             return View();
         }
 
-        /*
-        // POST: fondo/Create
+        // POST: ingeniero/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nombre")] fondo fondo)
+        public ActionResult Create([Bind(Include = "idPersona,descripcion,departamento,rol")] ingeniero ingeniero)
         {
             if (ModelState.IsValid)
             {
-                db.fondo.Add(fondo);
+                db.ingeniero.Add(ingeniero);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(fondo);
-        }*/
+            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
+            return View(ingeniero);
+        }
 
-        // GET: fondo/Edit/5
-        public ActionResult Edit(short? id)
+        // GET: ingeniero/Edit/5
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            fondo fondo = db.fondo.Find(id);
-            if (fondo == null)
+            ingeniero ingeniero = db.ingeniero.Find(id);
+            if (ingeniero == null)
             {
                 return HttpNotFound();
             }
-            return View(fondo);
+            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
+            return View(ingeniero);
         }
 
-        /*
-        // POST: fondo/Edit/5
+        // POST: ingeniero/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nombre")] fondo fondo)
+        public ActionResult Edit([Bind(Include = "idPersona,descripcion,departamento,rol")] ingeniero ingeniero)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(fondo).State = EntityState.Modified;
+                db.Entry(ingeniero).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(fondo);
-        }*/
+            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
+            return View(ingeniero);
+        }
 
-        // GET: fondo/Delete/5
-        public ActionResult Delete(short? id)
+        // GET: ingeniero/Delete/5
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            fondo fondo = db.fondo.Find(id);
-            if (fondo == null)
+            ingeniero ingeniero = db.ingeniero.Find(id);
+            if (ingeniero == null)
             {
                 return HttpNotFound();
             }
-            return View(fondo);
+            return View(ingeniero);
         }
 
-        /*
-        // POST: fondo/Delete/5
+        // POST: ingeniero/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(short id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            fondo fondo = db.fondo.Find(id);
-            db.fondo.Remove(fondo);
+            ingeniero ingeniero = db.ingeniero.Find(id);
+            db.ingeniero.Remove(ingeniero);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }*/
+        }
 
         protected override void Dispose(bool disposing)
         {

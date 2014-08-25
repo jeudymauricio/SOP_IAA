@@ -25,6 +25,7 @@ namespace SOP_IAA_DAL
         public string licitacion { get; set; }
 
         [Required]
+        [Range(1, Int16.MaxValue, ErrorMessage = "La línea debe ser un número entre 1 a 32700")]
         [DisplayName("Linea de Contrato")]
         public short lineaContrato { get; set; }
 

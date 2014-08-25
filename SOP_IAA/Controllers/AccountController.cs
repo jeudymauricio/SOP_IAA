@@ -440,7 +440,7 @@ namespace SOP_IAA.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Account");
         }
 
         //
@@ -526,7 +526,7 @@ namespace SOP_IAA.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Proyecto");
+                return RedirectToAction("Index", "Contrato");
             }
         }
 

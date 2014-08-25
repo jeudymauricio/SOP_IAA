@@ -159,13 +159,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <None Include="Controllers\Mis_Controladores\ContratistaController" />
-    <None Include="Controllers\Mis_Controladores\FondoController" />
     <None Include="Controllers\Mis_Controladores\LaboratorioCalidadController" />
     <None Include="Controllers\Mis_Controladores\ProyectoController" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\contratistaController.cs" />
     <Compile Include="Controllers\fondoController.cs" />
+    <Compile Include="Controllers\ingenieroController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\ContratistaController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\FondoController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\zonaController.cs" />
     <Compile Include="Controllers\proyectoController.cs" />
     <Compile Include="Controllers\zonaController.cs" />
     <Compile Include="Global.asax.cs">
@@ -200,6 +202,11 @@
     <Content Include="Views\fondo\Details.cshtml" />
     <Content Include="Views\fondo\Edit.cshtml" />
     <Content Include="Views\fondo\Index.cshtml" />
+    <Content Include="Views\ingeniero\Create.cshtml" />
+    <Content Include="Views\ingeniero\Delete.cshtml" />
+    <Content Include="Views\ingeniero\Details.cshtml" />
+    <Content Include="Views\ingeniero\Edit.cshtml" />
+    <Content Include="Views\ingeniero\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

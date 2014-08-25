@@ -10,7 +10,7 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class contratistaController : Controller
+    public partial class contratistaController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
@@ -41,6 +41,7 @@ namespace SOP_IAA.Controllers
             return View();
         }
 
+        /*
         // POST: contratista/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -56,7 +57,7 @@ namespace SOP_IAA.Controllers
             }
 
             return View(contratista);
-        }
+        }*/
 
         // GET: contratista/Edit/5
         public ActionResult Edit(int? id)
@@ -73,6 +74,7 @@ namespace SOP_IAA.Controllers
             return View(contratista);
         }
 
+        /*
         // POST: contratista/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -87,7 +89,7 @@ namespace SOP_IAA.Controllers
                 return RedirectToAction("Index");
             }
             return View(contratista);
-        }
+        }*/
 
         // GET: contratista/Delete/5
         public ActionResult Delete(int? id)
@@ -104,6 +106,7 @@ namespace SOP_IAA.Controllers
             return View(contratista);
         }
 
+        /*
         // POST: contratista/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -113,7 +116,7 @@ namespace SOP_IAA.Controllers
             db.contratista.Remove(contratista);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
+        }*/
 
         protected override void Dispose(bool disposing)
         {
