@@ -164,6 +164,7 @@
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\contratistaController.cs" />
     <Compile Include="Controllers\fondoController.cs" />
+    <Compile Include="Controllers\ingenieroController - Copia.cs" />
     <Compile Include="Controllers\ingenieroController.cs" />
     <Compile Include="Controllers\personaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ContratistaController.cs" />
@@ -356,7 +357,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1743</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
