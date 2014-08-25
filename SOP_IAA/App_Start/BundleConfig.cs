@@ -20,12 +20,17 @@ namespace SOP_IAA
                        "~/Scripts/plugins/morris/raphael.min.js").Include(
                        "~/Scripts/plugins/morris/morris.min.js").Include(
                        "~/Scripts/plugins/morris/morris-data.js").Include(
-                       "~/Scripts/sb-admin-2.js"));
+                       "~/Scripts/sb-admin-2.js").Include(
+                 "~/Content/datepicker/bootstrap-datepicker.js"));
 
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información. De este modo, estará
             // preparado para la producción y podrá utilizar la herramienta de compilación disponible en http://modernizr.com para seleccionar solo las pruebas que necesite.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
+
+            bundles.Add(new ScriptBundle("~/bundles/datepicker").Include(
+                 "~/Scripts/jquery-1.9.1.js").Include(
+                        "~/Scripts/jquery.ui.datepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
