@@ -164,7 +164,6 @@
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\contratistaController.cs" />
     <Compile Include="Controllers\fondoController.cs" />
-    <Compile Include="Controllers\ingenieroController - Copia.cs" />
     <Compile Include="Controllers\ingenieroController.cs" />
     <Compile Include="Controllers\personaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ContratistaController.cs" />
