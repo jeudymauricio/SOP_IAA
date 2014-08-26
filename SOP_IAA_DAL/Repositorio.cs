@@ -65,9 +65,9 @@ namespace SOP_IAA_DAL
                 Entidades.Remove(entidadEliminar);
                 resultado = ContextoEF.SaveChanges() > 0;
             }
-            catch
+            catch (Exception ex)
             {
-
+                throw ex;
             }
             return resultado;
         }

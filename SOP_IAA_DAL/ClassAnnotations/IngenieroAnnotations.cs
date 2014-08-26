@@ -17,15 +17,15 @@ namespace SOP_IAA_DAL
     {
         [Required]
         [DisplayName("Descripción")]
-        [StringLength(50)]
+        [StringLength(100)]
         public string descripcion { get; set; }
         [Required]
         [DisplayName("Departamento")]
-        [StringLength(50)]
+        [StringLength(100)]
         public string departamento { get; set; }
         [Required]
         [DisplayName("Rol")]
-        [StringLength(50)]
+        [StringLength(100)]
         public string rol { get; set; }
     }
 }

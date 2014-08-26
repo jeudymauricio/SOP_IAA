@@ -9,6 +9,7 @@ namespace SOP_IAA
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/jquery.bootstrap.wizard.js").Include(
                         "~/Scripts/jquery-1.11.0.js").Include(
                         "~/Scripts/plugins/metisMenu/metisMenu.min.js").Include(
                         "~/Scripts/admin_bootstrap.js"));
@@ -33,7 +34,7 @@ namespace SOP_IAA
                         "~/Scripts/jquery.ui.datepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
+                      "~/Scripts/bootstrap.js").Include(
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
