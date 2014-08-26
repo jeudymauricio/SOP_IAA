@@ -15,14 +15,19 @@ namespace SOP_IAA_DAL
 
     public class ingenieroMetaData
     {
+        [DisplayName("Persona")]
+        public int idPersona { get; set; }
+
         [Required]
         [DisplayName("Descripción")]
         [StringLength(100)]
         public string descripcion { get; set; }
+
         [Required]
         [DisplayName("Departamento")]
         [StringLength(100)]
         public string departamento { get; set; }
+
         [Required]
         [DisplayName("Rol")]
         [StringLength(100)]

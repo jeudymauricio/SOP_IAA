@@ -33,6 +33,7 @@ namespace SOP_IAA_DAL
        
         [Required]
         [DisplayName("Cédula")]
+        [StringLength(50)]
         public string cedula { get; set; }
     }
 }

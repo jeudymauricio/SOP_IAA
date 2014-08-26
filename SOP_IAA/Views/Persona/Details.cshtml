@@ -1,13 +1,13 @@
 ﻿@model SOP_IAA_DAL.persona
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles Persona";
 }
 
-<h2>Details</h2>
+<h2>Detalles de la Persona</h2>
 
 <div>
-    <h4>persona</h4>
+    <h4> </h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -42,33 +42,35 @@
             @Html.DisplayFor(model => model.cedula)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ingeniero.descripcion)
-        </dt>
+        @*
+            <dt>
+                @Html.DisplayNameFor(model => model.ingeniero.descripcion)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ingeniero.descripcion)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ingeniero.descripcion)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.inspector.idPersona)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.inspector.idPersona)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.inspector.idPersona)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.inspector.idPersona)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.usuario.nombreUsuario)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.usuario.nombreUsuario)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.usuario.nombreUsuario)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.usuario.nombreUsuario)
+            </dd>
+        *@
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Atrás", "Index")
 </p>

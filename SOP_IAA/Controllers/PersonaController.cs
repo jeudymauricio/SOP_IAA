@@ -10,7 +10,7 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class personaController : Controller
+    public partial class personaController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
@@ -44,7 +44,7 @@ namespace SOP_IAA.Controllers
             ViewBag.id = new SelectList(db.usuario, "idPersona", "nombreUsuario");
             return View();
         }
-
+        /*
         // POST: persona/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -63,7 +63,7 @@ namespace SOP_IAA.Controllers
             ViewBag.id = new SelectList(db.inspector, "idPersona", "idPersona", persona.id);
             ViewBag.id = new SelectList(db.usuario, "idPersona", "nombreUsuario", persona.id);
             return View(persona);
-        }
+        }*/
 
         // GET: persona/Edit/5
         public ActionResult Edit(int? id)
@@ -82,7 +82,7 @@ namespace SOP_IAA.Controllers
             ViewBag.id = new SelectList(db.usuario, "idPersona", "nombreUsuario", persona.id);
             return View(persona);
         }
-
+        /*
         // POST: persona/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -100,7 +100,7 @@ namespace SOP_IAA.Controllers
             ViewBag.id = new SelectList(db.inspector, "idPersona", "idPersona", persona.id);
             ViewBag.id = new SelectList(db.usuario, "idPersona", "nombreUsuario", persona.id);
             return View(persona);
-        }
+        }*/
 
         // GET: persona/Delete/5
         public ActionResult Delete(int? id)
@@ -116,7 +116,7 @@ namespace SOP_IAA.Controllers
             }
             return View(persona);
         }
-
+        /*
         // POST: persona/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -126,7 +126,7 @@ namespace SOP_IAA.Controllers
             db.persona.Remove(persona);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
+        }*/
 
         protected override void Dispose(bool disposing)
         {

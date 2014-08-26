@@ -88,6 +88,33 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error al actualizar el contrato: .
+        /// </summary>
+        internal static string ERROR_CONTRATO_ACTUALIZAR {
+            get {
+                return ResourceManager.GetString("ERROR_CONTRATO_ACTUALIZAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al agregar el contrato: .
+        /// </summary>
+        internal static string ERROR_CONTRATO_AGREGAR {
+            get {
+                return ResourceManager.GetString("ERROR_CONTRATO_AGREGAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al eliminar el contrato: .
+        /// </summary>
+        internal static string ERROR_CONTRATO_ELIMINAR {
+            get {
+                return ResourceManager.GetString("ERROR_CONTRATO_ELIMINAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error al actualizar el Fondo: .
         /// </summary>
         internal static string ERROR_FONDO_ACTUALIZAR {

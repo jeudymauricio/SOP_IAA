@@ -177,12 +177,13 @@
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <None Include="Controllers\Mis_Controladores\LaboratorioCalidadController" />
-    <None Include="Controllers\Mis_Controladores\ProyectoController" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\contratistaController.cs" />
     <Compile Include="Controllers\fondoController.cs" />
     <Compile Include="Controllers\ingenieroController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\ContratoController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\ingenieroController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\PersonaController.cs" />
     <Compile Include="Controllers\personaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ContratistaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\FondoController.cs" />
@@ -248,12 +249,12 @@
     <Content Include="Views\ingeniero\Delete.cshtml" />
     <Content Include="Views\ingeniero\Details.cshtml" />
     <Content Include="Views\ingeniero\Edit.cshtml" />
-    <Content Include="Views\ingeniero\Index.cshtml" />
     <Content Include="Views\persona\Create.cshtml" />
     <Content Include="Views\persona\Delete.cshtml" />
     <Content Include="Views\persona\Details.cshtml" />
     <Content Include="Views\persona\Edit.cshtml" />
     <Content Include="Views\persona\Index.cshtml" />
+    <Content Include="Views\ingeniero\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

@@ -59,9 +59,7 @@
     <Compile Include="ClassAnnotations\ContratistaAnnotations.cs" />
     <Compile Include="ClassAnnotations\FondoAnnotations.cs" />
     <Compile Include="ClassAnnotations\IngenieroAnnotations.cs" />
-    <None Include="ClassAnnotations\LaboratorioCalidadAnnotations" />
-    <None Include="ClassAnnotations\PersonaAnnotations" />
-    <None Include="ClassAnnotations\TelefonoAnnotations" />
+    <Compile Include="ClassAnnotations\PersonaAnnotations.cs" />
     <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />
     <Compile Include="contratista.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
@@ -114,7 +112,6 @@
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="ClassAnnotations\ProyectoAnnotations" />
     <Compile Include="proyecto.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>

@@ -10,7 +10,7 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class ContratoController : Controller
+    public partial class ContratoController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
@@ -44,7 +44,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idZona = new SelectList(db.zona, "id", "nombre");
             return View();
         }
-
+        /*
         // POST: Contrato/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -63,7 +63,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
             ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
             return View(contrato);
-        }
+        }*/
 
         // GET: Contrato/Edit/5
         public ActionResult Edit(int? id)
@@ -82,7 +82,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
             return View(contrato);
         }
-
+        /*
         // POST: Contrato/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -100,7 +100,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
             ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
             return View(contrato);
-        }
+        }*/
 
         // GET: Contrato/Delete/5
         public ActionResult Delete(int? id)
@@ -116,7 +116,7 @@ namespace SOP_IAA.Controllers
             }
             return View(contrato);
         }
-
+        /*
         // POST: Contrato/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -126,7 +126,7 @@ namespace SOP_IAA.Controllers
             db.Contrato.Remove(contrato);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
+        }*/
 
         protected override void Dispose(bool disposing)
         {

@@ -10,7 +10,7 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class ingenieroController : Controller
+    public partial class ingenieroController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
@@ -42,7 +42,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idPersona = new SelectList(db.persona, "id", "nombre");
             return View();
         }
-
+        /*
         // POST: ingeniero/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -59,7 +59,7 @@ namespace SOP_IAA.Controllers
 
             ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
             return View(ingeniero);
-        }
+        }*/
 
         // GET: ingeniero/Edit/5
         public ActionResult Edit(int? id)
@@ -76,7 +76,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
             return View(ingeniero);
         }
-
+        /*
         // POST: ingeniero/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -92,7 +92,7 @@ namespace SOP_IAA.Controllers
             }
             ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
             return View(ingeniero);
-        }
+        }*/
 
         // GET: ingeniero/Delete/5
         public ActionResult Delete(int? id)
@@ -108,7 +108,7 @@ namespace SOP_IAA.Controllers
             }
             return View(ingeniero);
         }
-
+        /*
         // POST: ingeniero/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -118,7 +118,7 @@ namespace SOP_IAA.Controllers
             db.ingeniero.Remove(ingeniero);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
+        }*/
 
         protected override void Dispose(bool disposing)
         {

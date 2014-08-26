@@ -126,6 +126,15 @@
   <data name="ERROR_CONTRATISTA_ELIMINAR" xml:space="preserve">
     <value>Error al eliminar el contratista: </value>
   </data>
+  <data name="ERROR_CONTRATO_ACTUALIZAR" xml:space="preserve">
+    <value>Error al actualizar el contrato: </value>
+  </data>
+  <data name="ERROR_CONTRATO_AGREGAR" xml:space="preserve">
+    <value>Error al agregar el contrato: </value>
+  </data>
+  <data name="ERROR_CONTRATO_ELIMINAR" xml:space="preserve">
+    <value>Error al eliminar el contrato: </value>
+  </data>
   <data name="ERROR_FONDO_ACTUALIZAR" xml:space="preserve">
     <value>Error al actualizar el Fondo: </value>
   </data>
