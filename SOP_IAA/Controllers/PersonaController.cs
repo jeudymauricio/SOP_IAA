@@ -10,18 +10,18 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class PersonaController : Controller
+    public class personaController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
-        // GET: Persona
+        // GET: persona
         public ActionResult Index()
         {
             var persona = db.persona.Include(p => p.ingeniero).Include(p => p.inspector).Include(p => p.usuario);
             return View(persona.ToList());
         }
 
-        // GET: Persona/Details/5
+        // GET: persona/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,7 +36,7 @@ namespace SOP_IAA.Controllers
             return View(persona);
         }
 
-        // GET: Persona/Create
+        // GET: persona/Create
         public ActionResult Create()
         {
             ViewBag.id = new SelectList(db.ingeniero, "idPersona", "descripcion");
@@ -45,7 +45,7 @@ namespace SOP_IAA.Controllers
             return View();
         }
 
-        // POST: Persona/Create
+        // POST: persona/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +65,7 @@ namespace SOP_IAA.Controllers
             return View(persona);
         }
 
-        // GET: Persona/Edit/5
+        // GET: persona/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -83,7 +83,7 @@ namespace SOP_IAA.Controllers
             return View(persona);
         }
 
-        // POST: Persona/Edit/5
+        // POST: persona/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -102,7 +102,7 @@ namespace SOP_IAA.Controllers
             return View(persona);
         }
 
-        // GET: Persona/Delete/5
+        // GET: persona/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -117,7 +117,7 @@ namespace SOP_IAA.Controllers
             return View(persona);
         }
 
-        // POST: Persona/Delete/5
+        // POST: persona/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

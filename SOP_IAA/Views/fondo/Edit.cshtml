@@ -1,4 +1,4 @@
-﻿@model SOP_IAA_DAL.telefono
+﻿@model SOP_IAA_DAL.fondo
 
 @{
     ViewBag.Title = "Edit";
@@ -12,12 +12,18 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>telefono</h4>
+        <h4>fondo</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.idPersona)
+        @Html.HiddenFor(model => model.id)
 
-        @Html.HiddenFor(model => model.telefono1)
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

@@ -10,112 +10,120 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class TelefonoController : Controller
+    public class ContratoController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
-        // GET: Telefono
+        // GET: Contrato
         public ActionResult Index()
         {
-            var telefono = db.telefono.Include(t => t.persona);
-            return View(telefono.ToList());
+            var contrato = db.Contrato.Include(c => c.contratista).Include(c => c.fondo).Include(c => c.zona);
+            return View(contrato.ToList());
         }
 
-        // GET: Telefono/Details/5
+        // GET: Contrato/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            telefono telefono = db.telefono.Find(id);
-            if (telefono == null)
+            Contrato contrato = db.Contrato.Find(id);
+            if (contrato == null)
             {
                 return HttpNotFound();
             }
-            return View(telefono);
+            return View(contrato);
         }
 
-        // GET: Telefono/Create
+        // GET: Contrato/Create
         public ActionResult Create()
         {
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre");
+            ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre");
+            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre");
+            ViewBag.idZona = new SelectList(db.zona, "id", "nombre");
             return View();
         }
 
-        // POST: Telefono/Create
+        // POST: Contrato/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idPersona,telefono1")] telefono telefono)
+        public ActionResult Create([Bind(Include = "id,idContratista,licitacion,lineaContrato,idZona,fechaInicio,plazo,lugar,idFondo")] Contrato contrato)
         {
             if (ModelState.IsValid)
             {
-                db.telefono.Add(telefono);
+                db.Contrato.Add(contrato);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", telefono.idPersona);
-            return View(telefono);
+            ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre", contrato.idContratista);
+            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
+            ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
+            return View(contrato);
         }
 
-        // GET: Telefono/Edit/5
+        // GET: Contrato/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            telefono telefono = db.telefono.Find(id);
-            if (telefono == null)
+            Contrato contrato = db.Contrato.Find(id);
+            if (contrato == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", telefono.idPersona);
-            return View(telefono);
+            ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre", contrato.idContratista);
+            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
+            ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
+            return View(contrato);
         }
 
-        // POST: Telefono/Edit/5
+        // POST: Contrato/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "idPersona,telefono1")] telefono telefono)
+        public ActionResult Edit([Bind(Include = "id,idContratista,licitacion,lineaContrato,idZona,fechaInicio,plazo,lugar,idFondo")] Contrato contrato)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(telefono).State = EntityState.Modified;
+                db.Entry(contrato).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", telefono.idPersona);
-            return View(telefono);
+            ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre", contrato.idContratista);
+            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
+            ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
+            return View(contrato);
         }
 
-        // GET: Telefono/Delete/5
+        // GET: Contrato/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            telefono telefono = db.telefono.Find(id);
-            if (telefono == null)
+            Contrato contrato = db.Contrato.Find(id);
+            if (contrato == null)
             {
                 return HttpNotFound();
             }
-            return View(telefono);
+            return View(contrato);
         }
 
-        // POST: Telefono/Delete/5
+        // POST: Contrato/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            telefono telefono = db.telefono.Find(id);
-            db.telefono.Remove(telefono);
+            Contrato contrato = db.Contrato.Find(id);
+            db.Contrato.Remove(contrato);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

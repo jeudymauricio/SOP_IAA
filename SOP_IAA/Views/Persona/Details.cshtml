@@ -1,7 +1,7 @@
 ﻿@model SOP_IAA_DAL.persona
 
 @{
-    ViewBag.Title = "Detalles de la Persona";
+    ViewBag.Title = "Details";
 }
 
 <h2>Details</h2>
@@ -46,10 +46,29 @@
             @Html.DisplayNameFor(model => model.ingeniero.descripcion)
         </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.ingeniero.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.inspector.idPersona)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.inspector.idPersona)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.usuario.nombreUsuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.usuario.nombreUsuario)
+        </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Atrás", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
 </p>

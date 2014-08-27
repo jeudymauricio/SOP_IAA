@@ -28,21 +28,22 @@ namespace SOP_IAA_DAL
         public virtual DbSet<boleta> boleta { get; set; }
         public virtual DbSet<boletaItem> boletaItem { get; set; }
         public virtual DbSet<contratista> contratista { get; set; }
-        public virtual DbSet<contratistaProyecto> contratistaProyecto { get; set; }
+        public virtual DbSet<Contrato> Contrato { get; set; }
         public virtual DbSet<fondo> fondo { get; set; }
         public virtual DbSet<ingeniero> ingeniero { get; set; }
-        public virtual DbSet<ingenieroProyecto> ingenieroProyecto { get; set; }
+        public virtual DbSet<ingenieroContrato> ingenieroContrato { get; set; }
         public virtual DbSet<inspector> inspector { get; set; }
         public virtual DbSet<item> item { get; set; }
         public virtual DbSet<laboratorioCalidad> laboratorioCalidad { get; set; }
         public virtual DbSet<persona> persona { get; set; }
+        public virtual DbSet<progProy> progProy { get; set; }
         public virtual DbSet<programa> programa { get; set; }
-        public virtual DbSet<Proyecto> Proyecto { get; set; }
+        public virtual DbSet<proyecto> proyecto { get; set; }
+        public virtual DbSet<proyecto_estructura> proyecto_estructura { get; set; }
+        public virtual DbSet<proyectoItem> proyectoItem { get; set; }
         public virtual DbSet<ruta> ruta { get; set; }
-        public virtual DbSet<subProyecto> subProyecto { get; set; }
-        public virtual DbSet<subProyectoItem> subProyectoItem { get; set; }
         public virtual DbSet<telefono> telefono { get; set; }
-        public virtual DbSet<TipoSubproyecto> TipoSubproyecto { get; set; }
+        public virtual DbSet<tipoProyecto> tipoProyecto { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
         public virtual DbSet<zona> zona { get; set; }
     }

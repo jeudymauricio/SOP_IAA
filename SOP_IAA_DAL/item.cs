@@ -16,8 +16,7 @@ namespace SOP_IAA_DAL
     {
         public item()
         {
-            this.boletaItem = new HashSet<boletaItem>();
-            this.subProyectoItem = new HashSet<subProyectoItem>();
+            this.proyectoItem = new HashSet<proyectoItem>();
         }
     
         public int id { get; set; }
@@ -26,7 +25,6 @@ namespace SOP_IAA_DAL
         public string unidadMedida { get; set; }
         public int precioUnitario { get; set; }
     
-        public virtual ICollection<boletaItem> boletaItem { get; set; }
-        public virtual ICollection<subProyectoItem> subProyectoItem { get; set; }
+        public virtual ICollection<proyectoItem> proyectoItem { get; set; }
     }
 }

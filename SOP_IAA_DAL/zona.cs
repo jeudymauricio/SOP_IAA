@@ -16,12 +16,14 @@ namespace SOP_IAA_DAL
     {
         public zona()
         {
-            this.Proyecto = new HashSet<Proyecto>();
+            this.Contrato = new HashSet<Contrato>();
+            this.ruta = new HashSet<ruta>();
         }
     
         public short id { get; set; }
         public string nombre { get; set; }
     
-        public virtual ICollection<Proyecto> Proyecto { get; set; }
+        public virtual ICollection<Contrato> Contrato { get; set; }
+        public virtual ICollection<ruta> ruta { get; set; }
     }
 }

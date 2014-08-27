@@ -10,17 +10,17 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class FondoController : Controller
+    public class fondoController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
-        // GET: Fondo
+        // GET: fondo
         public ActionResult Index()
         {
             return View(db.fondo.ToList());
         }
 
-        // GET: Fondo/Details/5
+        // GET: fondo/Details/5
         public ActionResult Details(short? id)
         {
             if (id == null)
@@ -35,30 +35,30 @@ namespace SOP_IAA.Controllers
             return View(fondo);
         }
 
-        // GET: Fondo/Create
+        // GET: fondo/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Fondo/Create
+        // POST: fondo/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "id,nombre")] fondo fondo)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.fondo.Add(fondo);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "id,nombre")] fondo fondo)
+        {
+            if (ModelState.IsValid)
+            {
+                db.fondo.Add(fondo);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
 
-        //    return View(fondo);
-        //}
+            return View(fondo);
+        }
 
-        // GET: Fondo/Edit/5
+        // GET: fondo/Edit/5
         public ActionResult Edit(short? id)
         {
             if (id == null)
@@ -73,23 +73,23 @@ namespace SOP_IAA.Controllers
             return View(fondo);
         }
 
-        // POST: Fondo/Edit/5
+        // POST: fondo/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "id,nombre")] fondo fondo)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(fondo).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(fondo);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "id,nombre")] fondo fondo)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(fondo).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(fondo);
+        }
 
-        // GET: Fondo/Delete/5
+        // GET: fondo/Delete/5
         public ActionResult Delete(short? id)
         {
             if (id == null)
@@ -104,16 +104,16 @@ namespace SOP_IAA.Controllers
             return View(fondo);
         }
 
-        // POST: Fondo/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(short id)
-        //{
-        //    fondo fondo = db.fondo.Find(id);
-        //    db.fondo.Remove(fondo);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        // POST: fondo/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(short id)
+        {
+            fondo fondo = db.fondo.Find(id);
+            db.fondo.Remove(fondo);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         protected override void Dispose(bool disposing)
         {

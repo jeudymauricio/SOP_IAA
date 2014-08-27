@@ -56,24 +56,25 @@
     </Compile>
     <Compile Include="ClassAnnotations\ContratistaAnnotations.cs" />
     <Compile Include="ClassAnnotations\FondoAnnotations.cs" />
-    <Compile Include="ClassAnnotations\IngenieroAnnotations.cs" />
-    <Compile Include="ClassAnnotations\LaboratorioCalidadAnnotations.cs" />
-    <Compile Include="ClassAnnotations\PersonaAnnotations.cs" />
-    <Compile Include="ClassAnnotations\TelefonoAnnotations.cs" />
+    <None Include="ClassAnnotations\IngenieroAnnotations" />
+    <None Include="ClassAnnotations\LaboratorioCalidadAnnotations" />
+    <None Include="ClassAnnotations\PersonaAnnotations" />
+    <None Include="ClassAnnotations\TelefonoAnnotations" />
     <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />
     <Compile Include="contratista.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
-    <Compile Include="contratistaProyecto.cs">
+    <Compile Include="Contrato.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
+    <Compile Include="ClassAnnotations\ContratoAnnotations.cs" />
     <Compile Include="fondo.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
     <Compile Include="ingeniero.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
-    <Compile Include="ingenieroProyecto.cs">
+    <Compile Include="ingenieroContrato.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
     <Compile Include="inspector.cs">
@@ -104,28 +105,31 @@
     <Compile Include="persona.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
+    <Compile Include="progProy.cs">
+      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+    </Compile>
     <Compile Include="programa.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proyecto.cs">
+    <None Include="ClassAnnotations\ProyectoAnnotations" />
+    <Compile Include="proyecto.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
-    <Compile Include="ClassAnnotations\ProyectoAnnotations.cs" />
+    <Compile Include="proyectoItem.cs">
+      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+    </Compile>
+    <Compile Include="proyecto_estructura.cs">
+      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositorio.cs" />
     <Compile Include="ruta.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
-    </Compile>
-    <Compile Include="subProyecto.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
-    </Compile>
-    <Compile Include="subProyectoItem.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
     <Compile Include="telefono.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
-    <Compile Include="TipoSubproyecto.cs">
+    <Compile Include="tipoProyecto.cs">
       <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
     </Compile>
     <Compile Include="usuario.cs">
@@ -136,13 +140,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <EntityDeploy Include="Model_SOP_IAA.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model_SOP_IAA.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
     <None Include="Model_SOP_IAA.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model_SOP_IAA.edmx</DependentUpon>

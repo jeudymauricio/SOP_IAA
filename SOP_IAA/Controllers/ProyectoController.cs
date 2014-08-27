@@ -10,25 +10,25 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class ProyectoController : Controller
+    public class proyectoController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
-        // GET: Proyecto
+        // GET: proyecto
         public ActionResult Index()
         {
-            var proyecto = db.Proyecto.Include(p => p.fondo);
+            var proyecto = db.proyecto.Include(p => p.progProy).Include(p => p.ruta).Include(p => p.tipoProyecto);
             return View(proyecto.ToList());
         }
 
-        // GET: Proyecto/Details/5
+        // GET: proyecto/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Proyecto proyecto = db.Proyecto.Find(id);
+            proyecto proyecto = db.proyecto.Find(id);
             if (proyecto == null)
             {
                 return HttpNotFound();
@@ -36,72 +36,80 @@ namespace SOP_IAA.Controllers
             return View(proyecto);
         }
 
-        // GET: Proyecto/Create
+        // GET: proyecto/Create
         public ActionResult Create()
         {
-            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre");
+            ViewBag.idProgProy = new SelectList(db.progProy, "id", "id");
+            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre");
+            ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre");
             return View();
         }
 
-        // POST: Proyecto/Create
+        // POST: proyecto/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "id,contratacion,lineaContrato,fechaInicio,plazo,lugar,idFondo")] Proyecto proyecto)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Proyecto.Add(proyecto);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "id,idProgProy,idTipoProyecto,idRuta,nombre")] proyecto proyecto)
+        {
+            if (ModelState.IsValid)
+            {
+                db.proyecto.Add(proyecto);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
 
-        //    ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", proyecto.idFondo);
-        //    return View(proyecto);
-        //}
+            ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
+            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", proyecto.idRuta);
+            ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre", proyecto.idTipoProyecto);
+            return View(proyecto);
+        }
 
-        // GET: Proyecto/Edit/5
+        // GET: proyecto/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Proyecto proyecto = db.Proyecto.Find(id);
+            proyecto proyecto = db.proyecto.Find(id);
             if (proyecto == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", proyecto.idFondo);
+            ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
+            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", proyecto.idRuta);
+            ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre", proyecto.idTipoProyecto);
             return View(proyecto);
         }
 
-        // POST: Proyecto/Edit/5
+        // POST: proyecto/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "id,contratacion,lineaContrato,fechaInicio,plazo,lugar,idFondo")] Proyecto proyecto)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(proyecto).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", proyecto.idFondo);
-        //    return View(proyecto);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "id,idProgProy,idTipoProyecto,idRuta,nombre")] proyecto proyecto)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(proyecto).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
+            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", proyecto.idRuta);
+            ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre", proyecto.idTipoProyecto);
+            return View(proyecto);
+        }
 
-        // GET: Proyecto/Delete/5
+        // GET: proyecto/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Proyecto proyecto = db.Proyecto.Find(id);
+            proyecto proyecto = db.proyecto.Find(id);
             if (proyecto == null)
             {
                 return HttpNotFound();
@@ -109,16 +117,16 @@ namespace SOP_IAA.Controllers
             return View(proyecto);
         }
 
-        // POST: Proyecto/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Proyecto proyecto = db.Proyecto.Find(id);
-        //    db.Proyecto.Remove(proyecto);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        // POST: proyecto/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            proyecto proyecto = db.proyecto.Find(id);
+            db.proyecto.Remove(proyecto);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         protected override void Dispose(bool disposing)
         {

@@ -16,8 +16,8 @@ namespace SOP_IAA_DAL
     public class fondoMetaData
     {
         [Required]
-        [DisplayName("Tipo de fondo")]
-        [StringLength(15)]
+        [DisplayName("Fondo")]
+        [StringLength(20)]
         public string nombre { get; set; }
 
     }

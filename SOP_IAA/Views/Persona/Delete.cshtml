@@ -1,7 +1,7 @@
 ﻿@model SOP_IAA_DAL.persona
 
 @{
-    ViewBag.Title = "Eliminar Persona";
+    ViewBag.Title = "Delete";
 }
 
 <h2>Delete</h2>
@@ -73,8 +73,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-            @Html.ActionLink("Atrás", "Index")
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
         </div>
     }
 </div>
