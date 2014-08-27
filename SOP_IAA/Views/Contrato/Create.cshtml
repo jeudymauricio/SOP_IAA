@@ -9,10 +9,6 @@
     @Html.ActionLink("Atrás", "Index")
 </div>
 
-<!--
-<div id="progress" class="progress progress-striped active" style="overflow:inherit">
-    <div class=" progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%;overflow:inherit"></div>
-</div>-->
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -71,6 +67,7 @@
                                 @Html.ValidationMessageFor(model => model.lineaContrato, "", new { @class = "text-danger" })
                             </div>
                         </div>
+  
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.idZona, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -83,11 +80,10 @@
                         <div class="form-group input-group-sm">
                             @Html.LabelFor(model => model.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control", @placeholder = "dd/mm/AAAA"}})
                                 @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.plazo, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -116,10 +112,11 @@
                     <div class="tab-pane" id="step2" style="min-height:377px">
                         <h1>Ingenieros</h1>
                         
+                        Ingeniero 1: <input type="text"><br />
+                        Ingeniero 2: <input type="text"><br />
+                        Ingeniero 3: <input type="text"><br />
+                        Ingeniero 4: <input type="text"><br />
                         
-                        <div id="ingenieroView" style="display:none">
-
-                        </div>
                     </div>
 
                     <div class="tab-pane" id="step3" style="min-height:377px">
@@ -158,7 +155,7 @@
         $(document).ready(function () {
             $('#rootwizard').bootstrapWizard({
                 onTabShow: function (tab, navigation, index) {
-                    if (index == 1) {
+                    /*if (index == 1) {
                         $.ajax({
                             url: '/ingeniero/Create',
                             contentType: 'application/html; charset=utf-8',
@@ -171,7 +168,7 @@
                         .error(function (xhr, status) {
                             alert(status)
                         })
-                    }
+                    }*/
                     // Dynamically change percentage completion on progress bar
                     var tabCount = navigation.find('li').length;
                     var current = index + 1;

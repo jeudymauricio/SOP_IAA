@@ -179,7 +179,9 @@
     <Content Include="Content\bootstrap.css.map" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\contratistaController.cs" />
+    <Compile Include="Controllers\ContratoViewController.cs" />
     <Compile Include="Controllers\fondoController.cs" />
+    <Compile Include="Controllers\ingenieroContratoController.cs" />
     <Compile Include="Controllers\ingenieroController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ContratoController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ingenieroController.cs" />
@@ -194,6 +196,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ContratoViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -255,6 +258,12 @@
     <Content Include="Views\persona\Edit.cshtml" />
     <Content Include="Views\persona\Index.cshtml" />
     <Content Include="Views\ingeniero\Index.cshtml" />
+    <Content Include="Views\ContratoView\Index.cshtml" />
+    <Content Include="Views\ingenieroContrato\Create.cshtml" />
+    <Content Include="Views\ingenieroContrato\Delete.cshtml" />
+    <Content Include="Views\ingenieroContrato\Details.cshtml" />
+    <Content Include="Views\ingenieroContrato\Edit.cshtml" />
+    <Content Include="Views\ingenieroContrato\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

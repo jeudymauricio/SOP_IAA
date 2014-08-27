@@ -1,0 +1,56 @@
+﻿@model SOP_IAA_DAL.ingenieroContrato
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ingenieroContrato</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaInicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaInicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contrato.licitacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contrato.licitacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ingeniero.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ingeniero.descripcion)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

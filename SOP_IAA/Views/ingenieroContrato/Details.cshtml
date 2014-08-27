@@ -1,0 +1,50 @@
+﻿@model SOP_IAA_DAL.ingenieroContrato
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ingenieroContrato</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaInicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaInicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contrato.licitacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contrato.licitacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ingeniero.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ingeniero.descripcion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
