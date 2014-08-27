@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SOP_IAA_DAL.ClassAnnotations
+namespace SOP_IAA_DAL
 {
     [MetadataType(typeof(telefonoMetaData))]
     public partial class telefono
@@ -16,7 +16,8 @@ namespace SOP_IAA_DAL.ClassAnnotations
     public class telefonoMetaData
     {
         [Required]
+        [RegularExpression("[1-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]")]
         [DisplayName("Teléfono")]
-        public string nombre { get; set; }
+        public string telefono1 { get; set; }
     }
 }
