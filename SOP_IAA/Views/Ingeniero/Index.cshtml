@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<SOP_IAA_DAL.ingeniero>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Nuevo Ingeniero";
 }
 
-<h2>Index</h2>
+<h2>Lista de Ingenieros</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Nuevo Ingeniero", "Create")
 </p>
 <table class="table">
     <tr>
@@ -41,9 +41,9 @@
             @Html.DisplayFor(modelItem => item.persona.nombre)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.idPersona }) |
-            @Html.ActionLink("Details", "Details", new { id=item.idPersona }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.idPersona })
+            @Html.ActionLink("Editar", "Edit", new { id=item.idPersona }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.idPersona }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.idPersona })
         </td>
     </tr>
 }
