@@ -39,7 +39,14 @@ namespace SOP_IAA.Controllers
         // GET: ingeniero/Create
         public ActionResult Create()
         {
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre");
+            var personas = db.persona
+                  .Select(persona => new SelectListItem
+                  {
+                      Value = persona.id.ToString(),
+                      Text = persona.nombre + " " + persona.apellido1 + " " + persona.apellido2
+                  });
+
+            ViewBag.idPersona = new SelectList(personas, "Value", "Text");
             return View();
         }
         /*

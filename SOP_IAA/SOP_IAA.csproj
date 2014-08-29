@@ -201,6 +201,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Scripts\%28personal%29bootstrap-3.2.0.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -212,6 +213,7 @@
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.11.1.js" />
     <Content Include="Scripts\jquery.ui.datepicker.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -258,12 +260,12 @@
     <Content Include="Views\persona\Edit.cshtml" />
     <Content Include="Views\persona\Index.cshtml" />
     <Content Include="Views\ingeniero\Index.cshtml" />
-    <Content Include="Views\ContratoView\Index.cshtml" />
     <Content Include="Views\ingenieroContrato\Create.cshtml" />
     <Content Include="Views\ingenieroContrato\Delete.cshtml" />
     <Content Include="Views\ingenieroContrato\Details.cshtml" />
     <Content Include="Views\ingenieroContrato\Edit.cshtml" />
     <Content Include="Views\ingenieroContrato\Index.cshtml" />
+    <Content Include="Views\ContratoView\CreateContractEngineer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

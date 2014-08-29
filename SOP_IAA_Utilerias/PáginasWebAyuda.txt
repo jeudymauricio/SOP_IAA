@@ -1,0 +1,120 @@
+﻿Página para probar código web
+	http://codepen.io/anon/pen/xHDiE?editors=101
+	http://jsfiddle.net
+
+bootsnip
+
+autocomplete
+	http://www.codeproject.com/Tips/789425/Auto-Complete-in-ASP-NET-MVC
+	
+dropdownlist
+	http://www.jquerybyexample.net/2012/02/common-dropdown-operation-get-set-add.html
+
+Sintaxis de Linq
+	http://www.mssqltips.com/sqlservertip/3169/understanding-linq-to-join-multiple-tables-where-null-match-are-expected/
+
+JavaScript, Ajax, JQuery
+	http://forums.asp.net/t/1817945.aspx?calling+controller+method+using+ajax
+	http://stackoverflow.com/questions/19663762/mvc-ajax-post-to-controller-action-method
+
+HTML Table
+	http://stackoverflow.com/questions/2545603/retrieve-table-row-index-of-current-row
+	http://www.sitepoint.com/forums/showthread.php?743696-Jquery-add-and-remove-table-row
+
+Manejo de objetos JSON
+	http://stackoverflow.com/questions/10895306/how-to-access-json-object-name-value
+	http://stackoverflow.com/questions/6534510/json-ajax-with-parameter-passing
+	http://elrincondeneutron.blogspot.com/2013/04/json-javascript-object-notation.html
+
+	El siguiente ejempo muestra como llamar mediante AJAX una acción del controlador ContratoViewController que retorna un objeto JSON con los detalles de un ingeniero específico (id)
+	y los agrega en una nueva fila a una tabla llamada "tbIngenieros". El Ajax está dentro de una función js asociada a un boton llamando "btnAgregarIngeniero" que busca el id del
+	ingeniero a buscar en un dropdownlist llamado "ddlIngenieros"
+	
+	<script>
+        $(document).ready(
+            function () {
+				$('#btnAgregarIngeniero').click(function () {
+                    var dd = document.getElementById('ddlIngenieros')
+					var _id = dd.options[dd.selectedIndex].value;
+					$.ajax({
+						url: '/ContratoView/IngenieroDetalles/',
+						type: "GET",
+						dataType: "json",
+						data: {
+							id: _id
+						},
+						success: function (data) {
+							var json = $.parseJSON(data);
+							var fila = '<tr><td>' + json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido1 + '</td> ';
+							fila += '<td>' + json.rol + '</td>';
+							fila += '<td>' + json.descripcion + '</td>';
+							fila += '<td>' + json.departamento + '</td></tr>';
+							$('#tbIngenieros > tbody:last').append(fila);
+							//alert(prueba.descripcion);
+					},
+					error: function (xhr, status) {
+						alert(status);
+					}
+                })
+			});
+		});
+
+    </script>
+
+
+	
+
+---------------------------------------------- Frágmentos de código que una vez sirvio y se ocupó ----------------------------------------------
+HOJA DE ESTILOS DEL DATEPICKER
+	@*   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">*@
+
+	                        @*<table class="table" style="border:hidden">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Ingeniero
+                                        </th>
+                                        <th>
+                                            Cargo
+                                        </th>
+                                        <th>
+                                            Descripción
+                                        </th>
+                                        <th>
+                                            Departamento/Empresa
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DropDownList("idIngeniero" + i, Model.ListIngeniero, htmlAttributes: new { @class = "form-control", @id = "ingenieroID" + i })
+                                            </td>
+                                            <td>
+                                                @Html.Label("---", htmlAttributes: new { @id = "lblCargo" + i })
+                                            </td>
+                                            <td>
+                                                @Html.Label("---", htmlAttributes: new { @id = "lblDescripcion" + i })
+                                            </td>
+                                            <td>
+                                                @Html.Label("---", htmlAttributes: new { @id = "lblDepartamento" + i })
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>*@
+    @*<script type="text/javascript">
+            $(function () {
+                $(".form-control").change(function () {
+                    //var select = this.selectedIndex;
+                    var texto = this.options[this.selectedIndex].text;
+                    var valor = this.options[this.selectedIndex].value;
+                    var row = this.parentNode.parentNode;
+                    //alert(select);
+                    /*var dd = */document.getElementById("lblCargo" + ((row.rowIndex) - 1)).innerHTML = "asdasd";
+                });
+
+            });
+        </script>*@

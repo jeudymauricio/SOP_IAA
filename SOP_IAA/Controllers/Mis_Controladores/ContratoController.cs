@@ -27,6 +27,11 @@ namespace SOP_IAA.Controllers
                 {
                     Repositorio<Contrato> rep = new Repositorio<Contrato>();
                     rep.Insertar(contrato);
+                    var idNuevo = contrato.id;
+
+                    //aqui se agregarian los ingenieros
+
+
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)

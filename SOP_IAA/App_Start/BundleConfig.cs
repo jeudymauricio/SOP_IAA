@@ -12,7 +12,8 @@ namespace SOP_IAA
                         "~/Scripts/jquery.bootstrap.wizard.js").Include(
                         "~/Scripts/jquery-1.11.0.js").Include(
                         "~/Scripts/plugins/metisMenu/metisMenu.min.js").Include(
-                        "~/Scripts/admin_bootstrap.js"));
+                        "~/Scripts/admin_bootstrap.js").Include(
+                        "~/Scripts/jquery-ui-1.11.1.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -29,17 +30,14 @@ namespace SOP_IAA
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/datepicker").Include(
-                 "~/Scripts/jquery-1.9.1.js").Include(
-                        "~/Scripts/jquery.ui.datepicker.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js").Include(
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css").Include(
+                      "~/Content/jquery-ui.css"));
 
             // Para la depuración, establezca EnableOptimizations en false. Para obtener más información,
             // visite http://go.microsoft.com/fwlink/?LinkId=301862
