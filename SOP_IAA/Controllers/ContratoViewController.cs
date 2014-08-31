@@ -19,12 +19,6 @@ namespace SOP_IAA.Controllers
         public ActionResult CreateContractEngineer()
         {
             var model = new ContratoViewModels();
-            
-            model.ListContratoIdContratista = new SelectList(db.contratista, "id", "nombre");
-            model.ListContratoIdFondo = new SelectList(db.fondo, "id", "nombre");
-            model.ListContratoIdZona = new SelectList(db.zona, "id", "nombre");
-            
-
             ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre");
             ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre");
             ViewBag.idZona = new SelectList(db.zona, "id", "nombre");

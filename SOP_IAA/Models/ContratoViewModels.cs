@@ -9,11 +9,8 @@ namespace SOP_IAA.Models
 {
     public class ContratoViewModels
     {
-        public IEnumerable<SelectListItem> ListContratoIdContratista { get; set; }
-        public IEnumerable<SelectListItem> ListContratoIdZona { get; set; }
-        public IEnumerable<SelectListItem> ListContratoIdFondo { get; set; }
+        //Para usar en el dropdownlist de ContratoView/CreateContractEngineer
         public IEnumerable<SelectListItem> ListIngeniero { get; set; }
-        //public IEnumerable<SelectListItem> IdContratista { get; set; }
 
         public int id { get; set; }
         public int idContratista { get; set; }

@@ -4,6 +4,9 @@
 
 bootsnip
 
+datepicker
+	http://www.bufa.es/jquery-ui-datepicker-espanol/
+
 autocomplete
 	http://www.codeproject.com/Tips/789425/Auto-Complete-in-ASP-NET-MVC
 	
