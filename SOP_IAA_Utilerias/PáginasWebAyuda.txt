@@ -4,6 +4,9 @@
 
 bootsnip
 
+Arrays en JavaScript
+	http://stackoverflow.com/questions/10451893/javascript-create-simple-dynamic-array
+
 datepicker
 	http://www.bufa.es/jquery-ui-datepicker-espanol/
 
@@ -20,9 +23,13 @@ JavaScript, Ajax, JQuery
 	http://forums.asp.net/t/1817945.aspx?calling+controller+method+using+ajax
 	http://stackoverflow.com/questions/19663762/mvc-ajax-post-to-controller-action-method
 
+GRIDs
+	http://docs.telerik.com/kendo-ui/getting-started/using-kendo-with/aspnet-mvc/helpers/grid/ajax-editing
+
 HTML Table
 	http://stackoverflow.com/questions/2545603/retrieve-table-row-index-of-current-row
 	http://www.sitepoint.com/forums/showthread.php?743696-Jquery-add-and-remove-table-row
+	http://www.w3schools.com/jsref/dom_obj_table.asp
 
 Manejo de objetos JSON
 	http://stackoverflow.com/questions/10895306/how-to-access-json-object-name-value

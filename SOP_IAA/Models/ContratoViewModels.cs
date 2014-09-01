@@ -9,9 +9,7 @@ namespace SOP_IAA.Models
 {
     public class ContratoViewModels
     {
-        //Para usar en el dropdownlist de ContratoView/CreateContractEngineer
-        public IEnumerable<SelectListItem> ListIngeniero { get; set; }
-
+       
         public int id { get; set; }
         public int idContratista { get; set; }
         public string licitacion { get; set; }
@@ -23,10 +21,11 @@ namespace SOP_IAA.Models
         public short idFondo { get; set; }
 
         public Contrato contrato { get; set; }
-        public List<ingeniero> ingeniero { get; set; }
-        public List<laboratorioCalidad> laboratorios { get; set; }
+        public List<int> ingenieros { get; set; }
+        public List<int> laboratorios { get; set; }
 
-
+        //Para usar en el dropdownlist de ContratoView/CreateContractEngineer
+        //public IEnumerable<SelectListItem> ListIngeniero { get; set; }
 
     }
 }

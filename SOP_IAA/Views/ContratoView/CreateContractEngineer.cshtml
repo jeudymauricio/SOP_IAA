@@ -45,7 +45,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.contrato.idContratista, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("idContratista", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.DropDownList("idContratista", null, htmlAttributes: new { @class = "form-control", @id = "ddlIdContratista" })
                                 @Html.ValidationMessageFor(model => model.contrato.idContratista, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.contrato.licitacion, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.contrato.licitacion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.licitacion, new { htmlAttributes = new { @class = "form-control", @id ="txtLicitacion" } })
                                 @Html.ValidationMessageFor(model => model.contrato.licitacion, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.contrato.lineaContrato, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.contrato.lineaContrato, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.contrato.lineaContrato, new { htmlAttributes = new { @class = "form-control", @id = "txtLineaContrato" } })
                                 @Html.ValidationMessageFor(model => model.contrato.lineaContrato, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.contrato.idZona, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("idZona", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.DropDownList("idZona", null, htmlAttributes: new { @class = "form-control", @id = "ddlIdZona" })
                                 @Html.ValidationMessageFor(model => model.contrato.idZona, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                         <div class="form-group input-group-sm">
                             @Html.LabelFor(model => model.contrato.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.contrato.fechaInicio, new { htmlAttributes = new { @class = "form-control", @id = "datepicker" } })
+                                @Html.EditorFor(model => model.contrato.fechaInicio, new { htmlAttributes = new { @class = "form-control", @id = "txtFechaInicio" } })
                                 @Html.ValidationMessageFor(model => model.contrato.fechaInicio, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.contrato.plazo, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.contrato.plazo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.contrato.plazo, new { htmlAttributes = new { @class = "form-control", @id = "txtPlazo" } })
                                 @Html.ValidationMessageFor(model => model.contrato.plazo, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.contrato.lugar, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.contrato.lugar, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.contrato.lugar, new { htmlAttributes = new { @class = "form-control", @id = "txtLugar" } })
                                 @Html.ValidationMessageFor(model => model.contrato.lugar, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.contrato.idFondo, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control", @id = "ddlIdFondo" })
                                 @Html.ValidationMessageFor(model => model.contrato.idFondo, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                     <div class="tab-pane" id="step2" style="min-height:377px">
 
                         <div>
-                            @Html.DropDownList("idIngeniero", Model.ListIngeniero, htmlAttributes: new { @class = "form-horizontal input-sm", @id = "ddlIngenieros" })
+                            @Html.DropDownList("idIngeniero", null, htmlAttributes: new { @class = "form-horizontal input-sm", @id = "ddlIngenieros" })
                             <input class="btn btn-primary" type="button" id="btnAgregarIngeniero" value="Agregar Ingeniero" />
                             <br /><br />
                         </div>
@@ -165,7 +165,7 @@
                         <!-- These show as disabled on first tab. Add style="display:none;" to make the First button disappear when first tab.	  -->
                         <li class="first previous"><a href="#" accesskey="f">Primero</a></li>
                         <li class="previous"><a href="#" accesskey="p">Anterior</a></li>
-                        <li class="last" style="display:none;"><input type="submit" value="Crear Contrato" class="btn btn-success" /></li>
+                        <li class="last" style="display:none;"><input type="button" onclick="CrearContrato()" value="Crear Contrato" class="btn btn-success" /></li>
                         <li class="next"><a href="#" accesskey="n">Siguiente</a></li>
                     </ul>
                 </div><!-- ./tab-content -->
@@ -186,10 +186,19 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     
     <script>
-        $(document).ready(
-            function () {
 
-                // Función que le da funcionalidad al WIzard
+
+        // Array que contendrá los id de los ingenieros del proyecto
+        var ingenieros = [];
+
+        // Array que contendrá los id de los laboratorios del proyecto
+        var laboratorios = [];
+        $(document).ready(
+
+            function () {
+                
+
+                // Función que le da funcionalidad al Wizard
                 $('#rootwizard').bootstrapWizard({
                     onTabShow: function (tab, navigation, index) {
                         /*if (index == 1) {
@@ -228,7 +237,7 @@
 
                 // Función del DatePicker en los campos de Fecha
                 $(function () {
-                    $("#datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+                    $("#txtFechaInicio").datepicker({ dateFormat: 'dd/mm/yy' });
                 });
                 $(function ($) {
                     $.datepicker.regional['es'] = {
@@ -267,30 +276,45 @@
 
                         success: function (data) {
                             var json = $.parseJSON(data);
-                            var fila = '<tr id='+json.persona.id+'><td>' + json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido2 + '</td> ';
+                            ingenieros.push(_id.toString());
+                            console.log("array -> "+ingenieros.toString());
 
+                            var fila = '<tr id='+json.persona.id+'><td>' + json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido2 + '</td> ';
                             fila += '<td>' + json.rol + '</td>';
                             fila += '<td>' + json.descripcion + '</td>';
                             fila += '<td>' + json.departamento + '</td>';
                             fila += '<td> <button class="remove btn btn-danger" onclick=" eliminar(' + json.persona.id + ')">Quitar Ingeniero</button> </td></tr>';
+
+                            //Agrega el ingeniero a la tabla htlm
                             $('#tbIngenieros > tbody:last').append(fila);
 
+                            //Elimina el ingeniero del dropdownlist
                             $("#ddlIngenieros option:selected").remove();
 
                         },
-                        error: function (xhr, status) {
-                            alert(status);
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert(errorThrown);
                         }
                     })
                 });
+
 
                 // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
                 $(document).on("click", "#tbIngenieros button.remove", function () {
                     $(this).parents("tr").remove();
                 });
 
+
+                // Función que herada cada boton de la tabla ingenieros que permite quitar el ingeniero de la lista y regresarlo al dropdown
+                
+
+                // Toma los datos generales, los ingenieros y laboratorios, forma un json con ellos y los envía al controlador para realizar la inserción a la base de datos
+                function CrearContrato() {
+
+                }
             });
 
+        
         function eliminar(_id) {
             $.ajax({
                 url: '/ContratoView/IngenieroDetalles/',
@@ -299,15 +323,24 @@
                 data: {
                     id: _id
                 },
-
                 success: function (data) {
                     var json = $.parseJSON(data);
-                    $("<option value=" + json.persona.id + ">"+json.persona.nombre+" "+ json.persona.apellido1+" "+json.persona.apellido2+"</option>").appendTo("#ddlIngenieros");
+                    console.log("id ->" + _id);
+                    //var index = ingenieros.indexOf(_id);
+                    //console.log(index);
+                    for (var i = ingenieros.length - 1; i >= 0; i--) {
+                        if (ingenieros[i] == _id) {
+                            ingenieros.splice(i, 1);
+                        }
+                    }
+                       // ingenieros.splice(ingenieros.indexOf(_id), 1);
+                    $("<option value=" + json.persona.id + ">" + json.persona.nombre + " " + json.persona.apellido1 + " " + json.persona.apellido2 + "</option>").appendTo("#ddlIngenieros");
                 },
-                error: function (xhr, status) {
-                    alert(status);
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
                 }
             })
         }
+
     </script>
 }

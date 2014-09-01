@@ -206,6 +206,7 @@
     <Content Include="Scripts\%28personal%29bootstrap-3.2.0.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\ContratoViewMethods\ContratoViewMethod.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

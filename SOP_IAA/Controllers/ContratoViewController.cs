@@ -15,6 +15,8 @@ namespace SOP_IAA.Controllers
     public class ContratoViewController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
+        private List<int> ingenieros = new List<int>();
+        private List<int> laboratorios = new List<int>();
 
         public ActionResult CreateContractEngineer()
         {
@@ -33,15 +35,16 @@ namespace SOP_IAA.Controllers
                           }
                 );
 
-            model.ListIngeniero = new SelectList(mquery, "Value", "Text");
+            ViewBag.idIngeniero = new SelectList(mquery, "Value", "Text");
 
-            return View(model);
+            return View(/*model*/);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ContratoViewModels contratoView)
         {
+
             if (ModelState.IsValid)
             {
                 Contrato miContrato = new Contrato();
@@ -55,7 +58,12 @@ namespace SOP_IAA.Controllers
                 miContrato.lugar = contratoView.contrato.lugar;
 
                 db.Contrato.Add(miContrato);
-                db.SaveChanges();
+                //db.SaveChanges();
+
+                var idContrato = miContrato.id;
+                // Creación de la relación ingeniero-contrato
+                
+
                 return RedirectToAction("Index","Contrato");
             }
 
