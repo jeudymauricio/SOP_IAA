@@ -4,6 +4,8 @@
 
 bootsnip
 
+	http://stackoverflow.com/questions/16256290/asp-net-mvc-get-value-from-html-textboxfor
+
 Arrays en JavaScript
 	http://stackoverflow.com/questions/10451893/javascript-create-simple-dynamic-array
 
@@ -31,10 +33,11 @@ HTML Table
 	http://www.sitepoint.com/forums/showthread.php?743696-Jquery-add-and-remove-table-row
 	http://www.w3schools.com/jsref/dom_obj_table.asp
 
-Manejo de objetos JSON
+Manejo de objetos JSON 
+--> http://krishnarajb.wordpress.com/2009/05/28/pass-json-object-from-javascript-code-to-mvc-controller/  (javascript send json post controller)	
 	http://stackoverflow.com/questions/10895306/how-to-access-json-object-name-value
-	http://stackoverflow.com/questions/6534510/json-ajax-with-parameter-passing
 	http://elrincondeneutron.blogspot.com/2013/04/json-javascript-object-notation.html
+	http://stackoverflow.com/questions/16507222/create-json-object-dynamically-via-javascript-without-concate-strings
 
 	El siguiente ejempo muestra como llamar mediante AJAX una acción del controlador ContratoViewController que retorna un objeto JSON con los detalles de un ingeniero específico (id)
 	y los agrega en una nueva fila a una tabla llamada "tbIngenieros". El Ajax está dentro de una función js asociada a un boton llamando "btnAgregarIngeniero" que busca el id del
@@ -128,3 +131,20 @@ HOJA DE ESTILOS DEL DATEPICKER
 
             });
         </script>*@
+
+
+--------------------------------------- Ajax que llama una pagina -------------------------------------------
+                        /*if (index == 1) {
+                            $.ajax({
+                                url: '/ingeniero/Create',
+                                contentType: 'application/html; charset=utf-8',
+                                type: 'GET',
+                                datatype:'html'
+                            })
+                            .success(function(result){
+                                $('#hola').html(result);
+                            })
+                            .error(function (xhr, status) {
+                                alert(status)
+                            })
+                        }*/

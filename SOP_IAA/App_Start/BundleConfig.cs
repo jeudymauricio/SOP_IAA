@@ -13,7 +13,8 @@ namespace SOP_IAA
                         "~/Scripts/jquery-1.11.0.js").Include(
                         "~/Scripts/plugins/metisMenu/metisMenu.min.js").Include(
                         "~/Scripts/admin_bootstrap.js").Include(
-                        "~/Scripts/jquery-ui-1.11.1.js"));
+                        "~/Scripts/jquery-ui-1.11.1.js").Include(
+                        "~/Scripts/jquery.json.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

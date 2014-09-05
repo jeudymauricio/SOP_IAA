@@ -4,7 +4,7 @@
     ViewBag.Title = "Nuevo Contrato";
 }
 
-@using (Html.BeginForm("Create","ContratoView"))
+@using (Html.BeginForm("Create", "ContratoView"))
 {
     @Html.AntiForgeryToken()
 
@@ -53,7 +53,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.contrato.licitacion, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.licitacion, new { htmlAttributes = new { @class = "form-control", @id ="txtLicitacion" } })
+                                @Html.EditorFor(model => model.licitacion, new { htmlAttributes = new { @class = "form-control", @id = "txtLicitacion", autofocus = "" } })
                                 @Html.ValidationMessageFor(model => model.contrato.licitacion, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                             <br /><br />
                         </div>
 
-                        <!-- Panel que contendrá la tabla dinámica de inggenieros -->
+                        <!-- Panel que contendrá la tabla dinámica de ingenieros -->
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 Ingenieros del Proyecto
@@ -148,8 +148,37 @@
 
                     <!-- Sección de datos de los Laboratorios -->
                     <div class="tab-pane" id="step3" style="min-height:377px">
-                        <h1>Laboratorios de autocontrol y verificación</h1>
-                        <p></p>
+                        <div>
+                            @Html.DropDownList("idLaboratorio", null, htmlAttributes: new { @class = "form-horizontal input-sm", @id = "ddlLaboratorios" })
+                            <input class="btn btn-primary" type="button" id="btnAgregarLaboratorio" value="Agregar Laboratorio" />
+                            <br /><br />
+                        </div>
+
+                        <!-- Panel que contendrá la tabla dinámica de inggenieros -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Laboratorios
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbLaboratorios" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Tipo</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ingenieros -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
                     </div>
 
                     <!-- Sección de resumen del contrato -->
@@ -181,40 +210,27 @@
 @section Scripts {
     @Scripts.Render("~/bundles/bootstrap");
     @Scripts.Render("~/bundles/jquery");
-    @*@Scripts.Render("~/Content/css");*@
+
     <script src="~/Scripts/(personal)bootstrap-3.2.0.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-    
+
+
+    @*<script type="text/javascript" src="lib/jquery.1.11.1.js"></script>
+        <script type="text/javascript" src="lib/jquery.ui.1.8.16.js"></script>*@
+
     <script>
-
-
         // Array que contendrá los id de los ingenieros del proyecto
         var ingenieros = [];
 
         // Array que contendrá los id de los laboratorios del proyecto
         var laboratorios = [];
+
         $(document).ready(
 
             function () {
-                
-
                 // Función que le da funcionalidad al Wizard
                 $('#rootwizard').bootstrapWizard({
                     onTabShow: function (tab, navigation, index) {
-                        /*if (index == 1) {
-                            $.ajax({
-                                url: '/ingeniero/Create',
-                                contentType: 'application/html; charset=utf-8',
-                                type: 'GET',
-                                datatype:'html'
-                            })
-                            .success(function(result){
-                                $('#hola').html(result);
-                            })
-                            .error(function (xhr, status) {
-                                alert(status)
-                            })
-                        }*/
                         // Dynamically change percentage completion on progress bar
                         var tabCount = navigation.find('li').length;
                         var current = index + 1;
@@ -273,17 +289,22 @@
                         data: {
                             id: _id
                         },
-
                         success: function (data) {
                             var json = $.parseJSON(data);
                             ingenieros.push(_id.toString());
-                            console.log("array -> "+ingenieros.toString());
 
-                            var fila = '<tr id='+json.persona.id+'><td>' + json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido2 + '</td> ';
+
+                            // Impresion del json devuelto por el controller
+                            //console.log(data);
+
+
+
+
+                            var fila = '<tr id=' + json.persona.id + '><td>' + json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido2 + '</td> ';
                             fila += '<td>' + json.rol + '</td>';
                             fila += '<td>' + json.descripcion + '</td>';
                             fila += '<td>' + json.departamento + '</td>';
-                            fila += '<td> <button class="remove btn btn-danger" onclick=" eliminar(' + json.persona.id + ')">Quitar Ingeniero</button> </td></tr>';
+                            fila += '<td> <button class="remove btn btn-danger" onclick=" eliminarIngeniero(' + json.persona.id + ')">Quitar Ingeniero</button> </td></tr>';
 
                             //Agrega el ingeniero a la tabla htlm
                             $('#tbIngenieros > tbody:last').append(fila);
@@ -298,26 +319,84 @@
                     })
                 });
 
+                $('#btnAgregarLaboratorio').click(function () {
+                    var dd = document.getElementById('ddlLaboratorios')
+                    var _id = dd.options[dd.selectedIndex].value;
+
+                    // Este ajax se realiza una acción de cobtrolador donde envía el id del laboratorio a buscar y recibe como retorno un JSON con los detalles del laboratorio
+                    $.ajax({
+                        url: '/ContratoView/LaboratorioDetalles/',
+                        type: "GET",
+                        dataType: "json",
+                        data: {
+                            id: _id
+                        },
+
+                        success: function (data) {
+                            var json = $.parseJSON(data);
+                            laboratorios.push(_id.toString());
+                            //console.log("array -> " + laboratorios.toString());
+
+                            var fila = '<tr id=' + json.id + '><td>' + json.nombre + '</td> ';
+                            fila += '<td>' + json.tipo + '</td>';
+                            fila += '<td> <button class="remove btn btn-danger" onclick=" eliminarLaboratorio(' + json.id + ')">Quitar Laboratorio</button> </td></tr>';
+
+                            //Agrega el ingeniero a la tabla htlm
+                            $('#tbLaboratorios > tbody:last').append(fila);
+
+                            //Elimina el ingeniero del dropdownlist
+                            $("#ddlLaboratorios option:selected").remove();
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        }
+                    })
+                });
 
                 // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
                 $(document).on("click", "#tbIngenieros button.remove", function () {
                     $(this).parents("tr").remove();
                 });
 
+                // Función que permite quitar una fila con los detalles del laboratorio seleccionado en la sección Laboratorios del Wizard
+                $(document).on("click", "#tbLaboratorios button.remove", function () {
+                    $(this).parents("tr").remove();
+                });
 
-                // Función que herada cada boton de la tabla ingenieros que permite quitar el ingeniero de la lista y regresarlo al dropdown
-                
-
-                // Toma los datos generales, los ingenieros y laboratorios, forma un json con ellos y los envía al controlador para realizar la inserción a la base de datos
-                function CrearContrato() {
-
-                }
             });
 
-        
-        function eliminar(_id) {
+
+        function eliminarIngeniero(_id) {
             $.ajax({
                 url: '/ContratoView/IngenieroDetalles/',
+                type: "GET",
+                dataType: "json",
+                data: {
+                    id: _id
+                },
+                success: function (data) {
+                    var json = $.parseJSON(data);
+                    //console.log("id ->" + _id);
+                    //var index = ingenieros.indexOf(_id);
+                    //console.log(index);
+                    for (var i = ingenieros.length - 1; i >= 0; i--) {
+                        if (ingenieros[i] == _id) {
+                            ingenieros.splice(i, 1);
+                        }
+                    }
+                    // ingenieros.splice(ingenieros.indexOf(_id), 1);
+                    $("<option value=" + json.persona.id + ">" + json.persona.nombre + " " + json.persona.apellido1 + " " + json.persona.apellido2 + "</option>").appendTo("#ddlIngenieros");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            })
+        }
+
+        function eliminarLaboratorio(_id) {
+            $.ajax({
+                url: '/ContratoView/LaboratorioDetalles/',
                 type: "GET",
                 dataType: "json",
                 data: {
@@ -328,18 +407,57 @@
                     console.log("id ->" + _id);
                     //var index = ingenieros.indexOf(_id);
                     //console.log(index);
-                    for (var i = ingenieros.length - 1; i >= 0; i--) {
-                        if (ingenieros[i] == _id) {
-                            ingenieros.splice(i, 1);
+                    for (var i = laboratorios.length - 1; i >= 0; i--) {
+                        if (laboratorios[i] == _id) {
+                            laboratorios.splice(i, 1);
                         }
                     }
-                       // ingenieros.splice(ingenieros.indexOf(_id), 1);
-                    $("<option value=" + json.persona.id + ">" + json.persona.nombre + " " + json.persona.apellido1 + " " + json.persona.apellido2 + "</option>").appendTo("#ddlIngenieros");
+                    // ingenieros.splice(ingenieros.indexOf(_id), 1);
+                    $("<option value=" + json.id + ">" + json.nombre + "</option>").appendTo("#ddlLaboratorios");
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert(errorThrown);
                 }
             })
+        }
+
+        // Toma los datos generales, los ingenieros y laboratorios, forma un json con ellos y los envía al controlador para realizar la inserción a la base de datos
+        function CrearContrato() {
+
+            var _idContratista = document.getElementById('ddlIdContratista').options[document.getElementById('ddlIdContratista').selectedIndex].value;
+            var _licitacion = document.getElementById('txtLicitacion').value;
+            var _lineacontrato = document.getElementById('txtLineaContrato').value;
+            var _idZona = document.getElementById('ddlIdZona').options[document.getElementById('ddlIdZona').selectedIndex].value;
+            var _FechaInicio = document.getElementById('txtFechaInicio').value;
+            var _Plazo = document.getElementById('txtPlazo').value;
+            var _Lugar = document.getElementById('txtLugar').value;
+            var _idFondo = _idContratista = document.getElementById('ddlIdFondo').options[document.getElementById('ddlIdFondo').selectedIndex].value;
+
+            var jsonDatosContrato = { 'idContratista': _idContratista, 'licitacion': _licitacion, 'lineaContrato': _lineacontrato, 'idZona': _idZona, 'fechaInicio': _FechaInicio, 'plazo': _Plazo, 'lugar': _Lugar, 'idFondo': _idFondo };
+            var jsonDatosLaboratorios = { "Laboratorios": laboratorios };
+            var jsonDatosIngenieros = { "Ingenieros": ingenieros };
+
+            //var jsonContrato = JSON.stringify(jsonDatosContrato);
+            //var jsonLaboratorios = JSON.stringify(jsonDatosLaboratorios);
+            //var jsonIngenieros = JSON.stringify(jsonDatosIngenieros);
+
+            
+            //console.log(jsonContrato);
+            //console.log(jsonIngenieros);
+            //console.log(jsonLaboratorios);
+
+            //var jlst = $.toJSON(jsonDatosContrato);
+            $.post("/ContratoView/Create", {
+                jsonContrato: $.toJSON(jsonDatosContrato),
+                jsonLaboratorios: $.toJSON(jsonDatosLaboratorios),
+                jsonIngenieros: $.toJSON(jsonDatosIngenieros)
+
+            },
+                function(data, textStatus) {
+                    if (textStatus != "success") {
+                        result = "false";
+                    }
+                });
         }
 
     </script>
