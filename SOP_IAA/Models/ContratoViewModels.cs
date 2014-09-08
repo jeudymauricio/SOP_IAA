@@ -21,11 +21,6 @@ namespace SOP_IAA.Models
         public short idFondo { get; set; }
 
         public Contrato contrato { get; set; }
-        public List<int> ingenieros { get; set; }
-        public List<int> laboratorios { get; set; }
-
-        //Para usar en el dropdownlist de ContratoView/CreateContractEngineer
-        //public IEnumerable<SelectListItem> ListIngeniero { get; set; }
 
     }
 }

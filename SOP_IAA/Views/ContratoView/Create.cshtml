@@ -437,25 +437,21 @@
             var jsonDatosLaboratorios = { "Laboratorios": laboratorios };
             var jsonDatosIngenieros = { "Ingenieros": ingenieros };
 
-            //var jsonContrato = JSON.stringify(jsonDatosContrato);
-            //var jsonLaboratorios = JSON.stringify(jsonDatosLaboratorios);
-            //var jsonIngenieros = JSON.stringify(jsonDatosIngenieros);
-
-            
-            //console.log(jsonContrato);
-            //console.log(jsonIngenieros);
-            //console.log(jsonLaboratorios);
-
-            //var jlst = $.toJSON(jsonDatosContrato);
             $.post("/ContratoView/Create", {
                 jsonContrato: $.toJSON(jsonDatosContrato),
                 jsonLaboratorios: $.toJSON(jsonDatosLaboratorios),
                 jsonIngenieros: $.toJSON(jsonDatosIngenieros)
-
             },
-                function(data, textStatus) {
+                function (data, textStatus) {
                     if (textStatus != "success") {
-                        result = "false";
+                        //result = "false";
+                        $.get("/ContratoView/Index")
+                        alert("error");
+                    }
+                    else
+                    {
+                        $.get("/ContratoView/Index")
+                        alert("success");
                     }
                 });
         }

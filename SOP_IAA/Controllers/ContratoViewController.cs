@@ -19,8 +19,6 @@ namespace SOP_IAA.Controllers
     public class ContratoViewController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
-        private List<int> ingenieros = new List<int>();
-        private List<int> laboratorios = new List<int>();
 
         // GET: Contrato
         public ActionResult Index()
@@ -29,7 +27,8 @@ namespace SOP_IAA.Controllers
             return View(contrato.ToList());
         }
 
-        public ActionResult CreateContractEngineer()
+        // GET
+        public ActionResult Create()
         {
             var model = new ContratoViewModels();
             ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre");
@@ -49,9 +48,10 @@ namespace SOP_IAA.Controllers
 
             ViewBag.idIngeniero = new SelectList(mquery, "Value", "Text");
             ViewBag.idLaboratorio = new SelectList(db.laboratorioCalidad, "id", "nombre");
-            return View(/*model*/);
+            return View();
         }
 
+        //POST
         [HttpPost]
         public ActionResult Create(string jsonContrato, string jsonLaboratorios, string jsonIngenieros)
         {
@@ -60,17 +60,21 @@ namespace SOP_IAA.Controllers
                 List<int> listLaboratios = new List<int>();
                 List<int> listIngenieros = new List<int>();
                 Contrato contrato = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<Contrato>(jsonContrato);
+
+                //Obtener los laboratios
+                dynamic jObj = JsonConvert.DeserializeObject(jsonLaboratorios);
+                foreach (var child in jObj.Laboratorios.Children())
+                {
+                    //listLaboratios.Add((int)child);
+                    contrato.laboratorioCalidad.Add(db.laboratorioCalidad.Find((int)child));
+                }
+
                 //inserción del contrato a la DB
                 db.Contrato.Add(contrato);
                 db.SaveChanges();
                 //obtención del id del contrato
                 var idContrato = contrato.id;
-                //Obtener los laboratios
-                dynamic jObj = JsonConvert.DeserializeObject(jsonLaboratorios);
-                foreach (var child in jObj.Laboratorios.Children())
-                {
-                    listLaboratios.Add((int)child);
-                }
+                
                 //Obtener ingenieros.
                 jObj = JsonConvert.DeserializeObject(jsonIngenieros);
                 foreach (var child in jObj.Ingenieros.Children())
@@ -83,41 +87,10 @@ namespace SOP_IAA.Controllers
                     db.SaveChanges();
                 }
                 
-                
             }
-            return View(RedirectToAction("Index", "Contrato")) ;
+            //RedirectToAction("Index", "Contrato");
+            return View("Index");
         }
-
-        //[HttpPost]
-        //public ActionResult Create()
-        //{
-
-          //  if (ModelState.IsValid)
-            //{
-                //Contrato miContrato = new Contrato();
-                //miContrato.idContratista = contratoView.idContratista;
-                //miContrato.idFondo = contratoView.idFondo;
-                //miContrato.licitacion = contratoView.contrato.licitacion;
-                //miContrato.lineaContrato = contratoView.contrato.lineaContrato;
-                //miContrato.idZona = contratoView.idZona;
-                //miContrato.fechaInicio = contratoView.contrato.fechaInicio;
-                //miContrato.plazo = contratoView.contrato.plazo;
-                //miContrato.lugar = contratoView.contrato.lugar;
-
-                //db.Contrato.Add(miContrato);
-                ////db.SaveChanges();
-
-                //var idContrato = miContrato.id;
-                //// Creación de la relación ingeniero-contrato
-                
-
-                //return RedirectToAction("Index","Contrato");
-            //}
-            //return null;
-            //return View();
-            
-//        }
-
 
         // GET: Obtener los detalles de un ingeniero específico
         public ActionResult IngenieroDetalles(int? id)
@@ -176,15 +149,21 @@ namespace SOP_IAA.Controllers
                 return HttpNotFound();
             }
 
+            laboratorioCalidad lab = new laboratorioCalidad { 
+                id=laboratorio.id,
+                nombre = laboratorio.nombre,
+                tipo= laboratorio.tipo
+            };
+
             //Se procede a convertir a JSON el objeto recien creado
-            var json = new JavaScriptSerializer().Serialize(laboratorio);
+            var json = new JavaScriptSerializer().Serialize(lab);
 
             //Se retorna el JSON
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Obtener los detalles de un contrato específico
-        public ActionResult contratoDetalles(int? id)
+        public ActionResult Details(int? id)
         {
             Contrato contrato = db.Contrato.Find(id);
             return View();

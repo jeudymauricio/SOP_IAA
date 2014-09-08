@@ -1,0 +1,197 @@
+﻿@model SOP_IAA_DAL.Contrato
+
+@{
+    ViewBag.Title = "Nuevo Contrato";
+}
+
+<h2>Nuevo Contrato</h2>
+<div class="col-md-offset-11 col-md-10">
+    @Html.ActionLink("Atrás", "Index")
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="container-fluid panel-body" style="max-width:1500px">
+            
+            <div id="rootwizard">
+
+                <!-- 1. Create the tabs themselves  -->
+                <!-- data-toggle required. -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li><a href="#step1" role="tab" data-toggle="tab">Datos Generales</a></li>
+                    <li><a href="#step2" role="tab" data-toggle="tab">Ingenieros</a></li>
+                    <li><a href="#step3" role="tab" data-toggle="tab">Programa de Trabajo</a></li>
+                    <li><a href="#step4" role="tab" data-toggle="tab">Resumen</a></li>
+                </ul>
+
+                <br />
+                <!-- 2. Create progress bar -->
+                <!-- div class="progress" required. -->
+                <!-- on div id="progressBar" class="progress" required. -->
+                <div class="progress">
+                    <div id="progressBar" class="progress-bar progress-bar-striped">
+                        <div class="bar">
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Create a matching tab pane for each tab. Content goes within these panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="step1">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.idContratista, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("idContratista", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.idContratista, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.licitacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.licitacion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.licitacion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.lineaContrato, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.lineaContrato, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.lineaContrato, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+  
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.idZona, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("idZona", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.idZona, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group input-group-sm">
+                            @Html.LabelFor(model => model.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control", @placeholder = "dd/mm/AAAA"}})
+                                @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.plazo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.plazo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.plazo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.lugar, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.lugar, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.lugar, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.idFondo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.idFondo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="step2" style="min-height:377px">
+                        <h1>Ingenieros</h1>
+                        
+                        Ingeniero 1: <input type="text"><br />
+                        Ingeniero 2: <input type="text"><br />
+                        Ingeniero 3: <input type="text"><br />
+                        Ingeniero 4: <input type="text"><br />
+                        
+                    </div>
+
+                    <div class="tab-pane" id="step3" style="min-height:377px">
+                        <h1>Programas</h1>
+                        <p></p>
+                    </div>
+                    <div class="tab-pane" id="step4" style="min-height:377px">
+                        <h1>Resumen</h1>
+
+                    </div>
+                    <!-- 4. Declare buttons used by the wizard. -->
+                    <!-- "pager wizard" required. -->
+                    <ul class="pager wizard">
+                        <!-- These show as disabled on first tab. Add style="display:none;" to make the First button disappear when first tab.	  -->
+                        <li class="first previous"><a href="#" accesskey="f">Primero</a></li>
+                        <li class="previous"><a href="#" accesskey="p">Anterior</a></li>
+                        <li class="last" style="display:none;"><input type="submit" value="Crear Contrato" class="btn btn-success" /></li>
+                        <li class="next"><a href="#" accesskey="n">Siguiente</a></li>
+                    </ul>
+                </div><!-- ./tab-content -->
+
+            </div><!-- ./rootwizard -->
+
+        </div>
+
+    </div> <!-- Fin del Contenedor Principal -->
+    <div id="hola"></div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/bootstrap");
+    @Scripts.Render("~/bundles/jquery");
+
+    <script src="~/Scripts/(personal)bootstrap-3.2.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#rootwizard').bootstrapWizard({
+                onTabShow: function (tab, navigation, index) {
+                    /*if (index == 1) {
+                        $.ajax({
+                            url: '/ingeniero/Create',
+                            contentType: 'application/html; charset=utf-8',
+                            type: 'GET',
+                            datatype:'html'
+                        })
+                        .success(function(result){
+                            $('#hola').html(result);
+                        })
+                        .error(function (xhr, status) {
+                            alert(status)
+                        })
+                    }*/
+                    // Dynamically change percentage completion on progress bar
+                    var tabCount = navigation.find('li').length;
+                    var current = index + 1;
+                    var percentDone = (current / tabCount) * 100;
+                    $('#rootwizard').find('#progressBar').css({ width: percentDone + '%' });
+
+                    // Optional: Show Done button when on last tab;
+                    // It is invisible by default.
+                    $('#rootwizard').find('.last').toggle(current >= tabCount);
+
+                    // Optional: Hide Next button if on last tab;
+                    // otherwise it shows but is disabled
+                    $('#rootwizard').find('.next').toggle(current < tabCount);
+                },
+                onTabClick: function (tab, navigation, index) {
+                    //alert('Utilice los botones de Siguiente, Anterior para desplazarse');
+                    return false;
+                }
+            });
+        });
+    </script>
+
+    @*
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    *@
+}

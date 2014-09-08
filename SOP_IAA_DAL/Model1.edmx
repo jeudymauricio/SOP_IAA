@@ -77,8 +77,8 @@
           </Key>
           <Property Name="idContrato" Type="int" Nullable="false" />
           <Property Name="idIngeniero" Type="int" Nullable="false" />
-          <Property Name="fechaInicio" Type="date" Nullable="false" />
-          <Property Name="fechaFin" Type="date" Nullable="false" />
+          <Property Name="fechaInicio" Type="date" />
+          <Property Name="fechaFin" Type="date" />
         </EntityType>
         <EntityType Name="inspector">
           <Key>
@@ -771,8 +771,8 @@
           </Key>
           <Property Name="idContrato" Type="Int32" Nullable="false" />
           <Property Name="idIngeniero" Type="Int32" Nullable="false" />
-          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="fechaFin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fechaInicio" Type="DateTime" Precision="0" />
+          <Property Name="fechaFin" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_ingenieroContrato" FromRole="ingenieroContrato" ToRole="Contrato" />
           <NavigationProperty Name="ingeniero" Relationship="Self.fk_idIngeniero_ingenieroContrato" FromRole="ingenieroContrato" ToRole="ingeniero" />
         </EntityType>
