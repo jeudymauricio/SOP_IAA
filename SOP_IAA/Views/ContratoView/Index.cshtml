@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SOP_IAA_DAL.Contrato>
+
+@{
+    ViewBag.Title = "Lista Contratos";
+}
+
+<h2>Lista de Contratos</h2>
+
+<p>
+    @Html.ActionLink("Nuevo Contrato", "Create")
+</p>
+<table class="table">
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.licitacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lineaContrato)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.plazo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lugar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contratista.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fondo.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.zona.nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.licitacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lineaContrato)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.plazo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lugar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contratista.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fondo.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.zona.nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Detalles", "contratoDetalles", new { id = item.id }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

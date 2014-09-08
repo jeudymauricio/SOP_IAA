@@ -22,6 +22,13 @@ namespace SOP_IAA.Controllers
         private List<int> ingenieros = new List<int>();
         private List<int> laboratorios = new List<int>();
 
+        // GET: Contrato
+        public ActionResult Index()
+        {
+            var contrato = db.Contrato.Include(c => c.contratista).Include(c => c.fondo).Include(c => c.zona);
+            return View(contrato.ToList());
+        }
+
         public ActionResult CreateContractEngineer()
         {
             var model = new ContratoViewModels();
@@ -44,8 +51,6 @@ namespace SOP_IAA.Controllers
             ViewBag.idLaboratorio = new SelectList(db.laboratorioCalidad, "id", "nombre");
             return View(/*model*/);
         }
-
-
 
         [HttpPost]
         public ActionResult Create(string jsonContrato, string jsonLaboratorios, string jsonIngenieros)
@@ -171,19 +176,18 @@ namespace SOP_IAA.Controllers
                 return HttpNotFound();
             }
 
-            // Se crea un objeto con las propiedades de ingeniero y persona
-            //var obj = new laboratorioCalidad
-            //{
-            //    id = laboratorio.id,
-            //    nombre = laboratorio.nombre,
-            //    tipo = laboratorio.tipo,
-            //};
-
             //Se procede a convertir a JSON el objeto recien creado
             var json = new JavaScriptSerializer().Serialize(laboratorio);
 
             //Se retorna el JSON
             return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: Obtener los detalles de un contrato específico
+        public ActionResult contratoDetalles(int? id)
+        {
+            Contrato contrato = db.Contrato.Find(id);
+            return View();
         }
     }
 }

@@ -275,6 +275,8 @@
     <Content Include="Views\LaboratorioCalidad\Details.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Edit.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Index.cshtml" />
+    <Content Include="Views\ContratoView\Index.cshtml" />
+    <Content Include="Views\ContratoView\contratoDetalles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
