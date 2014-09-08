@@ -16,8 +16,8 @@ namespace SOP_IAA_DAL
     {
         public int idContrato { get; set; }
         public int idIngeniero { get; set; }
-        public System.DateTime fechaInicio { get; set; }
-        public System.DateTime fechaFin { get; set; }
+        public Nullable<System.DateTime> fechaInicio { get; set; }
+        public Nullable<System.DateTime> fechaFin { get; set; }
     
         public virtual Contrato Contrato { get; set; }
         public virtual ingeniero ingeniero { get; set; }
