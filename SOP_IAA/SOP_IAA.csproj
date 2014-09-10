@@ -274,7 +274,6 @@
     <Content Include="Views\ingenieroContrato\Details.cshtml" />
     <Content Include="Views\ingenieroContrato\Edit.cshtml" />
     <Content Include="Views\ingenieroContrato\Index.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\ContratoView\Create.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Create.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Delete.cshtml" />
@@ -283,8 +282,6 @@
     <Content Include="Views\LaboratorioCalidad\Index.cshtml" />
     <Content Include="Views\ContratoView\Index.cshtml" />
     <Content Include="Views\ContratoView\Details.cshtml" />
-=======
-    <Content Include="Views\ContratoView\CreateContractEngineer.cshtml" />
     <Content Include="Views\tipoProyecto\Create.cshtml" />
     <Content Include="Views\tipoProyecto\Delete.cshtml" />
     <Content Include="Views\tipoProyecto\Details.cshtml" />
@@ -301,7 +298,6 @@
     <Content Include="Views\ProyectosPrograma\Edit.cshtml" />
     <Content Include="Views\ProyectosPrograma\Index.cshtml" />
     <Content Include="Views\Programa\AgregarProyecto.cshtml" />
->>>>>>> Toponcio
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
