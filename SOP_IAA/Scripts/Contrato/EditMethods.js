@@ -1,10 +1,8 @@
 ﻿// Array que contendrá los id de los ingenieros del proyecto
 var ingenieros = [];
-var ingenierosAnteriores = [];
 
 // Array que contendrá los id de los laboratorios del proyecto
 var laboratorios = [];
-var laboratoriosAnteriores = [];
 
 $(document).ready(
     
@@ -103,20 +101,12 @@ $(document).ready(
     //Antes de ir a la acción Post del submit, se agregan los ingenieros y labs modificados
     $("#formEditContract").submit(function (eventObj) {
         var jsonDatosIngenieros = { "Ingenieros": ingenieros };
-        var jsonDatosIngenierosAnteriores = { "Ingenieros": ingenierosAnteriores };
         var jsonDatosLaboratorios = { "Laboratorios": laboratorios };
-        var jsonDatosLaboratoriosAnteriores = { "Laboratorios": laboratoriosAnteriores };
 
         // Json de los ingenieros que va a tener el contrato
         $('<input />').attr('type', 'hidden')
             .attr('name', "jsonIng")
             .attr('value', $.toJSON(jsonDatosIngenieros))
-            .appendTo('#formEditContract');
-
-        // Json de los antiguos ingenieros del contrato
-        $('<input />').attr('type', 'hidden')
-            .attr('name', "jsonIngAnt")
-            .attr('value', $.toJSON(jsonDatosIngenierosAnteriores))
             .appendTo('#formEditContract');
 
         // Json de los laboratorios que va a tener el contrato
@@ -125,15 +115,8 @@ $(document).ready(
             .attr('value', $.toJSON(jsonDatosLaboratorios))
             .appendTo('#formEditContract');
 
-        // Json de los antiguos laboratorios del contrato
-        $('<input />').attr('type', 'hidden')
-            .attr('name', "jsonLabAnt")
-            .attr('value', $.toJSON(jsonDatosLaboratoriosAnteriores))
-            .appendTo('#formEditContract');
-
         return true;
     }),
-
 
     // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros
     $(document).on("click", "#tbIngenieros button.remove", function () {
@@ -152,7 +135,6 @@ $(document).ready(
 
         //Se agrega el ingeniero a la lista global
         ingenieros.push($(this).attr('id'));
-        ingenierosAnteriores.push($(this).attr('id'));
         
         //console.log($(this).find("td:first").text());
     }),
@@ -164,7 +146,6 @@ $(document).ready(
 
         //Se agrega el lab a la lista global
         laboratorios.push($(this).attr('id'));
-        laboratoriosAnteriores.push($(this).attr('id'));
     })
 );
 
