@@ -4,6 +4,7 @@ var ingenierosAnteriores = [];
 
 // Array que contendrá los id de los laboratorios del proyecto
 var laboratorios = [];
+var laboratoriosAnteriores = [];
 
 $(document).ready(
     
@@ -104,6 +105,7 @@ $(document).ready(
         var jsonDatosIngenieros = { "Ingenieros": ingenieros };
         var jsonDatosIngenierosAnteriores = { "Ingenieros": ingenierosAnteriores };
         var jsonDatosLaboratorios = { "Laboratorios": laboratorios };
+        var jsonDatosLaboratoriosAnteriores = { "Laboratorios": laboratoriosAnteriores };
 
         // Json de los ingenieros que va a tener el contrato
         $('<input />').attr('type', 'hidden')
@@ -122,6 +124,13 @@ $(document).ready(
             .attr('name', "jsonLab")
             .attr('value', $.toJSON(jsonDatosLaboratorios))
             .appendTo('#formEditContract');
+
+        // Json de los antiguos laboratorios del contrato
+        $('<input />').attr('type', 'hidden')
+            .attr('name', "jsonLabAnt")
+            .attr('value', $.toJSON(jsonDatosLaboratoriosAnteriores))
+            .appendTo('#formEditContract');
+
         return true;
     }),
 
@@ -148,12 +157,14 @@ $(document).ready(
         //console.log($(this).find("td:first").text());
     }),
 
+    // Función que recorre la tabla de laboratorios al cargar.
     $('#tbLaboratorios > tbody  > tr').each(function () {
         //Se obtiene el id de cada tr que corresponde al id de los lab para eliminar al lab del dropdownlist
         $("#ddlLaboratorios option[value='" + $(this).attr('id') + "']").remove();
 
         //Se agrega el lab a la lista global
         laboratorios.push($(this).attr('id'));
+        laboratoriosAnteriores.push($(this).attr('id'));
     })
 );
 

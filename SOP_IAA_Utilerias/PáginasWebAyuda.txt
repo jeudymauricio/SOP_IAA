@@ -1,4 +1,6 @@
-﻿Página para probar código web
+﻿http://www.codeproject.com/Articles/177335/Refreshing-content-of-the-table-using-AJAX-in-ASP
+
+Página para probar código web
 	http://codepen.io/anon/pen/xHDiE?editors=101
 	http://jsfiddle.net
 

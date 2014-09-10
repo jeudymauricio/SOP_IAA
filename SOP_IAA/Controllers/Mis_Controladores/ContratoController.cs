@@ -184,42 +184,58 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,idContratista,licitacion,lineaContrato,idZona,fechaInicio,plazo,lugar,idFondo")] Contrato contrato, [Bind(Include = "jsonIng")] string jsonIng, [Bind(Include = "jsonIngAnt")] string jsonIngAnt, [Bind(Include = "jsonLab")] string jsonLab)
+        public ActionResult Edit(
+            [Bind(Include = "id,idContratista,licitacion,lineaContrato,idZona,fechaInicio,plazo,lugar,idFondo")] Contrato contrato,
+            [Bind(Include = "jsonIng")] string jsonIng,
+            [Bind(Include = "jsonIngAnt")] string jsonIngAnt,
+            [Bind(Include = "jsonLab")] string jsonLab,
+            [Bind(Include = "jsonLabAnt")] string jsonLabAnt
+            )
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+
+                    Contrato contratoEditar = db.Contrato.Find(contrato.id);
+
+                    contratoEditar.laboratorioCalidad.Clear();
+                    //db.SaveChanges();
+
+
                     //Obtener los laboratorios
                     dynamic jObj = JsonConvert.DeserializeObject(jsonLab);
                     laboratorioCalidad lab;
 
+                    //contrato.laboratorioCalidad = new HashSet<laboratorioCalidad>();
+
                     foreach (var child in jObj.Laboratorios.Children())
                     {
                         lab = db.laboratorioCalidad.Find((int)child);
-                        contrato.laboratorioCalidad.Add(lab);
+                        contratoEditar.laboratorioCalidad.Add(lab);
+
                     }
-                    /*
+
+
+                    db.ingenieroContrato.RemoveRange(contratoEditar.ingenieroContrato);
+
                     //Obtener ingenieros.
                     jObj = JsonConvert.DeserializeObject(jsonIng);
                     foreach (var child in jObj.Ingenieros.Children())
                     {
-                        // Se verifica si el ingeniero ya estaba en el contrato anteriormente
-                        if(!(jsonIngAnt.Contains(child)))
-                        {
-                            // Si no estaba en el contrato, se agrega en la relación Ingeniero-Contrato
-                            ingenieroContrato ing_contrato = new ingenieroContrato();
-                            ing_contrato.idContrato = contrato.id;
-                            ing_contrato.idIngeniero = (int)child;
-                            db.ingenieroContrato.Add(ing_contrato);
-                            db.SaveChanges();
-                        }
-                    }*/
+                        ingenieroContrato ing_contrato = new ingenieroContrato();
+                        ing_contrato.idContrato = contrato.id;
+                        ing_contrato.idIngeniero = (int)child;
+                        db.ingenieroContrato.Add(ing_contrato);
+                        db.SaveChanges();
+                    }
+
+                    db.SaveChanges();
 
                     // Actualización del contrato
                     Repositorio<Contrato> rep = new Repositorio<Contrato>();
                     rep.Actualizar(contrato);
-                    
+
                     /*db.Entry(contrato).State = EntityState.Modified;
                     db.SaveChanges();*/
 
@@ -229,6 +245,7 @@ namespace SOP_IAA.Controllers
                 {
                     ViewBag.Error = true;
                     ViewBag.MensajeError = Utilerias.ValorRecurso(Utilerias.ArchivoRecurso.UtilRecursos, "ERROR_CONTRATO_ACTUALIZAR") + ex.Message;
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
             ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre", contrato.idContratista);
