@@ -64,7 +64,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
             return View(contrato);
         }*/
-
+        /*
         // GET: Contrato/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -81,7 +81,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
             ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
             return View(contrato);
-        }
+        }*/
         /*
         // POST: Contrato/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 

@@ -7,84 +7,230 @@
 <h2>Editar el Contrato</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formEditContract", id = "formEditContract" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4> </h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.idContratista, "idContratista", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idContratista", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idContratista, "", new { @class = "text-danger" })
+        <div id="tabPanelEditar">
+            <div class="panel-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tabGeneral" data-toggle="tab">General</a>
+                    </li>
+                    <li>
+                        <a href="#tabIngenieros" data-toggle="tab">Ingenieros</a>
+                    </li>
+                    <li>
+                        <a href="#tabLaboratorios" data-toggle="tab">Laboratorios</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tabGeneral">
+                        <br />
+                        <!-- Panel que contendrá la información general -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Datos Generales
+                            </div>
+                            <!-- /.panel-heading -->
+
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.idContratista, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("idContratista", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.idContratista, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.licitacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.licitacion, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.licitacion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.lineaContrato, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.lineaContrato, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.lineaContrato, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.idZona, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("idZona", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.idZona, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control", @id = "txtFechaInicio" } })
+                                        @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.plazo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.plazo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.plazo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.lugar, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.lugar, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.lugar, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.idFondo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.idFondo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.panel-body -->
+
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabIngenieros">
+
+                        <br />
+                        <div>
+                            @Html.DropDownList("idIngeniero", null, htmlAttributes: new { @class = "form-horizontal input-sm", @id = "ddlIngenieros" })
+                            <input class="btn btn-primary" type="button" id="btnAgregarIngeniero" value="Agregar Ingeniero" />
+                            <br /><br />
+                        </div>
+                        <!-- Panel que contendrá la información de los ingenieros -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Ingenieros del Proyecto
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbIngenieros" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Ingeniero</th>
+                                                <th>Cargo</th>
+                                                <th>Descripción</th>
+                                                <th> Departamento/Empresa </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ingenieros -->
+                                            @foreach (var item in Model.ingenieroContrato)
+                                            {
+                                                <tr id=@item.ingeniero.idPersona>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ingeniero.persona.nombre)
+                                                        @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido1)
+                                                        @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido2)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ingeniero.rol)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ingeniero.descripcion)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ingeniero.departamento)
+                                                    </td>
+                                                    <td>
+                                                        <button class="remove btn btn-danger" onclick="eliminarIngeniero(@item.ingeniero.idPersona)">Quitar Ingeniero</button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="tabLaboratorios">
+
+                        <br />
+                        <div>
+                            @Html.DropDownList("idLaboratorio", null, htmlAttributes: new { @class = "form-horizontal input-sm", @id = "ddlLaboratorios" })
+                            <input class="btn btn-primary" type="button" id="btnAgregarLaboratorio" value="Agregar Laboratorio" />
+                            <br /><br />
+                        </div>
+                        <!-- Panel que contendrá la información de laboratorios -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Laboratorios
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbLaboratorios" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Tipo</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Aqui se cargarán las filas dinámicamente con la información de los laboratorios -->
+                                            @foreach (var item in Model.laboratorioCalidad)
+                                            {
+                                                <tr id=@item.id>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.nombre)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.tipo)
+                                                    </td>
+                                                    <td>
+                                                        <button class="remove btn btn-danger" onclick="eliminarLaboratorio(@item.id)">Quitar Laboratorio</button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
         </div>
+        <!-- /.panel-body -->
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.licitacion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.licitacion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.licitacion, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.lineaContrato, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.lineaContrato, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.lineaContrato, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.idZona, "idZona", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idZona", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idZona, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.plazo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.plazo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.plazo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.lugar, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.lugar, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.lugar, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.idFondo, "idFondo", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idFondo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar Cambios" class="btn btn-success" />
-            </div>
+    <div class="form-group">
+        <div class="col-md-offset-3 col-md-9">
+            <input type="submit" value="Guardar Cambios" class="btn btn-success" />
         </div>
     </div>
 }
@@ -95,4 +241,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+    <script src="~/Scripts/(personal)bootstrap-3.2.0.min.js"></script>
+    <script src="~/Scripts/Contrato/EditMethods.js"></script>
 }

@@ -47,15 +47,12 @@ namespace SOP_IAA.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<int> listLaboratios = new List<int>();
-                List<int> listIngenieros = new List<int>();
                 Contrato contrato = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<Contrato>(jsonContrato);
 
                 //Obtener los laboratios
                 dynamic jObj = JsonConvert.DeserializeObject(jsonLaboratorios);
                 foreach (var child in jObj.Laboratorios.Children())
                 {
-                    //listLaboratios.Add((int)child);
                     contrato.laboratorioCalidad.Add(db.laboratorioCalidad.Find((int)child));
                 }
 
@@ -152,19 +149,80 @@ namespace SOP_IAA.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Contrato/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Contrato contrato = db.Contrato.Find(id);
+            if (contrato == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre", contrato.idContratista);
+            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
+            ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
+            var mquery = (from p in db.persona
+                          join i in db.ingeniero
+                          on p.id equals i.idPersona
+                          select new SelectListItem
+                          {
+                              Value = p.id.ToString(),
+                              Text = p.nombre + " " + p.apellido1 + " " + p.apellido2
+                          }
+                );
+
+            ViewBag.idIngeniero = new SelectList(mquery, "Value", "Text");
+            ViewBag.idLaboratorio = new SelectList(db.laboratorioCalidad, "id", "nombre");
+            return View(contrato);
+        }
+
         // POST: Contrato/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,idContratista,licitacion,lineaContrato,idZona,fechaInicio,plazo,lugar,idFondo")] Contrato contrato)
+        public ActionResult Edit([Bind(Include = "id,idContratista,licitacion,lineaContrato,idZona,fechaInicio,plazo,lugar,idFondo")] Contrato contrato, [Bind(Include = "jsonIng")] string jsonIng, [Bind(Include = "jsonIngAnt")] string jsonIngAnt, [Bind(Include = "jsonLab")] string jsonLab)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    //Obtener los laboratorios
+                    dynamic jObj = JsonConvert.DeserializeObject(jsonLab);
+                    laboratorioCalidad lab;
+
+                    foreach (var child in jObj.Laboratorios.Children())
+                    {
+                        lab = db.laboratorioCalidad.Find((int)child);
+                        contrato.laboratorioCalidad.Add(lab);
+                    }
+                    /*
+                    //Obtener ingenieros.
+                    jObj = JsonConvert.DeserializeObject(jsonIng);
+                    foreach (var child in jObj.Ingenieros.Children())
+                    {
+                        // Se verifica si el ingeniero ya estaba en el contrato anteriormente
+                        if(!(jsonIngAnt.Contains(child)))
+                        {
+                            // Si no estaba en el contrato, se agrega en la relación Ingeniero-Contrato
+                            ingenieroContrato ing_contrato = new ingenieroContrato();
+                            ing_contrato.idContrato = contrato.id;
+                            ing_contrato.idIngeniero = (int)child;
+                            db.ingenieroContrato.Add(ing_contrato);
+                            db.SaveChanges();
+                        }
+                    }*/
+
+                    // Actualización del contrato
                     Repositorio<Contrato> rep = new Repositorio<Contrato>();
                     rep.Actualizar(contrato);
+                    
+                    /*db.Entry(contrato).State = EntityState.Modified;
+                    db.SaveChanges();*/
+
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
@@ -187,24 +245,20 @@ namespace SOP_IAA.Controllers
 
             Contrato contrato = db.Contrato.Find(id);
 
-
             try
             {
                 db.ingenieroContrato.RemoveRange(contrato.ingenieroContrato);
                 contrato.laboratorioCalidad.Clear();
                 db.Contrato.Remove(contrato);
                 db.SaveChanges();
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-
-            }
-            finally
-            {
-
+                throw new Exception(ex.ToString());
             }
 
-            return RedirectToAction("Index");
+            //return View();
         }
     }
 }

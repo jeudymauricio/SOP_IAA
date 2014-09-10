@@ -24,7 +24,7 @@ namespace SOP_IAA
                        "~/Scripts/plugins/morris/morris.min.js").Include(
                        "~/Scripts/plugins/morris/morris-data.js").Include(
                        "~/Scripts/sb-admin-2.js").Include(
-                 "~/Content/datepicker/bootstrap-datepicker.js"));
+                       "~/Content/datepicker/bootstrap-datepicker.js"));
 
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información. De este modo, estará
             // preparado para la producción y podrá utilizar la herramienta de compilación disponible en http://modernizr.com para seleccionar solo las pruebas que necesite.
@@ -33,12 +33,18 @@ namespace SOP_IAA
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js").Include(
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js").Include(
+                      "~/Scripts/bootstrap.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css").Include(
                       "~/Content/jquery-ui.css"));
+
+            //Scripts para las tablas con paginación y demás adornos
+            bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
+                "~/Scripts/plugins/dataTables/dataTables.bootstrap.js").Include(
+                "~/Scripts/plugins/dataTables/jquery.data.Tables.js"));
 
             // Para la depuración, establezca EnableOptimizations en false. Para obtener más información,
             // visite http://go.microsoft.com/fwlink/?LinkId=301862

@@ -34,6 +34,7 @@ namespace SOP_IAA_DAL
 
         [Required]
         [DisplayName("Fecha de Inicio")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public System.DateTime fechaInicio { get; set; }
 
         [Required]

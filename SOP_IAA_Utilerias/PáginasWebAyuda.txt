@@ -4,13 +4,23 @@
 
 bootsnip
 
+poner nombre al form de MVC
+	http://stackoverflow.com/questions/16186250/while-name-mvc3-form-with-html-beginform-it-display-form-fields-between-syste
+
+agregar parámetros a un submit MVC
+	http://stackoverflow.com/questions/17809056/how-to-add-additional-fields-to-form-before-submit
+	http://stackoverflow.com/questions/2530635/jquery-add-additional-parameters-on-submit-not-ajax
+
+<<<<<<<
 	http://stackoverflow.com/questions/16256290/asp-net-mvc-get-value-from-html-textboxfor
+>>>>>>>>
 
 Arrays en JavaScript
 	http://stackoverflow.com/questions/10451893/javascript-create-simple-dynamic-array
 
-datepicker
+datepicker - datetime format
 	http://www.bufa.es/jquery-ui-datepicker-espanol/
+	http://stackoverflow.com/questions/21598289/convert-mm-dd-yyyy-to-dd-mm-yyyy-using-javascript-while-adding-number-of-days-wi
 
 autocomplete
 	http://www.codeproject.com/Tips/789425/Auto-Complete-in-ASP-NET-MVC
@@ -22,6 +32,7 @@ Sintaxis de Linq
 	http://www.mssqltips.com/sqlservertip/3169/understanding-linq-to-join-multiple-tables-where-null-match-are-expected/
 
 JavaScript, Ajax, JQuery
+	http://javascript.about.com/od/hintsandtips/a/makeunobtrusive_3.htm
 	http://forums.asp.net/t/1817945.aspx?calling+controller+method+using+ajax
 	http://stackoverflow.com/questions/19663762/mvc-ajax-post-to-controller-action-method
 
@@ -32,12 +43,18 @@ HTML Table
 	http://stackoverflow.com/questions/2545603/retrieve-table-row-index-of-current-row
 	http://www.sitepoint.com/forums/showthread.php?743696-Jquery-add-and-remove-table-row
 	http://www.w3schools.com/jsref/dom_obj_table.asp
+	http://stackoverflow.com/questions/10431987/jquery-each-loop-in-table-row
+	http://stackoverflow.com/questions/3065342/how-do-i-iterate-through-table-rows-and-cells-in-javascript
+	http://stackoverflow.com/questions/6443894/for-each-table-row-cell-with-specific-class-function-javascript-jquery
+	http://stackoverflow.com/questions/376081/how-to-get-a-table-cell-value-using-jquery
+	http://stackoverflow.com/questions/20116547/how-to-get-a-cells-value-in-html-table-with-jquery
 
 Manejo de objetos JSON 
 --> http://krishnarajb.wordpress.com/2009/05/28/pass-json-object-from-javascript-code-to-mvc-controller/  (javascript send json post controller)	
 	http://stackoverflow.com/questions/10895306/how-to-access-json-object-name-value
 	http://elrincondeneutron.blogspot.com/2013/04/json-javascript-object-notation.html
 	http://stackoverflow.com/questions/16507222/create-json-object-dynamically-via-javascript-without-concate-strings
+	https://coderwall.com/p/sp_t9q
 
 	El siguiente ejempo muestra como llamar mediante AJAX una acción del controlador ContratoViewController que retorna un objeto JSON con los detalles de un ingeniero específico (id)
 	y los agrega en una nueva fila a una tabla llamada "tbIngenieros". El Ajax está dentro de una función js asociada a un boton llamando "btnAgregarIngeniero" que busca el id del
