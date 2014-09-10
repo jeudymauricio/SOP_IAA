@@ -1,22 +1,22 @@
 ﻿@model IEnumerable<SOP_IAA_DAL.proyecto>
 
 @{
-    ViewBag.Title = "Proyectos";
+    ViewBag.Title = "Index";
 }
 
-<h2>Proyectos</h2>
+<h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Nuevo Proyecto", "Create", new { _idPP = ViewBag.idProgProy })
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.nombre)
         </th>
-        @*<th>
+        <th>
             @Html.DisplayNameFor(model => model.progProy.id)
-        </th>*@
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.ruta.nombre)
         </th>
@@ -31,9 +31,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.nombre)
         </td>
-        @*<td>
+        <td>
             @Html.DisplayFor(modelItem => item.progProy.id)
-        </td>*@
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.ruta.nombre)
         </td>
@@ -41,15 +41,11 @@
             @Html.DisplayFor(modelItem => item.tipoProyecto.nombre)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri}) |
-            @Html.ActionLink("Detalles", "Details", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri })
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>
 }
 
 </table>
-
-<div>
-    @Html.ActionLink("Atrás", "Index","Programa")
-</div>

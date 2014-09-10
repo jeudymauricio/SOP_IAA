@@ -1,10 +1,10 @@
 ﻿@model SOP_IAA_DAL.proyecto
 
 @{
-    ViewBag.Title = "Editar Proyecto";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Editar Proyecto</h2>
+<h2>Edit</h2>
 
 
 @using (Html.BeginForm())
@@ -12,22 +12,21 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-       
+        <h4>proyecto</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.idProgProy, "", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.idProgProy, "idProgProy", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@Html.DropDownList("idProgProy", null, htmlAttributes: new { @class = "form-control" })*@
-                <input class="text-box single-line" id="idProgProy" name="idProgProy" type="hidden" value="@ViewBag.idProgProy"/>
-                @Html.ValidationMessageFor(model => model.idProgProy,"", new { @class = "text-danger" })
+                @Html.DropDownList("idProgProy", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.idProgProy, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.idTipoProyecto, "Tipo de proyecto", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.idTipoProyecto, "idTipoProyecto", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("idTipoProyecto", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.idTipoProyecto, "", new { @class = "text-danger" })
@@ -35,7 +34,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.idRuta, "Ruta", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.idRuta, "idRuta", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.idRuta, "", new { @class = "text-danger" })
@@ -43,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.nombre, "Nombre",htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
@@ -52,14 +51,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Atrás", "Index", new { _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri})
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {

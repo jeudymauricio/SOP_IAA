@@ -60,6 +60,11 @@
     <Compile Include="ClassAnnotations\FondoAnnotations.cs" />
     <Compile Include="ClassAnnotations\IngenieroAnnotations.cs" />
     <Compile Include="ClassAnnotations\PersonaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\ProgramaAnotations.cs" />
+    <Compile Include="ClassAnnotations\ProyectoAnnotations.cs" />
+    <Compile Include="ClassAnnotations\ProyectosProgramaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\RutaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\TipoProyectoAnnotations.cs" />
     <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />
     <Compile Include="ClassAnnotations\ContratoAnnotations.cs" />
     <Compile Include="contratista.cs">

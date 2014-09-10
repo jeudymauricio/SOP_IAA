@@ -1,15 +1,13 @@
 ﻿@model SOP_IAA_DAL.proyecto
 
 @{
-    ViewBag.Title = "Eliminar Proyecto";
+    ViewBag.Title = "Details";
 }
 
-<h2>
-    @SOP_IAA_Utilerias.Utilerias.ValorRecurso(SOP_IAA_Utilerias.Utilerias.ArchivoRecurso.UtilRecursos, "MSJ_CONFIRM_ELIMINAR_PROYECTO")
-</h2>
+<h2>Details</h2>
 
 <div>
-    <h4></h4>
+    <h4>proyecto</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -20,13 +18,13 @@
             @Html.DisplayFor(model => model.nombre)
         </dd>
 
-        @*<dt>
+        <dt>
             @Html.DisplayNameFor(model => model.progProy.id)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.progProy.id)
-        </dd>*@
+        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.ruta.nombre)
@@ -45,13 +43,8 @@
         </dd>
 
     </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-            @Html.ActionLink("Atrás", "Index", new { _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri })
-        </div>
-    }
 </div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

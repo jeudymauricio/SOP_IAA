@@ -192,7 +192,10 @@
     <Compile Include="Controllers\Mis_Controladores\ContratistaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\FondoController.cs" />
     <Compile Include="Controllers\Mis_Controladores\zonaController.cs" />
+    <Compile Include="Controllers\ProgramaController.cs" />
     <Compile Include="Controllers\proyectoController.cs" />
+    <Compile Include="Controllers\ProyectosProgramaController.cs" />
+    <Compile Include="Controllers\tipoProyectoController.cs" />
     <Compile Include="Controllers\zonaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -271,6 +274,7 @@
     <Content Include="Views\ingenieroContrato\Details.cshtml" />
     <Content Include="Views\ingenieroContrato\Edit.cshtml" />
     <Content Include="Views\ingenieroContrato\Index.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\ContratoView\Create.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Create.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Delete.cshtml" />
@@ -279,6 +283,25 @@
     <Content Include="Views\LaboratorioCalidad\Index.cshtml" />
     <Content Include="Views\ContratoView\Index.cshtml" />
     <Content Include="Views\ContratoView\Details.cshtml" />
+=======
+    <Content Include="Views\ContratoView\CreateContractEngineer.cshtml" />
+    <Content Include="Views\tipoProyecto\Create.cshtml" />
+    <Content Include="Views\tipoProyecto\Delete.cshtml" />
+    <Content Include="Views\tipoProyecto\Details.cshtml" />
+    <Content Include="Views\tipoProyecto\Edit.cshtml" />
+    <Content Include="Views\tipoProyecto\Index.cshtml" />
+    <Content Include="Views\Programa\Create.cshtml" />
+    <Content Include="Views\Programa\Delete.cshtml" />
+    <Content Include="Views\Programa\Details.cshtml" />
+    <Content Include="Views\Programa\Edit.cshtml" />
+    <Content Include="Views\Programa\Index.cshtml" />
+    <Content Include="Views\ProyectosPrograma\Create.cshtml" />
+    <Content Include="Views\ProyectosPrograma\Delete.cshtml" />
+    <Content Include="Views\ProyectosPrograma\Details.cshtml" />
+    <Content Include="Views\ProyectosPrograma\Edit.cshtml" />
+    <Content Include="Views\ProyectosPrograma\Index.cshtml" />
+    <Content Include="Views\Programa\AgregarProyecto.cshtml" />
+>>>>>>> Toponcio
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
