@@ -340,6 +340,24 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este item?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_ITEM {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_ITEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este item del proyecto?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_ITEM_PROYECTO {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_ITEM_PROYECTO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este laboratorio?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_LABORATORIO {

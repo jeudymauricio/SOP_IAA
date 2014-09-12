@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="boleta">
           <Key>
             <PropertyRef Name="id" />
@@ -54,6 +54,15 @@
           <Property Name="lugar" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="idFondo" Type="smallint" Nullable="false" />
         </EntityType>
+        <EntityType Name="contratoItem">
+          <Key>
+            <PropertyRef Name="idContrato" />
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idContrato" Type="int" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="precioUnitario" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="fondo">
           <Key>
             <PropertyRef Name="id" />
@@ -94,7 +103,6 @@
           <Property Name="codigoItem" Type="varchar" MaxLength="25" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="unidadMedida" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="precioUnitario" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="labCalidadContrato">
           <Key>
@@ -220,6 +228,30 @@
           <Property Name="idZona" Type="smallint" Nullable="false" />
           <Property Name="idRuta" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="fk_id_contratoItem_idContrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratoItem">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_contratoItem_idItem">
+          <End Role="item" Type="Self.item" Multiplicity="1" />
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratoItem">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_id_telefono">
           <End Role="persona" Type="Self.persona" Multiplicity="1" />
           <End Role="telefono" Type="Self.telefono" Multiplicity="*" />
@@ -549,6 +581,7 @@
           <EntitySet Name="boletaItem" EntityType="Self.boletaItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="contratista" EntityType="Self.contratista" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contrato" EntityType="Self.Contrato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="contratoItem" EntityType="Self.contratoItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="fondo" EntityType="Self.fondo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ingeniero" EntityType="Self.ingeniero" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ingenieroContrato" EntityType="Self.ingenieroContrato" Schema="dbo" store:Type="Tables" />
@@ -568,6 +601,14 @@
           <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="zona" EntityType="Self.zona" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="zonaRuta" EntityType="Self.zonaRuta" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_id_contratoItem_idContrato" Association="Self.fk_id_contratoItem_idContrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="contratoItem" EntitySet="contratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_contratoItem_idItem" Association="Self.fk_id_contratoItem_idItem">
+            <End Role="item" EntitySet="item" />
+            <End Role="contratoItem" EntitySet="contratoItem" />
+          </AssociationSet>
           <AssociationSet Name="fk_id_telefono" Association="Self.fk_id_telefono">
             <End Role="persona" EntitySet="persona" />
             <End Role="telefono" EntitySet="telefono" />
@@ -677,7 +718,8 @@
             <End Role="zonaRuta" EntitySet="zonaRuta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -738,11 +780,23 @@
           <Property Name="lugar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idFondo" Type="Int16" Nullable="false" />
           <NavigationProperty Name="contratista" Relationship="Self.fk_idContratista_Contrato" FromRole="Contrato" ToRole="contratista" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_id_contratoItem_idContrato" FromRole="Contrato" ToRole="contratoItem" />
           <NavigationProperty Name="ingenieroContrato" Relationship="Self.fk_idContrato_ingenieroContrato" FromRole="Contrato" ToRole="ingenieroContrato" />
           <NavigationProperty Name="programa" Relationship="Self.fk_idContrato_programa" FromRole="Contrato" ToRole="programa" />
           <NavigationProperty Name="fondo" Relationship="Self.fk_idFondo_Contrato" FromRole="Contrato" ToRole="fondo" />
           <NavigationProperty Name="zona" Relationship="Self.fk_idZona_Contrato" FromRole="Contrato" ToRole="zona" />
           <NavigationProperty Name="laboratorioCalidad" Relationship="Self.labCalidadContrato" FromRole="Contrato" ToRole="laboratorioCalidad" />
+        </EntityType>
+        <EntityType Name="contratoItem">
+          <Key>
+            <PropertyRef Name="idContrato" />
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idContrato" Type="Int32" Nullable="false" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="precioUnitario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_id_contratoItem_idContrato" FromRole="contratoItem" ToRole="Contrato" />
+          <NavigationProperty Name="item" Relationship="Self.fk_id_contratoItem_idItem" FromRole="contratoItem" ToRole="item" />
         </EntityType>
         <EntityType Name="fondo">
           <Key>
@@ -792,7 +846,7 @@
           <Property Name="codigoItem" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="unidadMedida" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="precioUnitario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_id_contratoItem_idItem" FromRole="item" ToRole="contratoItem" />
           <NavigationProperty Name="proyectoItem" Relationship="Self.fk_idItem_proyectoItem" FromRole="item" ToRole="proyectoItem" />
         </EntityType>
         <EntityType Name="laboratorioCalidad">
@@ -1014,6 +1068,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_id_contratoItem_idContrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratoItem">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_idContrato_ingenieroContrato">
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
           <End Role="ingenieroContrato" Type="Self.ingenieroContrato" Multiplicity="*" />
@@ -1059,6 +1125,18 @@
             </Principal>
             <Dependent Role="Contrato">
               <PropertyRef Name="idZona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_contratoItem_idItem">
+          <End Role="item" Type="Self.item" Multiplicity="1" />
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratoItem">
+              <PropertyRef Name="idItem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1219,6 +1297,7 @@
           <EntitySet Name="boletaItem" EntityType="Self.boletaItem" />
           <EntitySet Name="contratista" EntityType="Self.contratista" />
           <EntitySet Name="Contrato" EntityType="Self.Contrato" />
+          <EntitySet Name="contratoItem" EntityType="Self.contratoItem" />
           <EntitySet Name="fondo" EntityType="Self.fondo" />
           <EntitySet Name="ingeniero" EntityType="Self.ingeniero" />
           <EntitySet Name="ingenieroContrato" EntityType="Self.ingenieroContrato" />
@@ -1264,6 +1343,10 @@
             <End Role="contratista" EntitySet="contratista" />
             <End Role="Contrato" EntitySet="Contrato" />
           </AssociationSet>
+          <AssociationSet Name="fk_id_contratoItem_idContrato" Association="Self.fk_id_contratoItem_idContrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="contratoItem" EntitySet="contratoItem" />
+          </AssociationSet>
           <AssociationSet Name="fk_idContrato_ingenieroContrato" Association="Self.fk_idContrato_ingenieroContrato">
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="ingenieroContrato" EntitySet="ingenieroContrato" />
@@ -1279,6 +1362,10 @@
           <AssociationSet Name="fk_idZona_Contrato" Association="Self.fk_idZona_Contrato">
             <End Role="zona" EntitySet="zona" />
             <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_contratoItem_idItem" Association="Self.fk_id_contratoItem_idItem">
+            <End Role="item" EntitySet="item" />
+            <End Role="contratoItem" EntitySet="contratoItem" />
           </AssociationSet>
           <AssociationSet Name="fk_idIngeniero_ingenieroContrato" Association="Self.fk_idIngeniero_ingenieroContrato">
             <End Role="ingeniero" EntitySet="ingeniero" />
@@ -1395,6 +1482,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="contratoItem">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.contratoItem">
+              <MappingFragment StoreEntitySet="contratoItem">
+                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="precioUnitario" ColumnName="precioUnitario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="fondo">
             <EntityTypeMapping TypeName="Proyecto_IAAModel.fondo">
               <MappingFragment StoreEntitySet="fondo">
@@ -1437,7 +1533,6 @@
                 <ScalarProperty Name="codigoItem" ColumnName="codigoItem" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="unidadMedida" ColumnName="unidadMedida" />
-                <ScalarProperty Name="precioUnitario" ColumnName="precioUnitario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

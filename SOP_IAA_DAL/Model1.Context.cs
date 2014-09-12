@@ -29,6 +29,7 @@ namespace SOP_IAA_DAL
         public virtual DbSet<boletaItem> boletaItem { get; set; }
         public virtual DbSet<contratista> contratista { get; set; }
         public virtual DbSet<Contrato> Contrato { get; set; }
+        public virtual DbSet<contratoItem> contratoItem { get; set; }
         public virtual DbSet<fondo> fondo { get; set; }
         public virtual DbSet<ingeniero> ingeniero { get; set; }
         public virtual DbSet<ingenieroContrato> ingenieroContrato { get; set; }

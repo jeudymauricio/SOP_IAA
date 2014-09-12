@@ -1,0 +1,57 @@
+﻿@model SOP_IAA_DAL.proyectoItem
+
+@{
+    ViewBag.Title = "Detallles";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaInicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaInicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.costoEstimado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.costoEstimado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.item.codigoItem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.item.codigoItem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.proyecto.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.proyecto.nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Atrás", "Index")
+</p>

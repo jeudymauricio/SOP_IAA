@@ -1,0 +1,41 @@
+﻿@model SOP_IAA_DAL.item
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.codigoItem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.codigoItem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.unidadMedida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.unidadMedida)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Atrás", "Index")
+</p>
