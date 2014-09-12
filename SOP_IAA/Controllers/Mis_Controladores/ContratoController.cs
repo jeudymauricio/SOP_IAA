@@ -222,8 +222,6 @@ namespace SOP_IAA.Controllers
                     dynamic jObj = JsonConvert.DeserializeObject(jsonLab);
                     laboratorioCalidad lab;
 
-                    
-
                     foreach (var child in jObj.Laboratorios.Children())
                     {
                         lab = db.laboratorioCalidad.Find((int)child);

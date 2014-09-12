@@ -77,60 +77,61 @@
 </div>
 
 <div class="row">
-    <br />
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Datos Generales
-        </div>
-        <!-- /.panel-heading -->
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table id="tbDetallesGenerales" class="table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.licitacion)</th>
-                            <td>@Html.DisplayFor(model => model.licitacion)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.lineaContrato)</th>
-                            <td>@Html.DisplayFor(model => model.lineaContrato)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.fechaInicio)</th>
-                            <td>@Html.DisplayFor(model => model.fechaInicio)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.plazo)</th>
-                            <td>@Html.DisplayFor(model => model.plazo)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.lugar)</th>
-                            <td>@Html.DisplayFor(model => model.lugar)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.contratista.nombre)</th>
-                            <td>@Html.DisplayFor(model => model.contratista.nombre)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.fondo.nombre)</th>
-                            <td>@Html.DisplayFor(model => model.fondo.nombre)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.zona.nombre)</th>
-                            <td>@Html.DisplayFor(model => model.zona.nombre)</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Datos Generales
             </div>
-            <!-- /.table-responsive -->
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="tbDetallesGenerales" class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.licitacion)</th>
+                                <td>@Html.DisplayFor(model => model.licitacion)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.lineaContrato)</th>
+                                <td>@Html.DisplayFor(model => model.lineaContrato)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.fechaInicio)</th>
+                                <td>@Html.DisplayFor(model => model.fechaInicio)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.plazo)</th>
+                                <td>@Html.DisplayFor(model => model.plazo)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.lugar)</th>
+                                <td>@Html.DisplayFor(model => model.lugar)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.contratista.nombre)</th>
+                                <td>@Html.DisplayFor(model => model.contratista.nombre)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.fondo.nombre)</th>
+                                <td>@Html.DisplayFor(model => model.fondo.nombre)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.zona.nombre)</th>
+                                <td>@Html.DisplayFor(model => model.zona.nombre)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
         </div>
-        <!-- /.panel-body -->
     </div>
     <br />
 </div>
