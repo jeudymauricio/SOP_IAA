@@ -66,9 +66,11 @@
             @Html.DisplayFor(modelItem => item.zona.nombre)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Ir al Contrato", "MiContrato", new { id = item.id })
+            @*@Html.ActionLink("Editar", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Programas", "Programs", new { id = item.id }) |
             @Html.ActionLink("Detalles", "Details", new { id=item.id }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.id })
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.id })*@
         </td>
     </tr>
 }

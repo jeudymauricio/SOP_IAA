@@ -11,7 +11,7 @@ using SOP_IAA_Utilerias;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class zonaController : Controller
+    public partial class ZonaController : Controller
     {
         // POST: zona/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
@@ -71,6 +71,29 @@ namespace SOP_IAA.Controllers
             db.zona.Remove(zona);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult RutasAsociadas(int? id)
+        {
+            zona zona = db.zona.Find(id);
+            //var rutas = db.ruta.Include(rut => rut.nombre).Include(rut => rut.descripcion).Where(rut => rut.zona == id);
+            return View(zona);
+        }
+
+        public ActionResult RutasAgregar()
+        {
+
+            return View();
+        }
+
+        public ActionResult RutasEliminar()
+        {
+            return View();
+        }
+
+        public ActionResult RutasDetalles(int? id)
+        {
+            return RedirectToAction("Details", "Ruta", new {id});
         }
     }
 }

@@ -18,5 +18,9 @@ namespace SOP_IAA_DAL
         [Required]
         [DisplayName("Ruta")]
         public string nombre { get; set; }
+
+        [Required]
+        [DisplayName("Descripción")]
+        public string descripcion { get; set; }
     }
 }

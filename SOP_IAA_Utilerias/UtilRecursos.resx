@@ -180,6 +180,15 @@
   <data name="ERROR_PROYECTO_ELIMINAR" xml:space="preserve">
     <value>Error al eliminar el proyecto: </value>
   </data>
+  <data name="ERROR_RUTA_ACTUALIZAR" xml:space="preserve">
+    <value>Error al actualizar la ruta: </value>
+  </data>
+  <data name="ERROR_RUTA_AGREGAR" xml:space="preserve">
+    <value>Error al agregar la ruta: </value>
+  </data>
+  <data name="ERROR_RUTA_ELIMINAR" xml:space="preserve">
+    <value>Error al eliminar la ruta: </value>
+  </data>
   <data name="ERROR_ZONA_ACTUALIZAR" xml:space="preserve">
     <value>Error al actualizar el proyecto: </value>
   </data>

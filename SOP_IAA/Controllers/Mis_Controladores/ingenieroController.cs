@@ -11,7 +11,7 @@ using SOP_IAA_Utilerias;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class ingenieroController : Controller
+    public partial class IngenieroController : Controller
     {
 
         // POST: ingeniero/Create

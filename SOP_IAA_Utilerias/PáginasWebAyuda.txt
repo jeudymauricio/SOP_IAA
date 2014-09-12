@@ -1,10 +1,15 @@
 ﻿http://www.codeproject.com/Articles/177335/Refreshing-content-of-the-table-using-AJAX-in-ASP
+http://stackoverflow.com/questions/17671105/asp-mvc-href-to-a-controller-view
 
 Página para probar código web
 	http://codepen.io/anon/pen/xHDiE?editors=101
 	http://jsfiddle.net
 
 bootsnip
+
+breadcrumb - Migas de pan MVC
+	http://joeylicc.wordpress.com/2013/07/08/asp-net-mvc-sitemappath-using-site-map-provider-bootstrap-breadcrumbs/
+
 
 poner nombre al form de MVC
 	http://stackoverflow.com/questions/16186250/while-name-mvc3-form-with-html-beginform-it-display-form-fields-between-syste

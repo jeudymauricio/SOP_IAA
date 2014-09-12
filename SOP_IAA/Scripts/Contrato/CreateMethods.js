@@ -210,39 +210,3 @@ function eliminarLaboratorio(_id) {
         }
     })
 }
-
-// Toma los datos generales, los ingenieros y laboratorios, forma un json con ellos y los envía al controlador para realizar la inserción a la base de datos
-function CrearContrato() {
-
-    var _idContratista = document.getElementById('ddlIdContratista').options[document.getElementById('ddlIdContratista').selectedIndex].value;
-    var _licitacion = document.getElementById('txtLicitacion').value;
-    var _lineacontrato = document.getElementById('txtLineaContrato').value;
-    var _idZona = document.getElementById('ddlIdZona').options[document.getElementById('ddlIdZona').selectedIndex].value;
-
-    var _FechaEs = document.getElementById('txtFechaInicio').value;
-    var _FechaEn = _FechaEs.split('/');
-    var _FechaInicio = _FechaEn[1] + '/' + _FechaEn[0] + '/' + _FechaEn[2];
-    var _Plazo = document.getElementById('txtPlazo').value;
-    var _Lugar = document.getElementById('txtLugar').value;
-    var _idFondo = _idContratista = document.getElementById('ddlIdFondo').options[document.getElementById('ddlIdFondo').selectedIndex].value;
-
-    var jsonDatosContrato = { 'idContratista': _idContratista, 'licitacion': _licitacion, 'lineaContrato': _lineacontrato, 'idZona': _idZona, 'fechaInicio': _FechaInicio, 'plazo': _Plazo, 'lugar': _Lugar, 'idFondo': _idFondo };
-    var jsonDatosLaboratorios = { "Laboratorios": laboratorios };
-    var jsonDatosIngenieros = { "Ingenieros": ingenieros };
-
-    $.post("/Contrato/Create", {
-        jsonContrato: $.toJSON(jsonDatosContrato),
-        jsonLaboratorios: $.toJSON(jsonDatosLaboratorios),
-        jsonIngenieros: $.toJSON(jsonDatosIngenieros)
-    },
-        function (data, textStatus) {
-            if (textStatus != "success") {
-                alert("Error al agregar el contrato");
-            }
-            else {
-                window.location.href = "/Contrato/Index";
-                return false;
-            }
-        }
-    );
-}

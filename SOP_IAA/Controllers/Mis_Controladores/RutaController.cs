@@ -11,72 +11,80 @@ using SOP_IAA_Utilerias;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class PersonaController : Controller
+    public partial class RutaController : Controller
     {
-        // POST: persona/Create
+        
+        // POST: Ruta/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nombre,apellido1,apellido2,cedula")] persona persona)
+        public ActionResult Create([Bind(Include = "id,nombre,descripcion")] ruta ruta)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Repositorio<persona> rep = new Repositorio<persona>();
-                    rep.Insertar(persona);
+                    Repositorio<ruta> rep = new Repositorio<ruta>();
+                    rep.Insertar(ruta);
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
                     ViewBag.Error = true;
-                    ViewBag.MensajeError = Utilerias.ValorRecurso(Utilerias.ArchivoRecurso.UtilRecursos, "ERROR_PERSONA_AGREGAR") + ex.Message;
+                    ViewBag.MensajeError = Utilerias.ValorRecurso(Utilerias.ArchivoRecurso.UtilRecursos, "ERROR_RUTA_AGREGAR") + ex.Message;
                 }
             }
 
-            ViewBag.id = new SelectList(db.ingeniero, "idPersona", "descripcion", persona.id);
-            ViewBag.id = new SelectList(db.inspector, "idPersona", "idPersona", persona.id);
-            ViewBag.id = new SelectList(db.usuario, "idPersona", "nombreUsuario", persona.id);
-            return View(persona);
+            return View(ruta);
         }
 
-        // POST: persona/Edit/5
+        // POST: Ruta/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nombre,apellido1,apellido2,cedula")] persona persona)
+        public ActionResult Edit([Bind(Include = "id,nombre,descripcion")] ruta ruta)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Repositorio<persona> rep = new Repositorio<persona>();
-                    rep.Actualizar(persona);
+                    Repositorio<ruta> rep = new Repositorio<ruta>();
+                    rep.Actualizar(ruta);
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
                     ViewBag.Error = true;
-                    ViewBag.MensajeError = Utilerias.ValorRecurso(Utilerias.ArchivoRecurso.UtilRecursos, "ERROR_PERSONA_ACTUALIZAR") + ex.Message;
+                    ViewBag.MensajeError = Utilerias.ValorRecurso(Utilerias.ArchivoRecurso.UtilRecursos, "ERROR_RUTA_ACTUALIZAR") + ex.Message;
                 }
             }
-            ViewBag.id = new SelectList(db.ingeniero, "idPersona", "descripcion", persona.id);
-            ViewBag.id = new SelectList(db.inspector, "idPersona", "idPersona", persona.id);
-            ViewBag.id = new SelectList(db.usuario, "idPersona", "nombreUsuario", persona.id);
-            return View(persona);
+            return View(ruta);
         }
 
-        // POST: persona/Delete/5
+        // POST: Ruta/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            persona persona = db.persona.Find(id);
-            db.persona.Remove(persona);
+            // Busca la ruta en la base de datos
+            ruta ruta = db.ruta.Find(id);
+
+            // Elimina los proyecto-Estructura asociados
+            db.proyecto_estructura.RemoveRange(ruta.proyecto_estructura);
+
+            // Elimina las relaciones a la tabla zona
+            ruta.zona.Clear();
+            
+            // Elimina la ruta de la base de datos
+            db.ruta.Remove(ruta);
+
+            // Guarda los cambios en la base de datos
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
+
     }
 }

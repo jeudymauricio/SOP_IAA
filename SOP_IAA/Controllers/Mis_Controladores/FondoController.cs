@@ -11,7 +11,7 @@ using SOP_IAA_Utilerias;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class fondoController : Controller
+    public partial class FondoController : Controller
     {
 
         // POST: fondo/Create

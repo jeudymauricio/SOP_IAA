@@ -10,7 +10,7 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class proyectoController : Controller
+    public class ProyectoController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
         static int? __id;

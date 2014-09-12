@@ -10,119 +10,107 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class IngenieroController : Controller
+    public partial class RutaController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
-        // GET: ingeniero
+        // GET: Ruta
         public ActionResult Index()
         {
-            var ingeniero = db.ingeniero.Include(i => i.persona);
-            return View(ingeniero.ToList());
+            return View(db.ruta.ToList());
         }
-
-        // GET: ingeniero/Details/5
+        
+        // GET: Ruta/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ingeniero ingeniero = db.ingeniero.Find(id);
-            if (ingeniero == null)
+            ruta ruta = db.ruta.Find(id);
+            if (ruta == null)
             {
                 return HttpNotFound();
             }
-            return View(ingeniero);
+            return View(ruta);
         }
 
-        // GET: ingeniero/Create
+        // GET: Ruta/Create
         public ActionResult Create()
         {
-            var personas = db.persona
-                  .Select(persona => new SelectListItem
-                  {
-                      Value = persona.id.ToString(),
-                      Text = persona.nombre + " " + persona.apellido1 + " " + persona.apellido2
-                  });
-
-            ViewBag.idPersona = new SelectList(personas, "Value", "Text");
             return View();
         }
         /*
-        // POST: ingeniero/Create
+        // POST: Ruta/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idPersona,descripcion,departamento,rol")] ingeniero ingeniero)
+        public ActionResult Create([Bind(Include = "id,nombre,descripcion")] ruta ruta)
         {
             if (ModelState.IsValid)
             {
-                db.ingeniero.Add(ingeniero);
+                db.ruta.Add(ruta);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
-            return View(ingeniero);
+            return View(ruta);
         }*/
 
-        // GET: ingeniero/Edit/5
+        // GET: Ruta/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ingeniero ingeniero = db.ingeniero.Find(id);
-            if (ingeniero == null)
+            ruta ruta = db.ruta.Find(id);
+            if (ruta == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
-            return View(ingeniero);
+            return View(ruta);
         }
         /*
-        // POST: ingeniero/Edit/5
+        // POST: Ruta/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "idPersona,descripcion,departamento,rol")] ingeniero ingeniero)
+        public ActionResult Edit([Bind(Include = "id,nombre,descripcion")] ruta ruta)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(ingeniero).State = EntityState.Modified;
+                db.Entry(ruta).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
-            return View(ingeniero);
+            return View(ruta);
         }*/
 
-        // GET: ingeniero/Delete/5
+        // GET: Ruta/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ingeniero ingeniero = db.ingeniero.Find(id);
-            if (ingeniero == null)
+            ruta ruta = db.ruta.Find(id);
+            if (ruta == null)
             {
                 return HttpNotFound();
             }
-            return View(ingeniero);
+            return View(ruta);
         }
         /*
-        // POST: ingeniero/Delete/5
+        // POST: Ruta/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ingeniero ingeniero = db.ingeniero.Find(id);
-            db.ingeniero.Remove(ingeniero);
+            ruta ruta = db.ruta.Find(id);
+            db.ruta.Remove(ruta);
             db.SaveChanges();
             return RedirectToAction("Index");
         }*/

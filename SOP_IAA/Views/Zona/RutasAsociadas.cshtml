@@ -1,0 +1,40 @@
+﻿@model SOP_IAA_DAL.zona
+
+@{
+    ViewBag.Title = "RutasAsociadas";
+}
+
+<h2>Rutas de la zona @Model.nombre</h2>
+
+<p>
+    @Html.ActionLink("Agregar Ruta", "RutasAgregar")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Ruta
+        </th>
+        <th>
+            Descripción
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ruta)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "RutasDetalles", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -249,7 +249,7 @@ namespace SOP_IAA.Controllers
                     Repositorio<Contrato> rep = new Repositorio<Contrato>();
                     rep.Actualizar(contrato);
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("MiContrato", new {contrato.id});
                 }
                 catch (Exception ex)
                 {
@@ -298,6 +298,19 @@ namespace SOP_IAA.Controllers
             }
 
             return View();
+        }
+
+        // Vista que corresponde al actionlink "Ir al Contrato" que despliega el contrato con su respectivo menú de acciones
+        public ActionResult MiContrato(int id)
+        {
+            Contrato contrato = db.Contrato.Find(id);
+
+            return View(contrato);
+        }
+
+        public ActionResult Programs(int? id)
+        {
+            return RedirectToAction("ProgramasEspecificos", "Programa", new { _id = id });
         }
     }
 }
