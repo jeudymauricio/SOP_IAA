@@ -58,7 +58,7 @@ $(document).ready(
 
             // Este ajax se realiza una acción de cobtrolador donde envía el id del ingeniero a buscar y recibe como retorno un JSON con los detalles del Ingeniero
             $.ajax({
-                url: '/ContratoView/IngenieroDetalles/',
+                url: '/Contrato/IngenieroDetalles/',
                 type: "GET",
                 dataType: "json",
                 data: {
@@ -96,7 +96,7 @@ $(document).ready(
 
             // Este ajax se realiza una acción de cobtrolador donde envía el id del laboratorio a buscar y recibe como retorno un JSON con los detalles del laboratorio
             $.ajax({
-                url: '/ContratoView/LaboratorioDetalles/',
+                url: '/Contrato/LaboratorioDetalles/',
                 type: "GET",
                 dataType: "json",
                 data: {
@@ -159,7 +159,7 @@ $(document).ready(
 
 function eliminarIngeniero(_id) {
     $.ajax({
-        url: '/ContratoView/IngenieroDetalles/',
+        url: '/Contrato/IngenieroDetalles/',
         type: "GET",
         dataType: "json",
         data: {
@@ -186,7 +186,7 @@ function eliminarIngeniero(_id) {
 
 function eliminarLaboratorio(_id) {
     $.ajax({
-        url: '/ContratoView/LaboratorioDetalles/',
+        url: '/Contrato/LaboratorioDetalles/',
         type: "GET",
         dataType: "json",
         data: {

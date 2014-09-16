@@ -4,29 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="44fb596f0c884c4382496676ca186433" Name="Diagram1">
-        <EntityTypeShape EntityType="Proyecto_IAAModel.boleta" Width="1.5" PointX="5.25" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.boletaItem" Width="1.5" PointX="7.5" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.contratista" Width="1.5" PointX="3" PointY="28.875" IsExpanded="true" />
+      <Diagram DiagramId="5e79a946bc154b99a207a10f4b8ff196" Name="Diagram1">
+        <EntityTypeShape EntityType="Proyecto_IAAModel.boleta" Width="1.5" PointX="5.25" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.boletaItem" Width="1.5" PointX="7.5" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.contratista" Width="1.5" PointX="3" PointY="28.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Proyecto_IAAModel.Contrato" Width="1.5" PointX="5.25" PointY="20.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.contratoItem" Width="1.5" PointX="7.5" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.fondo" Width="1.5" PointX="3" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.ingeniero" Width="1.5" PointX="5.25" PointY="25.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.ingenieroContrato" Width="1.5" PointX="7.5" PointY="18.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.inspector" Width="1.5" PointX="3" PointY="25.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.item" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.laboratorioCalidad" Width="1.5" PointX="7.5" PointY="27.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.persona" Width="1.5" PointX="0.75" PointY="25.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.progProy" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.contratoItem" Width="1.5" PointX="7.5" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.fondo" Width="1.5" PointX="3" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.ingeniero" Width="1.5" PointX="5.25" PointY="25.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.ingenieroContrato" Width="1.5" PointX="7.5" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.inspector" Width="1.5" PointX="3" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.item" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.laboratorioCalidad" Width="1.5" PointX="7.5" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.persona" Width="1.5" PointX="0.75" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.progProy" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
         <EntityTypeShape EntityType="Proyecto_IAAModel.programa" Width="1.5" PointX="10.5" PointY="21.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.proyecto" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.proyecto_estructura" Width="1.5" PointX="3" PointY="19.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.proyectoItem" Width="1.5" PointX="5.25" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.ruta" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.telefono" Width="1.5" PointX="3" PointY="31.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.tipoProyecto" Width="1.5" PointX="0.75" PointY="15.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.usuario" Width="1.5" PointX="3" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Proyecto_IAAModel.zona" Width="1.5" PointX="3" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.proyecto" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.proyecto_estructura" Width="1.5" PointX="3" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.proyectoItem" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.ruta" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.telefono" Width="1.5" PointX="3" PointY="31.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.tipoProyecto" Width="1.5" PointX="0.75" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.usuario" Width="1.5" PointX="3" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.zona" Width="1.5" PointX="3" PointY="21.75" IsExpanded="true" />
         <AssociationConnector Association="Proyecto_IAAModel.fk_idBoleta_boletaItem" ManuallyRouted="false" />
         <AssociationConnector Association="Proyecto_IAAModel.fk_idFondo_boleta" ManuallyRouted="false" />
         <AssociationConnector Association="Proyecto_IAAModel.fk_idInspector_boleta" ManuallyRouted="false" />

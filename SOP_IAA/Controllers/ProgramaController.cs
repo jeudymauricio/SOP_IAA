@@ -22,13 +22,13 @@ namespace SOP_IAA.Controllers
         }
 
         // GET: Programa/Details/5
-        public ActionResult Details(int? id, int? idContrato, Int32? ano, Int16? trimestre)
+        public ActionResult Details(int? idContrato, Int32? ano, Int16? trimestre)
         {
-            if (id == null)
+            if ((idContrato == null) || (ano == null) || (trimestre == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            programa programa = db.programa.Find(id, idContrato, ano, trimestre);
+            programa programa = db.programa.Find(idContrato, ano, trimestre);
             if (programa == null)
             {
                 return HttpNotFound();
@@ -47,13 +47,13 @@ namespace SOP_IAA.Controllers
         }
 
         // GET: Programa/Edit/5
-        public ActionResult Edit(int? id, int? idContrato, Int32? ano, Int16? trimestre)
+        public ActionResult Edit(int? idContrato, Int32? ano, Int16? trimestre)
         {
-            if (id == null)
+            if ((idContrato == null) || (ano == null) || (trimestre == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            programa programa = db.programa.Find(id, idContrato, ano, trimestre);
+            programa programa = db.programa.Find(idContrato, ano, trimestre);
             if (programa == null)
             {
                 return HttpNotFound();
@@ -82,13 +82,13 @@ namespace SOP_IAA.Controllers
         //}
         
         // GET: Programa/Delete/5
-        public ActionResult Delete(int? id, int? idContrato, Int32? ano, Int16? trimestre)
+        public ActionResult Delete(int? idContrato, Int32? ano, Int16? trimestre)
         {
-            if (id == null)
+            if ((idContrato == null) || (ano == null) || (trimestre == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            programa programa = db.programa.Find(id, idContrato, ano, trimestre);
+            programa programa = db.programa.Find(idContrato, ano, trimestre);
             if (programa == null)
             {
                 return HttpNotFound();

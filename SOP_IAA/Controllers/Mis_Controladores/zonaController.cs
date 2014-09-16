@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SOP_IAA_DAL;
 using SOP_IAA_Utilerias;
+using System.Web.Script.Serialization;
 
 namespace SOP_IAA.Controllers
 {
@@ -80,8 +81,18 @@ namespace SOP_IAA.Controllers
             return View(zona);
         }
 
-        public ActionResult RutasAgregar()
+        public ActionResult RutasAgregar(int id)
         {
+            ViewBag.rutas = new SelectList(db.ruta, "id", "nombre");
+            zona zona = db.zona.Find(id);
+            
+            return View(zona);
+        }
+
+        [HttpPost]
+        public ActionResult RutasAgregar(string jsonRutas)
+        {
+            
 
             return View();
         }
@@ -91,9 +102,33 @@ namespace SOP_IAA.Controllers
             return View();
         }
 
+        // Muestra los detalles de una ruta específica
         public ActionResult RutasDetalles(int? id)
         {
             return RedirectToAction("Details", "Ruta", new {id});
+        }
+
+        // Acción invocada desde un ajax y que retorna los detalles de una ruta por su id
+        public ActionResult RutaDetalles(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // SE busca el id de la ruta en la lista de rutas
+            ruta ruta = db.ruta.Find(id);
+
+            if (ruta == null)
+            {
+                //Si no se encuetra una coincidencia se retorna un NotFound
+                return HttpNotFound();
+            }
+
+            //Se procede a convertir a JSON el objeto ruta
+            var json = new JavaScriptSerializer().Serialize(ruta);
+
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
     }
 }

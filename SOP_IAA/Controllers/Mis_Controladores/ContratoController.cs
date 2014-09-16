@@ -308,7 +308,7 @@ namespace SOP_IAA.Controllers
 
         public ActionResult Programs(int? id)
         {
-            return RedirectToAction("ProgramasEspecificos", "Programa", new { _id = id });
+            return RedirectToAction("MisProgramas", "Programa", new { _id = id });
         }
     }
 }

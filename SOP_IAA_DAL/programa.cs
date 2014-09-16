@@ -14,7 +14,6 @@ namespace SOP_IAA_DAL
     
     public partial class programa
     {
-        public int id { get; set; }
         public int idContrato { get; set; }
         public short ano { get; set; }
         public byte trimestre { get; set; }

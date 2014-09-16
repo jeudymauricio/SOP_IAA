@@ -45,7 +45,7 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,idContrato,ano,trimestre,idProgProy")] programa programa)
+        public ActionResult Edit([Bind(Include = "id,idContrato,ano,trimestre,ProgProy")] programa programa)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace SOP_IAA.Controllers
         }
         
         // Acción que despliega la lista de programas de un contrato específico
-        public ActionResult ProgramasEspecificos(int? _id)
+        public ActionResult MisProgramas(int? _id)
         {
             // Se busca el contrato específico
             Contrato contrato = db.Contrato.Find(_id);

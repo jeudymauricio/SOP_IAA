@@ -36,10 +36,10 @@
             @Html.DisplayFor(modelItem => item.trimestre)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.id, idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Detalles", "Details", new { id = item.id, idContrato = item.idContrato, ano =item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Ver proyectos", "AgregarProyecto", new { id = item.id, idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id = item.id, idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ })
+            @Html.ActionLink("Editar", "Edit", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Detalles", "Details", new { idContrato = item.idContrato, ano =item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Ver proyectos", "AgregarProyecto", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Eliminar", "Delete", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ })
         </td>
     </tr>
 }

@@ -240,6 +240,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Zona\AgregarRutaMethods.js" />
     <Content Include="Views\Proyecto\Create.cshtml" />
     <Content Include="Views\Proyecto\Delete.cshtml" />
     <Content Include="Views\Proyecto\Details.cshtml" />
@@ -310,7 +311,7 @@
     <Content Include="Views\Ruta\Edit.cshtml" />
     <Content Include="Views\Ruta\Index.cshtml" />
     <Content Include="Views\Zona\RutasAsociadas.cshtml" />
-    <Content Include="Views\Programa\ProgramasEspecificos.cshtml" />
+    <Content Include="Views\Programa\MisProgramas.cshtml" />
     <Content Include="Views\Contrato\MiContrato.cshtml" />
     <Content Include="Views\Item\Create.cshtml" />
     <Content Include="Views\Item\Delete.cshtml" />
@@ -322,6 +323,7 @@
     <Content Include="Views\ProyectoItem\Details.cshtml" />
     <Content Include="Views\ProyectoItem\Edit.cshtml" />
     <Content Include="Views\ProyectoItem\Index.cshtml" />
+    <Content Include="Views\Zona\RutasAgregar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

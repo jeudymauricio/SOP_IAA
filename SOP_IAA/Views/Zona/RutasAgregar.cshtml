@@ -1,0 +1,52 @@
+﻿@model SOP_IAA_DAL.zona
+
+@{
+    ViewBag.Title = "RutasAgregar";
+}
+
+<h2>Agregar rutas a la zona</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formRutasAgregar", id = "formRutasAgregar" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <div>
+            @Html.DropDownList("rutas", null, htmlAttributes: new { @class = "form-horizontal input-sm", @id = "ddlRutas" })
+            <input class="btn btn-primary" type="button" id="btnAgregarRuta" value="Agregar Ruta" />
+            <br /><br />
+        </div>
+
+        <!-- Panel que contendrá la tabla dinámica de rutas -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Nuevas rutas de la zona
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="tbRutas" class="table">
+                        <thead>
+                            <tr>
+                                <th>Ruta</th>
+                                <th>Descripción</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ingenieros -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+
+    </div>
+}
+
+@section Scripts {
+    <script src="~/Scripts/Zona/AgregarRutaMethods.js"></script>
+
+}
