@@ -4,7 +4,7 @@ var rutas = [];
 $(document).ready(
 
     function () {
-        
+
         // Función que permite agregar una fila con los detalles de una ruta a la tabla de rutas de la zona
         $('#btnAgregarRuta').click(function () {
             var dd = document.getElementById('ddlRutas')
@@ -24,13 +24,13 @@ $(document).ready(
 
                     var fila = '<tr id=' + json.id + '><td>' + json.nombre + '</td> ';
                     fila += '<td>' + json.descripcion + '</td>';
-                    fila += '<td> <button class="remove btn btn-danger" onclick=" eliminarRuta(' + json.id + ')">Quitar Ruta</button> </td></tr>';
+                    fila += '<td> <button class="remove btn btn-danger" onclick="eliminarRuta(' + json.id + ', \'' + (json.nombre) + '\')">Quitar Ruta</button> </td></tr>';
 
                     //Agrega la ruta a la tabla htlm
                     $('#tbRutas > tbody:last').append(fila);
 
                     //Elimina la ruta del dropdownlist
-                    $("#tbRutas option:selected").remove();
+                    $("#ddlRutas option:selected").remove();
 
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -44,7 +44,17 @@ $(document).ready(
             $(this).parents("tr").remove();
         }),
 
-        //Antes de ir a la acción Post del submit, se agregan la lista de rutas
+        // Función que recorre la tabla de ingenieros al cargar.
+        $('#tbRutas > tbody  > tr').each(function () {
+
+            //Se obtiene el id de cada tr que corresponde al id de los ingenieros para eliminar al ingeniero del dropdownlist
+            $("#ddlRutas option[value='" + $(this).attr('id') + "']").remove();
+
+            //Se agrega el ingeniero a la lista global
+            rutas.push($(this).attr('id'));
+        }),
+
+        //Antes de ir a la acción Post del submit, se agrega la lista de rutas
         $("#formRutasAgregar").submit(function (eventObj) {
             var jsonDatosRutas = { "Rutas": rutas };
 
@@ -59,27 +69,13 @@ $(document).ready(
     });
 
 
-function eliminarRuta(_id) {
-    $.ajax({
-        url: '/ContratoView/RutaDetalles/',
-        type: "GET",
-        dataType: "json",
-        data: {
-            id: _id
-        },
-        success: function (data) {
-            var json = $.parseJSON(data);
-
-            for (var i = rutas.length - 1; i >= 0; i--) {
-                if (rutas[i] == _id) {
-                    rutas.splice(i, 1);
-                }
-            }
-            
-            $("<option value=" + json.id + ">" + json.nombre + "</option>").appendTo("#ddlRutas");
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
+function eliminarRuta(id, nombre) {
+    console.log(id);
+    console.log(nombre);
+    for (var i = rutas.length - 1; i >= 0; i--) {
+        if (rutas[i] == id) {
+            rutas.splice(i, 1);
         }
-    })
+    }
+    $("<option value=" + id + ">" + nombre + "</option>").appendTo("#ddlRutas");
 }

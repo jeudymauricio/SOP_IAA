@@ -1,7 +1,7 @@
 ﻿@model SOP_IAA_DAL.zona
 
 @{
-    ViewBag.Title = "RutasAgregar";
+    ViewBag.Title = "Editar Rutas";
 }
 
 <h2>Agregar rutas a la zona</h2>
@@ -34,7 +34,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ingenieros -->
+                            <!-- Aqui se cargarán las filas dinámicamente con la información de las rutas -->
+                            @foreach (var item in Model.ruta)
+                            {
+                                <tr id=@item.id>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.nombre)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.descripcion)
+                                    </td>
+                                    <td>
+                                        <button class="remove btn btn-danger" onclick="eliminarRuta(@item.id, '@item.nombre')">Quitar Ruta</button>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -43,10 +57,20 @@
             <!-- /.panel-body -->
         </div>
 
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar Cambios" class="btn btn-success" />
+            </div>
+        </div>
+
     </div>
+
+    <p>
+        @Html.ActionLink("Atrás", "RutasAsociadas", new { Model.id })
+    </p>
 }
 
 @section Scripts {
-    <script src="~/Scripts/Zona/AgregarRutaMethods.js"></script>
+    <script src="~/Scripts/Zona/ZonaRutasEditMethods.js"></script>
 
 }

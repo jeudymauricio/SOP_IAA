@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using SOP_IAA_DAL;
 using SOP_IAA_Utilerias;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace SOP_IAA.Controllers
 {
@@ -81,52 +82,70 @@ namespace SOP_IAA.Controllers
             return View(zona);
         }
 
-        public ActionResult RutasAgregar(int id)
+        public ActionResult ZonaRutasEditar(int id)
         {
             ViewBag.rutas = new SelectList(db.ruta, "id", "nombre");
             zona zona = db.zona.Find(id);
-            
+
             return View(zona);
         }
 
+        // POST
         [HttpPost]
-        public ActionResult RutasAgregar(string jsonRutas)
+        public ActionResult ZonaRutasEditar([Bind(Include = "id, nombre, Contrato, ruta")]zona zona, string jsonRutas)
         {
-            
+            try
+            {
+                zona zonaEditar = db.zona.Find(zona.id);
 
-            return View();
-        }
+                // Se limpia las rutas asociadas
+                zonaEditar.ruta.Clear();
 
-        public ActionResult RutasEliminar()
-        {
-            return View();
-        }
+                //Obtener las nuevas rutas
+                dynamic jObj = JsonConvert.DeserializeObject(jsonRutas);
+                ruta rut;
 
-        // Muestra los detalles de una ruta específica
-        public ActionResult RutasDetalles(int? id)
-        {
-            return RedirectToAction("Details", "Ruta", new {id});
+                foreach (var child in jObj.Rutas.Children())
+                {
+                    rut = db.ruta.Find((int)child);
+                    zonaEditar.ruta.Add(rut);
+                }
+                db.SaveChanges();
+                // Actualización del contrato
+                Repositorio<zona> rep = new Repositorio<zona>();
+                rep.Actualizar(zonaEditar);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = true;
+                ViewBag.MensajeError = Utilerias.ValorRecurso(Utilerias.ArchivoRecurso.UtilRecursos, "ERROR_CONTRATO_ACTUALIZAR") + ex.Message;
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+
+            return RedirectToAction("RutasAsociadas", new { id = zona.id });
         }
 
         // Acción invocada desde un ajax y que retorna los detalles de una ruta por su id
-        public ActionResult RutaDetalles(int id)
+        public ActionResult RutaDetalles(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            // Se busca el id de la ruta en la lista de rutas
+            ruta rut = db.ruta.Find(id);
 
-            // SE busca el id de la ruta en la lista de rutas
-            ruta ruta = db.ruta.Find(id);
-
-            if (ruta == null)
+            if (rut == null)
             {
                 //Si no se encuetra una coincidencia se retorna un NotFound
                 return HttpNotFound();
             }
 
+            ruta obj = new ruta
+            {
+                id = rut.id,
+                nombre = rut.nombre,
+                descripcion = rut.descripcion
+            };
+
             //Se procede a convertir a JSON el objeto ruta
-            var json = new JavaScriptSerializer().Serialize(ruta);
+            var json = new JavaScriptSerializer().Serialize(obj);
 
             return Json(json, JsonRequestBehavior.AllowGet);
         }
