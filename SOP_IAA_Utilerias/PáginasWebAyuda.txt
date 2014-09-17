@@ -28,6 +28,7 @@ Arrays en JavaScript
 datepicker - datetime format
 	http://www.bufa.es/jquery-ui-datepicker-espanol/
 	http://stackoverflow.com/questions/21598289/convert-mm-dd-yyyy-to-dd-mm-yyyy-using-javascript-while-adding-number-of-days-wi
+	http://instinctcoder.com/asp-net-mvc-4-jquery-datepicker-date-format-validation/
 
 autocomplete
 	http://www.codeproject.com/Tips/789425/Auto-Complete-in-ASP-NET-MVC

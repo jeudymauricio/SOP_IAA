@@ -286,16 +286,22 @@ namespace SOP_IAA.Controllers
             {
                 db.ingenieroContrato.RemoveRange(contrato.ingenieroContrato);
                 contrato.laboratorioCalidad.Clear();
+                foreach (programa prog in contrato.programa)
+                {
+                    /* hay que eliminar los proyectos de cada progproy */
+                    db.progProy.Remove(prog.progProy);
+                }
+                contrato.programa.Clear();
                 db.Contrato.Remove(contrato);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                //throw new Exception(ex.ToString());
+                throw new Exception(ex.ToString());
             }
 
-            return View();
+            //return View();
         }
 
         // Vista que corresponde al actionlink "Ir al Contrato" que despliega el contrato con su respectivo menú de acciones
@@ -305,10 +311,10 @@ namespace SOP_IAA.Controllers
 
             return View(contrato);
         }
-
+        /*
         public ActionResult Programs(int? id)
         {
-            return RedirectToAction("MisProgramas", "Programa", new { _id = id });
-        }
+            return RedirectToAction("MisProgramas", "LinkContratoPrograma", new { _id = id });
+        }*/
     }
 }

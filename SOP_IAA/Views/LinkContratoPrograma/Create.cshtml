@@ -15,7 +15,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.idContrato)
-
+        
         <div class="form-group">
             @Html.LabelFor(model => model.ano, "Año", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -36,7 +36,7 @@
             @Html.LabelFor(model => model.fechaInicio, "Fecha de Inicio", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger"})
             </div>
         </div>
 
@@ -69,5 +69,5 @@
 </div>
 
 @*@section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }*@
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

@@ -16,12 +16,7 @@
         <th>
             Año
         </th>
-        <th>
-            Fecha Inicio
-        </th>
-        <th>
-            Fecha Fin
-        </th>
+
         <th></th>
     </tr>
 
@@ -34,12 +29,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ano)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.progProy.fechaInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.progProy.fechaFin)
-            </td>
+
             <td>
                 @Html.ActionLink("Editar", "Edit", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Detalles", "Details", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |

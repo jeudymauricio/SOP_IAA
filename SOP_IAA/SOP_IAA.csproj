@@ -188,6 +188,8 @@
     <Compile Include="Controllers\Mis_Controladores\ContratoController.cs" />
     <Compile Include="Controllers\Mis_Controladores\IngenieroController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ItemController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\LinkContratoProgramaController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\LinkProgramaProyectoController.cs" />
     <Compile Include="Controllers\Mis_Controladores\PersonaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ProgramaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ProyectoItemController.cs" />
@@ -209,6 +211,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContratoViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LinkContratoProgramaModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -224,6 +227,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\Contrato\jQuery.toDictionary.js" />
+    <Content Include="Mvc.sitemap" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -236,6 +240,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Programa\EditMethods.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -324,6 +329,8 @@
     <Content Include="Views\ProyectoItem\Edit.cshtml" />
     <Content Include="Views\ProyectoItem\Index.cshtml" />
     <Content Include="Views\Zona\ZonaRutasEditar.cshtml" />
+    <Content Include="Views\LinkContratoPrograma\Create.cshtml" />
+    <Content Include="Views\LinkContratoPrograma\MisProgramas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
