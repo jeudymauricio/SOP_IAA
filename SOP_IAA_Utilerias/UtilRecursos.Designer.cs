@@ -340,6 +340,15 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este inspector?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_INSPECTOR {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_INSPECTOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este item?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_ITEM {

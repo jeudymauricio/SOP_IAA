@@ -210,6 +210,9 @@
   <data name="MSJ_CONFIRM_ELIMINAR_INGENIERO" xml:space="preserve">
     <value>¿Está seguro de eliminar este ingeniero?</value>
   </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_INSPECTOR" xml:space="preserve">
+    <value>¿Está seguro de eliminar este inspector?</value>
+  </data>
   <data name="MSJ_CONFIRM_ELIMINAR_ITEM" xml:space="preserve">
     <value>¿Está seguro de eliminar este item?</value>
   </data>

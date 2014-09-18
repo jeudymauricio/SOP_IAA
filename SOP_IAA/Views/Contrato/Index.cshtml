@@ -4,75 +4,107 @@
     ViewBag.Title = "Lista Contratos";
 }
 
-<h2>Lista de Contratos</h2>
+<h2> </h2>
 
 <p>
-    @Html.ActionLink("Nuevo Contrato", "Create")
+    @Html.ActionLink("Nuevo Contrato", "Create", null, new { @class = "btn btn-primary", @style = "width:150px" })
 </p>
-<table class="table">
+<br />
 
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.licitacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.lineaContrato)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaInicio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.plazo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.lugar)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.contratista.nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fondo.nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.zona.nombre)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.licitacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.lineaContrato)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaInicio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.plazo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.lugar)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.contratista.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fondo.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.zona.nombre)
-        </td>
-        <td>
-            @Html.ActionLink("Ir al Contrato", "MiContrato", new { id = item.id })
-            @*@Html.ActionLink("Editar", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Programas", "Programs", new { id = item.id }) |
-            @Html.ActionLink("Detalles", "Details", new { id=item.id }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.id })*@
-        </td>
-    </tr>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Contratos de IAA
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbContratos" class="display">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.licitacion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.lineaContrato)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.fechaInicio)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.plazo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.lugar)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.contratista.nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.fondo.nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.zona.nombre)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.licitacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.lineaContrato)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fechaInicio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.plazo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.lugar)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.contratista.nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fondo.nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.zona.nombre)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Ir al Contrato", "MiContrato", new { id = item.id })
+                            @*@Html.ActionLink("Editar", "Edit", new { id=item.id }) |
+                        @Html.ActionLink("Programas", "Programs", new { id = item.id }) |
+                        @Html.ActionLink("Detalles", "Details", new { id=item.id }) |
+                        @Html.ActionLink("Eliminar", "Delete", new { id=item.id })*@
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbContratos').dataTable( {
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        })
+    </script>
 }
-
-</table>

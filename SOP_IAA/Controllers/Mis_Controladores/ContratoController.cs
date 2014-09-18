@@ -311,10 +311,5 @@ namespace SOP_IAA.Controllers
 
             return View(contrato);
         }
-        /*
-        public ActionResult Programs(int? id)
-        {
-            return RedirectToAction("MisProgramas", "LinkContratoPrograma", new { _id = id });
-        }*/
     }
 }

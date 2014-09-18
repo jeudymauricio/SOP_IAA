@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using SOP_IAA.HtmlHelpers
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -100,6 +101,7 @@
                             </ul>
                         </li>
 
+
                         <li>
                             <a href="/Zona/index"><i class="fa fa-globe fa-fw"></i> Zonas </a>
                         </li>
@@ -107,6 +109,9 @@
                             <a href="/Ruta/index"><i class="fa fa-road fa-fw"></i> Rutas </a>
                         </li>
                         <li>
+                            <a href="/Item/index"><i class="fa fa-tasks fa-fw"></i> Items </a>
+                        </li>
+                        @*<li>
                             <a href="#"><i class="fa fa-flask fa-fw"></i> Laboratorios <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -117,6 +122,9 @@
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
+                        </li>*@
+                        <li>
+                            <a href="/LaboratorioCalidad/index"><i class="fa fa-flask fa-fw"></i> Laboratorios </a>
                         </li>
                         <li>
                             <a href="/Fondo/index"><i class="fa fa-credit-card fa-fw"></i> Fondos </a>
@@ -141,5 +149,16 @@
     @Scripts.Render("~/bundles/bootstrap")
     
     @RenderSection("scripts", required: false)
+
+    <script>
+        //$(function () {
+        //    $('nav a').removeClass('active');
+        //    $('nav a[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active');
+        //});
+        $(document).ready(function () {
+            $('nav a').removeClass('active');
+            $('nav a[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active');
+        });
+    </script>
 </body>
 </html>

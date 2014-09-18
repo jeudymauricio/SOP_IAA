@@ -179,13 +179,16 @@
     <Content Include="Content\bootstrap.css.map" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\contratistaController.cs" />
+    <Compile Include="Controllers\ContratoItemController.cs" />
     <Compile Include="Controllers\ContratoViewController.cs" />
     <Compile Include="Controllers\FondoController.cs" />
     <Compile Include="Controllers\IngenieroContratoController.cs" />
     <Compile Include="Controllers\IngenieroController.cs" />
+    <Compile Include="Controllers\InspectorController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LaboratorioCalidadController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ContratoController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\ContratoItemController.cs" />
     <Compile Include="Controllers\Mis_Controladores\IngenieroController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ItemController.cs" />
     <Compile Include="Controllers\Mis_Controladores\LinkContratoProgramaController.cs" />
@@ -208,6 +211,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\MenuExtensions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContratoViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -216,7 +220,12 @@
     <Compile Include="Startup.cs" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Images\candado.jpg" />
+    <Content Include="Images\sort_asc.png" />
+    <Content Include="Images\sort_both.png" />
+    <Content Include="Images\sort_desc.png" />
     <Content Include="Scripts\%28personal%29bootstrap-3.2.0.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -240,6 +249,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\plugins\dataTables\jquery.dataTables.min.js" />
     <Content Include="Scripts\Programa\EditMethods.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
@@ -331,6 +341,17 @@
     <Content Include="Views\Zona\ZonaRutasEditar.cshtml" />
     <Content Include="Views\LinkContratoPrograma\Create.cshtml" />
     <Content Include="Views\LinkContratoPrograma\MisProgramas.cshtml" />
+    <Content Include="Views\Inspector\Create.cshtml" />
+    <Content Include="Views\Inspector\Delete.cshtml" />
+    <Content Include="Views\Inspector\Details.cshtml" />
+    <Content Include="Views\Inspector\Edit.cshtml" />
+    <Content Include="Views\Inspector\Index.cshtml" />
+    <Content Include="Views\ContratoItem\Create.cshtml" />
+    <Content Include="Views\ContratoItem\Delete.cshtml" />
+    <Content Include="Views\ContratoItem\Details.cshtml" />
+    <Content Include="Views\ContratoItem\Edit.cshtml" />
+    <Content Include="Views\ContratoItem\Index.cshtml" />
+    <Content Include="Scripts\plugins\dataTables\Spanish.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

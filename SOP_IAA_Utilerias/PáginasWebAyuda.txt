@@ -1,6 +1,10 @@
 ﻿http://www.codeproject.com/Articles/177335/Refreshing-content-of-the-table-using-AJAX-in-ASP
 http://stackoverflow.com/questions/17671105/asp-mvc-href-to-a-controller-view
 
+
+activar los elementos de un menú
+	http://css-tricks.com/snippets/jquery/add-active-navigation-class-based-on-url/
+
 Página para probar código web
 	http://codepen.io/anon/pen/xHDiE?editors=101
 	http://jsfiddle.net
@@ -48,6 +52,11 @@ GRIDs
 	http://docs.telerik.com/kendo-ui/getting-started/using-kendo-with/aspnet-mvc/helpers/grid/ajax-editing
 
 HTML Table
+	>>> Tabla especial con search y paginación
+		http://www.datatables.net/examples/basic_init/zero_configuration.html
+		http://www.datatables.net/examples/advanced_init/language_file.html
+		http://datatables.net/plug-ins/i18n/Spanish
+	<<<
 	http://stackoverflow.com/questions/2545603/retrieve-table-row-index-of-current-row
 	http://www.sitepoint.com/forums/showthread.php?743696-Jquery-add-and-remove-table-row
 	http://www.w3schools.com/jsref/dom_obj_table.asp
