@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SOP_IAA_DAL.proyectoItem>
+﻿@model SOP_IAA_DAL.proyecto
 
 @{
     ViewBag.Title = "Items del Proyecto";
@@ -12,39 +12,27 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.fechaInicio)
+            Código Item
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.fechaFin)
+            Descripción
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.costoEstimado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.item.codigoItem)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.proyecto.nombre)
+            Unidad de medida
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.proyectoItem) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.fechaInicio)
+           @Html.DisplayFor(modelItem => item.item.codigoItem)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.fechaFin)
+            @Html.DisplayFor(modelItem => item.item.descripcion)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.costoEstimado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.item.codigoItem)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.proyecto.nombre)
+            @Html.DisplayFor(modelItem => item.item.unidadMedida)
         </td>
         <td>
             @Html.ActionLink("Editar", "Edit", new { id=item.id }) |
@@ -53,5 +41,15 @@
         </td>
     </tr>
 }
+@foreach (var item in Model.progProy.programa)
+{
+    ViewBag.idContrato = item.idContrato;
+    ViewBag.ano = item.ano;
+    ViewBag.trimestre = item.trimestre;
+}
 
 </table>
+
+<div>
+    @Html.ActionLink("Atrás", "Index", "Proyecto", new { _idContrato = ViewBag.idContrato, _ano = ViewBag.ano, _trimestre=ViewBag.trimestre }, null)
+</div>

@@ -15,11 +15,12 @@ namespace SOP_IAA.Controllers
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
         // GET: ProyectoItem
-        public ActionResult Index()
+       /* public ActionResult Index(int? _id)
         {
-            var proyectoItem = db.proyectoItem.Include(p => p.item).Include(p => p.proyecto);
-            return View(proyectoItem.ToList());
-        }
+            //var proyectoItem = db.proyectoItem.Include(p => p.item).Include(p => p.proyecto);
+            proyecto proyecto = db.proyecto.Find(_id);
+            return View(proyecto);
+        }*/
 
         // GET: ProyectoItem/Details/5
         public ActionResult Details(int? id)
