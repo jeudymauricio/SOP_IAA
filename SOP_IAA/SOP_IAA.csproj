@@ -180,7 +180,6 @@
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\contratistaController.cs" />
     <Compile Include="Controllers\ContratoItemController.cs" />
-    <Compile Include="Controllers\ContratoViewController.cs" />
     <Compile Include="Controllers\FondoController.cs" />
     <Compile Include="Controllers\IngenieroContratoController.cs" />
     <Compile Include="Controllers\IngenieroController.cs" />
@@ -191,8 +190,6 @@
     <Compile Include="Controllers\Mis_Controladores\ContratoItemController.cs" />
     <Compile Include="Controllers\Mis_Controladores\IngenieroController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ItemController.cs" />
-    <Compile Include="Controllers\Mis_Controladores\LinkContratoProgramaController.cs" />
-    <Compile Include="Controllers\Mis_Controladores\LinkProgramaProyectoController.cs" />
     <Compile Include="Controllers\Mis_Controladores\PersonaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ProgramaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ProyectoItemController.cs" />
@@ -211,7 +208,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HtmlHelpers\MenuExtensions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContratoViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -296,14 +292,11 @@
     <Content Include="Views\IngenieroContrato\Details.cshtml" />
     <Content Include="Views\IngenieroContrato\Edit.cshtml" />
     <Content Include="Views\IngenieroContrato\Index.cshtml" />
-    <Content Include="Views\ContratoView\Create.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Create.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Delete.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Details.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Edit.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Index.cshtml" />
-    <Content Include="Views\ContratoView\Index.cshtml" />
-    <Content Include="Views\ContratoView\Details.cshtml" />
     <Content Include="Views\TipoProyecto\Create.cshtml" />
     <Content Include="Views\TipoProyecto\Delete.cshtml" />
     <Content Include="Views\TipoProyecto\Details.cshtml" />
@@ -339,8 +332,6 @@
     <Content Include="Views\ProyectoItem\Edit.cshtml" />
     <Content Include="Views\ProyectoItem\Index.cshtml" />
     <Content Include="Views\Zona\ZonaRutasEditar.cshtml" />
-    <Content Include="Views\LinkContratoPrograma\Create.cshtml" />
-    <Content Include="Views\LinkContratoPrograma\MisProgramas.cshtml" />
     <Content Include="Views\Inspector\Create.cshtml" />
     <Content Include="Views\Inspector\Delete.cshtml" />
     <Content Include="Views\Inspector\Details.cshtml" />
