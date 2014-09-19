@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="boleta">
           <Key>
             <PropertyRef Name="id" />
@@ -75,9 +75,9 @@
             <PropertyRef Name="idPersona" />
           </Key>
           <Property Name="idPersona" Type="int" Nullable="false" />
-          <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="departamento" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="rol" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="departamento" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="rol" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="ingenieroContrato">
           <Key>
@@ -128,7 +128,7 @@
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="apellido1" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="apellido2" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="cedula" Type="varchar" MaxLength="50" />
+          <Property Name="cedula" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="progProy">
           <Key>
@@ -166,7 +166,7 @@
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="idRuta" Type="int" Nullable="false" />
-          <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="proyectoItem">
           <Key>
@@ -184,8 +184,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nombre" Type="varchar" MaxLength="15" />
-          <Property Name="descripcion" Type="varchar" MaxLength="20" />
+          <Property Name="nombre" Type="varchar" MaxLength="20" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="telefono">
           <Key>
@@ -720,7 +720,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="boleta">
           <Key>
             <PropertyRef Name="id" />
@@ -810,9 +810,9 @@
             <PropertyRef Name="idPersona" />
           </Key>
           <Property Name="idPersona" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="departamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="rol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="departamento" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="rol" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ingenieroContrato" Relationship="Self.fk_idIngeniero_ingenieroContrato" FromRole="ingeniero" ToRole="ingenieroContrato" />
           <NavigationProperty Name="persona" Relationship="Self.fk_idPersona_ingeniero" FromRole="ingeniero" ToRole="persona" />
         </EntityType>
@@ -864,7 +864,7 @@
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="apellido1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="apellido2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="cedula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cedula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ingeniero" Relationship="Self.fk_idPersona_ingeniero" FromRole="persona" ToRole="ingeniero" />
           <NavigationProperty Name="inspector" Relationship="Self.fk_idPersona_inspector" FromRole="persona" ToRole="inspector" />
           <NavigationProperty Name="telefono" Relationship="Self.fk_id_telefono" FromRole="persona" ToRole="telefono" />
@@ -914,7 +914,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="idRuta" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="boleta" Relationship="Self.fk_idProyecto_Estructura_proyecto_estructura" FromRole="proyecto_estructura" ToRole="boleta" />
           <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_proyecto_estructura" FromRole="proyecto_estructura" ToRole="ruta" />
         </EntityType>
@@ -937,8 +937,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="descripcion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="boleta" Relationship="Self.fk_idRuta_boleta" FromRole="ruta" ToRole="boleta" />
           <NavigationProperty Name="proyecto" Relationship="Self.fk_idRuta_ruta" FromRole="ruta" ToRole="proyecto" />
           <NavigationProperty Name="proyecto_estructura" Relationship="Self.fk_idRuta_proyecto_estructura" FromRole="ruta" ToRole="proyecto_estructura" />
