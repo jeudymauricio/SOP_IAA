@@ -24,6 +24,11 @@ namespace SOP_IAA.Controllers
         // GET: proyecto
         public ActionResult Index(/*int? _id,*/int? _idContrato, Int32? _ano, Int16? _trimestre)
         {
+            if ((_idContrato == null) || (_ano == null) || (_trimestre == null))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             //var proyecto = db.proyecto.Include(p => p.progProy).Include(p => p.ruta).Include(p => p.tipoProyecto);
             programa programa = db.programa.Find(_idContrato, _ano, _trimestre);
             var proyecto = db.proyecto.Include(pr => pr.progProy).Include(pr => pr.ruta).Include(pr => pr.tipoProyecto).Where(pr => pr.idProgProy == programa.idProgProy);
@@ -70,6 +75,11 @@ namespace SOP_IAA.Controllers
         // GET: proyecto/Create
         public ActionResult Create(int? _idPP)
         {
+            if (_idPP == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             //ViewBag.idProgProy = new SelectList(db.progProy, "id", "id");
             ViewBag.idProgProy = _idPP;
             ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre");
@@ -113,10 +123,11 @@ namespace SOP_IAA.Controllers
         // GET: proyecto/Edit/5
         public ActionResult Edit(int? id, int? _id, int? _idContrato, Int32? _ano, Int16? _trimestre)
         {
-            if (id == null)
+            if ((id == null) || (_id == null) || (_idContrato == null) || (_ano == null) || (_trimestre == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             proyecto proyecto = db.proyecto.Find(id);
             if (proyecto == null)
             {

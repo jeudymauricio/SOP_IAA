@@ -21,6 +21,20 @@ namespace SOP_IAA.Controllers
             proyecto proyecto = db.proyecto.Find(_id);
             return View(proyecto);
         }*/
+        public ActionResult Index(/*int? _id,*/int? _id)
+        {
+            if (_id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            proyecto proyecto = db.proyecto.Find(_id);
+            // var item = db.proyectoItem.Include(pr => pr.item).Where(pr => pr.idProyecto == proyecto.id);
+            // var item = db.item.Include(i => i.contratoItem).Where(i => i.codigoItem == item.)
+
+            return View(proyecto);
+
+        }
 
         // GET: ProyectoItem/Details/5
         public ActionResult Details(int? id)

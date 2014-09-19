@@ -11,6 +11,10 @@
 </p>
 <table class="table">
     <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.tipoProyecto.nombre)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.nombre)
         </th>
@@ -20,14 +24,14 @@
         <th>
             @Html.DisplayNameFor(model => model.ruta.nombre)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tipoProyecto.nombre)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tipoProyecto.nombre)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.nombre)
         </td>
@@ -37,12 +41,10 @@
         <td>
             @Html.DisplayFor(modelItem => item.ruta.nombre)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tipoProyecto.nombre)
-        </td>
+        
         <td>
             @Html.ActionLink("Editar", "Edit", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri}) |
-            @Html.ActionLink("Detalles", "Details", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri }) |
+            @*@Html.ActionLink("Detalles", "Details", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri }) |*@
             @Html.ActionLink("Items", "ItemsProyecto", new { id = item.id }) |
             @Html.ActionLink("Eliminar", "Delete", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri })
         </td>

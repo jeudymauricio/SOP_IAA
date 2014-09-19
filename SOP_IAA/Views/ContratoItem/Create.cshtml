@@ -140,7 +140,7 @@
 
                     $("<a>")
                       .attr("tabIndex", -1)
-                      .attr("title", "Show All Items")
+                      .attr("title", "Ver todos")
                       .tooltip()
                       .appendTo(this.wrapper)
                       .button({
@@ -206,7 +206,7 @@
                     // Remove invalid value
                     this.input
                       .val("")
-                      .attr("title", value + " didn't match any item")
+                      .attr("title", value + " no concuerda con ningún ítem")
                       .tooltip("open");
                     this.element.val("");
                     this._delay(function () {

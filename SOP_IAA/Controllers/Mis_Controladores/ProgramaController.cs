@@ -15,18 +15,26 @@ namespace SOP_IAA.Controllers
     {
         // Acción que despliega la lista de programas de un contrato específico
         public static int id;
-        public ActionResult MisProgramas(int _id)
-        {  
+        public ActionResult MisProgramas(int? _id)
+        {
+            if (_id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             // Se busca el contrato específico
             Contrato contrato = db.Contrato.Find(_id);
-            id = _id;
+            id = _id.Value;
             ViewBag.id = _id;
             return View(contrato);
         }
         
         // GET: Vista inicial que le permite al usuario crear un nuevo programa para el contrato
-        public ActionResult Create(int id)
+        public ActionResult Create(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             LinkContratoProgramaModels ContratoPrograma = new LinkContratoProgramaModels();
             Contrato contrato = db.Contrato.Find(id);
 
@@ -164,7 +172,7 @@ namespace SOP_IAA.Controllers
 
         public ActionResult AddProject(int? id, int? idContrato, Int32? ano, Int16? trimestre)
         {
-            if (id == null)
+            if ((id == null) || (idContrato == null) || (ano == null) || (trimestre == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }

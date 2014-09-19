@@ -305,8 +305,13 @@ namespace SOP_IAA.Controllers
         }
 
         // Vista que corresponde al actionlink "Ir al Contrato" que despliega el contrato con su respectivo menú de acciones
-        public ActionResult MiContrato(int id)
+        public ActionResult MiContrato(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             Contrato contrato = db.Contrato.Find(id);
 
             return View(contrato);

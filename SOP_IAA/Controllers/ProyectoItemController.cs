@@ -13,16 +13,16 @@ namespace SOP_IAA.Controllers
     public partial class ProyectoItemController : Controller
     {
 
-        public ActionResult Index(/*int? _id,*/int? _id)
-        {
+        //public ActionResult Index(/*int? _id,*/int? _id)
+        //{
 
-            proyecto proyecto = db.proyecto.Find(_id);
-           // var item = db.proyectoItem.Include(pr => pr.item).Where(pr => pr.idProyecto == proyecto.id);
-           // var item = db.item.Include(i => i.contratoItem).Where(i => i.codigoItem == item.)
+        //    proyecto proyecto = db.proyecto.Find(_id);
+        //   // var item = db.proyectoItem.Include(pr => pr.item).Where(pr => pr.idProyecto == proyecto.id);
+        //   // var item = db.item.Include(i => i.contratoItem).Where(i => i.codigoItem == item.)
             
-            return View(proyecto);
+        //    return View(proyecto);
 
-        }
+        //}
 
         // POST: ProyectoItem/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
