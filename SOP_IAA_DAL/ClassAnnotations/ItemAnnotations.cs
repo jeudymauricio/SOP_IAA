@@ -17,11 +17,11 @@ namespace SOP_IAA_DAL
     {
         [Required]
         [DisplayName("Código del Item")]
-        [StringLength(50)]
+        [StringLength(25)]
         public string codigoItem { get; set; }
 
         [DisplayName("Descripción")]
-        [StringLength(60)]
+        [StringLength(100)]
         public string descripcion { get; set; }
 
         [Required]

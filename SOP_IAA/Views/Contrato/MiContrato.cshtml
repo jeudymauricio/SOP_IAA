@@ -16,13 +16,13 @@
     <!-- Panel de información del contrato -->
     <div class="col-lg-3 col-md-6">
         <div class="panel panel-primary">
-            <div class="panel-heading">
+            @*<div class="panel-heading">
                 <div class="row">
                     <div class="text-center">
                         <div class="fa fa-info-circle fa-5x"> </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <a href="@Url.Action("Details", "Contrato", new { id = Model.id })">
                 <div class="panel-footer">
                     <span class="pull-left">Detalles del Contrato</span>
@@ -35,15 +35,16 @@
 
     <!-- Panel de programas del contrato -->
     <div class="col-lg-3 col-md-6">
-        <div class="panel panel-green" style="border-color:#5cb85c">
-            <div class="panel-heading">
+        @*<div class="panel panel-green" style="border-color:#5cb85c">*@
+        <div class="panel panel-primary">
+            @*<div class="panel-heading">
                 <div class="row">
 
                     <div class="text-center">
                         <div class="fa fa-list-alt fa-5x"></div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <a href="@Url.Action("MisProgramas", "Programa", new { _id = Model.id })">
                 <div class="panel-footer">
                     <span class="pull-left">Programas</span>
@@ -56,14 +57,15 @@
 
     <!-- Panel de items del contrato -->
     <div class="col-lg-3 col-md-6">
-        <div class="panel panel-green" style="border-color:#5cb85c">
-            <div class="panel-heading">
+        @*<div class="panel panel-green" style="border-color:#5cb85c">*@
+        <div class="panel panel-primary">
+            @*<div class="panel-heading">
                 <div class="row">
                     <div class="text-center">
                         <div class="fa fa-tasks fa-5x"> </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <a href="@Url.Action("Index", "ContratoItem", new { idContrato = Model.id })">
                 <div class="panel-footer">
                     <span class="pull-left">Items del Contrato</span>
@@ -76,14 +78,15 @@
 
     <!-- Panel de boletas del contrato -->
     <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow" style="border-color:#f0ad4e">
-            <div class="panel-heading">
+        @*<div class="panel panel-yellow" style="border-color:#f0ad4e">*@
+        <div class="panel panel-primary">
+            @*<div class="panel-heading">
                 <div class="row">
                     <div class="text-center">
                         <div class="fa fa-file-text fa-5x"> </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <a href="#">
                 <div class="panel-footer">
                     <span class="pull-left">Boletas</span>
@@ -166,8 +169,8 @@
                 </div>
                 <div class="panel-body">
                     <div class="text-center">
-                        @Html.ActionLink("Editar", "Edit", new { id = Model.id }, new { @class = "btn btn-warning", @style = "width:80px" }) |
-                        @Html.ActionLink("Eliminar", "Delete", new { id = Model.id }, new { @class = "btn btn-danger", @style = "width:80px" })
+                        @Html.ActionLink("Editar Contrato", "Edit", new { id = Model.id }, new { @class = "btn btn-warning", @style = "width:150px" }) |
+                        @Html.ActionLink("Eliminar Contrato", "Delete", new { id = Model.id }, new { @class = "btn btn-danger", @style = "width:150px" })
                     </div>
 
                 </div>

@@ -13,10 +13,15 @@ namespace SOP_IAA.Controllers
     public partial class ContratoItemController : Controller
     {
         // GET: ContratoItem
-        public ActionResult Index(int idContrato)
+        public ActionResult Index(int? idContrato)
         {/*
             var contratoItem = db.contratoItem.Include(c => c.Contrato).Include(c => c.item);
             return View(contratoItem.ToList());*/
+            if (idContrato == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             Contrato contrato = db.Contrato.Find(idContrato);
             return View(contrato);
         }
@@ -43,27 +48,24 @@ namespace SOP_IAA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             contratoItem contrItem = new contratoItem
             {
                 idContrato = idContrato.Value
             };
 
-            //var mquery = (from ci in db.contratoItem
-            //              join i in db.item
-            //              on ci.idItem equals i.id
-            //              into ici
-            //              //from i in ici.DefaultIfEmpty()
-            //              select new SelectListItem
-            //              {
-            //                  Value = ci.idItem.ToString(),
-            //                  Text = ci.item.codigoItem.ToString()
-            //              }
-            //    );
 
+            var itemGlobal = db.item.ToList();
+            List<item> itemContrato = new List<item>();
 
-            //ViewBag.idItem = new SelectList(mquery, "Value", "Text");
+            foreach (var item in db.Contrato.Find(idContrato).contratoItem)
+            {
+                itemContrato.Add(item.item);
+            }
 
-            ViewBag.idItem = new SelectList(db.item, "id", "codigoItem");
+            ViewBag.idItem = new SelectList(itemGlobal.Except(itemContrato), "id", "codigoItem");
+
+            //ViewBag.idItem = new SelectList(db.item, "id", "codigoItem");
             /*ViewBag.idContrato = new SelectList(db.Contrato, "id", "licitacion");*/
             return View(contrItem);
         }

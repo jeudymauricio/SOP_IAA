@@ -2,6 +2,14 @@
 http://stackoverflow.com/questions/17671105/asp-mvc-href-to-a-controller-view
 
 
+Exportar datos de excel a SQL
+	http://tools.perceptus.ca/text-wiz.php?ops=7
+	http://www.66pacific.com/sql_server_import_from_excel.aspx
+
+Comparaciones linQ, sacar los elementos de una tabla que no estan en otra etc.
+	http://stackoverflow.com/questions/3944803/use-linq-to-get-items-in-one-list-that-are-not-in-another-list
+	http://stackoverflow.com/questions/5640259/linq-select-where-object-does-not-contain-items-from-list
+
 activar los elementos de un menú
 	http://css-tricks.com/snippets/jquery/add-active-navigation-class-based-on-url/
 
@@ -39,6 +47,8 @@ autocomplete
 	
 dropdownlist
 	http://www.jquerybyexample.net/2012/02/common-dropdown-operation-get-set-add.html
+	http://instinctcoder.com/asp-net-mvc-4-jquery-autocomplete-dropdownlist/
+	http://jqueryui.com/autocomplete/#combobox
 
 Sintaxis de Linq
 	http://www.mssqltips.com/sqlservertip/3169/understanding-linq-to-join-multiple-tables-where-null-match-are-expected/
