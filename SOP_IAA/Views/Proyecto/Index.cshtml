@@ -43,6 +43,7 @@
         <td>
             @Html.ActionLink("Editar", "Edit", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri}) |
             @Html.ActionLink("Detalles", "Details", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri }) |
+            @Html.ActionLink("Items", "ItemsProyecto", new { id = item.id }) |
             @Html.ActionLink("Eliminar", "Delete", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri })
         </td>
     </tr>
@@ -51,5 +52,5 @@
 </table>
 
 <div>
-    @Html.ActionLink("Atrás", "Index", "Programa" )
+    @Html.ActionLink("Atrás", "MisProgramas", "Programa", new { _id = ViewBag.idCont }, null)
 </div>

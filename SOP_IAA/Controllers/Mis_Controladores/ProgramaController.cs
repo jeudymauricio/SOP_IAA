@@ -14,11 +14,13 @@ namespace SOP_IAA.Controllers
     public partial class ProgramaController : Controller
     {
         // Acción que despliega la lista de programas de un contrato específico
+        public static int id;
         public ActionResult MisProgramas(int _id)
-        {
+        {  
             // Se busca el contrato específico
             Contrato contrato = db.Contrato.Find(_id);
-
+            id = _id;
+            ViewBag.id = _id;
             return View(contrato);
         }
         
@@ -178,7 +180,7 @@ namespace SOP_IAA.Controllers
             return View("Index", db.programa);
         }
 
-        public ActionResult AgregarProyecto(int? id, int? idContrato, Int32? ano, Int16? trimestre)
+        public ActionResult AgregarProyecto(/*int? id, */int? idContrato, Int32? ano, Int16? trimestre)
         {
             //programa programa = db.programa.Find(id, idContrato, ano, trimestre);
 
@@ -188,7 +190,7 @@ namespace SOP_IAA.Controllers
 
             //  var programa = db.programa.Include(p => p.Contrato).Include(p => p.progProy);
 
-            return RedirectToAction("Index", "Proyecto", new { _id = id, _idContrato = idContrato, _ano = ano, _trimestre = trimestre });
+            return RedirectToAction("Index", "Proyecto", new { /*_id = id,*/ _idContrato = idContrato, _ano = ano, _trimestre = trimestre });
             //return View("/proyecto/Index",proyecto.ToList());
         }
     }

@@ -13,7 +13,7 @@ namespace SOP_IAA.Controllers
     public class ProyectoController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
-        static int? __id;
+        //static int? __id;
         static int? __idContrato;
         static Int32? __ano;
         static Int16? __trimestre;
@@ -22,18 +22,19 @@ namespace SOP_IAA.Controllers
        // static int? __ProgProy;
 
         // GET: proyecto
-        public ActionResult Index(int? _id, int? _idContrato, Int32? _ano, Int16? _trimestre)
+        public ActionResult Index(/*int? _id,*/int? _idContrato, Int32? _ano, Int16? _trimestre)
         {
             //var proyecto = db.proyecto.Include(p => p.progProy).Include(p => p.ruta).Include(p => p.tipoProyecto);
-            programa programa = db.programa.Find(_id, _idContrato, _ano, _trimestre);
+            programa programa = db.programa.Find(_idContrato, _ano, _trimestre);
             var proyecto = db.proyecto.Include(pr => pr.progProy).Include(pr => pr.ruta).Include(pr => pr.tipoProyecto).Where(pr => pr.idProgProy == programa.idProgProy);
-            ViewBag.idP = _id;
+            //ViewBag.idP = _id;
+            //ViewBag.idP = programa.id;
             ViewBag.idCont = _idContrato;
             ViewBag.ano = _ano;
             ViewBag.tri = _trimestre;
             ViewBag.idProgProy = programa.idProgProy;
 
-            __id = _id;
+            //__id = _id;
             __idContrato = _idContrato;
             __ano = _ano;
             __trimestre = _trimestre;
@@ -58,7 +59,7 @@ namespace SOP_IAA.Controllers
             }
 
             //Varibles para volver al Index
-            ViewBag.idP = __id;
+            //ViewBag.idP = __id;
             ViewBag.idCont = __idContrato;
             ViewBag.ano = __ano;
             ViewBag.tri = __trimestre;
@@ -77,7 +78,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre");
 
             //Varibles para volver al Index
-            ViewBag.idP = __id;
+            //ViewBag.idP = __id;
             ViewBag.idCont = __idContrato;
             ViewBag.ano = __ano;
             ViewBag.tri = __trimestre;
@@ -96,11 +97,11 @@ namespace SOP_IAA.Controllers
             {
                 db.proyecto.Add(proyecto);
                 db.SaveChanges();
-                int? _id = __id;
+               // int? _id = __id;
                 int? _idContrato = __idContrato;
                 Int32? _ano = __ano;
                 Int16? _trimestre = __trimestre;
-                return RedirectToAction("Index", new { _id, _idContrato, _ano, _trimestre = _trimestre });
+                return RedirectToAction("Index", new { /*_id, */_idContrato, _ano, _trimestre = _trimestre });
             }
 
             ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
@@ -149,13 +150,13 @@ namespace SOP_IAA.Controllers
                 db.SaveChanges();
 
 
-                int? _id = __id;
+                //int? _id = __id;
                 int? _idContrato = __idContrato;
                 Int32? _ano = __ano;
                 Int16? _trimestre = __trimestre;
 
 
-                return RedirectToAction("Index", new { _id, _idContrato, _ano, _trimestre = _trimestre });
+                return RedirectToAction("Index", new {_idContrato, _ano, _trimestre = _trimestre });
             }
             ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
             ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", proyecto.idRuta);
@@ -177,7 +178,7 @@ namespace SOP_IAA.Controllers
             }
 
             //Variables del programa
-            ViewBag.idP = __id;
+            //ViewBag.idP = __id;
             ViewBag.idCont = __idContrato;
             ViewBag.ano = __ano;
             ViewBag.tri = __trimestre;
@@ -197,13 +198,18 @@ namespace SOP_IAA.Controllers
             db.SaveChanges();
 
             //Para regresar al Index
-            int? _id = __id;
+            //int? _id = __id;
             int? _idContrato = __idContrato;
             Int32? _ano = __ano;
             Int16? _trimestre = __trimestre;
 
 
-            return RedirectToAction("Index", new { _id, _idContrato, _ano, _trimestre = _trimestre });
+            return RedirectToAction("Index", new { /*_id, */_idContrato, _ano, _trimestre = _trimestre });
+        }
+
+        public ActionResult ItemsProyecto(int? id)
+        {
+            return RedirectToAction("Index", "ProyectoItem", new { /*_id = id,*/ _id = id });
         }
 
         protected override void Dispose(bool disposing)

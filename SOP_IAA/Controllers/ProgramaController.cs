@@ -96,6 +96,20 @@ namespace SOP_IAA.Controllers
             return View(programa);
         }
 
+        public ActionResult MisProyectos(int? idContrato, Int32? ano, Int16? trimestre)
+        {
+            if ((idContrato == null) || (ano == null) || (trimestre == null))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            programa programa = db.programa.Find(idContrato, ano, trimestre);
+            if (programa == null)
+            {
+                return HttpNotFound();
+            }
+            return View(programa);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
