@@ -175,6 +175,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Content Include="Content\bootstrap.css.map" />
+    <Compile Include="Controllers\BoletaController.cs" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\contratistaController.cs" />
     <Compile Include="Controllers\ContratoItemController.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Controllers\InspectorController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LaboratorioCalidadController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\BoletaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ContratoController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ContratoItemController.cs" />
     <Compile Include="Controllers\Mis_Controladores\IngenieroController.cs" />
@@ -340,6 +342,11 @@
     <Content Include="Views\ContratoItem\Edit.cshtml" />
     <Content Include="Views\ContratoItem\Index.cshtml" />
     <Content Include="Scripts\plugins\dataTables\Spanish.txt" />
+    <Content Include="Views\Boleta\Create.cshtml" />
+    <Content Include="Views\Boleta\Delete.cshtml" />
+    <Content Include="Views\Boleta\Details.cshtml" />
+    <Content Include="Views\Boleta\Edit.cshtml" />
+    <Content Include="Views\Boleta\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
