@@ -32,10 +32,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.cedula)
                         </th>
-
-                        <th>
+                        @*<th>
                             Telefono(s)
-                        </th>
+                        </th>*@
                         <th></th>
                     </tr>
                 </thead>
@@ -55,17 +54,16 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.cedula)
                             </td>
-
-                            <td>
+                            @*<td>
                                 @foreach (var telefono in item.telefono)
                                 {
                                     @Html.DisplayFor(itemTelefono => telefono.telefono1)
                                     <br />
                                 }
-                            </td>
-                            <td>
+                            </td>*@
+                            <td align="center">
                                 @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
-                                @Html.ActionLink("Detalles", "Details", new { id = item.id }) |
+                                @*@Html.ActionLink("Detalles", "Details", new { id = item.id }) |*@
                                 @Html.ActionLink("Eliminar", "Delete", new { id = item.id })
                             </td>
                         </tr>

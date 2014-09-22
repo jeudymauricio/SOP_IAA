@@ -45,9 +45,9 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.unidadMedida)
                             </td>
-                            <td>
+                            <td align="center">
                                 @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
-                                @Html.ActionLink("Detalles", "Details", new { id = item.id }) |
+                                @*@Html.ActionLink("Detalles", "Details", new { id = item.id }) |*@
                                 @Html.ActionLink("Borrar", "Delete", new { id = item.id })
                             </td>
                         </tr>
