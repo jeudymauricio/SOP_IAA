@@ -54,6 +54,7 @@
         <AssociationConnector Association="Proyecto_IAAModel.fk_idRuta_proyecto_estructura" ManuallyRouted="false" />
         <AssociationConnector Association="Proyecto_IAAModel.labCalidadContrato" ManuallyRouted="false" />
         <AssociationConnector Association="Proyecto_IAAModel.zonaRuta" ManuallyRouted="false" />
+        <AssociationConnector Association="Proyecto_IAAModel.fk_idContrato_boleta" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

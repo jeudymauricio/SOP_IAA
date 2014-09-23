@@ -4,12 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="boleta">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idContrato" Type="int" Nullable="false" />
           <Property Name="numeroBoleta" Type="int" Nullable="false" />
           <Property Name="idFondo" Type="smallint" Nullable="false" />
           <Property Name="idRuta" Type="int" Nullable="false" />
@@ -164,7 +165,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idRuta" Type="int" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
@@ -283,6 +284,18 @@
             </Principal>
             <Dependent Role="Contrato">
               <PropertyRef Name="idContratista" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_boleta">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idContrato" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -619,6 +632,10 @@
             <End Role="contratista" EntitySet="contratista" />
             <End Role="Contrato" EntitySet="Contrato" />
           </AssociationSet>
+          <AssociationSet Name="fk_idContrato_boleta" Association="Self.fk_idContrato_boleta">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
           <AssociationSet Name="fk_idContrato_ingenieroContrato" Association="Self.fk_idContrato_ingenieroContrato">
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="ingenieroContrato" EntitySet="ingenieroContrato" />
@@ -716,8 +733,7 @@
             <End Role="zonaRuta" EntitySet="zonaRuta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -742,6 +758,8 @@
           <NavigationProperty Name="inspector" Relationship="Self.fk_idInspector_boleta" FromRole="boleta" ToRole="inspector" />
           <NavigationProperty Name="proyecto_estructura" Relationship="Self.fk_idProyecto_Estructura_proyecto_estructura" FromRole="boleta" ToRole="proyecto_estructura" />
           <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_boleta" FromRole="boleta" ToRole="ruta" />
+          <Property Name="idContrato" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Contrato" Relationship="Proyecto_IAAModel.fk_idContrato_boleta" FromRole="boleta" ToRole="Contrato" />
         </EntityType>
         <EntityType Name="boletaItem">
           <Key>
@@ -784,6 +802,7 @@
           <NavigationProperty Name="fondo" Relationship="Self.fk_idFondo_Contrato" FromRole="Contrato" ToRole="fondo" />
           <NavigationProperty Name="zona" Relationship="Self.fk_idZona_Contrato" FromRole="Contrato" ToRole="zona" />
           <NavigationProperty Name="laboratorioCalidad" Relationship="Self.labCalidadContrato" FromRole="Contrato" ToRole="laboratorioCalidad" />
+          <NavigationProperty Name="boleta" Relationship="Proyecto_IAAModel.fk_idContrato_boleta" FromRole="Contrato" ToRole="boleta" />
         </EntityType>
         <EntityType Name="contratoItem">
           <Key>
@@ -1419,7 +1438,23 @@
             <End Role="ruta" EntitySet="ruta" />
             <End Role="zona" EntitySet="zona" />
           </AssociationSet>
+          <AssociationSet Name="fk_idContrato_boleta" Association="Proyecto_IAAModel.fk_idContrato_boleta">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="fk_idContrato_boleta">
+          <End Type="Proyecto_IAAModel.Contrato" Role="Contrato" Multiplicity="1" />
+          <End Type="Proyecto_IAAModel.boleta" Role="boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1429,6 +1464,7 @@
           <EntitySetMapping Name="boleta">
             <EntityTypeMapping TypeName="Proyecto_IAAModel.boleta">
               <MappingFragment StoreEntitySet="boleta">
+                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="numeroBoleta" ColumnName="numeroBoleta" />
                 <ScalarProperty Name="idFondo" ColumnName="idFondo" />

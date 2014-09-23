@@ -193,6 +193,7 @@
     <Compile Include="Controllers\Mis_Controladores\PersonaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ProgramaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ProyectoItemController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\Proyecto_EstructuraController.cs" />
     <Compile Include="Controllers\Mis_Controladores\RutaController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ContratistaController.cs" />
@@ -351,6 +352,10 @@
     <Content Include="Views\Boleta\Details.cshtml" />
     <Content Include="Views\Boleta\Edit.cshtml" />
     <Content Include="Views\Boleta\Index.cshtml" />
+    <Content Include="Views\Proyecto_Estructura\Create.cshtml" />
+    <Content Include="Views\Proyecto_Estructura\Delete.cshtml" />
+    <Content Include="Views\Proyecto_Estructura\Edit.cshtml" />
+    <Content Include="Views\Proyecto_Estructura\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

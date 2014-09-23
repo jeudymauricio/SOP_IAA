@@ -42,10 +42,12 @@ namespace SOP_IAA_DAL
         public short seccionControl { get; set; }
 
         [Required]
+        [StringLength(10)]
         [DisplayName("Estacionamiento Inicial")]
         public string estacionamientoInicial { get; set; }
 
         [Required]
+        [StringLength(10)]
         [DisplayName("Estacionamiento Final")]
         public string estacionamientoFinal { get; set; }
 
@@ -53,14 +55,19 @@ namespace SOP_IAA_DAL
         [DisplayName("Periodo")]
         public byte periodo { get; set; }
 
-        /*
+        [Required]
+        [DisplayName("Proyecto/Estructura")]
         public int idProyecto_Estructura { get; set; }
-        */
+        
 
         [Required]
+        [StringLength(100)]
         [DisplayName("Observaciones")]
         public string observaciones { get; set; }
 
+        [Required]
+        [DisplayName("Contrato")]
+        public int idContrato { get; set; }
         /*
         public virtual ICollection<boletaItem> boletaItem { get; set; }
         public virtual fondo fondo { get; set; }

@@ -1,49 +1,46 @@
-﻿@model IEnumerable<SOP_IAA_DAL.ruta>
+﻿@model SOP_IAA_DAL.ruta
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Proyectos y Estructuras";
 }
 
 <h2> </h2>
-
 <p>
-    @Html.ActionLink("Nueva Ruta", "Create", null, new { @class = "btn btn-primary", @style = "width:150px" })
+    @Html.ActionLink("Nuevo Proyecto/Estructura", "Create", new { idRuta = Model.id }, new { @class = "btn btn-primary"})
 </p>
 <br />
-
 <div class="panel panel-default">
     <div class="panel-heading">
-        Lista Global de Rutas
+        Proyectos y estructuras de @Model.nombre
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
         <div class="table-responsive">
-            <table id="tbRutas" class="display">
+            <table id="tbProyecto_Estructura" class="display">
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.nombre)
+                            Descripción
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.descripcion)
-                        </th>
+                        @*<th>
+                            @Html.DisplayNameFor(model => model.ruta.nombre)
+                        </th>*@
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.proyecto_estructura)
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.nombre)
-                            </td>
-                            <td>
                                 @Html.DisplayFor(modelItem => item.descripcion)
                             </td>
+                            @*<td>
+                                @Html.DisplayFor(modelItem => item.ruta.nombre)
+                            </td>*@
                             <td align="center">
                                 @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
-                                @Html.ActionLink("Proyectos/Estructuras", "Index", "Proyecto_Estructura", new { idRuta = item.id }, null) |
-                                @*@Html.ActionLink("Detalles", "Details", new { id = item.id }) |*@
+                                @*@Html.ActionLink("Details", "Details", new { id=item.id }) |*@
                                 @Html.ActionLink("Eliminar", "Delete", new { id = item.id })
                             </td>
                         </tr>
@@ -55,13 +52,17 @@
     </div>
     <!-- /.panel-body -->
 </div>
+<p>
+    @Html.ActionLink("Atrás", "Index", "Ruta")
+</p>
+
 @section Scripts{
     <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
     <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
 
     <script>
         $(document).ready(function () {
-            $('#tbRutas').dataTable({
+            $('#tbProyecto_Estructura').dataTable({
                 "language": {
                     "url": "/Scripts/plugins/dataTables/Spanish.txt"
                 }

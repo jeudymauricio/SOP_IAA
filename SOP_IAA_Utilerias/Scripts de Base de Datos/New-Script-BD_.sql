@@ -152,7 +152,7 @@ go
 
 -----
 create table proyecto_estructura(
-	id int not null,
+	id int not null identity(1,1),
 	idRuta int not null,
 	descripcion varchar(100) not null,
 	constraint pk_id_proyecto_estructura
@@ -280,6 +280,7 @@ go
 
 create table boleta(
 	id int unique not null identity (1,1),
+	idContrato int not null,
 	numeroBoleta int unique not null,
 	idFondo smallint not null,
 	idRuta int not null,
@@ -300,7 +301,9 @@ create table boleta(
 	 constraint fk_idInspector_boleta
         foreign key (idInspector) references inspector,
 	constraint fk_idProyecto_Estructura_proyecto_estructura
-        foreign key (idProyecto_Estructura) references proyecto_estructura
+        foreign key (idProyecto_Estructura) references proyecto_estructura,
+	constraint fk_idContrato_boleta
+        foreign key (idContrato) references Contrato
 )
 go
 

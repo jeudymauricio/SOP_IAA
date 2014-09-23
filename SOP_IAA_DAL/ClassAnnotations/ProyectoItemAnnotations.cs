@@ -26,10 +26,12 @@ namespace SOP_IAA_DAL
 
         [Required]
         [DisplayName("Fecha Inicio")]
+        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public System.DateTime fechaInicio { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [DisplayName("Fecha de Fin")]
         public System.DateTime fechaFin { get; set; }

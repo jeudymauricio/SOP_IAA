@@ -385,6 +385,15 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este proyecto/estructura?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_PROYECTO_ESTRUCTURA {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_PROYECTO_ESTRUCTURA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar esta zona?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_ZONA {
