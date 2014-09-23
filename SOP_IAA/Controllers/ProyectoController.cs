@@ -121,9 +121,9 @@ namespace SOP_IAA.Controllers
         }
 
         // GET: proyecto/Edit/5
-        public ActionResult Edit(int? id, int? _id, int? _idContrato, Int32? _ano, Int16? _trimestre)
+        public ActionResult Edit(int? id, /*int? _id,*/ int? _idContrato, Int32? _ano, Int16? _trimestre)
         {
-            if ((id == null) || (_id == null) || (_idContrato == null) || (_ano == null) || (_trimestre == null))
+            if ((id == null) /*|| (_id == null)*/ || (_idContrato == null) || (_ano == null) || (_trimestre == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -138,7 +138,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre", proyecto.idTipoProyecto);
 
             //Variables del programa
-            ViewBag.idP = _id;
+           // ViewBag.idP = _id;
             ViewBag.idCont = _idContrato;
             ViewBag.ano = _ano;
             ViewBag.tri = _trimestre;

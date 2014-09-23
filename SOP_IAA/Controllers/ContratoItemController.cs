@@ -14,6 +14,7 @@ namespace SOP_IAA.Controllers
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
+
         /*// GET: ContratoItem
         public ActionResult Index()
         {

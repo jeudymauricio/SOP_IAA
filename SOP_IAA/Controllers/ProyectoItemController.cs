@@ -35,7 +35,7 @@ namespace SOP_IAA.Controllers
             {
                 db.proyectoItem.Add(proyectoItem);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",  new { _id = proyectoItem.idProyecto });
             }
 
             ViewBag.idItem = new SelectList(db.item, "id", "codigoItem", proyectoItem.idItem);
