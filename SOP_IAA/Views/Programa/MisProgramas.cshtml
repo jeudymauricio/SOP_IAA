@@ -6,51 +6,65 @@
 
 <h2> Programas del contrato @Model.licitacion </h2>
 <p>
-    @Html.ActionLink("Nuevo Programa", "Create", new { id = Model.id })
+    @Html.ActionLink("Agregar programas", "Create", new { id = Model.id }, new { @class = "btn btn-primary", @style = "width:150px" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Trimestre
-        </th>
-        <th>
-            Año
-        </th>
-        <th>
-            Fecha Inicio
-        </th>
-        <th>
-            Fecha Fin
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model.programa)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.trimestre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ano)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.progProy.fechaInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.progProy.fechaFin)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
-                @*@Html.ActionLink("Detalles", "Details", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |*@
-                @Html.ActionLink("Proyectos", "AgregarProyecto", new { id = ViewBag.idPrograma, idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Eliminar", "Delete", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-    }
-
-</table>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Programas del contrato @Model.licitacion
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbProgramas" class="display">
+                <thead>
+                    <tr>
+                        <th>Trimestre</th>
+                        <th>Año</th>
+                        <th>Fecha de inicio</th>
+                        <th>Fecha final</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.programa)
+                    {
+                        <tr>
+                            <td>@item.trimestre</td>
+                            <td>@item.ano</td>
+                            <td>@item.progProy.fechaInicio</td>
+                            <td>@item.progProy.fechaFin</td>
+                            <td>
+                                @Html.ActionLink("Editar", "Edit", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
+                                @*@Html.ActionLink("Detalles", "Details", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |*@
+                                @Html.ActionLink("Proyectos", "AgregarProyecto", new { id = ViewBag.idPrograma, idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Eliminar", "Delete", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
 
 <div>
     @Html.ActionLink("Atrás", "MiContrato", "Contrato", new { id = Model.id }, null)
 </div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbProgramas').dataTable({
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        })
+    </script>
+}
