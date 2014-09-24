@@ -14,11 +14,20 @@ namespace SOP_IAA_DAL
     
     public partial class contratoItem
     {
+        public contratoItem()
+        {
+            this.boletaItem = new HashSet<boletaItem>();
+            this.proyectoItem = new HashSet<proyectoItem>();
+        }
+    
+        public int id { get; set; }
         public int idContrato { get; set; }
         public int idItem { get; set; }
-        public int precioUnitario { get; set; }
+        public decimal precioUnitario { get; set; }
     
+        public virtual ICollection<boletaItem> boletaItem { get; set; }
         public virtual Contrato Contrato { get; set; }
         public virtual item item { get; set; }
+        public virtual ICollection<proyectoItem> proyectoItem { get; set; }
     }
 }

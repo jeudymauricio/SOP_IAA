@@ -22,7 +22,7 @@ namespace SOP_IAA_DAL
 
         [Required]
         [DisplayName("Item")]
-        public int idItem { get; set; }
+        public int idContratoItem { get; set; }
 
         [Required]
         [DisplayName("Fecha Inicio")]
@@ -38,6 +38,6 @@ namespace SOP_IAA_DAL
 
         [Required]
         [DisplayName("Costo Estimado")]
-        public int costoEstimado { get; set; }
+        public decimal costoEstimado { get; set; }
     }
 }

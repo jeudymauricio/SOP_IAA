@@ -69,7 +69,7 @@ SET IDENTITY_INSERT [dbo].Contrato ON   -- Apaga el auto incremento Identity
 GO
 insert into Contrato(id, licitacion, idContratista,lugar,lineaContrato,idZona,fechaInicio, plazo, idFondo) values
 	(1, 'LP N°2009-000003-CV','1','CONSERVACIÓN VIAL DE LA RED VIAL NACIONAL PAVIMENTADA DE LA ZONA 6-1, SAN CARLOS ESTE.','11','1','01/09/2011','1095','1'),
-	(2, 'LP N°2010-000001-CV','1','CONSERVACIÓN VIAL DE LA RED VIAL NACIONAL PAVIMENTADA DE LA ZONA 6-1, SAN CARLOS ESTE.','11','1','01/09/2012','1095','1')
+	(2, 'LP N°2010-000001-CV','1','CONSERVACIÓN VIAL DE LA RED VIAL NACIONAL PAVIMENTADA DE LA ZONA 6-2, SAN CARLOS ESTE.','11','1','01/09/2012','1095','1')
 go
 SET IDENTITY_INSERT [dbo].Contrato OFF   -- Enciende el auto incremento Identity
 GO

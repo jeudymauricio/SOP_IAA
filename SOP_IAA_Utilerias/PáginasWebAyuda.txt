@@ -1,6 +1,11 @@
 ﻿http://www.codeproject.com/Articles/177335/Refreshing-content-of-the-table-using-AJAX-in-ASP
 http://stackoverflow.com/questions/17671105/asp-mvc-href-to-a-controller-view
 
+Formato de Moneda
+	http://www.growingwiththeweb.com/2012/12/aspnet-mvc-display-and-editor-templates.html
+	http://geeks.ms/blogs/jtorrecilla/archive/2014/04/19/mostrando-un-valor-de-moneda-con-formato-en-base-a-su-cultura.aspx
+	http://www.variablenotfound.com/2011/04/aspnet-mvc-3-y-la-coma-en-los-decimales.html
+
 
 Exportar datos de excel a SQL
 	http://tools.perceptus.ca/text-wiz.php?ops=7

@@ -14,12 +14,12 @@ namespace SOP_IAA_DAL
     
     public partial class boletaItem
     {
-        public int idProyectoItem { get; set; }
+        public int idContratoItem { get; set; }
         public int idBoleta { get; set; }
         public int cantidad { get; set; }
-        public int costoActual { get; set; }
+        public decimal costoTotal { get; set; }
     
         public virtual boleta boleta { get; set; }
-        public virtual proyectoItem proyectoItem { get; set; }
+        public virtual contratoItem contratoItem { get; set; }
     }
 }

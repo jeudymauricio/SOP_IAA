@@ -15,9 +15,18 @@ namespace SOP_IAA_DAL
 
     public class contratoItemMetaData
     {
+        [DisplayName("Contrato")]
+        public int idContrato { get; set; }
+
+        [DisplayName("Item")]
+        public int idItem { get; set; }
+
         [Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:C4}")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0.####}")]
+        //[DataType(DataType.Currency)]
         [DisplayName("Precio Unitario")]
-        public int precioUnitario { get; set; }
+        public decimal precioUnitario { get; set; }
 
     }
 }

@@ -127,7 +127,7 @@ create table ingenieroContrato(
 )
 go
 
------
+
 create table ruta(
 	id int unique not null identity (1,1),
 	nombre varchar(20),
@@ -137,7 +137,7 @@ create table ruta(
 )
 go
 
------
+
 create table zonaRuta(
 	idZona smallint not null,
 	idRuta int not null,
@@ -150,7 +150,7 @@ create table zonaRuta(
 )
 go
 
------
+
 create table proyecto_estructura(
 	id int not null identity(1,1),
 	idRuta int not null,
@@ -187,7 +187,7 @@ create table progProy(
 	id int unique not null identity (1,1),
 	fechaInicio date,
 	fechaFin date,
-	monto int not null,
+	monto money not null,
 	constraint pk_idProgProy
         primary key (id),
 )
@@ -233,26 +233,27 @@ create table proyecto
 )
 go
 
----------
+
 ---alter table item add unique (codigoItem)
 create table item(
 	id int unique not null identity (1,1),
 	codigoItem varchar(25) unique not null,
 	descripcion varchar(100) not null,
 	unidadMedida varchar(10) not null,
-	--precioUnitario int not null,
 	constraint pk_id_item
         primary key (id)
 )
 go
 
----- <<
+---
 create table contratoItem(
+	id int not null identity(1,1),
 	idContrato int not null,
 	idItem int not null,
-	precioUnitario int not null,
+	precioUnitario money not null,
+	CONSTRAINT uq_idContrato_idItem UNIQUE(idContrato, idItem),
 	constraint pk_id_contratoItem_idContrato_idItem
-		primary key(idContrato, idItem),
+		primary key(id),
 	constraint fk_id_contratoItem_idContrato
 		foreign key (idContrato) references contrato,
 	constraint fk_id_contratoItem_idItem
@@ -260,20 +261,21 @@ create table contratoItem(
 )
 go
 
----------
+---
 create table proyectoItem(	
 	id int unique not null identity (1,1),
 	idProyecto int not null,
-	idItem int not null,
+	idContratoItem int not null,
 	fechaInicio date not null,
 	fechaFin date not null,
-	costoEstimado int not null,
+	costoEstimado money not null,
+	CONSTRAINT uq_idProyecto_IdContratoItem UNIQUE (idProyecto, idContratoItem),
 	constraint pk_id_ProyectoItem
         primary key (id),
     constraint fk_idProyecto_proyectoItem
         foreign key (idProyecto) references proyecto,
-    constraint fk_idItem_proyectoItem
-        foreign key (idItem) references item
+    constraint fk_idContratoItem_proyectoItem
+        foreign key (idContratoItem) references contratoItem
 )
 go
 
@@ -307,16 +309,16 @@ create table boleta(
 )
 go
 
----------
+---
 create table boletaItem(
-	idProyectoItem int not null,
+	idContratoItem int not null,
 	idBoleta int not null,
 	cantidad int not null,
-	costoActual int not null,
-	constraint pk_idItem_idBoleta_boletaItem
-        primary key (idProyectoItem,idBoleta),
-    constraint fk_idProyectoItem_boletaItem
-        foreign key (idProyectoItem) references proyectoItem,
+	costoTotal money not null,
+	constraint pk_idContratoItem_idBoleta_boletaItem
+        primary key (idContratoItem,idBoleta),
+    constraint fk_idContratoItem_boletaItem
+        foreign key (idContratoItem) references contratoItem,
     constraint fk_idBoleta_boletaItem
         foreign key (idBoleta) references boleta
 )
@@ -324,3 +326,4 @@ go
 
 /*Hasta aquí*/
 
+ 

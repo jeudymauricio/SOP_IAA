@@ -192,7 +192,7 @@
     <Compile Include="Controllers\Mis_Controladores\ItemController.cs" />
     <Compile Include="Controllers\Mis_Controladores\PersonaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ProgramaController.cs" />
-    <Compile Include="Controllers\Mis_Controladores\ProyectoItemController.cs" />
+    <None Include="Controllers\Mis_Controladores\ProyectoItemController" />
     <Compile Include="Controllers\Mis_Controladores\Proyecto_EstructuraController.cs" />
     <Compile Include="Controllers\Mis_Controladores\RutaController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
@@ -201,7 +201,7 @@
     <Compile Include="Controllers\Mis_Controladores\ZonaController.cs" />
     <Compile Include="Controllers\ProgramaController.cs" />
     <Compile Include="Controllers\ProyectoController.cs" />
-    <Compile Include="Controllers\ProyectoItemController.cs" />
+    <None Include="Controllers\ProyectoItemController_" />
     <Compile Include="Controllers\ProyectosProgramaController.cs" />
     <Compile Include="Controllers\RutaController.cs" />
     <Compile Include="Controllers\TipoProyectoController.cs" />
@@ -209,6 +209,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\CurrencyDisplayAttribute.cs" />
+    <Compile Include="HtmlHelpers\Helpers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContratoViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -330,11 +332,11 @@
     <Content Include="Views\Item\Details.cshtml" />
     <Content Include="Views\Item\Edit.cshtml" />
     <Content Include="Views\Item\Index.cshtml" />
-    <Content Include="Views\ProyectoItem\Create.cshtml" />
-    <Content Include="Views\ProyectoItem\Delete.cshtml" />
-    <Content Include="Views\ProyectoItem\Details.cshtml" />
-    <Content Include="Views\ProyectoItem\Edit.cshtml" />
-    <Content Include="Views\ProyectoItem\Index.cshtml" />
+    <Content Include="Views\ProyectoItem_old\Create.cshtml" />
+    <Content Include="Views\ProyectoItem_old\Delete.cshtml" />
+    <Content Include="Views\ProyectoItem_old\Details.cshtml" />
+    <Content Include="Views\ProyectoItem_old\Edit.cshtml" />
+    <Content Include="Views\ProyectoItem_old\Index.cshtml" />
     <Content Include="Views\Zona\ZonaRutasEditar.cshtml" />
     <Content Include="Views\Inspector\Create.cshtml" />
     <Content Include="Views\Inspector\Delete.cshtml" />

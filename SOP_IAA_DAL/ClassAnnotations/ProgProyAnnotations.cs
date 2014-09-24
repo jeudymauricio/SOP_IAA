@@ -28,7 +28,7 @@ namespace SOP_IAA_DAL
 
         [Required]
         [DisplayName("Monto Estimado")]
-        public int monto { get; set; }
+        public decimal monto { get; set; }
 
   
     }

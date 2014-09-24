@@ -23,7 +23,7 @@ namespace SOP_IAA_DAL
         public int id { get; set; }
         public Nullable<System.DateTime> fechaInicio { get; set; }
         public Nullable<System.DateTime> fechaFin { get; set; }
-        public int monto { get; set; }
+        public decimal monto { get; set; }
     
         public virtual ICollection<programa> programa { get; set; }
         public virtual ICollection<proyecto> proyecto { get; set; }
