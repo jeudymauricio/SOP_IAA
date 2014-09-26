@@ -1,11 +1,25 @@
-﻿http://www.codeproject.com/Articles/177335/Refreshing-content-of-the-table-using-AJAX-in-ASP
+﻿http://www.corelangs.com/css/box/center-div.html
+http://www.codeproject.com/Articles/177335/Refreshing-content-of-the-table-using-AJAX-in-ASP
 http://stackoverflow.com/questions/17671105/asp-mvc-href-to-a-controller-view
 
+Alter tables SQL Server
+	http://stackoverflow.com/questions/10184086/mysql-how-to-increase-varchar-size-of-an-existing-column-in-a-database-without
+	http://dba.stackexchange.com/questions/15007/sql-server-2008-change-length-of-varchar-on-live-prod-table
+	http://www.sqlteam.com/forums/topic.asp?TOPIC_ID=81948
+	ALTER TABLE [dbo].[boleta] ALTER COLUMN [observaciones] VARCHAR(150); -- Cambia la columna observaciones a un varchar de 150
+
+
 Formato de Moneda
+	http://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.displayformatattribute(v=vs.110).aspx
 	http://www.growingwiththeweb.com/2012/12/aspnet-mvc-display-and-editor-templates.html
 	http://geeks.ms/blogs/jtorrecilla/archive/2014/04/19/mostrando-un-valor-de-moneda-con-formato-en-base-a-su-cultura.aspx
 	http://www.variablenotfound.com/2011/04/aspnet-mvc-3-y-la-coma-en-los-decimales.html
+	http://stackoverflow.com/questions/19800175/c-sharp-mvc-net-format-currency-without-decimals
+	http://www.csharp-examples.net/string-format-double/
 
+Web Culture setting
+	http://msdn.microsoft.com/en-us/library/bz9tc508(v=vs.110).aspx
+	http://msdn.microsoft.com/en-us/library/hy4kkhe0(v=vs.71).aspx
 
 Exportar datos de excel a SQL
 	http://tools.perceptus.ca/text-wiz.php?ops=7
@@ -28,6 +42,13 @@ bootsnip
 breadcrumb - Migas de pan MVC
 	http://joeylicc.wordpress.com/2013/07/08/asp-net-mvc-sitemappath-using-site-map-provider-bootstrap-breadcrumbs/
 
+Dropdown en cascada
+	http://www.c-sharpcorner.com/UploadFile/3d39b4/casecading-dropdown-list-with-mvc-linq-to-sql-and-ajax/
+	http://www.codeproject.com/Articles/258172/Simple-Implementation-of-MVC-Cascading-Ajax-Drop-D
+	http://www.codeproject.com/Articles/730953/Cascading-Dropdown-List-With-MVC-LINQ-to-SQL-and-A
+	http://forums.asp.net/t/1986189.aspx?Passing+dropdown+selected+value+to+controller+using+ajax+call
+	http://stackoverflow.com/questions/16915438/asp-net-mvc-3-listt-to-ienumerableselectlistitem
+
 
 poner nombre al form de MVC
 	http://stackoverflow.com/questions/16186250/while-name-mvc3-form-with-html-beginform-it-display-form-fields-between-syste
@@ -44,9 +65,11 @@ Arrays en JavaScript
 	http://stackoverflow.com/questions/10451893/javascript-create-simple-dynamic-array
 
 datepicker - datetime format
+	http://stackoverflow.com/questions/12053022/mvc-datetime-validation-uk-date-format
 	http://www.bufa.es/jquery-ui-datepicker-espanol/
 	http://stackoverflow.com/questions/21598289/convert-mm-dd-yyyy-to-dd-mm-yyyy-using-javascript-while-adding-number-of-days-wi
 	http://instinctcoder.com/asp-net-mvc-4-jquery-datepicker-date-format-validation/
+	http://www.java2s.com/Tutorial/JavaScript/0571__jQuery/Addimagetodatepickertriggerbutton.htm
 
 autocomplete
 	http://www.codeproject.com/Tips/789425/Auto-Complete-in-ASP-NET-MVC

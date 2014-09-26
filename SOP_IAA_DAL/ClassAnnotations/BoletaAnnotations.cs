@@ -34,7 +34,7 @@ namespace SOP_IAA_DAL
 
         [Required]
         [DisplayName("Fecha")]
-        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public System.DateTime fecha { get; set; }
 
         [Required]
@@ -61,7 +61,7 @@ namespace SOP_IAA_DAL
         
 
         [Required]
-        [StringLength(100)]
+        [StringLength(150)]
         [DisplayName("Observaciones")]
         public string observaciones { get; set; }
 

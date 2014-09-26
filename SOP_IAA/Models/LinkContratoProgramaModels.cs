@@ -16,7 +16,6 @@ namespace SOP_IAA.Models
         public string licitacion { get; set; }
 
         // Elementos de Programa
-
         [Required]
         [DisplayName("Año")]
         public short ano { get; set; }
@@ -26,14 +25,11 @@ namespace SOP_IAA.Models
         public byte trimestre { get; set; }
 
         // Elementos de ProgProy
-
         [Display(Name = "Fecha de Inicio")]
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public Nullable<DateTime> fechaInicio { get; set; }
 
         [Display(Name = "Fecha Fin")]
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public Nullable<DateTime> fechaFin { get; set; }
         public int monto { get; set; }

@@ -23,7 +23,6 @@ namespace SOP_IAA_DAL
         [Required]
         [DisplayName("Fecha de Fin")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
         public Nullable<System.DateTime> fechaFin { get; set; }
 
         [Required]

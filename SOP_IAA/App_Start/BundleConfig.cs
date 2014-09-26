@@ -16,8 +16,12 @@ namespace SOP_IAA
                         "~/Scripts/jquery-ui-1.11.1.js").Include(
                         "~/Scripts/jquery.json.js"));
 
+
+            // Validaciones
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate*").Include(
+                        "~/Scripts/Validaciones/ValidarDecimales.js").Include(
+                        "~/Scripts/Validaciones/ValidarFechas.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/pluggins").Include(
                        "~/Scripts/plugins/morris/raphael.min.js").Include(
@@ -40,11 +44,6 @@ namespace SOP_IAA
                       "~/Content/bootstrap.css",
                       "~/Content/site.css").Include(
                       "~/Content/jquery-ui.css"));
-
-            //Scripts para las tablas con paginación y demás adornos
-            bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
-                "~/Scripts/plugins/dataTables/dataTables.bootstrap.js").Include(
-                "~/Scripts/plugins/dataTables/jquery.data.Tables.js"));
 
             // Para la depuración, establezca EnableOptimizations en false. Para obtener más información,
             // visite http://go.microsoft.com/fwlink/?LinkId=301862

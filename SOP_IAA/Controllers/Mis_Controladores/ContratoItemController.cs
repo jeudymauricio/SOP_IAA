@@ -79,9 +79,16 @@ namespace SOP_IAA.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.contratoItem.Add(contratoItem);
-                db.SaveChanges();
-                return RedirectToAction("Index", new { idContrato = contratoItem.idContrato });
+                try
+                {
+                    db.contratoItem.Add(contratoItem);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { idContrato = contratoItem.idContrato });
+                }
+                catch(Exception)
+                {
+                    ModelState.AddModelError("", "Error al ingresar el item al proyecto, verifique si está duplicado");
+                }
             }
 
             ViewBag.idContrato = new SelectList(db.Contrato, "id", "licitacion", contratoItem.idContrato);
@@ -90,13 +97,13 @@ namespace SOP_IAA.Controllers
         }
 
         // GET: ContratoItem/Edit/5
-        public ActionResult Edit(int? idContrato, int? idItem)
+        public ActionResult Edit(int? id)
         {
-            if ((idContrato == null) || (idItem == null))
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            contratoItem contratoItem = db.contratoItem.Find(idContrato, idItem);
+            contratoItem contratoItem = db.contratoItem.Find(id);
             if (contratoItem == null)
             {
                 return HttpNotFound();
@@ -111,27 +118,26 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "idContrato,idItem,precioUnitario")] contratoItem contratoItem)
+        public ActionResult Edit([Bind(Include = "id, idContrato, idItem, precioUnitario")] contratoItem contratoItem)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(contratoItem).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", new { idContrato = contratoItem.idContrato, idItem = contratoItem.idItem });
+                return RedirectToAction("Index", new { idContrato = contratoItem.idContrato });
             }
-            ViewBag.idContrato = new SelectList(db.Contrato, "id", "licitacion", contratoItem.idContrato);
-            ViewBag.idItem = new SelectList(db.item, "id", "codigoItem", contratoItem.idItem);
-            return View(contratoItem);
+            
+            return View(db.contratoItem.Find(contratoItem.id));
         }
 
         // GET: ContratoItem/Delete/5
-        public ActionResult Delete(int? idContrato, int? idItem)
+        public ActionResult Delete(int? id)
         {
-            if ((idContrato == null) || (idItem == null))
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            contratoItem contratoItem = db.contratoItem.Find(idContrato, idItem);
+            contratoItem contratoItem = db.contratoItem.Find(id);
             if (contratoItem == null)
             {
                 return HttpNotFound();
@@ -142,12 +148,12 @@ namespace SOP_IAA.Controllers
         // POST: ContratoItem/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int idContrato, int idItem)
+        public ActionResult DeleteConfirmed(int id)
         {
-            contratoItem contratoItem = db.contratoItem.Find(idContrato, idItem);
+            contratoItem contratoItem = db.contratoItem.Find(id);
             db.contratoItem.Remove(contratoItem);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { idContrato = contratoItem.idContrato });
         }
     }
 }

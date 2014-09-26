@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SOP_IAA_DAL.boleta>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Lista - Boletas";
 }
 
 <h2> </h2>
@@ -43,19 +43,16 @@
                             @Html.DisplayNameFor(model => model.estacionamientoFinal)
                         </th>
                         <th>
-                            Redimientos
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.periodo)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.observaciones)
                         </th>
                         <th>
-                            Inspector@*@Html.DisplayNameFor(model => model.inspector.idPersona)*@
+                            Inspector
                         </th>
                         <th>
-                            Proyecto/Estructura@*@Html.DisplayNameFor(model => model.proyecto_estructura.descripcion)*@
+                            Proyecto/Estructura
                         </th>
                         <th></th>
                     </tr>
@@ -84,9 +81,6 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.estacionamientoFinal)
-                            </td>
-                            <td>
-                                @Html.DisplayText(((int.Parse(item.estacionamientoFinal) - int.Parse(item.estacionamientoInicial))).ToString());
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.periodo)
@@ -124,7 +118,6 @@
 @section Scripts{
     <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
     <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
-
     <script>
         $(document).ready(function () {
             $('#tbBoletas').dataTable({

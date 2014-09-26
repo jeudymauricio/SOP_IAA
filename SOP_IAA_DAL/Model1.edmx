@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="boleta">
           <Key>
             <PropertyRef Name="id" />
@@ -21,7 +21,7 @@
           <Property Name="estacionamientoFinal" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="periodo" Type="tinyint" Nullable="false" />
           <Property Name="idProyecto_Estructura" Type="int" Nullable="false" />
-          <Property Name="observaciones" Type="varchar" MaxLength="100" />
+          <Property Name="observaciones" Type="varchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="boletaItem">
           <Key>
@@ -30,8 +30,9 @@
           </Key>
           <Property Name="idContratoItem" Type="int" Nullable="false" />
           <Property Name="idBoleta" Type="int" Nullable="false" />
-          <Property Name="cantidad" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="costoTotal" Type="money" Nullable="false" />
+          <Property Name="redimientos" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="contratista">
           <Key>
@@ -733,8 +734,7 @@
             <End Role="zonaRuta" EntitySet="zonaRuta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -754,7 +754,7 @@
           <Property Name="estacionamientoFinal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="periodo" Type="Byte" Nullable="false" />
           <Property Name="idProyecto_Estructura" Type="Int32" Nullable="false" />
-          <Property Name="observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="observaciones" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="boletaItem" Relationship="Self.fk_idBoleta_boletaItem" FromRole="boleta" ToRole="boletaItem" />
           <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_boleta" FromRole="boleta" ToRole="Contrato" />
           <NavigationProperty Name="fondo" Relationship="Self.fk_idFondo_boleta" FromRole="boleta" ToRole="fondo" />
@@ -769,10 +769,11 @@
           </Key>
           <Property Name="idContratoItem" Type="Int32" Nullable="false" />
           <Property Name="idBoleta" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="costoTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="boleta" Relationship="Self.fk_idBoleta_boletaItem" FromRole="boletaItem" ToRole="boleta" />
           <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_boletaItem" FromRole="boletaItem" ToRole="contratoItem" />
+          <Property Name="redimientos" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="contratista">
           <Key>
@@ -1484,6 +1485,7 @@
           <EntitySetMapping Name="boletaItem">
             <EntityTypeMapping TypeName="Proyecto_IAAModel.boletaItem">
               <MappingFragment StoreEntitySet="boletaItem">
+                <ScalarProperty Name="redimientos" ColumnName="redimientos" />
                 <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
                 <ScalarProperty Name="idBoleta" ColumnName="idBoleta" />
                 <ScalarProperty Name="cantidad" ColumnName="cantidad" />
