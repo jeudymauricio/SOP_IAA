@@ -47,7 +47,7 @@ namespace SOP_IAA.Controllers
 
             // Selecciona solo los fondos que existen el el contrato, siempre va a ser uno
             var fondoContrato = db.fondo.Where(f => f.id == contrato.fondo.id);
-            ViewBag.idFondo = new SelectList(fondoContrato, "id", "nombre"); // new SelectList(db.fondo, "id", "nombre")
+            ViewBag.idFondo = new SelectList(fondoContrato, "id", "nombre");
 
             // Se carga la lista de inspectores del sistema
             var mquery = (
@@ -82,7 +82,7 @@ namespace SOP_IAA.Controllers
             }
             else
             {
-                ViewBag.idProyecto_Estructura = new List<SelectListItem> { new SelectListItem { Text = "----", Value = "-1" } };
+                ViewBag.idProyecto_Estructura = new List<SelectListItem> { new SelectListItem { Text = " - ", Value = "-1" } };
             }
 
             // Se manda una boleta con los datos iniciales que debe ser llenada en la vista
@@ -169,10 +169,56 @@ namespace SOP_IAA.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", boleta.idFondo);
-            ViewBag.idInspector = new SelectList(db.inspector, "idPersona", "idPersona", boleta.idInspector);
-            ViewBag.idProyecto_Estructura = new SelectList(db.proyecto_estructura, "id", "descripcion", boleta.idProyecto_Estructura);
-            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", boleta.idRuta);
+
+            // Se busca el contrato, esto para cargar el fondo y las rutas correspondientes al contrato
+            Contrato contrato = db.Contrato.Find(boleta.idContrato);
+
+            // Si no existe el contrato se retorna un 'No encontrado'
+            if (contrato == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Selecciona solo los fondos que existen el el contrato, siempre va a ser uno
+            var fondoContrato = db.fondo.Where(f => f.id == contrato.fondo.id);
+            ViewBag.idFondo = new SelectList(fondoContrato, "id", "nombre", boleta.idFondo);
+
+            // Se carga la lista de inspectores del sistema
+            var mquery = (
+                from p in db.persona
+                join i in db.inspector
+                on p.id equals i.idPersona
+                select new SelectListItem
+                {
+                    Value = p.id.ToString(),
+                    Text = p.nombre + " " + p.apellido1 + " " + p.apellido2
+                }
+            );
+            ViewBag.idInspector = new SelectList(mquery, "Value", "Text", boleta.idInspector);
+
+            // Se cargan las rutas correspondientes a la zona del contrato
+            var rutasContrato = new SelectList(contrato.zona.ruta, "id", "nombre", boleta.idRuta);
+            ViewBag.idRuta = rutasContrato;
+
+
+            if (rutasContrato.ToList().Count != 0)
+            {
+                // Se selecciona de la bd los proyectos estructuras y se convierten en una lista
+                ViewBag.idProyecto_Estructura = db.proyecto_estructura.ToList()
+                    // Se selecciona de la lista sólo los de la primer ruta que se carga al dropdown
+                    .Where(pe => pe.idRuta == int.Parse(rutasContrato.ToList().ElementAt(0).Value))
+                    // Se convirte a lista donde se toman solamente el id y la descripción del pe
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.id.ToString(),
+                        Text = c.descripcion.ToString()
+                    });
+            }
+            else
+            {
+                ViewBag.idProyecto_Estructura = new List<SelectListItem> { new SelectListItem { Text = " - ", Value = "-1" } };
+            }
+
             return View(boleta);
         }
 

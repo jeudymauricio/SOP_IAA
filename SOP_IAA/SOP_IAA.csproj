@@ -254,6 +254,7 @@
     <Content Include="Images\sort_desc.png" />
     <Content Include="Scripts\%28personal%29bootstrap-3.2.0.min.js" />
     <Content Include="Scripts\Boleta\CreateMethods.js" />
+    <Content Include="Scripts\Boleta\EditMethods.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Contrato\CreateMethods.js" />
