@@ -13,31 +13,21 @@ namespace SOP_IAA.Controllers
     public class ProyectoController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
-        //static int? __id;
-        static int? __idContrato;
-        static Int32? __ano;
-        static Int16? __trimestre;
 
-        static int __idProgProy;
-       // static int? __ProgProy;
-
-        // GET: proyecto
+        // GET: Proyecto
         public ActionResult Index(int? _id)
         {
+            //var proyecto = db.proyecto.Include(p => p.programa).Include(p => p.ruta).Include(p => p.tipoProyecto);
+            //return View(proyecto.ToList());
             if ((_id == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            //var proyecto = db.proyecto.Include(p => p.progProy).Include(p => p.ruta).Include(p => p.tipoProyecto);
             programa programa = db.programa.Find(_id);
-            //var proyecto = db.proyecto.Include(pr => pr.ruta).Include(pr => pr.tipoProyecto).Where(pr => pr.idPrograma == programa.id);
-  
-            return View(/*proyecto.ToList()*/programa);
-
+            return View(programa);
         }
 
-        // GET: proyecto/Details/5
+        // GET: Proyecto/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -49,119 +39,80 @@ namespace SOP_IAA.Controllers
             {
                 return HttpNotFound();
             }
-
-            //Varibles para volver al Index
-            //ViewBag.idP = __id;
-            ViewBag.idCont = __idContrato;
-            ViewBag.ano = __ano;
-            ViewBag.tri = __trimestre;
-
             return View(proyecto);
         }
 
-        // GET: proyecto/Create
-        public ActionResult Create(int? _idPP)
+        // GET: Proyecto/Create
+        public ActionResult Create(int? _id)
         {
-            if (_idPP == null)
+            if (_id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            ViewBag.idProgProy = _idPP;
+            ViewBag.idPrograma = _id;//new SelectList(db.programa, "id", "id");
             ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre");
             ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre");
-
-            ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre");
-
-            //Varibles para volver al Index
-            //ViewBag.idP = __id;
-            ViewBag.idCont = __idContrato;
-            ViewBag.ano = __ano;
-            ViewBag.tri = __trimestre;
-
             return View();
         }
 
-        // POST: proyecto/Create
+        // POST: Proyecto/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,idProgProy,idTipoProyecto,idRuta,nombre")] proyecto proyecto)
+        public ActionResult Create([Bind(Include = "id,idPrograma,idTipoProyecto,idRuta,nombre")] proyecto proyecto)
         {
             if (ModelState.IsValid)
             {
                 db.proyecto.Add(proyecto);
                 db.SaveChanges();
-               // int? _id = __id;
-                int? _idContrato = __idContrato;
-                Int32? _ano = __ano;
-                Int16? _trimestre = __trimestre;
-                return RedirectToAction("Index", new { /*_id, */_idContrato, _ano, _trimestre = _trimestre });
+                return RedirectToAction("Index", new { _id = proyecto.idPrograma });
             }
 
-            //ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
+            ViewBag.idPrograma = new SelectList(db.programa, "id", "id", proyecto.idPrograma);
             ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", proyecto.idRuta);
             ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre", proyecto.idTipoProyecto);
             return View(proyecto);
         }
 
-        // GET: proyecto/Edit/5
-        public ActionResult Edit(int? id, /*int? _id,*/ int? _idContrato, Int32? _ano, Int16? _trimestre)
+        // GET: Proyecto/Edit/5
+        public ActionResult Edit(int? id)
         {
-            if ((id == null) /*|| (_id == null)*/ || (_idContrato == null) || (_ano == null) || (_trimestre == null))
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
             proyecto proyecto = db.proyecto.Find(id);
             if (proyecto == null)
             {
                 return HttpNotFound();
             }
-           // ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
+            //ViewBag.idPrograma = new SelectList(db.programa, "id", "id", proyecto.idPrograma);
             ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", proyecto.idRuta);
             ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre", proyecto.idTipoProyecto);
-
-            //Variables del programa
-           // ViewBag.idP = _id;
-            ViewBag.idCont = _idContrato;
-            ViewBag.ano = _ano;
-            ViewBag.tri = _trimestre;
-
-            ViewBag.idProgProy = __idProgProy;
-
             return View(proyecto);
         }
 
-        // POST: proyecto/Edit/5
+        // POST: Proyecto/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,idProgProy,idTipoProyecto,idRuta,nombre")] proyecto proyecto)
+        public ActionResult Edit([Bind(Include = "id,idPrograma,idTipoProyecto,idRuta,nombre")] proyecto proyecto)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(proyecto).State = EntityState.Modified;
                 db.SaveChanges();
-
-
-                //int? _id = __id;
-                int? _idContrato = __idContrato;
-                Int32? _ano = __ano;
-                Int16? _trimestre = __trimestre;
-
-
-                return RedirectToAction("Index", new {_idContrato, _ano, _trimestre = _trimestre });
+                return RedirectToAction("Index", new { _id = proyecto.idPrograma });
             }
-            //ViewBag.idProgProy = new SelectList(db.progProy, "id", "id", proyecto.idProgProy);
+            ViewBag.idPrograma = new SelectList(db.programa, "id", "id", proyecto.idPrograma);
             ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", proyecto.idRuta);
             ViewBag.idTipoProyecto = new SelectList(db.tipoProyecto, "id", "nombre", proyecto.idTipoProyecto);
             return View(proyecto);
         }
 
-        // GET: proyecto/Delete/5
+        // GET: Proyecto/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -173,19 +124,10 @@ namespace SOP_IAA.Controllers
             {
                 return HttpNotFound();
             }
-
-            //Variables del programa
-            //ViewBag.idP = __id;
-            ViewBag.idCont = __idContrato;
-            ViewBag.ano = __ano;
-            ViewBag.tri = __trimestre;
-
-            ViewBag.idProgProy = __idProgProy;
-
             return View(proyecto);
         }
 
-        // POST: proyecto/Delete/5
+        // POST: Proyecto/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -193,20 +135,7 @@ namespace SOP_IAA.Controllers
             proyecto proyecto = db.proyecto.Find(id);
             db.proyecto.Remove(proyecto);
             db.SaveChanges();
-
-            //Para regresar al Index
-            //int? _id = __id;
-            int? _idContrato = __idContrato;
-            Int32? _ano = __ano;
-            Int16? _trimestre = __trimestre;
-
-
-            return RedirectToAction("Index", new { /*_id, */_idContrato, _ano, _trimestre = _trimestre });
-        }
-
-        public ActionResult ItemsProyecto(int? id)
-        {
-            return RedirectToAction("Index", "ProyectoItem", new { /*_id = id,*/ _id = id });
+            return RedirectToAction("Index", new { _id = proyecto.idPrograma });
         }
 
         protected override void Dispose(bool disposing)

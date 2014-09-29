@@ -1,15 +1,14 @@
-﻿@model IEnumerable<SOP_IAA_DAL.proyecto>
+﻿@model SOP_IAA_DAL.programa
 
 @{
     ViewBag.Title = "Proyectos";
 }
 
-<h2>Proyectos</h2>
+<h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Nuevo Proyecto", "Create", new { _idPP = ViewBag.idProgProy })
+    @Html.ActionLink("Nuevo Proyecto", "Create",new { _id = Model.id })
 </p>
-
 <div class="panel panel-default">
     <div class="panel-heading">
         Proyectos del contrato
@@ -27,18 +26,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.proyecto)
                     {
                         <tr>
                             <td>@item.tipoProyecto.nombre</td>
                             <td>@item.nombre</td>
                             <td>@item.ruta.nombre</td>
-                            
+
                             <td>
-                                @Html.ActionLink("Editar", "Edit", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri }) |
+                                @Html.ActionLink("Editar", "Edit", new { id = item.id}) |
                                 @*@Html.ActionLink("Detalles", "Details", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri }) |*@
                                 @Html.ActionLink("Items", "ItemsProyecto", new { id = item.id }) |
-                                @Html.ActionLink("Eliminar", "Delete", new { id = item.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri })
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.id })
                         </tr>
                     }
                 </tbody>
@@ -50,7 +49,7 @@
 </div>
 
 <div>
-    @Html.ActionLink("Atrás", "MisProgramas", "Programa", new { _id = ViewBag.idCont }, null)
+    @Html.ActionLink("Atrás", "Index", "Programa", new { id = Model.idContrato }, null)
 </div>
 
 @section Scripts{

@@ -1,38 +1,26 @@
-﻿@model IEnumerable<SOP_IAA_DAL.programa>
+﻿@model SOP_IAA_DAL.Contrato
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = @Model.licitacion + " Programas";
 }
 
-<h2>Index</h2>
+<h2> Programas del contrato @Model.licitacion </h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Nuevo Programa", "Create" ,new { id = Model.id }, new { @class = "btn btn-primary", @style = "width:150px" })
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ano)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.trimestre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaInicio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaFin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.monto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Contrato.licitacion)
-        </th>
+        <th>Año</th>
+        <th>Trimestre</th>
+        <th>Fecha de inicio</th>
+        <th>Fecha final</th>
+        <th>Monto</th>
+        <th>Licitación</th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.programa) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.ano)
@@ -53,11 +41,16 @@
             @Html.DisplayFor(modelItem => item.Contrato.licitacion)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.id }) |
+            @*@Html.ActionLink("Proyectos", "AgregarProyecto", new { id = item.id }) |*@
+            <a href=@Url.Action("Index", "Proyecto", new { _id = item.id })>Proyectos</a> |
+               @Html.ActionLink("Eliminar", "Delete", new { id = item.id })</td>
     </tr>
 }
 
 </table>
+
+<div>
+    @Html.ActionLink("Atrás", "MiContrato", "Contrato", new { id = Model.id }, null)
+</div>
