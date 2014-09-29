@@ -15,15 +15,26 @@ namespace SOP_IAA_DAL
 
     public class programaMetaData
     {
-        
-        [Required]
+
+        [DisplayName("Contrato")]
+        public int idContrato { get; set; }
+
         [DisplayName("Año")]
-        public int ano { get; set; }
+        public short ano { get; set; }
 
-        [Required]
         [DisplayName("Trimestre")]
-        public int trimestre { get; set; }
+        public byte trimestre { get; set; }
 
+        [DisplayName("Fecha de Inicio")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public System.DateTime fechaInicio { get; set; }
+
+        [DisplayName("Fecha de Fin")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public System.DateTime fechaFin { get; set; }
+
+        [DisplayName("Monto del Programa")]
+        public decimal monto { get; set; }
   
     }
 }

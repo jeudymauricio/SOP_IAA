@@ -1,80 +1,82 @@
 ﻿@model SOP_IAA_DAL.programa
 
 @{
-    ViewBag.Title = "Editar Programa";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Contratación @Model.Contrato.licitacion</h2>
+<h2>Edit</h2>
 
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formEditProgram", id = "formEditProgram" }))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Editar programa</h4>
+        <h4>programa</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @*@Html.HiddenFor(model => model.id)*@
-
-        @Html.HiddenFor(model => model.idContrato)
-        @Html.HiddenFor(model => model.progProy.id)
-        @Html.HiddenFor(model => model.trimestre)
+        @Html.HiddenFor(model => model.id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.trimestre, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.idContrato, "idContrato", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.trimestre, new { htmlAttributes = new { @class = "form-control", @id = "editorTri" } })
-                @Html.ValidationMessageFor(model => model.trimestre, "", new { @class = "text-danger" })
+                @Html.DropDownList("idContrato", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.idContrato, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ano, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ano, new { htmlAttributes = new { @class = "form-control", @id = "editorAno" } })
+                @Html.EditorFor(model => model.ano, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ano, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.progProy.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.trimestre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.progProy.fechaInicio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.progProy.fechaInicio, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.trimestre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.trimestre, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.progProy.fechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.progProy.fechaFin, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.progProy.fechaFin, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.progProy.monto, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.fechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.progProy.monto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.progProy.monto, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.fechaFin, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fechaFin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.monto, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.monto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.monto, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar Cambios" class="btn btn-success" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Atrás", "MisProgramas", new { _id = Model.Contrato.id})
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
-    @*@Scripts.Render("~/bundles/jqueryval")*@
-
-    <script src="~/Scripts/Programa/EditMethods.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
 }

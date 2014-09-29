@@ -16,17 +16,17 @@ namespace SOP_IAA_DAL
     {
         public proyecto()
         {
-            this.proyectoItem = new HashSet<proyectoItem>();
+            this.proyectoItemReajuste = new HashSet<proyectoItemReajuste>();
         }
     
         public int id { get; set; }
-        public int idProgProy { get; set; }
+        public int idPrograma { get; set; }
         public int idTipoProyecto { get; set; }
         public int idRuta { get; set; }
         public string nombre { get; set; }
     
-        public virtual progProy progProy { get; set; }
-        public virtual ICollection<proyectoItem> proyectoItem { get; set; }
+        public virtual programa programa { get; set; }
+        public virtual ICollection<proyectoItemReajuste> proyectoItemReajuste { get; set; }
         public virtual ruta ruta { get; set; }
         public virtual tipoProyecto tipoProyecto { get; set; }
     }
