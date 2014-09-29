@@ -1,5 +1,4 @@
-﻿@using SOP_IAA.HTML_Helpers
-@model SOP_IAA_DAL.Contrato
+﻿@model SOP_IAA_DAL.Contrato
 
 @{
     ViewBag.Title = "Contrato Items";
@@ -37,11 +36,10 @@
                             <td>@item.item.codigoItem</td>
                             <td>@item.item.descripcion</td>
                             <td>@item.item.unidadMedida</td>
-                            @*<td align="right"> @Html.DisplayFor(model => item.precioUnitario))</td>  @*---  @Html.Currency(item.precioUnitario)*@
-                            <td align="right"> @String.Format("{0:C2}",(item.precioUnitario))</td>
+                            <td align="right"> @String.Format("{0:C3}",(item.precioUnitario))</td>
                             <td align="center">
-                                @Html.ActionLink("Cambiar Precio", "Edit", new { idContrato = Model.id, idItem = item.idItem }) |
-                                @Html.ActionLink("Eliminar del Contrato", "Delete", new { idContrato = Model.id, idItem = item.idItem })
+                                @Html.ActionLink("Cambiar Precio", "Edit", new { id = item.id }) |
+                                @Html.ActionLink("Eliminar del Contrato", "Delete", new { id = item.id })
                             </td>
                         </tr>
                     }

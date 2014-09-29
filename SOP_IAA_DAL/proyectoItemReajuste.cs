@@ -12,20 +12,16 @@ namespace SOP_IAA_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class progProy
+    public partial class proyectoItemReajuste
     {
-        public progProy()
-        {
-            this.programa = new HashSet<programa>();
-            this.proyecto = new HashSet<proyecto>();
-        }
-    
         public int id { get; set; }
-        public Nullable<System.DateTime> fechaInicio { get; set; }
-        public Nullable<System.DateTime> fechaFin { get; set; }
-        public decimal monto { get; set; }
+        public int idProyecto { get; set; }
+        public int idItemTReajuste { get; set; }
+        public System.DateTime fechaInicio { get; set; }
+        public System.DateTime fechaFin { get; set; }
+        public decimal costoEstimado { get; set; }
     
-        public virtual ICollection<programa> programa { get; set; }
-        public virtual ICollection<proyecto> proyecto { get; set; }
+        public virtual itemReajuste itemReajuste { get; set; }
+        public virtual proyecto proyecto { get; set; }
     }
 }

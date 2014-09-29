@@ -1,7 +1,7 @@
 SET IDENTITY_INSERT persona ON   -- Apaga el auto incremento Identity
 GO
 insert into persona (id, nombre, apellido1, apellido2, cedula) values 
-	(1, 'Nikzon', 'Espinoza', 'Matamonos', '203510255'),
+	--(1, 'Nikzon', 'Espinoza', 'Matamonos', '203510255'),
 	(2, 'Javier', 'Gómez', 'Jara', '203140255'),
 	(3, 'Esteban', 'Coto', 'Corrales', '203510255'),
 	(4, 'Jonathan', 'Granados', '-', '208510255'),
@@ -108,6 +108,24 @@ insert into ruta(id, nombre, descripcion) values
 go
 SET IDENTITY_INSERT [dbo].Contrato OFF   -- Enciende el auto incremento Identity
 GO
+
+insert into proyecto_estructura(idRuta, descripcion) values
+	('6','Sector-Las Torres del ICE'),
+	('7','Sector Puente los Negritos'),
+	('6','Mantenimiento y limpieza'),
+	('7','Mantenimiento y limpieza'),
+	('6','Rehabilitación'),
+	('7','Rehabilitación'),
+	('6','Mantenimiento'),
+	('7','Mantenimiento'),
+	('7','Proyecto-Bomba Delta'),
+	('6','Mejoramiento del sistema de drenajes de Cinchona'),
+	('8','Colocación de Tubería-Sector Grupo Q'),
+	('8','Puente Casa'),
+	('8',' Cuneta revestida-Sector de Florencia'),
+	('8','Mejoramiento y manejo de aguas-Sectot Grupo Q'),
+	('8', 'Cuneta revestida-Puente Casa')
+go
 
 insert into zonaRuta (idZona, idRuta) values
 	(2,1),
@@ -245,9 +263,33 @@ INSERT INTO item (codigoItem,descripcion,unidadMedida) VALUES ('107(11)A','Capta
 INSERT INTO item (codigoItem,descripcion,unidadMedida) VALUES ('109.04','Trabajo a costo más porcentaje',' glob ');
 go
 
+insert into inspector (idPersona) values
+	('1'),
+	('2'),
+	('3'),
+	('4'),
+	('5')
+go
+
 insert into contratoItem (idContrato, idItem, precioUnitario) VALUES
 	('1','1','500'),
 	('1','2','1500'),
 	('1','3','2000'),
 	('2','4','1000')
 go
+
+insert into tipoProyecto (nombre) values 
+	('Mejoramiento derecho via'),
+	('Mejoramiento sistema drenaje'),
+	('Mejoramiento de Puentes'),
+	('Bacheos'),
+	('Chapea'),
+	('Mejoramiento de sistema cunetas y sistema drenajes'),
+	('Ampliación'),
+	('Construcción'),
+	('Mejoramiento'),
+	('Mejoramiento Entroque'),
+	('Muros'),
+	('Mantenimiento')
+go
+

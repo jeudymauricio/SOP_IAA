@@ -56,7 +56,6 @@
     <Compile Include="boletaItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ClassAnnotations\BoletaAnnotations.cs" />
     <Compile Include="contratista.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -81,6 +80,9 @@
     <Compile Include="item.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="itemReajuste.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="laboratorioCalidad.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -92,16 +94,13 @@
     <Compile Include="persona.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="progProy.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="programa.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="proyecto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="proyectoItem.cs">
+    <Compile Include="proyectoItemReajuste.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="proyecto_estructura.cs">
@@ -122,19 +121,20 @@
     <Compile Include="zona.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <None Include="ClassAnnotations\BoletaItemAnnotations" />
+    <Compile Include="ClassAnnotations\BoletaAnnotations.cs" />
     <Compile Include="ClassAnnotations\ContratoItemAnnotations.cs" />
     <Compile Include="ClassAnnotations\Proyecto_EstructuraAnnotations.cs" />
     <Compile Include="ClassAnnotations\TelefonoAnnotations.cs" />
-    <Compile Include="ClassAnnotations\ProgProyAnnotations.cs" />
-    <Compile Include="ClassAnnotations\ProyectoItemAnnotations.cs" />
+    <None Include="ClassAnnotations\ProyectoItemAnnotations" />
     <Compile Include="ClassAnnotations\ItemAnnotations.cs" />
     <Compile Include="ClassAnnotations\ContratistaAnnotations.cs" />
     <Compile Include="ClassAnnotations\FondoAnnotations.cs" />
     <Compile Include="ClassAnnotations\IngenieroAnnotations.cs" />
     <Compile Include="ClassAnnotations\PersonaAnnotations.cs" />
     <Compile Include="ClassAnnotations\ProgramaAnotations.cs" />
-    <Compile Include="ClassAnnotations\ProyectoAnnotations.cs" />
-    <Compile Include="ClassAnnotations\ProyectosProgramaAnnotations.cs" />
+    <None Include="ClassAnnotations\ProyectoAnnotations" />
+    <None Include="ClassAnnotations\ProyectosProgramaAnnotations" />
     <Compile Include="ClassAnnotations\RutaAnnotations.cs" />
     <Compile Include="ClassAnnotations\TipoProyectoAnnotations.cs" />
     <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />

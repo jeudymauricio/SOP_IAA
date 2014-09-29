@@ -183,27 +183,41 @@ create table labCalidadContrato(
 )
 go
 
-create table progProy(
-	id int unique not null identity (1,1),
-	fechaInicio date,
-	fechaFin date,
-	monto money not null,
-	constraint pk_idProgProy
-        primary key (id),
-)
-go
+--create table progProy(
+--	id int unique not null identity (1,1),
+--	fechaInicio date,
+--	fechaFin date,
+--	monto money not null,
+--	constraint pk_idProgProy
+--        primary key (id),
+--)
+--go
+
+--create table programa(
+--	idContrato int not null,
+--	ano smallint not null,
+--	trimestre tinyint not null,
+--	idProgProy int not null,
+--	constraint pk_idContrato_ano_trimestre_programa
+--        primary key (idContrato, ano, trimestre),
+--	constraint fk_idContrato_programa
+--        foreign key (idContrato) references Contrato,
+--	constraint fk_idProgProy_progProy
+--        foreign key (idProgProy) references progProy
+--)
+--go
 
 create table programa(
+	id int identity not null,
 	idContrato int not null,
 	ano smallint not null,
 	trimestre tinyint not null,
-	idProgProy int not null,
-	constraint pk_idContrato_ano_trimestre_programa
-        primary key (idContrato, ano, trimestre),
+	constraint pk_id_programa
+		primary key (id),
+	constraint uq_idContrato_ano_trimestre_programa
+        unique (idContrato, ano, trimestre),
 	constraint fk_idContrato_programa
-        foreign key (idContrato) references Contrato,
-	constraint fk_idProgProy_progProy
-        foreign key (idProgProy) references progProy
+        foreign key (idContrato) references Contrato
 )
 go
 
@@ -218,20 +232,38 @@ go
 create table proyecto
 (
 	id int unique not null identity (1,1),
-	idProgProy int not null,
+	idPrograma int not null,
 	idTipoProyecto int not null,
 	idRuta int not null,
 	nombre varchar(50),
 	constraint pk_id_subProyecto
         primary key (id),
-	constraint fk_idProgProy_proyecto
-        foreign key (idProgProy) references progproy,
+	constraint fk_idPrograma_proyecto
+        foreign key (idPrograma) references programa,
 	constraint fk_idTipoProyecto_proyecto
         foreign key (idTipoProyecto) references tipoProyecto,
 	constraint fk_idRuta_ruta
         foreign key (idRuta) references ruta
 )
 go
+
+--create table proyecto
+--(
+--	id int unique not null identity (1,1),
+--	idProgProy int not null,
+--	idTipoProyecto int not null,
+--	idRuta int not null,
+--	nombre varchar(50),
+--	constraint pk_id_subProyecto
+--        primary key (id),
+--	constraint fk_idProgProy_proyecto
+--        foreign key (idProgProy) references progproy,
+--	constraint fk_idTipoProyecto_proyecto
+--        foreign key (idTipoProyecto) references tipoProyecto,
+--	constraint fk_idRuta_ruta
+--        foreign key (idRuta) references ruta
+--)
+--go
 
 
 ---alter table item add unique (codigoItem)
@@ -313,7 +345,7 @@ go
 create table boletaItem(
 	idContratoItem int not null,
 	idBoleta int not null,
-	cantidad int not null,
+	cantidad decimal not null,
 	costoTotal money not null,
 	constraint pk_idContratoItem_idBoleta_boletaItem
         primary key (idContratoItem,idBoleta),

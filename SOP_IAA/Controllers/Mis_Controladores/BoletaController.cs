@@ -24,7 +24,7 @@ namespace SOP_IAA.Controllers
             ViewBag.idContrato = idContrato;
 
             var boleta = db.boleta.Where(b => b.idContrato == idContrato).Include(b => b.fondo).Include(b => b.inspector).Include(b => b.proyecto_estructura).Include(b => b.ruta);
-            //var boleta = db.boleta.Include(b => b.fondo).Include(b => b.inspector).Include(b => b.proyecto_estructura).Include(b => b.ruta);
+
             return View(boleta.ToList());
         }
 
@@ -38,7 +38,7 @@ namespace SOP_IAA.Controllers
 
             // Se busca el contrato, esto para cargar el fondo y las rutas correspondientes al contrato
             Contrato contrato = db.Contrato.Find(idContrato);
-            
+
             // Si no existe el contrato se retorna un 'No encontrado'
             if (contrato == null)
             {
@@ -47,16 +47,43 @@ namespace SOP_IAA.Controllers
 
             // Selecciona solo los fondos que existen el el contrato, siempre va a ser uno
             var fondoContrato = db.fondo.Where(f => f.id == contrato.fondo.id);
-            ViewBag.idFondo = new SelectList (fondoContrato, "id", "nombre"); // new SelectList(db.fondo, "id", "nombre")
+            ViewBag.idFondo = new SelectList(fondoContrato, "id", "nombre"); // new SelectList(db.fondo, "id", "nombre")
 
             // Se carga la lista de inspectores del sistema
-            ViewBag.idInspector = new SelectList(db.inspector, "idPersona", "idPersona");
+            var mquery = (
+                from p in db.persona
+                join i in db.inspector
+                on p.id equals i.idPersona
+                select new SelectListItem
+                {
+                    Value = p.id.ToString(),
+                    Text = p.nombre + " " + p.apellido1 + " " + p.apellido2
+                }
+            );
+            ViewBag.idInspector = new SelectList(mquery, "Value", "Text");
 
             // Se cargan las rutas correspondientes a la zona del contrato
-            ViewBag.idRuta = new SelectList(contrato.zona.ruta, "id", "nombre"); // new SelectList(db.ruta, "id", "nombre");
+            var rutasContrato = new SelectList(contrato.zona.ruta, "id", "nombre");
+            ViewBag.idRuta = rutasContrato;
 
-            // 
-            ViewBag.idProyecto_Estructura = new SelectList(db.proyecto_estructura, "id", "descripcion");
+
+            if (rutasContrato.ToList().Count != 0)
+            {
+                // Se selecciona de la bd los proyectos estructuras y se convierten en una lista
+                ViewBag.idProyecto_Estructura = db.proyecto_estructura.ToList()
+                    // Se selecciona de la lista sólo los de la primer ruta que se carga al dropdown
+                    .Where(pe => pe.idRuta == int.Parse(rutasContrato.ToList().ElementAt(0).Value))
+                    // Se convirte a lista donde se toman solamente el id y la descripción del pe
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.id.ToString(),
+                        Text = c.descripcion.ToString()
+                    });
+            }
+            else
+            {
+                ViewBag.idProyecto_Estructura = new List<SelectListItem> { new SelectListItem { Text = "----", Value = "-1" } };
+            }
 
             // Se manda una boleta con los datos iniciales que debe ser llenada en la vista
             boleta boleta = new boleta
@@ -68,6 +95,39 @@ namespace SOP_IAA.Controllers
             return View(boleta);
         }
 
+        /// <summary>
+        /// Acción invocada por ajax y que según la ruta seleccionada en el dropdown, devuelve los pe de la ruta
+        /// </summary>
+        /// <param name="idRuta">id de la ruta para buscar sus pe</param>
+        /// <returns>Json con un lista de id y descripción de los pe de la ruta</returns>
+        public ActionResult ObtenerProyectosEstructuras(int? idRuta)
+        {
+            // Si el idRuta está vacío se retorna un badrequest
+            if (idRuta == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Obtiene todos los proyectos y estructuras de la ruta
+            var proyectosEstructuras = db.proyecto_estructura.Where(pe => pe.idRuta == idRuta);
+
+            // Selecciona sólo el id y descripción de cada proyecto-estructura de la ruta
+            var result = (from pe in proyectosEstructuras
+                          select new
+                          {
+                              id = pe.id,
+                              descripcion = pe.descripcion
+                          }).ToList();
+
+            if (result.Count < 1)
+            {
+                // Retornar vacío
+            }
+
+            // Retorna un JSON con la lista de proyecto-estructuras de la ruta
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         // POST: Boleta/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -77,9 +137,16 @@ namespace SOP_IAA.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.boleta.Add(boleta);
-                db.SaveChanges();
-                return RedirectToAction("Index", new { idContrato = boleta.idContrato });
+                try
+                {
+                    db.boleta.Add(boleta);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { idContrato = boleta.idContrato });
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al ingresar la boleta, verifique que no sea un duplicado");
+                }
             }
 
             ViewBag.idContrato = boleta.idContrato;

@@ -7,110 +7,153 @@
 <h2>Agregar Boleta</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>boleta</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.idContrato)
+        <div class="container-fluid panel-body" style="max-width:1500px">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.idContrato)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.numeroBoleta, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.numeroBoleta, new { htmlAttributes = new { @class = "form-control", @Autofocus = true, @Value = "" } })
-                @Html.ValidationMessageFor(model => model.numeroBoleta, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <div id="rootwizard">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.idFondo, null, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idFondo, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <!-- 1. Create the tabs themselves  -->
+                <!-- data-toggle required. -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li><a href="#step1" role="tab" data-toggle="tab">Datos Generales</a></li>
+                    <li><a href="#step2" role="tab" data-toggle="tab">Items</a></li>
+                </ul>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.idRuta, null, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idRuta, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <br />
+                <!-- 2. Create progress bar -->
+                <!-- div class="progress" required. -->
+                <!-- on div id="progressBar" class="progress" required. -->
+                <div class="progress progress-striped active">
+                    <div id="progressBar" class="progress-bar progress-bar-striped" role="progressbar">
+                        <div class="bar">
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.idInspector, null, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idInspector", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idInspector, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <!-- 3. Create a matching tab pane for each tab. Content goes within these panes -->
+                <div class="tab-content">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
-                @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <!-- Sección de datos de boleta -->
+                    <div class="tab-pane active" id="step1">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.numeroBoleta, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.numeroBoleta, new { htmlAttributes = new { @class = "form-control", @Autofocus = true, @Value = "" } })
+                                    @Html.ValidationMessageFor(model => model.numeroBoleta, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.seccionControl, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.seccionControl, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
-                @Html.ValidationMessageFor(model => model.seccionControl, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.idFondo, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.idFondo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.estacionamientoInicial, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.estacionamientoInicial, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
-                @Html.ValidationMessageFor(model => model.estacionamientoInicial, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.idRuta, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control", @id = "ddlRuta" })
+                                    @Html.ValidationMessageFor(model => model.idRuta, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.estacionamientoFinal, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.estacionamientoFinal, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
-                @Html.ValidationMessageFor(model => model.estacionamientoFinal, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.idInspector, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("idInspector", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.idInspector, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.periodo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.periodo, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
-                @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.fecha, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @Value = "", @id = "txtFecha" } })
+                                    @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.idProyecto_Estructura, null, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idProyecto_Estructura", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idProyecto_Estructura, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.seccionControl, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.seccionControl, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
+                                    @Html.ValidationMessageFor(model => model.seccionControl, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max 100 caracteres", @Value = "" } })
-                @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.estacionamientoInicial, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.estacionamientoInicial, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
+                                    @Html.ValidationMessageFor(model => model.estacionamientoInicial, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Agregar Boleta" class="btn btn-primary" />
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.estacionamientoFinal, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.estacionamientoFinal, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
+                                    @Html.ValidationMessageFor(model => model.estacionamientoFinal, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.periodo, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.periodo, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
+                                    @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.idProyecto_Estructura, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+
+                                    @*<span id="states-loading-progress" style="display: none;">Please wait..</span>*@
+
+                                    @Html.DropDownList("idProyecto_Estructura", null, htmlAttributes: new { @class = "form-control", @id = "ddlProyectoEstructura" })
+                                    @Html.ValidationMessageFor(model => model.idProyecto_Estructura, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max 150 caracteres", @Value = "" } })
+                                    @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Sección de datos de los items -->
+                    <div class="tab-pane" id="step2" style="min-height:377px">
+
+                    </div>
+
+                    <!-- 4. Declare buttons used by the wizard. -->
+                    <!-- "pager wizard" required. -->
+                    <ul class="pager wizard">
+                        <!-- These show as disabled on first tab. Add style="display:none;" to make the First button disappear when first tab.	  -->
+                        <li class="first previous"><a href="#" accesskey="f">Primero</a></li>
+                        <li class="previous"><a href="#" accesskey="p">Anterior</a></li>
+                        <li class="next"><a href="#" accesskey="n">Siguiente</a></li>
+                        <li class="last" style="display:none;"><input type="submit" value="Crear Boleta" class="btn btn-success" /></li>
+                    </ul>
+                </div><!-- ./tab-content -->
+
             </div>
-        </div>
-    </div>
+
+        </div> <!-- /.container fluid -->
+    </div> <!-- /.form horizontal -->
 }
 
 <div>
@@ -119,4 +162,6 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Boleta/CreateMethods.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 }

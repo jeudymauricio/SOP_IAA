@@ -35,13 +35,13 @@ namespace SOP_IAA_DAL
         public virtual DbSet<ingenieroContrato> ingenieroContrato { get; set; }
         public virtual DbSet<inspector> inspector { get; set; }
         public virtual DbSet<item> item { get; set; }
+        public virtual DbSet<itemReajuste> itemReajuste { get; set; }
         public virtual DbSet<laboratorioCalidad> laboratorioCalidad { get; set; }
         public virtual DbSet<persona> persona { get; set; }
-        public virtual DbSet<progProy> progProy { get; set; }
         public virtual DbSet<programa> programa { get; set; }
         public virtual DbSet<proyecto> proyecto { get; set; }
         public virtual DbSet<proyecto_estructura> proyecto_estructura { get; set; }
-        public virtual DbSet<proyectoItem> proyectoItem { get; set; }
+        public virtual DbSet<proyectoItemReajuste> proyectoItemReajuste { get; set; }
         public virtual DbSet<ruta> ruta { get; set; }
         public virtual DbSet<telefono> telefono { get; set; }
         public virtual DbSet<tipoProyecto> tipoProyecto { get; set; }
