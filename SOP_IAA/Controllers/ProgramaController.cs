@@ -10,7 +10,7 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class ProgramaController : Controller
+    public class ProgramaController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
@@ -36,21 +36,6 @@ namespace SOP_IAA.Controllers
             return View(programa);
         }
 
-        // Acción que despliega la lista de programas de un contrato específico
-        public static int id;
-        public ActionResult MisProgramas(int? _id)
-        {
-            if (_id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            // Se busca el contrato específico
-            Contrato contrato = db.Contrato.Find(_id);
-            id = _id.Value;
-            ViewBag.id = _id;
-            return View(contrato);
-        }
-
         // GET: Programa/Create
         public ActionResult Create()
         {
@@ -63,7 +48,7 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ano,trimestre")] programa programa)
+        public ActionResult Create([Bind(Include = "id,idContrato,ano,trimestre,fechaInicio,fechaFin,monto")] programa programa)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +82,7 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,idContrato,ano,trimestre")] programa programa)
+        public ActionResult Edit([Bind(Include = "id,idContrato,ano,trimestre,fechaInicio,fechaFin,monto")] programa programa)
         {
             if (ModelState.IsValid)
             {

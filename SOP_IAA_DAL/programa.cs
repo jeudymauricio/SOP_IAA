@@ -23,6 +23,9 @@ namespace SOP_IAA_DAL
         public int idContrato { get; set; }
         public short ano { get; set; }
         public byte trimestre { get; set; }
+        public System.DateTime fechaInicio { get; set; }
+        public System.DateTime fechaFin { get; set; }
+        public decimal monto { get; set; }
     
         public virtual Contrato Contrato { get; set; }
         public virtual ICollection<proyecto> proyecto { get; set; }

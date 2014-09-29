@@ -12,16 +12,16 @@ namespace SOP_IAA_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class proyectoItem
+    public partial class proyectoItemReajuste
     {
         public int id { get; set; }
         public int idProyecto { get; set; }
-        public int idContratoItem { get; set; }
+        public int idItemTReajuste { get; set; }
         public System.DateTime fechaInicio { get; set; }
         public System.DateTime fechaFin { get; set; }
         public decimal costoEstimado { get; set; }
     
-        public virtual contratoItem contratoItem { get; set; }
+        public virtual itemReajuste itemReajuste { get; set; }
         public virtual proyecto proyecto { get; set; }
     }
 }

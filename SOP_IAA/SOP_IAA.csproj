@@ -335,23 +335,17 @@
     <Content Include="Views\TipoProyecto\Details.cshtml" />
     <Content Include="Views\TipoProyecto\Edit.cshtml" />
     <Content Include="Views\TipoProyecto\Index.cshtml" />
-    <None Include="Views\Programa\Create" />
-    <Content Include="Views\Programa\Delete.cshtml" />
-    <Content Include="Views\Programa\Details.cshtml" />
-    <Content Include="Views\Programa\Edit.cshtml" />
     <Content Include="Views\ProyectosPrograma\Create.cshtml" />
     <Content Include="Views\ProyectosPrograma\Delete.cshtml" />
     <Content Include="Views\ProyectosPrograma\Details.cshtml" />
     <Content Include="Views\ProyectosPrograma\Edit.cshtml" />
     <Content Include="Views\ProyectosPrograma\Index.cshtml" />
-    <Content Include="Views\Programa\AgregarProyecto.cshtml" />
     <Content Include="Views\Ruta\Create.cshtml" />
     <Content Include="Views\Ruta\Delete.cshtml" />
     <Content Include="Views\Ruta\Details.cshtml" />
     <Content Include="Views\Ruta\Edit.cshtml" />
     <Content Include="Views\Ruta\Index.cshtml" />
     <Content Include="Views\Zona\RutasAsociadas.cshtml" />
-    <Content Include="Views\Programa\MisProgramas.cshtml" />
     <Content Include="Views\Contrato\MiContrato.cshtml" />
     <Content Include="Views\Item\Create.cshtml" />
     <Content Include="Views\Item\Delete.cshtml" />
@@ -385,7 +379,10 @@
     <Content Include="Views\Proyecto_Estructura\Edit.cshtml" />
     <Content Include="Views\Proyecto_Estructura\Index.cshtml" />
     <Content Include="Views\Programa\Create.cshtml" />
-    <None Include="Views\Programa\Index.cshtml" />
+    <Content Include="Views\Programa\Delete.cshtml" />
+    <Content Include="Views\Programa\Details.cshtml" />
+    <Content Include="Views\Programa\Edit.cshtml" />
+    <Content Include="Views\Programa\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

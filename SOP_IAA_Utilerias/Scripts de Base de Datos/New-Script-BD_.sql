@@ -208,7 +208,7 @@ go
 --go
 
 create table programa(
-	id int not null,
+	id int identity not null,
 	idContrato int not null,
 	ano smallint not null,
 	trimestre tinyint not null,
@@ -345,7 +345,7 @@ go
 create table boletaItem(
 	idContratoItem int not null,
 	idBoleta int not null,
-	cantidad int not null,
+	cantidad decimal not null,
 	costoTotal money not null,
 	constraint pk_idContratoItem_idBoleta_boletaItem
         primary key (idContratoItem,idBoleta),
