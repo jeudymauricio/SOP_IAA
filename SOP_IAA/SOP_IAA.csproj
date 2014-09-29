@@ -191,7 +191,7 @@
     <Compile Include="Controllers\Mis_Controladores\IngenieroController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ItemController.cs" />
     <Compile Include="Controllers\Mis_Controladores\PersonaController.cs" />
-    <Compile Include="Controllers\Mis_Controladores\ProgramaController.cs" />
+    <None Include="Controllers\Mis_Controladores\ProgramaController" />
     <None Include="Controllers\Mis_Controladores\ProyectoItemController" />
     <Compile Include="Controllers\Mis_Controladores\Proyecto_EstructuraController.cs" />
     <Compile Include="Controllers\Mis_Controladores\RutaController.cs" />
@@ -199,10 +199,10 @@
     <Compile Include="Controllers\Mis_Controladores\ContratistaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\FondoController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ZonaController.cs" />
-    <Compile Include="Controllers\ProgramaController.cs" />
-    <Compile Include="Controllers\ProyectoController.cs" />
+    <None Include="Controllers\ProyectoController" />
     <None Include="Controllers\ProyectoItemController_" />
-    <Compile Include="Controllers\ProyectosProgramaController.cs" />
+    <None Include="Controllers\ProyectosProgramaController" />
+    <Compile Include="Controllers\ProgramaController.cs" />
     <Compile Include="Controllers\RutaController.cs" />
     <Compile Include="Controllers\TipoProyectoController.cs" />
     <Compile Include="Controllers\ZonaController.cs" />
@@ -335,11 +335,10 @@
     <Content Include="Views\TipoProyecto\Details.cshtml" />
     <Content Include="Views\TipoProyecto\Edit.cshtml" />
     <Content Include="Views\TipoProyecto\Index.cshtml" />
-    <Content Include="Views\Programa\Create.cshtml" />
+    <None Include="Views\Programa\Create" />
     <Content Include="Views\Programa\Delete.cshtml" />
     <Content Include="Views\Programa\Details.cshtml" />
     <Content Include="Views\Programa\Edit.cshtml" />
-    <Content Include="Views\Programa\Index.cshtml" />
     <Content Include="Views\ProyectosPrograma\Create.cshtml" />
     <Content Include="Views\ProyectosPrograma\Delete.cshtml" />
     <Content Include="Views\ProyectosPrograma\Details.cshtml" />
@@ -385,6 +384,8 @@
     <Content Include="Views\Proyecto_Estructura\Delete.cshtml" />
     <Content Include="Views\Proyecto_Estructura\Edit.cshtml" />
     <Content Include="Views\Proyecto_Estructura\Index.cshtml" />
+    <Content Include="Views\Programa\Create.cshtml" />
+    <None Include="Views\Programa\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

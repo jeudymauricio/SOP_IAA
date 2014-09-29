@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="boleta">
           <Key>
             <PropertyRef Name="id" />
@@ -21,7 +21,7 @@
           <Property Name="estacionamientoFinal" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="periodo" Type="tinyint" Nullable="false" />
           <Property Name="idProyecto_Estructura" Type="int" Nullable="false" />
-          <Property Name="observaciones" Type="varchar" MaxLength="150" />
+          <Property Name="observaciones" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="boletaItem">
           <Key>
@@ -30,9 +30,8 @@
           </Key>
           <Property Name="idContratoItem" Type="int" Nullable="false" />
           <Property Name="idBoleta" Type="int" Nullable="false" />
-          <Property Name="cantidad" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="cantidad" Type="int" Nullable="false" />
           <Property Name="costoTotal" Type="money" Nullable="false" />
-          <Property Name="redimientos" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="contratista">
           <Key>
@@ -132,32 +131,21 @@
           <Property Name="apellido2" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="cedula" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="progProy">
+        <EntityType Name="programa">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fechaInicio" Type="date" />
-          <Property Name="fechaFin" Type="date" />
-          <Property Name="monto" Type="money" Nullable="false" />
-        </EntityType>
-        <EntityType Name="programa">
-          <Key>
-            <PropertyRef Name="idContrato" />
-            <PropertyRef Name="ano" />
-            <PropertyRef Name="trimestre" />
-          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
           <Property Name="idContrato" Type="int" Nullable="false" />
           <Property Name="ano" Type="smallint" Nullable="false" />
           <Property Name="trimestre" Type="tinyint" Nullable="false" />
-          <Property Name="idProgProy" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="proyecto">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="idProgProy" Type="int" Nullable="false" />
+          <Property Name="idPrograma" Type="int" Nullable="false" />
           <Property Name="idTipoProyecto" Type="int" Nullable="false" />
           <Property Name="idRuta" Type="int" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" />
@@ -456,27 +444,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_idProgProy_progProy">
-          <End Role="progProy" Type="Self.progProy" Multiplicity="1" />
-          <End Role="programa" Type="Self.programa" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="progProy">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="programa">
-              <PropertyRef Name="idProgProy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_idProgProy_proyecto">
-          <End Role="progProy" Type="Self.progProy" Multiplicity="1" />
+        <Association Name="fk_idPrograma_proyecto">
+          <End Role="programa" Type="Self.programa" Multiplicity="1" />
           <End Role="proyecto" Type="Self.proyecto" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="progProy">
+            <Principal Role="programa">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="proyecto">
-              <PropertyRef Name="idProgProy" />
+              <PropertyRef Name="idPrograma" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -602,7 +578,6 @@
           <EntitySet Name="labCalidadContrato" EntityType="Self.labCalidadContrato" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="laboratorioCalidad" EntityType="Self.laboratorioCalidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="persona" EntityType="Self.persona" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="progProy" EntityType="Self.progProy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="programa" EntityType="Self.programa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="proyecto" EntityType="Self.proyecto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="proyecto_estructura" EntityType="Self.proyecto_estructura" Schema="dbo" store:Type="Tables" />
@@ -689,12 +664,8 @@
             <End Role="persona" EntitySet="persona" />
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
-          <AssociationSet Name="fk_idProgProy_progProy" Association="Self.fk_idProgProy_progProy">
-            <End Role="progProy" EntitySet="progProy" />
+          <AssociationSet Name="fk_idPrograma_proyecto" Association="Self.fk_idPrograma_proyecto">
             <End Role="programa" EntitySet="programa" />
-          </AssociationSet>
-          <AssociationSet Name="fk_idProgProy_proyecto" Association="Self.fk_idProgProy_proyecto">
-            <End Role="progProy" EntitySet="progProy" />
             <End Role="proyecto" EntitySet="proyecto" />
           </AssociationSet>
           <AssociationSet Name="fk_idProyecto_Estructura_proyecto_estructura" Association="Self.fk_idProyecto_Estructura_proyecto_estructura">
@@ -734,7 +705,8 @@
             <End Role="zonaRuta" EntitySet="zonaRuta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -754,7 +726,7 @@
           <Property Name="estacionamientoFinal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="periodo" Type="Byte" Nullable="false" />
           <Property Name="idProyecto_Estructura" Type="Int32" Nullable="false" />
-          <Property Name="observaciones" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="boletaItem" Relationship="Self.fk_idBoleta_boletaItem" FromRole="boleta" ToRole="boletaItem" />
           <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_boleta" FromRole="boleta" ToRole="Contrato" />
           <NavigationProperty Name="fondo" Relationship="Self.fk_idFondo_boleta" FromRole="boleta" ToRole="fondo" />
@@ -769,11 +741,10 @@
           </Key>
           <Property Name="idContratoItem" Type="Int32" Nullable="false" />
           <Property Name="idBoleta" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="cantidad" Type="Int32" Nullable="false" />
           <Property Name="costoTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="boleta" Relationship="Self.fk_idBoleta_boletaItem" FromRole="boletaItem" ToRole="boleta" />
           <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_boletaItem" FromRole="boletaItem" ToRole="contratoItem" />
-          <Property Name="redimientos" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="contratista">
           <Key>
@@ -892,40 +863,27 @@
           <NavigationProperty Name="telefono" Relationship="Self.fk_id_telefono" FromRole="persona" ToRole="telefono" />
           <NavigationProperty Name="usuario" Relationship="Self.fk_idPersona_usuario" FromRole="persona" ToRole="usuario" />
         </EntityType>
-        <EntityType Name="progProy">
+        <EntityType Name="programa">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fechaInicio" Type="DateTime" Precision="0" />
-          <Property Name="fechaFin" Type="DateTime" Precision="0" />
-          <Property Name="monto" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="programa" Relationship="Self.fk_idProgProy_progProy" FromRole="progProy" ToRole="programa" />
-          <NavigationProperty Name="proyecto" Relationship="Self.fk_idProgProy_proyecto" FromRole="progProy" ToRole="proyecto" />
-        </EntityType>
-        <EntityType Name="programa">
-          <Key>
-            <PropertyRef Name="idContrato" />
-            <PropertyRef Name="ano" />
-            <PropertyRef Name="trimestre" />
-          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="idContrato" Type="Int32" Nullable="false" />
           <Property Name="ano" Type="Int16" Nullable="false" />
           <Property Name="trimestre" Type="Byte" Nullable="false" />
-          <Property Name="idProgProy" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_programa" FromRole="programa" ToRole="Contrato" />
-          <NavigationProperty Name="progProy" Relationship="Self.fk_idProgProy_progProy" FromRole="programa" ToRole="progProy" />
+          <NavigationProperty Name="proyecto" Relationship="Self.fk_idPrograma_proyecto" FromRole="programa" ToRole="proyecto" />
         </EntityType>
         <EntityType Name="proyecto">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idProgProy" Type="Int32" Nullable="false" />
+          <Property Name="idPrograma" Type="Int32" Nullable="false" />
           <Property Name="idTipoProyecto" Type="Int32" Nullable="false" />
           <Property Name="idRuta" Type="Int32" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="progProy" Relationship="Self.fk_idProgProy_proyecto" FromRole="proyecto" ToRole="progProy" />
+          <NavigationProperty Name="programa" Relationship="Self.fk_idPrograma_proyecto" FromRole="proyecto" ToRole="programa" />
           <NavigationProperty Name="proyectoItem" Relationship="Self.fk_idProyecto_proyectoItem" FromRole="proyecto" ToRole="proyectoItem" />
           <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_ruta" FromRole="proyecto" ToRole="ruta" />
           <NavigationProperty Name="tipoProyecto" Relationship="Self.fk_idTipoProyecto_proyecto" FromRole="proyecto" ToRole="tipoProyecto" />
@@ -1241,27 +1199,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_idProgProy_progProy">
-          <End Role="progProy" Type="Self.progProy" Multiplicity="1" />
-          <End Role="programa" Type="Self.programa" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="progProy">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="programa">
-              <PropertyRef Name="idProgProy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_idProgProy_proyecto">
-          <End Role="progProy" Type="Self.progProy" Multiplicity="1" />
+        <Association Name="fk_idPrograma_proyecto">
+          <End Role="programa" Type="Self.programa" Multiplicity="1" />
           <End Role="proyecto" Type="Self.proyecto" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="progProy">
+            <Principal Role="programa">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="proyecto">
-              <PropertyRef Name="idProgProy" />
+              <PropertyRef Name="idPrograma" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1334,7 +1280,6 @@
           <EntitySet Name="item" EntityType="Self.item" />
           <EntitySet Name="laboratorioCalidad" EntityType="Self.laboratorioCalidad" />
           <EntitySet Name="persona" EntityType="Self.persona" />
-          <EntitySet Name="progProy" EntityType="Self.progProy" />
           <EntitySet Name="programa" EntityType="Self.programa" />
           <EntitySet Name="proyecto" EntityType="Self.proyecto" />
           <EntitySet Name="proyecto_estructura" EntityType="Self.proyecto_estructura" />
@@ -1424,12 +1369,8 @@
             <End Role="persona" EntitySet="persona" />
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
-          <AssociationSet Name="fk_idProgProy_progProy" Association="Self.fk_idProgProy_progProy">
-            <End Role="progProy" EntitySet="progProy" />
+          <AssociationSet Name="fk_idPrograma_proyecto" Association="Self.fk_idPrograma_proyecto">
             <End Role="programa" EntitySet="programa" />
-          </AssociationSet>
-          <AssociationSet Name="fk_idProgProy_proyecto" Association="Self.fk_idProgProy_proyecto">
-            <End Role="progProy" EntitySet="progProy" />
             <End Role="proyecto" EntitySet="proyecto" />
           </AssociationSet>
           <AssociationSet Name="fk_idProyecto_proyectoItem" Association="Self.fk_idProyecto_proyectoItem">
@@ -1485,7 +1426,6 @@
           <EntitySetMapping Name="boletaItem">
             <EntityTypeMapping TypeName="Proyecto_IAAModel.boletaItem">
               <MappingFragment StoreEntitySet="boletaItem">
-                <ScalarProperty Name="redimientos" ColumnName="redimientos" />
                 <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
                 <ScalarProperty Name="idBoleta" ColumnName="idBoleta" />
                 <ScalarProperty Name="cantidad" ColumnName="cantidad" />
@@ -1592,23 +1532,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="progProy">
-            <EntityTypeMapping TypeName="Proyecto_IAAModel.progProy">
-              <MappingFragment StoreEntitySet="progProy">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
-                <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
-                <ScalarProperty Name="monto" ColumnName="monto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="programa">
             <EntityTypeMapping TypeName="Proyecto_IAAModel.programa">
               <MappingFragment StoreEntitySet="programa">
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="idContrato" ColumnName="idContrato" />
                 <ScalarProperty Name="ano" ColumnName="ano" />
                 <ScalarProperty Name="trimestre" ColumnName="trimestre" />
-                <ScalarProperty Name="idProgProy" ColumnName="idProgProy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1616,7 +1546,7 @@
             <EntityTypeMapping TypeName="Proyecto_IAAModel.proyecto">
               <MappingFragment StoreEntitySet="proyecto">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="idProgProy" ColumnName="idProgProy" />
+                <ScalarProperty Name="idPrograma" ColumnName="idPrograma" />
                 <ScalarProperty Name="idTipoProyecto" ColumnName="idTipoProyecto" />
                 <ScalarProperty Name="idRuta" ColumnName="idRuta" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />

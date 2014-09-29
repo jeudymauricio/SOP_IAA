@@ -32,8 +32,6 @@
                         <tr>
                             <td>@item.trimestre</td>
                             <td>@item.ano</td>
-                            <td>@item.progProy.fechaInicio</td>
-                            <td>@item.progProy.fechaFin</td>
                             <td>
                                 @Html.ActionLink("Editar", "Edit", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |
                                 @*@Html.ActionLink("Detalles", "Details", new { idContrato = item.idContrato, ano = item.ano, trimestre = item.trimestre/* id=item.PrimaryKey */ }) |*@

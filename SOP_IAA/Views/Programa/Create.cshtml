@@ -1,75 +1,58 @@
-﻿@model SOP_IAA.Models.LinkContratoProgramaModels
+﻿@model SOP_IAA_DAL.programa
+
 @{
-    ViewBag.Title = "Programa Crear";
+    ViewBag.Title = "Create";
 }
 
-<h2>Nuevo Programa - Contratación @Model.licitacion</h2>
+<h2>Create</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
-
+        <h4>programa</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.idContrato)
+        @Html.HiddenFor(model => model.id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ano, "Año", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.idContrato, "idContrato", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ano, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
+                @Html.DropDownList("idContrato", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.idContrato, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ano, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ano, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ano, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.trimestre, "Trimestre", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.trimestre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.trimestre, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
+                @Html.EditorFor(model => model.trimestre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.trimestre, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.fechaInicio, "Fecha de Inicio", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control", @id = "txtFechaInicio" } })
-                @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.fechaFin, "Fecha Fin", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fechaFin, new { htmlAttributes = new { @class = "form-control", @id = "txtFechaFin" } })
-                @Html.ValidationMessageFor(model => model.fechaFin, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.trimestre, "Monto", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.monto, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
-                @Html.ValidationMessageFor(model => model.monto, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear Programa" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Atrás", "MisProgramas", new { _id = Model.idContrato })
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/Programa/CreateMethods.js"></script>
-    <link rel="stylesheet" href="~/Content/jquery-ui.css">
 }

@@ -37,7 +37,6 @@ namespace SOP_IAA_DAL
         public virtual DbSet<item> item { get; set; }
         public virtual DbSet<laboratorioCalidad> laboratorioCalidad { get; set; }
         public virtual DbSet<persona> persona { get; set; }
-        public virtual DbSet<progProy> progProy { get; set; }
         public virtual DbSet<programa> programa { get; set; }
         public virtual DbSet<proyecto> proyecto { get; set; }
         public virtual DbSet<proyecto_estructura> proyecto_estructura { get; set; }

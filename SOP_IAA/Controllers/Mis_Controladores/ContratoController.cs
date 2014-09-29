@@ -289,7 +289,7 @@ namespace SOP_IAA.Controllers
                 foreach (programa prog in contrato.programa)
                 {
                     /* hay que eliminar los proyectos de cada progproy */
-                    db.progProy.Remove(prog.progProy);
+                    
                 }
                 contrato.programa.Clear();
                 db.Contrato.Remove(contrato);

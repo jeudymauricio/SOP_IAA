@@ -14,12 +14,17 @@ namespace SOP_IAA_DAL
     
     public partial class programa
     {
+        public programa()
+        {
+            this.proyecto = new HashSet<proyecto>();
+        }
+    
+        public int id { get; set; }
         public int idContrato { get; set; }
         public short ano { get; set; }
         public byte trimestre { get; set; }
-        public int idProgProy { get; set; }
     
         public virtual Contrato Contrato { get; set; }
-        public virtual progProy progProy { get; set; }
+        public virtual ICollection<proyecto> proyecto { get; set; }
     }
 }
