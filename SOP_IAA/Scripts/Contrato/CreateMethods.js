@@ -119,8 +119,26 @@ $(document).ready(
                     $("#ddlLaboratorios option:selected").remove();
 
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert(errorThrown);
+                error: function (xhr, textStatus, errorThrown) {
+                    if (xhr.status == 400) {
+                        // Bad request
+                        alert('Error: Consulta inválida.\nVerifique que seleccionó un ingeniero.');
+                    }
+                    else if (xhr.status === 401) {
+                        // Unauthorized error
+                        alert('Error: Acceso denegado.\n Verifique que tenga privilegios para realizar la operación.');
+                    }
+                    else if (xhr.status == 404) {
+                        // Not found
+                        alert('Error: no se encontraron los detalles del ingeniero.\nVerifique que existe el ingeniero.');
+                    }
+                    else if (xhr.status == 500) {
+                        // Server side error
+                        alert('Error del servidor.\n Espere unos segundos y vuelva a reitentar.');
+                    }
+                    else {
+                        alert('Error: \n' + errorThrown + 'Reitente de nuevo.');
+                    }
                 }
             })
         }),
@@ -178,8 +196,26 @@ function eliminarIngeniero(_id) {
             // ingenieros.splice(ingenieros.indexOf(_id), 1);
             $("<option value=" + json.persona.id + ">" + json.persona.nombre + " " + json.persona.apellido1 + " " + json.persona.apellido2 + "</option>").appendTo("#ddlIngenieros");
         },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
+        error: function (xhr, textStatus, errorThrown) {
+            if (xhr.status == 400) {
+                // Bad request
+                alert('Error: Consulta inválida.\nVerifique que seleccionó un laboratorio.');
+            }
+            else if (xhr.status === 401) {
+                // Unauthorized error
+                alert('Error: Acceso denegado.\n Verifique que tenga privilegios para realizar la operación.');
+            }
+            else if (xhr.status == 404) {
+                // Not found
+                alert('Error: no se encontraron los detalles del laboratorio.\nVerifique que existe el laboratorio.');
+            }
+            else if (xhr.status == 500) {
+                // Server side error
+                alert('Error del servidor.\n Espere unos segundos y vuelva a reitentar.');
+            }
+            else {
+                alert('Error: \n' + errorThrown + 'Reitente de nuevo.');
+            }
         }
     })
 }

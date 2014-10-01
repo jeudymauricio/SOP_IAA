@@ -22,8 +22,9 @@ namespace SOP_IAA_DAL
     
         public int id { get; set; }
         public int idContratoItem { get; set; }
-        public int ano { get; set; }
-        public byte mes { get; set; }
+        public System.DateTime fecha { get; set; }
+        public Nullable<int> mes { get; set; }
+        public Nullable<int> ano { get; set; }
         public decimal reajuste { get; set; }
         public decimal precioReajustado { get; set; }
     

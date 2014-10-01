@@ -1,6 +1,10 @@
 ﻿http://www.corelangs.com/css/box/center-div.html
 http://www.codeproject.com/Articles/177335/Refreshing-content-of-the-table-using-AJAX-in-ASP
 http://stackoverflow.com/questions/17671105/asp-mvc-href-to-a-controller-view
+http://dba.stackexchange.com/questions/31420/how-to-create-unique-index-for-month-and-year-column
+
+Manejo de Errores en ajax
+	http://stackoverflow.com/questions/12734714/jquery-ajax-error-handling-http-status-codes
 
 Alter tables SQL Server
 	http://stackoverflow.com/questions/10184086/mysql-how-to-increase-varchar-size-of-an-existing-column-in-a-database-without
@@ -10,12 +14,29 @@ Alter tables SQL Server
 
 
 Formato de Moneda
+	http://stackoverflow.com/questions/224462/storing-money-in-a-decimal-column-what-precision-and-scale
 	http://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.displayformatattribute(v=vs.110).aspx
 	http://www.growingwiththeweb.com/2012/12/aspnet-mvc-display-and-editor-templates.html
 	http://geeks.ms/blogs/jtorrecilla/archive/2014/04/19/mostrando-un-valor-de-moneda-con-formato-en-base-a-su-cultura.aspx
 	http://www.variablenotfound.com/2011/04/aspnet-mvc-3-y-la-coma-en-los-decimales.html
 	http://stackoverflow.com/questions/19800175/c-sharp-mvc-net-format-currency-without-decimals
 	http://www.csharp-examples.net/string-format-double/
+
+Decimales, escala y precisión
+	http://blog.sqlauthority.com/2007/08/29/sql-server-difference-and-explanation-among-decimal-float-and-numeric/
+	http://stackoverflow.com/questions/441600/write-a-number-with-two-decimal-places-sql-server
+	http://stackoverflow.com/questions/2377174/how-do-i-interpret-precision-and-scale-of-a-number-in-a-database
+		///***///
+		Numeric precision refers to the maximum number of digits that are present in the number.
+
+		ie 1234567.89 has a precision of 9
+
+		Numeric scale refers to the maximum number of decimal places
+
+		ie 123456.789 has a scale of 3
+
+		Thus the maximum allowed value for decimal(5,2) is 999.99
+		///***///
 
 Web Culture setting
 	http://msdn.microsoft.com/en-us/library/bz9tc508(v=vs.110).aspx
@@ -70,6 +91,7 @@ datepicker - datetime format
 	http://stackoverflow.com/questions/21598289/convert-mm-dd-yyyy-to-dd-mm-yyyy-using-javascript-while-adding-number-of-days-wi
 	http://instinctcoder.com/asp-net-mvc-4-jquery-datepicker-date-format-validation/
 	http://www.java2s.com/Tutorial/JavaScript/0571__jQuery/Addimagetodatepickertriggerbutton.htm
+	http://msdn.microsoft.com/es-es/library/cc165448.aspx
 
 autocomplete
 	http://www.codeproject.com/Tips/789425/Auto-Complete-in-ASP-NET-MVC
@@ -106,6 +128,7 @@ HTML Table
 	http://stackoverflow.com/questions/20116547/how-to-get-a-cells-value-in-html-table-with-jquery
 
 Manejo de objetos JSON 
+	https://www.udemy.com/blog/c-sharp-json/ --> su propio json a partir de un diccionario
 --> http://krishnarajb.wordpress.com/2009/05/28/pass-json-object-from-javascript-code-to-mvc-controller/  (javascript send json post controller)	
 	http://stackoverflow.com/questions/10895306/how-to-access-json-object-name-value
 	http://elrincondeneutron.blogspot.com/2013/04/json-javascript-object-notation.html

@@ -62,11 +62,17 @@ namespace SOP_IAA.Controllers
             );
             ViewBag.idInspector = new SelectList(mquery, "Value", "Text");
 
+            // Se carga la lista de Items del contrato
+            List<object> listItem = new List<object>();
+            foreach (var ci in contrato.contratoItem)
+            {
+                listItem.Add(new Tuple<int, string>(ci.id, ci.item.codigoItem));
+            }
+            ViewBag.idItem = new SelectList(listItem, "item1", "item2");
+
             // Se cargan las rutas correspondientes a la zona del contrato
             var rutasContrato = new SelectList(contrato.zona.ruta, "id", "nombre");
             ViewBag.idRuta = rutasContrato;
-
-
             if (rutasContrato.ToList().Count != 0)
             {
                 // Se selecciona de la bd los proyectos estructuras y se convierten en una lista
@@ -122,6 +128,86 @@ namespace SOP_IAA.Controllers
             if (result.Count < 1)
             {
                 // Retornar vacío
+            }
+
+            // Retorna un JSON con la lista de proyecto-estructuras de la ruta
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Acción invocada por ajax y que devuelve los detalles de un item específico
+        /// </summary>
+        /// <param name="id"> id del item de contrato a buscar</param>
+        /// <param name="fecha">fecha de la boleta</param>
+        /// <returns>Json con los detalles del item del contrato(incluido su reajuste mas cercano)</returns>
+        public ActionResult ItemDetalles(int? id, string fecha)
+        {
+            // Si el id o la fecha están vacíos se retorna un badrequest
+            if ((id == null) || (string.IsNullOrWhiteSpace(fecha)))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Especifica el formato en que está la fecha, en este caso Costa Rica (es-CR)
+            IFormatProvider culture = new System.Globalization.CultureInfo("es-CR", true);
+
+            DateTime fecha2 = new DateTime();
+            // convierte el string en datetime
+            try
+            {
+                fecha2 = DateTime.Parse(fecha, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+            }
+            catch (Exception e)
+            {
+                return new HttpStatusCodeResult(99, e.Message.ToString());
+            }
+
+            // Selecciona de la base de datos el contratoItem correspondiente
+            contratoItem ci = db.contratoItem.Find(id);
+
+            // Si está nulo, quiere decir que no existe el item en el contrato
+            if (ci == null)
+            {
+                return HttpNotFound();
+            }
+
+            /// Se inicia con la creacion de un diccionario con toda la información pertinente del item
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            result.Add("codigoItem", ci.item.codigoItem);
+            result.Add("descripcion", ci.item.descripcion);
+            result.Add("unidadMedida", ci.item.unidadMedida);
+
+            // Se busca dentro de los reajustes de precio el que le corresponde a la fecha de la boleta
+            //var itemReajustado = db.itemReajuste.Where(ir => (ir.ano == fecha2.Year) && (ir.mes == fecha2.Month) && (ir.idContratoItem == id));
+            var itemReajustado = db.itemReajuste.Where(ir => ir.idContratoItem == id);
+            if (itemReajustado.Count() > 0)
+            {
+                itemReajustado = itemReajustado.OrderByDescending(ir => ir.fecha);
+
+                // Si la fecha es menor que la del primer reajuste, se asigna el precio establecido en el contrato sin reajuste
+                if (fecha2 < itemReajustado.ToList().Last().fecha)
+                {
+                    result.Add("precioReajustado", ci.precioUnitario.ToString("C3", System.Globalization.CultureInfo.CreateSpecificCulture("es-CR")));
+                }
+                else // Si la fecha es mayor que la del primer reajuste, se busca el reajuste o en su defecto el mas cercano
+                {
+                    // Se asigna el precio del reajuste mas cercano a ese mes (o el de ese mes)
+                    decimal precio = itemReajustado.First().precioReajustado;
+                    foreach (var ir in itemReajustado)
+                    {
+                        if (ir.fecha < fecha2)
+                        {
+                            precio = ir.precioReajustado;
+                            break;
+                        }
+                    }
+                    result.Add("precioReajustado", precio.ToString("C3", System.Globalization.CultureInfo.CreateSpecificCulture("es-CR")));
+                }
+
+            }
+            else // Si no hay reajustes se procede a poner el precio estipulado en el contrato.
+            {
+                result.Add("precioReajustado", ci.precioUnitario.ToString("C3", System.Globalization.CultureInfo.CreateSpecificCulture("es-CR")));
             }
 
             // Retorna un JSON con la lista de proyecto-estructuras de la ruta
@@ -283,13 +369,5 @@ namespace SOP_IAA.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
