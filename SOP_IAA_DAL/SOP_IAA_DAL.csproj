@@ -133,7 +133,7 @@
     <Compile Include="ClassAnnotations\IngenieroAnnotations.cs" />
     <Compile Include="ClassAnnotations\PersonaAnnotations.cs" />
     <Compile Include="ClassAnnotations\ProgramaAnotations.cs" />
-    <None Include="ClassAnnotations\ProyectoAnnotations" />
+    <Compile Include="ClassAnnotations\ProyectoAnnotations.cs" />
     <None Include="ClassAnnotations\ProyectosProgramaAnnotations" />
     <Compile Include="ClassAnnotations\RutaAnnotations.cs" />
     <Compile Include="ClassAnnotations\TipoProyectoAnnotations.cs" />
