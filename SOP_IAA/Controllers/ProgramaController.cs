@@ -15,10 +15,20 @@ namespace SOP_IAA.Controllers
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
         // GET: Programa
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var programa = db.programa.Include(p => p.Contrato);
-            return View(programa.ToList());
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            // Se busca el contrato específico
+            Contrato contrato = db.Contrato.Find(id);
+            id = id.Value;
+            ViewBag.id = id;
+            return View(contrato);
+
+            //var programa = db.programa.Include(p => p.Contrato);
+            //return View(programa.ToList());
         }
 
         // GET: Programa/Details/5
@@ -54,7 +64,7 @@ namespace SOP_IAA.Controllers
             {
                 db.programa.Add(programa);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = programa.id });
             }
 
             ViewBag.idContrato = new SelectList(db.Contrato, "id", "licitacion", programa.idContrato);
@@ -88,7 +98,7 @@ namespace SOP_IAA.Controllers
             {
                 db.Entry(programa).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",new { id = programa.id});
             }
             ViewBag.idContrato = new SelectList(db.Contrato, "id", "licitacion", programa.idContrato);
             return View(programa);
@@ -117,7 +127,13 @@ namespace SOP_IAA.Controllers
             programa programa = db.programa.Find(id);
             db.programa.Remove(programa);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = programa.id });
+        }
+        
+         public ActionResult AgregarProyecto(int? id)
+        {
+
+            return RedirectToAction("Index", "Proyecto", new { _id = id});
         }
 
         protected override void Dispose(bool disposing)

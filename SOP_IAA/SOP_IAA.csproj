@@ -203,6 +203,7 @@
     <None Include="Controllers\ProyectoItemController_" />
     <None Include="Controllers\ProyectosProgramaController" />
     <Compile Include="Controllers\ProgramaController.cs" />
+    <Compile Include="Controllers\ProyectoController.cs" />
     <Compile Include="Controllers\RutaController.cs" />
     <Compile Include="Controllers\TipoProyectoController.cs" />
     <Compile Include="Controllers\ZonaController.cs" />
@@ -286,11 +287,11 @@
     <Content Include="Scripts\Validaciones\ValidarDecimales.js" />
     <Content Include="Scripts\Validaciones\ValidarFechas.js" />
     <Content Include="Scripts\Zona\ZonaRutasEditMethods.js" />
-    <Content Include="Views\Proyecto\Create.cshtml" />
-    <Content Include="Views\Proyecto\Delete.cshtml" />
-    <Content Include="Views\Proyecto\Details.cshtml" />
-    <Content Include="Views\Proyecto\Edit.cshtml" />
-    <Content Include="Views\Proyecto\Index.cshtml" />
+    <Content Include="Views\Proyecto2\Create.cshtml" />
+    <Content Include="Views\Proyecto2\Delete.cshtml" />
+    <Content Include="Views\Proyecto2\Details.cshtml" />
+    <Content Include="Views\Proyecto2\Edit.cshtml" />
+    <Content Include="Views\Proyecto2\Index.cshtml" />
     <Content Include="Views\Contrato\Create.cshtml" />
     <Content Include="Views\Contrato\Delete.cshtml" />
     <Content Include="Views\Contrato\Details.cshtml" />
@@ -384,6 +385,11 @@
     <Content Include="Views\Programa\Details.cshtml" />
     <Content Include="Views\Programa\Edit.cshtml" />
     <Content Include="Views\Programa\Index.cshtml" />
+    <Content Include="Views\Proyecto\Create.cshtml" />
+    <Content Include="Views\Proyecto\Delete.cshtml" />
+    <Content Include="Views\Proyecto\Details.cshtml" />
+    <Content Include="Views\Proyecto\Edit.cshtml" />
+    <Content Include="Views\Proyecto\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

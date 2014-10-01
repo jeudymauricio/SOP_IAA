@@ -222,6 +222,9 @@
   <data name="MSJ_CONFIRM_ELIMINAR_LABORATORIO" xml:space="preserve">
     <value>¿Está seguro de eliminar este laboratorio?</value>
   </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_PROGRAMA" xml:space="preserve">
+    <value>¿Está seguro de eliminar este programa?</value>
+  </data>
   <data name="MSJ_CONFIRM_ELIMINAR_PROYECTO" xml:space="preserve">
     <value>¿Está seguro de eliminar este proyecto?</value>
   </data>

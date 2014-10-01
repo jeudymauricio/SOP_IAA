@@ -1,0 +1,57 @@
+﻿@model SOP_IAA_DAL.proyecto
+
+@{
+    ViewBag.Title = "Items del Proyecto";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaFin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.costoEstimado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contratoItem.id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.proyecto.nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaFin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.costoEstimado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contratoItem.id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.proyecto.nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

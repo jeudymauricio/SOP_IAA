@@ -1,12 +1,13 @@
 ﻿@model SOP_IAA_DAL.proyecto
 
 @{
-    ViewBag.Title = "Detalles del proyecto";
+    ViewBag.Title = "Details";
 }
-<h2>Detalles del proyecto</h2>
+
+<h2>Details</h2>
 
 <div>
-    
+    <h4>proyecto</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -17,13 +18,13 @@
             @Html.DisplayFor(model => model.nombre)
         </dd>
 
-        @*<dt>
-            @Html.DisplayNameFor(model => model.progProy.id)
-        </dt>*@
+        <dt>
+            @Html.DisplayNameFor(model => model.programa.id)
+        </dt>
 
-        @*<dd>
-            @Html.DisplayFor(model => model.progProy.id)
-        </dd>*@
+        <dd>
+            @Html.DisplayFor(model => model.programa.id)
+        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.ruta.nombre)
@@ -44,6 +45,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.id, _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri }) |
-    @Html.ActionLink("Atrás", "Index", new { _id = ViewBag.idP, _idContrato = ViewBag.idCont, _ano = ViewBag.ano, _trimestre = ViewBag.tri })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
 </p>
