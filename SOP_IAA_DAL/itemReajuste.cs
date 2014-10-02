@@ -14,12 +14,6 @@ namespace SOP_IAA_DAL
     
     public partial class itemReajuste
     {
-        public itemReajuste()
-        {
-            this.boletaItem = new HashSet<boletaItem>();
-            this.proyectoItemReajuste = new HashSet<proyectoItemReajuste>();
-        }
-    
         public int id { get; set; }
         public int idContratoItem { get; set; }
         public System.DateTime fecha { get; set; }
@@ -28,8 +22,6 @@ namespace SOP_IAA_DAL
         public decimal reajuste { get; set; }
         public decimal precioReajustado { get; set; }
     
-        public virtual ICollection<boletaItem> boletaItem { get; set; }
         public virtual contratoItem contratoItem { get; set; }
-        public virtual ICollection<proyectoItemReajuste> proyectoItemReajuste { get; set; }
     }
 }

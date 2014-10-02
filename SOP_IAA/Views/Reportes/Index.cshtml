@@ -1,0 +1,115 @@
+﻿@model SOP_IAA_DAL.Contrato
+
+@{
+    ViewBag.Title = @Model.licitacion + " Reportes";
+}
+
+<h2> Reportes del contrato @Model.licitacion </h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Items
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbItemsContrato" class="display">
+                <thead>
+                    <tr>
+                        <th>Código de item</th>
+                        <th>Descripción</th>
+                        <th>Unidad de medida</th>
+                        <th>Precio unintario</th>
+                        <th></th>
+                    </tr>   
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.contratoItem)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.item.codigoItem)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.item.descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.item.unidadMedida)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.precioUnitario)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Reportes", "Reports", new { id = item.id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+
+
+@*<table class="table">
+    <tr>
+        <th>N° Boleta</th>
+        <th>Fecha</th>
+        <th>Ruta</th>
+        <th>Sección de control</th>
+        <th>Est Inicio</th>
+        <th>Est Final</th>
+        <th>Cantidad</th>
+        <th>Inspector</th>
+        <th>Proyecto</th>
+        <th></th>
+
+
+        <th>Código de item</th>
+        <th>Descripción</th>
+        <th>Unidad de medida</th>
+        <th>Precio unintario</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.contratoItem)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.item.codigoItem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.item.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.item.unidadMedida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.precioUnitario)
+            </td>
+            <td>
+                @Html.ActionLink("Reportes", "Reports", new { id = item.id })
+            </td>
+        </tr>
+    }
+</table>*@
+
+<div>
+    @Html.ActionLink("Atrás", "MiContrato", "Contrato", new { id = Model.id }, null)
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tbItemsContrato').dataTable({
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        })
+    </script>
+}
+

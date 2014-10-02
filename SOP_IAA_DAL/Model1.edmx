@@ -25,14 +25,15 @@
         </EntityType>
         <EntityType Name="boletaItem">
           <Key>
-            <PropertyRef Name="idItemReajuste" />
+            <PropertyRef Name="idContratoItem" />
             <PropertyRef Name="idBoleta" />
           </Key>
-          <Property Name="idItemReajuste" Type="int" Nullable="false" />
+          <Property Name="idContratoItem" Type="int" Nullable="false" />
           <Property Name="idBoleta" Type="int" Nullable="false" />
           <Property Name="cantidad" Type="decimal" Precision="10" Scale="3" Nullable="false" />
           <Property Name="costoTotal" Type="money" Nullable="false" />
           <Property Name="redimientos" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="precioUnitarioFecha" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="contratista">
           <Key>
@@ -77,9 +78,9 @@
             <PropertyRef Name="idPersona" />
           </Key>
           <Property Name="idPersona" Type="int" Nullable="false" />
-          <Property Name="descripcion" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="departamento" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="rol" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="departamento" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="rol" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="ingenieroContrato">
           <Key>
@@ -172,7 +173,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idRuta" Type="int" Nullable="false" />
-          <Property Name="descripcion" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="proyectoItemReajuste">
           <Key>
@@ -180,7 +181,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idProyecto" Type="int" Nullable="false" />
-          <Property Name="idItemTReajuste" Type="int" Nullable="false" />
+          <Property Name="idContratoItem" Type="int" Nullable="false" />
           <Property Name="fechaInicio" Type="date" Nullable="false" />
           <Property Name="fechaFin" Type="date" Nullable="false" />
           <Property Name="costoEstimado" Type="money" Nullable="false" />
@@ -340,6 +341,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_idContratoItem_boletaItem">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boletaItem">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_idContratoItem_itemReajuste">
           <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
           <End Role="itemReajuste" Type="Self.itemReajuste" Multiplicity="*" />
@@ -353,14 +366,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_idContratoItem_proyectoItem">
-          <End Role="itemReajuste" Type="Self.itemReajuste" Multiplicity="1" />
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
           <End Role="proyectoItemReajuste" Type="Self.proyectoItemReajuste" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="itemReajuste">
+            <Principal Role="contratoItem">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="proyectoItemReajuste">
-              <PropertyRef Name="idItemTReajuste" />
+              <PropertyRef Name="idContratoItem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -409,18 +422,6 @@
             </Principal>
             <Dependent Role="boleta">
               <PropertyRef Name="idInspector" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_idItemReajuste_boletaItem">
-          <End Role="itemReajuste" Type="Self.itemReajuste" Multiplicity="1" />
-          <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="itemReajuste">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="boletaItem">
-              <PropertyRef Name="idItemReajuste" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -653,12 +654,16 @@
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="programa" EntitySet="programa" />
           </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_boletaItem" Association="Self.fk_idContratoItem_boletaItem">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="boletaItem" EntitySet="boletaItem" />
+          </AssociationSet>
           <AssociationSet Name="fk_idContratoItem_itemReajuste" Association="Self.fk_idContratoItem_itemReajuste">
             <End Role="contratoItem" EntitySet="contratoItem" />
             <End Role="itemReajuste" EntitySet="itemReajuste" />
           </AssociationSet>
           <AssociationSet Name="fk_idContratoItem_proyectoItem" Association="Self.fk_idContratoItem_proyectoItem">
-            <End Role="itemReajuste" EntitySet="itemReajuste" />
+            <End Role="contratoItem" EntitySet="contratoItem" />
             <End Role="proyectoItemReajuste" EntitySet="proyectoItemReajuste" />
           </AssociationSet>
           <AssociationSet Name="fk_idFondo_boleta" Association="Self.fk_idFondo_boleta">
@@ -676,10 +681,6 @@
           <AssociationSet Name="fk_idInspector_boleta" Association="Self.fk_idInspector_boleta">
             <End Role="inspector" EntitySet="inspector" />
             <End Role="boleta" EntitySet="boleta" />
-          </AssociationSet>
-          <AssociationSet Name="fk_idItemReajuste_boletaItem" Association="Self.fk_idItemReajuste_boletaItem">
-            <End Role="itemReajuste" EntitySet="itemReajuste" />
-            <End Role="boletaItem" EntitySet="boletaItem" />
           </AssociationSet>
           <AssociationSet Name="fk_idLabControl_labCalidadContrato" Association="Self.fk_idLabControl_labCalidadContrato">
             <End Role="laboratorioCalidad" EntitySet="laboratorioCalidad" />
@@ -769,16 +770,17 @@
         </EntityType>
         <EntityType Name="boletaItem">
           <Key>
-            <PropertyRef Name="idItemReajuste" />
+            <PropertyRef Name="idContratoItem" />
             <PropertyRef Name="idBoleta" />
           </Key>
-          <Property Name="idItemReajuste" Type="Int32" Nullable="false" />
+          <Property Name="idContratoItem" Type="Int32" Nullable="false" />
           <Property Name="idBoleta" Type="Int32" Nullable="false" />
           <Property Name="cantidad" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
           <Property Name="costoTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="redimientos" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="precioUnitarioFecha" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="boleta" Relationship="Self.fk_idBoleta_boletaItem" FromRole="boletaItem" ToRole="boleta" />
-          <NavigationProperty Name="itemReajuste" Relationship="Self.fk_idItemReajuste_boletaItem" FromRole="boletaItem" ToRole="itemReajuste" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_boletaItem" FromRole="boletaItem" ToRole="contratoItem" />
         </EntityType>
         <EntityType Name="contratista">
           <Key>
@@ -819,9 +821,11 @@
           <Property Name="idContrato" Type="Int32" Nullable="false" />
           <Property Name="idItem" Type="Int32" Nullable="false" />
           <Property Name="precioUnitario" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="boletaItem" Relationship="Self.fk_idContratoItem_boletaItem" FromRole="contratoItem" ToRole="boletaItem" />
           <NavigationProperty Name="Contrato" Relationship="Self.fk_id_contratoItem_idContrato" FromRole="contratoItem" ToRole="Contrato" />
           <NavigationProperty Name="item" Relationship="Self.fk_id_contratoItem_idItem" FromRole="contratoItem" ToRole="item" />
           <NavigationProperty Name="itemReajuste" Relationship="Self.fk_idContratoItem_itemReajuste" FromRole="contratoItem" ToRole="itemReajuste" />
+          <NavigationProperty Name="proyectoItemReajuste" Relationship="Self.fk_idContratoItem_proyectoItem" FromRole="contratoItem" ToRole="proyectoItemReajuste" />
         </EntityType>
         <EntityType Name="fondo">
           <Key>
@@ -837,9 +841,9 @@
             <PropertyRef Name="idPersona" />
           </Key>
           <Property Name="idPersona" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="departamento" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="rol" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="departamento" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="rol" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ingenieroContrato" Relationship="Self.fk_idIngeniero_ingenieroContrato" FromRole="ingeniero" ToRole="ingenieroContrato" />
           <NavigationProperty Name="persona" Relationship="Self.fk_idPersona_ingeniero" FromRole="ingeniero" ToRole="persona" />
         </EntityType>
@@ -884,9 +888,7 @@
           <Property Name="ano" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="reajuste" Type="Decimal" Precision="8" Scale="5" Nullable="false" />
           <Property Name="precioReajustado" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="boletaItem" Relationship="Self.fk_idItemReajuste_boletaItem" FromRole="itemReajuste" ToRole="boletaItem" />
           <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_itemReajuste" FromRole="itemReajuste" ToRole="contratoItem" />
-          <NavigationProperty Name="proyectoItemReajuste" Relationship="Self.fk_idContratoItem_proyectoItem" FromRole="itemReajuste" ToRole="proyectoItemReajuste" />
         </EntityType>
         <EntityType Name="laboratorioCalidad">
           <Key>
@@ -945,7 +947,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idRuta" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="boleta" Relationship="Self.fk_idProyecto_Estructura_proyecto_estructura" FromRole="proyecto_estructura" ToRole="boleta" />
           <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_proyecto_estructura" FromRole="proyecto_estructura" ToRole="ruta" />
         </EntityType>
@@ -955,11 +957,11 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idProyecto" Type="Int32" Nullable="false" />
-          <Property Name="idItemTReajuste" Type="Int32" Nullable="false" />
+          <Property Name="idContratoItem" Type="Int32" Nullable="false" />
           <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="fechaFin" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="costoEstimado" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="itemReajuste" Relationship="Self.fk_idContratoItem_proyectoItem" FromRole="proyectoItemReajuste" ToRole="itemReajuste" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_proyectoItem" FromRole="proyectoItemReajuste" ToRole="contratoItem" />
           <NavigationProperty Name="proyecto" Relationship="Self.fk_idProyecto_proyectoItem" FromRole="proyectoItemReajuste" ToRole="proyecto" />
         </EntityType>
         <EntityType Name="ruta">
@@ -1082,15 +1084,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_idItemReajuste_boletaItem">
-          <End Role="itemReajuste" Type="Self.itemReajuste" Multiplicity="1" />
+        <Association Name="fk_idContratoItem_boletaItem">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
           <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="itemReajuste">
+            <Principal Role="contratoItem">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="boletaItem">
-              <PropertyRef Name="idItemReajuste" />
+              <PropertyRef Name="idContratoItem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1190,6 +1192,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_idContratoItem_proyectoItem">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="proyectoItemReajuste" Type="Self.proyectoItemReajuste" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proyectoItemReajuste">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_idIngeniero_ingenieroContrato">
           <End Role="ingeniero" Type="Self.ingeniero" Multiplicity="1" />
           <End Role="ingenieroContrato" Type="Self.ingenieroContrato" Multiplicity="*" />
@@ -1223,18 +1237,6 @@
             </Principal>
             <Dependent Role="inspector">
               <PropertyRef Name="idPersona" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_idContratoItem_proyectoItem">
-          <End Role="itemReajuste" Type="Self.itemReajuste" Multiplicity="1" />
-          <End Role="proyectoItemReajuste" Type="Self.proyectoItemReajuste" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="itemReajuste">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="proyectoItemReajuste">
-              <PropertyRef Name="idItemTReajuste" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1377,8 +1379,8 @@
             <End Role="ruta" EntitySet="ruta" />
             <End Role="boleta" EntitySet="boleta" />
           </AssociationSet>
-          <AssociationSet Name="fk_idItemReajuste_boletaItem" Association="Self.fk_idItemReajuste_boletaItem">
-            <End Role="itemReajuste" EntitySet="itemReajuste" />
+          <AssociationSet Name="fk_idContratoItem_boletaItem" Association="Self.fk_idContratoItem_boletaItem">
+            <End Role="contratoItem" EntitySet="contratoItem" />
             <End Role="boletaItem" EntitySet="boletaItem" />
           </AssociationSet>
           <AssociationSet Name="fk_idContratista_Contrato" Association="Self.fk_idContratista_Contrato">
@@ -1413,6 +1415,10 @@
             <End Role="contratoItem" EntitySet="contratoItem" />
             <End Role="itemReajuste" EntitySet="itemReajuste" />
           </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_proyectoItem" Association="Self.fk_idContratoItem_proyectoItem">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="proyectoItemReajuste" EntitySet="proyectoItemReajuste" />
+          </AssociationSet>
           <AssociationSet Name="fk_idIngeniero_ingenieroContrato" Association="Self.fk_idIngeniero_ingenieroContrato">
             <End Role="ingeniero" EntitySet="ingeniero" />
             <End Role="ingenieroContrato" EntitySet="ingenieroContrato" />
@@ -1424,10 +1430,6 @@
           <AssociationSet Name="fk_idPersona_inspector" Association="Self.fk_idPersona_inspector">
             <End Role="persona" EntitySet="persona" />
             <End Role="inspector" EntitySet="inspector" />
-          </AssociationSet>
-          <AssociationSet Name="fk_idContratoItem_proyectoItem" Association="Self.fk_idContratoItem_proyectoItem">
-            <End Role="itemReajuste" EntitySet="itemReajuste" />
-            <End Role="proyectoItemReajuste" EntitySet="proyectoItemReajuste" />
           </AssociationSet>
           <AssociationSet Name="fk_id_telefono" Association="Self.fk_id_telefono">
             <End Role="persona" EntitySet="persona" />
@@ -1494,11 +1496,12 @@
           <EntitySetMapping Name="boletaItem">
             <EntityTypeMapping TypeName="Proyecto_IAAModel.boletaItem">
               <MappingFragment StoreEntitySet="boletaItem">
-                <ScalarProperty Name="idItemReajuste" ColumnName="idItemReajuste" />
+                <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
                 <ScalarProperty Name="idBoleta" ColumnName="idBoleta" />
                 <ScalarProperty Name="cantidad" ColumnName="cantidad" />
                 <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
                 <ScalarProperty Name="redimientos" ColumnName="redimientos" />
+                <ScalarProperty Name="precioUnitarioFecha" ColumnName="precioUnitarioFecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1652,7 +1655,7 @@
               <MappingFragment StoreEntitySet="proyectoItemReajuste">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
-                <ScalarProperty Name="idItemTReajuste" ColumnName="idItemTReajuste" />
+                <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
                 <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
                 <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
                 <ScalarProperty Name="costoEstimado" ColumnName="costoEstimado" />
