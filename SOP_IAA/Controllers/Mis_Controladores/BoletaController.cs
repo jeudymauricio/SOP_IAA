@@ -346,16 +346,13 @@ namespace SOP_IAA.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Se modifican los detalles de la boleta
-                db.Entry(boleta).State = EntityState.Modified;
-                db.SaveChanges();
-
                 /// Primero se actualizan los datos de ítems
                 //Se encuentra la boleta
                 boleta boletaEditar = db.boleta.Find(boleta.id);
 
                 // Se remueven los anteriores items de la boleta
                 db.boletaItem.RemoveRange(boletaEditar.boletaItem);
+                db.SaveChanges();
 
                 // Se agregan los nuevos ítems
                 // Obtener items.
@@ -377,9 +374,13 @@ namespace SOP_IAA.Controllers
                     // Se agrega el boleta-item a la base de datos
                     db.boletaItem.Add(bi);
                     
-                    // Se guardan los cambios de la relacion boleta-item
-                    db.SaveChanges();
+                    // Se guardan los cambios de la relacion boleta-item   
                 }
+
+                db.SaveChanges();
+
+                Repositorio<boleta> rep = new Repositorio<boleta>();
+                rep.Actualizar(boleta);
 
                 return RedirectToAction("Index", new { idContrato = boleta.idContrato});
             }

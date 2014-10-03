@@ -3,6 +3,12 @@ http://www.codeproject.com/Articles/177335/Refreshing-content-of-the-table-using
 http://stackoverflow.com/questions/17671105/asp-mvc-href-to-a-controller-view
 http://dba.stackexchange.com/questions/31420/how-to-create-unique-index-for-month-and-year-column
 
+
+Exportar a Excel
+	http://csharp.net-informations.com/excel/csharp-excel-tutorial.htm
+
+	https://bytescout.com/products/developer/spreadsheetsdk/read-write-excel.html
+
 Manejo de Errores en ajax
 	http://stackoverflow.com/questions/12734714/jquery-ajax-error-handling-http-status-codes
 
