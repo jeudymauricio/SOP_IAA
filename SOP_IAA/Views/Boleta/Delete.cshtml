@@ -1,16 +1,19 @@
 ﻿@model SOP_IAA_DAL.boleta
 
 @{
-    ViewBag.Title = "Eliminar";
+    ViewBag.Title = "Eliminar Boleta";
 }
 
-<h2>Borrar</h2>
+<h2> </h2>
 
-<h3>Estás seguro que deseas eliminar la boleta?</h3>
+<h3>
+    @SOP_IAA_Utilerias.Utilerias.ValorRecurso(SOP_IAA_Utilerias.Utilerias.ArchivoRecurso.UtilRecursos, "MSJ_CONFIRM_ELIMINAR_BOLETA")
+</h3>
 <div>
-    <h4>Boleta</h4>
+    <h4> </h4>
     <hr />
     <dl class="dl-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <dt>
             @Html.DisplayNameFor(model => model.numeroBoleta)
         </dt>
@@ -105,8 +108,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Atrás", "Index")
+            <input type="submit" value="Eliminar Boleta" class="btn btn-danger" /> |
+            @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
         </div>
     }
 </div>

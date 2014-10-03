@@ -36,7 +36,7 @@
                             <td>@item.item.codigoItem</td>
                             <td>@item.item.descripcion</td>
                             <td>@item.item.unidadMedida</td>
-                            <td align="right"> @String.Format("{0:C3}",(item.precioUnitario))</td>
+                            <td align="right"> @String.Format("{0:C4}",(item.precioUnitario))</td>
                             <td align="center">
                                 @Html.ActionLink("Cambiar Precio", "Edit", new { id = item.id }) |
                                 @Html.ActionLink("Eliminar del Contrato", "Delete", new { id = item.id })

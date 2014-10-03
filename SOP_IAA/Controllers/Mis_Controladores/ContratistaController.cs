@@ -11,7 +11,7 @@ using SOP_IAA_Utilerias;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class contratistaController : Controller
+    public partial class contratistaController : Controller // El namespace no debe incluir .Mis_Controladores
     {
         
         // POST: contratista/Create

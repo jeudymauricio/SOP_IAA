@@ -7,10 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SOP_IAA_DAL;
+using Newtonsoft.Json;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class BoletaController : Controller
+    public partial class BoletaController : Controller // El namespace no debe incluir .Mis_Controladores
     {
 
         // GET: Boleta
@@ -219,14 +220,41 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idContrato,id,numeroBoleta,idFondo,idRuta,idInspector,fecha,seccionControl,estacionamientoInicial,estacionamientoFinal,periodo,idProyecto_Estructura,observaciones")] boleta boleta)
+        public ActionResult Create(
+            [Bind(Include = "idContrato,numeroBoleta,idFondo,idRuta,idInspector,fecha,seccionControl,estacionamientoInicial,estacionamientoFinal,periodo,idProyecto_Estructura,observaciones")] boleta boleta,
+            [Bind(Include = "jsonItems")] string jsonItems)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // Como el formato de números utiliza la , como separador de decimales(es-CR), se debe convertir a formato inglés(en-US)
+                    IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
+
+                    // Se agrega la boleta a la tabla boleta
                     db.boleta.Add(boleta);
                     db.SaveChanges();
+
+                    // Obtener items.
+                    dynamic jObj = JsonConvert.DeserializeObject(jsonItems);
+
+                    foreach (var child in jObj.Items.Children())
+                    {
+                        //Creación del boleta-item.
+                        boletaItem bi = new boletaItem();
+
+                        bi.idBoleta = boleta.id;
+                        bi.idContratoItem = int.Parse(child.idItemContrato.Value);
+                        bi.cantidad = decimal.Parse(child.cantidad.Value, culture);
+                        bi.costoTotal = decimal.Parse(child.costoTotal.Value, culture);
+                        bi.redimientos = decimal.Parse(child.redimientos.Value, culture);
+                        bi.precioUnitarioFecha = decimal.Parse(child.precio.Value, culture);
+
+                        // Se agrega el boleta-item a la base de datos
+                        db.boletaItem.Add(bi);
+                        db.SaveChanges();
+                    }
+
                     return RedirectToAction("Index", new { idContrato = boleta.idContrato });
                 }
                 catch (Exception)
@@ -234,6 +262,14 @@ namespace SOP_IAA.Controllers
                     ModelState.AddModelError("", "Ocurrió un error al ingresar la boleta, verifique que no sea un duplicado");
                 }
             }
+
+            // Se carga la lista de Items del contrato
+            List<object> listItem = new List<object>();
+            foreach (var ci in db.contratoItem.Where(c => c.idContrato == boleta.idContrato))
+            {
+                listItem.Add(new Tuple<int, string>(ci.id, ci.item.codigoItem));
+            }
+            ViewBag.idItem = new SelectList(listItem, "item1", "item2");
 
             ViewBag.idContrato = boleta.idContrato;
             ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", boleta.idFondo);
@@ -282,28 +318,19 @@ namespace SOP_IAA.Controllers
             );
             ViewBag.idInspector = new SelectList(mquery, "Value", "Text", boleta.idInspector);
 
+            // Se carga la lista de Items del contrato
+            List<object> listItem = new List<object>();
+            foreach (var ci in contrato.contratoItem)
+            {
+                listItem.Add(new Tuple<int, string>(ci.id, ci.item.codigoItem));
+            }
+            ViewBag.idItem = new SelectList(listItem, "item1", "item2");
+
             // Se cargan las rutas correspondientes a la zona del contrato
             var rutasContrato = new SelectList(contrato.zona.ruta, "id", "nombre", boleta.idRuta);
             ViewBag.idRuta = rutasContrato;
 
-
-            if (rutasContrato.ToList().Count != 0)
-            {
-                // Se selecciona de la bd los proyectos estructuras y se convierten en una lista
-                ViewBag.idProyecto_Estructura = db.proyecto_estructura.ToList()
-                    // Se selecciona de la lista sólo los de la primer ruta que se carga al dropdown
-                    .Where(pe => pe.idRuta == int.Parse(rutasContrato.ToList().ElementAt(0).Value))
-                    // Se convirte a lista donde se toman solamente el id y la descripción del pe
-                    .Select(c => new SelectListItem
-                    {
-                        Value = c.id.ToString(),
-                        Text = c.descripcion.ToString()
-                    });
-            }
-            else
-            {
-                ViewBag.idProyecto_Estructura = new List<SelectListItem> { new SelectListItem { Text = " - ", Value = "-1" } };
-            }
+            ViewBag.idProyecto_Estructura = new SelectList(boleta.ruta.proyecto_estructura, "id", "descripcion");
 
             return View(boleta);
         }
@@ -313,13 +340,48 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,numeroBoleta,idFondo,idRuta,idInspector,fecha,seccionControl,estacionamientoInicial,estacionamientoFinal,periodo,idProyecto_Estructura,observaciones")] boleta boleta)
+        public ActionResult Edit(
+            [Bind(Include = "id,idContrato,numeroBoleta,idFondo,idRuta,idInspector,fecha,seccionControl,estacionamientoInicial,estacionamientoFinal,periodo,idProyecto_Estructura,observaciones")] boleta boleta,
+            [Bind(Include="jsonItems")] string jsonItems)
         {
             if (ModelState.IsValid)
             {
+                // Se modifican los detalles de la boleta
                 db.Entry(boleta).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                /// Primero se actualizan los datos de ítems
+                //Se encuentra la boleta
+                boleta boletaEditar = db.boleta.Find(boleta.id);
+
+                // Se remueven los anteriores items de la boleta
+                db.boletaItem.RemoveRange(boletaEditar.boletaItem);
+
+                // Se agregan los nuevos ítems
+                // Obtener items.
+                dynamic jObj = JsonConvert.DeserializeObject(jsonItems);
+                // Como el formato de números utiliza la , como separador de decimales(es-CR), se debe convertir a formato inglés(en-US)
+                IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
+                foreach (var child in jObj.Items.Children())
+                {
+                    //Creación del boleta-item.
+                    boletaItem bi = new boletaItem();
+
+                    bi.idBoleta = boleta.id;
+                    bi.idContratoItem = int.Parse(child.idItemContrato.Value);
+                    bi.cantidad = decimal.Parse(child.cantidad.Value, culture);
+                    bi.costoTotal = decimal.Parse(child.costoTotal.Value, culture);
+                    bi.redimientos = decimal.Parse(child.redimientos.Value, culture);
+                    bi.precioUnitarioFecha = decimal.Parse(child.precio.Value, culture);
+
+                    // Se agrega el boleta-item a la base de datos
+                    db.boletaItem.Add(bi);
+                    
+                    // Se guardan los cambios de la relacion boleta-item
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Index", new { idContrato = boleta.idContrato});
             }
             ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", boleta.idFondo);
             ViewBag.idInspector = new SelectList(db.inspector, "idPersona", "idPersona", boleta.idInspector);
@@ -364,9 +426,20 @@ namespace SOP_IAA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             boleta boleta = db.boleta.Find(id);
-            db.boleta.Remove(boleta);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+
+            try
+            {
+
+                db.boletaItem.RemoveRange(boleta.boletaItem);
+                db.boleta.Remove(boleta);
+                db.SaveChanges();
+                return RedirectToAction("Index", new { idContrato = boleta.idContrato });
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message.ToString());
+            }
+            return View(boleta);
         }
 
     }

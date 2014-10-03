@@ -12,8 +12,10 @@ Alter tables SQL Server
 	http://www.sqlteam.com/forums/topic.asp?TOPIC_ID=81948
 	ALTER TABLE [dbo].[boleta] ALTER COLUMN [observaciones] VARCHAR(150); -- Cambia la columna observaciones a un varchar de 150
 
+Reset Identity SQL Server
+	http://msdn.microsoft.com/es-es/library/ms176057.aspx
 
-Formato de Moneda
+Formato de Moneda (vease también el apartado JavaScript...)
 	http://stackoverflow.com/questions/224462/storing-money-in-a-decimal-column-what-precision-and-scale
 	http://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.displayformatattribute(v=vs.110).aspx
 	http://www.growingwiththeweb.com/2012/12/aspnet-mvc-display-and-editor-templates.html
@@ -21,6 +23,10 @@ Formato de Moneda
 	http://www.variablenotfound.com/2011/04/aspnet-mvc-3-y-la-coma-en-los-decimales.html
 	http://stackoverflow.com/questions/19800175/c-sharp-mvc-net-format-currency-without-decimals
 	http://www.csharp-examples.net/string-format-double/
+
+Formato Decimal CR - US
+	http://msdn.microsoft.com/en-us/library/t7xswkc6(v=vs.110).aspx
+	http://msdn.microsoft.com/en-us/library/s84kdbzx(v=vs.110).aspx
 
 Decimales, escala y precisión
 	http://blog.sqlauthority.com/2007/08/29/sql-server-difference-and-explanation-among-decimal-float-and-numeric/
@@ -105,9 +111,32 @@ Sintaxis de Linq
 	http://www.mssqltips.com/sqlservertip/3169/understanding-linq-to-join-multiple-tables-where-null-match-are-expected/
 
 JavaScript, Ajax, JQuery
+	http://blog.tompawlak.org/number-currency-formatting-javascript --- Formato de decimal
 	http://javascript.about.com/od/hintsandtips/a/makeunobtrusive_3.htm
 	http://forums.asp.net/t/1817945.aspx?calling+controller+method+using+ajax
 	http://stackoverflow.com/questions/19663762/mvc-ajax-post-to-controller-action-method
+	http://stackoverflow.com/questions/6467556/pass-tr-id-value-javascript-function
+	http://stackoverflow.com/questions/23292734/get-value-from-input-text-in-same-row-in-table
+
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
+
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt ---> validaciones filtros
+	ejemplo con expresiones regulares
+			filterInt = function (value) {
+			if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+			return Number(value);
+			return NaN;
+		}
+
+		console.log(filterInt('421'));               // 421
+		console.log(filterInt('-421'));              // -421
+		console.log(filterInt('+421'));              // 421
+		console.log(filterInt('Infinity'));          // Infinity
+		console.log(filterInt('421e+0'));            // NaN
+		console.log(filterInt('421hop'));            // NaN
+		console.log(filterInt('hop1.61803398875'));  // NaN
+		console.log(filterInt('1.61803398875'));     // NaN
+
 
 GRIDs
 	http://docs.telerik.com/kendo-ui/getting-started/using-kendo-with/aspnet-mvc/helpers/grid/ajax-editing
@@ -134,6 +163,10 @@ Manejo de objetos JSON
 	http://elrincondeneutron.blogspot.com/2013/04/json-javascript-object-notation.html
 	http://stackoverflow.com/questions/16507222/create-json-object-dynamically-via-javascript-without-concate-strings
 	https://coderwall.com/p/sp_t9q
+
+
+	http://stackoverflow.com/questions/5868850/creating-list-of-objects-in-javascript
+
 
 	El siguiente ejempo muestra como llamar mediante AJAX una acción del controlador ContratoViewController que retorna un objeto JSON con los detalles de un ingeniero específico (id)
 	y los agrega en una nueva fila a una tabla llamada "tbIngenieros". El Ajax está dentro de una función js asociada a un boton llamando "btnAgregarIngeniero" que busca el id del
