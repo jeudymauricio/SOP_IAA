@@ -15,7 +15,6 @@ namespace SOP_IAA_DAL
 
     public class boletaMetaData
     {
-        //public int id { get; set; }
         [Required]
         [DisplayName("Número de Boleta")]
         public int numeroBoleta { get; set; }
@@ -68,11 +67,5 @@ namespace SOP_IAA_DAL
         [Required]
         [DisplayName("Contrato")]
         public int idContrato { get; set; }
-        /*
-        public virtual ICollection<boletaItem> boletaItem { get; set; }
-        public virtual fondo fondo { get; set; }
-        public virtual inspector inspector { get; set; }
-        public virtual proyecto_estructura proyecto_estructura { get; set; }
-        public virtual ruta ruta { get; set; }*/
     }
 }

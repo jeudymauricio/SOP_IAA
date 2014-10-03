@@ -117,124 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ERROR_CONTRATISTA_ACTUALIZAR" xml:space="preserve">
-    <value>Error al actualizar el contratista: </value>
+  <data name="BOLETA_CREATE" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_CONTRATISTA_AGREGAR" xml:space="preserve">
-    <value>Error al agregar el contratista: </value>
+  <data name="BOLETA_DELETE" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_CONTRATISTA_ELIMINAR" xml:space="preserve">
-    <value>Error al eliminar el contratista: </value>
+  <data name="BOLETA_EDIT" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_CONTRATO_ACTUALIZAR" xml:space="preserve">
-    <value>Error al actualizar el contrato: </value>
+  <data name="BOLETA_INDEX" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_CONTRATO_AGREGAR" xml:space="preserve">
-    <value>Error al agregar el contrato: </value>
+  <data name="CONTRATISTA_CREATE" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_CONTRATO_ELIMINAR" xml:space="preserve">
-    <value>Error al eliminar el contrato: </value>
+  <data name="CONTRATISTA_DELETE" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_FONDO_ACTUALIZAR" xml:space="preserve">
-    <value>Error al actualizar el Fondo: </value>
+  <data name="CONTRATISTA_EDIT" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_FONDO_AGREGAR" xml:space="preserve">
-    <value>Error al agregar el Fondo: </value>
+  <data name="CONTRATISTA_INDEX" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_FONDO_ELIMINAR" xml:space="preserve">
-    <value>Error al eliminar el Fondo: </value>
+  <data name="CONTRATO_CREATE" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_INGENIERO_ACTUALIZAR" xml:space="preserve">
-    <value>Error al actualizar el ingeniero: </value>
+  <data name="CONTRATO_DELETE" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_INGENIERO_AGREGAR" xml:space="preserve">
-    <value>Error al agregar el ingeniero: </value>
+  <data name="CONTRATO_EDIT" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_INGENIERO_ELIMINAR" xml:space="preserve">
-    <value>Error al eliminar el ingeniero: </value>
+  <data name="CONTRATO_INDEX" xml:space="preserve">
+    <value />
   </data>
-  <data name="ERROR_LABORATORIO_ACTUALIZAR" xml:space="preserve">
-    <value>Error al actualizar el laboratorio: </value>
-  </data>
-  <data name="ERROR_LABORATORIO_AGREGAR" xml:space="preserve">
-    <value>Error al agregar el laboratorio: </value>
-  </data>
-  <data name="ERROR_LABORATORIO_ELIMINAR" xml:space="preserve">
-    <value>Error al elimnar el laboratorio: </value>
-  </data>
-  <data name="ERROR_PERSONA_ACTUALIZAR" xml:space="preserve">
-    <value>Error al actualizar la persona: </value>
-  </data>
-  <data name="ERROR_PERSONA_AGREGAR" xml:space="preserve">
-    <value>Error al agregar la persona: </value>
-  </data>
-  <data name="ERROR_PERSONA_ELIMINAR" xml:space="preserve">
-    <value>Error al elimnar la persona: </value>
-  </data>
-  <data name="ERROR_PROYECTO_ACTUALIZAR" xml:space="preserve">
-    <value>Error al actualizar el proyecto: </value>
-  </data>
-  <data name="ERROR_PROYECTO_AGREGAR" xml:space="preserve">
-    <value>Error al agregar el proyecto: </value>
-  </data>
-  <data name="ERROR_PROYECTO_ELIMINAR" xml:space="preserve">
-    <value>Error al eliminar el proyecto: </value>
-  </data>
-  <data name="ERROR_RUTA_ACTUALIZAR" xml:space="preserve">
-    <value>Error al actualizar la ruta: </value>
-  </data>
-  <data name="ERROR_RUTA_AGREGAR" xml:space="preserve">
-    <value>Error al agregar la ruta: </value>
-  </data>
-  <data name="ERROR_RUTA_ELIMINAR" xml:space="preserve">
-    <value>Error al eliminar la ruta: </value>
-  </data>
-  <data name="ERROR_ZONA_ACTUALIZAR" xml:space="preserve">
-    <value>Error al actualizar el proyecto: </value>
-  </data>
-  <data name="ERROR_ZONA_AGREGAR" xml:space="preserve">
-    <value>Error al agregar el proyecto: </value>
-  </data>
-  <data name="ERROR_ZONA_ELIMINAR" xml:space="preserve">
-    <value>Error al eliminar el proyecto: </value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_BOLETA" xml:space="preserve">
-    <value>¿Está seguro de eliminar esta boleta?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_CONTRATISTA" xml:space="preserve">
-    <value>¿Está seguro de eliminar este contratista?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_CONTRATO" xml:space="preserve">
-    <value>¿Está seguro de eliminar este contrato?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_FONDO" xml:space="preserve">
-    <value>¿Está seguro de eliminar este fondo?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_INGENIERO" xml:space="preserve">
-    <value>¿Está seguro de eliminar este ingeniero?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_INSPECTOR" xml:space="preserve">
-    <value>¿Está seguro de eliminar este inspector?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_ITEM" xml:space="preserve">
-    <value>¿Está seguro de eliminar este item?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_ITEM_PROYECTO" xml:space="preserve">
-    <value>¿Está seguro de eliminar este item del proyecto?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_LABORATORIO" xml:space="preserve">
-    <value>¿Está seguro de eliminar este laboratorio?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_PROGRAMA" xml:space="preserve">
-    <value>¿Está seguro de eliminar este programa?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_PROYECTO" xml:space="preserve">
-    <value>¿Está seguro de eliminar este proyecto?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_PROYECTO_ESTRUCTURA" xml:space="preserve">
-    <value>¿Está seguro de eliminar este proyecto/estructura?</value>
-  </data>
-  <data name="MSJ_CONFIRM_ELIMINAR_ZONA" xml:space="preserve">
-    <value>¿Está seguro de eliminar esta zona?</value>
+  <data name="CONTRATO_SPECIFIC_INDEX" xml:space="preserve">
+    <value />
   </data>
 </root>

@@ -56,6 +56,11 @@
     <Compile Include="boletaItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ClassAnnotations\BoletaItemAnnotations.cs" />
+    <Compile Include="ClassAnnotations\BoletaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\ContratoItemAnnotations.cs" />
+    <Compile Include="ClassAnnotations\Proyecto_EstructuraAnnotations.cs" />
+    <Compile Include="ClassAnnotations\TelefonoAnnotations.cs" />
     <Compile Include="contratista.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -121,11 +126,6 @@
     <Compile Include="zona.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <None Include="ClassAnnotations\BoletaItemAnnotations" />
-    <Compile Include="ClassAnnotations\BoletaAnnotations.cs" />
-    <Compile Include="ClassAnnotations\ContratoItemAnnotations.cs" />
-    <Compile Include="ClassAnnotations\Proyecto_EstructuraAnnotations.cs" />
-    <Compile Include="ClassAnnotations\TelefonoAnnotations.cs" />
     <None Include="ClassAnnotations\ProyectoItemAnnotations" />
     <Compile Include="ClassAnnotations\ItemAnnotations.cs" />
     <Compile Include="ClassAnnotations\ContratistaAnnotations.cs" />

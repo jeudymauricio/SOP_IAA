@@ -19,6 +19,12 @@ namespace SOP_IAA_Utilerias
             /// Archivo de recursos para los mensajes
             /// </summary>
             UtilRecursos,
+
+            /// <summary>
+            /// Archivo de recursos para los títulos de las pestañas
+            /// </summary>
+            UtilPestanaTitulo,
+
             /// <summary>
             /// Archivo de recursos para mensajes en el módulo de seguridad
             /// </summary>

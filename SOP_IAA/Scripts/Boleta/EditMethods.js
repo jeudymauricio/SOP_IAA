@@ -9,8 +9,6 @@ $(document).ready(
             var selectedItem = $(this).val();
             var ddlProyectoEstructura = $("#ddlProyectoEstructura");
             //var statesProgress = $("#states-loading-progress");
-            ddlProyectoEstructura.html('');
-            ddlProyectoEstructura.append($('<option></option>').val(0).html('- - - Cargando - - -'));
             //statesProgress.show();
             $.ajax({
                 cache: false,
@@ -26,35 +24,10 @@ $(document).ready(
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Fallo al obtener los proyectos/estructuras.');
-                    ddlProyectoEstructura.html('');
-                    ddlProyectoEstructura.append($('<option></option>').val(0).html('- - - Error - - -'));
                     statesProgress.hide();
                 }
             });
         });
-
-        // Función del Wizard
-        $('#rootwizard').bootstrapWizard({
-            onTabShow: function (tab, navigation, index) {
-                // Dynamically change percentage completion on progress bar
-                var tabCount = navigation.find('li').length;
-                var current = index + 1;
-                var percentDone = (current / tabCount) * 100;
-                $('#rootwizard').find('#progressBar').css({ width: percentDone + '%' });
-
-                // Optional: Show Done button when on last tab;
-                // It is invisible by default.
-                $('#rootwizard').find('.last').toggle(current >= tabCount);
-
-                // Optional: Hide Next button if on last tab;
-                // otherwise it shows but is disabled
-                $('#rootwizard').find('.next').toggle(current < tabCount);
-            },
-            onTabClick: function (tab, navigation, index) {
-                //alert('Utilice los botones de Siguiente, Anterior para desplazarse');
-                return false;
-            }
-        }),
 
         // Función del DatePicker en los campos de Fecha
         $("#txtFecha").datepicker({ dateFormat: 'dd/mm/yy' }),
@@ -146,14 +119,13 @@ $(document).ready(
     }
 )
 
-
 //Antes de ir a la acción Post del submit, se agregan los ingenieros y labs modificados
-$("#formCreate").submit(function (eventObj) {
-    
+$("#formEdit").submit(function (eventObj) {
+
 
     // Se listan todos los items de la tabla
     $('#tbItems > tbody > tr').each(function () {
-        
+
         var singleObj = {}
         singleObj['idItemContrato'] = $(this).attr('id');
         singleObj['precio'] = removeCurrency($(this).children("td").eq(3).find("input:eq(0)").val());
@@ -171,13 +143,16 @@ $("#formCreate").submit(function (eventObj) {
     $('<input />').attr('type', 'hidden')
         .attr('name', "jsonItems")
         .attr('value', $.toJSON(jsonItems))
-        .appendTo('#formCreate');
+        .appendTo('#formEdit');
 
     return true;
-    //console.info($.toJSON(jsonItems));
-    //return false;
 })
 
+// Función que recorre la tabla de ítems al cargar, para eliminar los items agregados del dropdown.
+$('#tbItems > tbody  > tr').each(function () {
+    //Se obtiene el id de cada tr que corresponde al id de los ingenieros para eliminar al ingeniero del dropdownlist
+    $("#ddlItems option[value='" + $(this).attr('id') + "']").remove();
+})
 
 // Función que elimina la fila de un ítem de la lista
 function eliminarItem(_id, _codigoItem) {
@@ -223,23 +198,23 @@ function alpha(_this) {
     try {
         _ct = parseFloat(cantidad) * parseFloat(precio);
         _rd = parseFloat(estFinal) - parseFloat(estInicial);
-        
+
         costoTotal.find("input:eq(0)").val("₡" + formatNumber(_ct));
 
-        if(_rd == 0){
+        if (_rd == 0) {
             redimientos.find("input:eq(0)").val("0");
         }
-        else if((_rd.toString() == "NaN")||(_rd < 0)){
+        else if ((_rd.toString() == "NaN") || (_rd < 0)) {
             redimientos.find("input:eq(0)").val("--- Error ---");
         }
-        else{
+        else {
             redimientos.find("input:eq(0)").val(formatNumber((parseFloat(cantidad) / _rd)));
         }
     }
     catch (err) {
         alert(err.message);
     }
-    
+
 }
 
 // Funcion que le da formato a un numero ejemplo: console.info(formatNumber(1240.5));    // 1,240.5

@@ -1,106 +1,171 @@
 ﻿@model SOP_IAA_DAL.boleta
 
 @{
-    ViewBag.Title = "Detalles";
+    ViewBag.Title = "Boleta - Detalles";
 }
 
-<h2>Detalles</h2>
+<br /><br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Boleta Número: @Html.DisplayFor(model => model.numeroBoleta)
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tabGeneral" data-toggle="tab">General</a>
+            </li>
+            <li>
+                <a href="#tabItems" data-toggle="tab">Items</a>
+            </li>
+        </ul>
 
-<div>
-    <h4>Boleta</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.numeroBoleta)
-        </dt>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tabGeneral">
 
-        <dd>
-            @Html.DisplayFor(model => model.numeroBoleta)
-        </dd>
+                <br />
+                <!-- Panel que contendrá la información general -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Datos Generales
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tbDetallesGenerales" class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.numeroBoleta)</th>
+                                        <td>@Html.DisplayFor(model => model.numeroBoleta)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.fecha)</th>
+                                        <td>@Html.DisplayFor(model => model.fecha)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.seccionControl)</th>
+                                        <td>@Html.DisplayFor(model => model.seccionControl)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.estacionamientoInicial)</th>
+                                        <td>@Html.DisplayFor(model => model.estacionamientoInicial)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.estacionamientoFinal)</th>
+                                        <td>@Html.DisplayFor(model => model.estacionamientoFinal)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.periodo)</th>
+                                        <td>@Html.DisplayFor(model => model.periodo)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.observaciones)</th>
+                                        <td>@Html.DisplayFor(model => model.observaciones)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.fondo.nombre)</th>
+                                        <td>@Html.DisplayFor(model => model.fondo.nombre)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Inspector</th>
+                                        <td>
+                                            @Html.DisplayFor(model => model.inspector.persona.nombre)
+                                            @Html.DisplayFor(model => model.inspector.persona.apellido1)
+                                            @Html.DisplayFor(model => model.inspector.persona.apellido2)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.proyecto_estructura.descripcion)</th>
+                                        <td>@Html.DisplayFor(model => model.proyecto_estructura.descripcion)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.ruta.nombre)</th>
+                                        <td>@Html.DisplayFor(model => model.ruta.nombre)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fecha)
-        </dt>
+            </div>
+            <div class="tab-pane fade" id="tabItems">
+                
+                    <br />
+                    <!-- Panel que contendrá la información de los ingenieros -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Ítems de la Boleta
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="tbItems" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ítem</th>
+                                            <th>Descripción</th>
+                                            <th style="text-align:center">Unidad de medida</th>
+                                            <th style="text-align:right">Precio</th>
+                                            <th style="text-align:right">Cantidad</th>
+                                            <th style="text-align:right">Costo Total</th>
+                                            <th style="text-align:right">Redimientos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Aqui se cargarán las filas dinámicamente con la información de los ingenieros -->
+                                        @foreach (var item in Model.boletaItem)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.contratoItem.item.codigoItem)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.contratoItem.item.descripcion)
+                                                </td>
+                                                <td align="center">
+                                                    @Html.DisplayFor(modelItem => item.contratoItem.item.unidadMedida)
+                                                </td>
+                                                <td align="right"> 
+                                                    @String.Format("{0:C4}", (item.precioUnitarioFecha))
+                                                </td>
+                                                <td align="right">
+                                                    @String.Format("{0:N3}", (item.cantidad))
+                                                </td>
+                                                <td align="right">
+                                                    @String.Format("{0:C4}", (item.costoTotal))
+                                                </td>
+                                                <td align="right">
+                                                    @String.Format("{0:N3}", (item.redimientos))
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.fecha)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.seccionControl)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.seccionControl)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.estacionamientoInicial)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.estacionamientoInicial)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.estacionamientoFinal)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.estacionamientoFinal)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.periodo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.periodo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.observaciones)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.observaciones)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fondo.nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fondo.nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.inspector.idPersona)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.inspector.idPersona)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.proyecto_estructura.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.proyecto_estructura.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ruta.nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ruta.nombre)
-        </dd>
-
-    </dl>
+        </div>
+    </div>
+    <!-- /.panel-body -->
 </div>
+
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Atrás", "Index")
+    @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
 </p>
