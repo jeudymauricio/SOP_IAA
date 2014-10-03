@@ -22,7 +22,7 @@ namespace SOP_IAA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var ir = db.itemReajuste.Where(p => p.contratoItem.idContrato == idContrato);//.GroupBy(m => new { m.mes, m.ano });
+            var ir = db.itemReajuste.Where(p => p.contratoItem.idContrato == idContrato);
             var v = ir.GetType();
             return View(ir);
         }

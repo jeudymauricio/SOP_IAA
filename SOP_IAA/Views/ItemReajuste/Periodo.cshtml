@@ -4,10 +4,6 @@
     ViewBag.Title = "Reajustes por períodos";
 }
 
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <!--http://stackoverflow.com/questions/20349711/group-model-elements-by-date-in-table-using-razor-->
 <div class="panel-body">
     <div class="table-responsive table-bordered">
@@ -17,15 +13,13 @@
                     <th>Período</th>
                 </tr>
             </thead>
-            @foreach (var group in Model.GroupBy(m => new { m.mes, m.ano }))
+            @foreach (var group in Model)
             {
                 <tbody>
                     <tr>
                         <td>
-                            @{var mes = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)group.First().mes);}
-                            @mes @group.First().ano
+                            @group.contratoItem.item.codigoItem
                         </td>
-                        <td>@Html.ActionLink("Ver Reajustes", "Periodo", new { mes = group.First().mes, ano = group.First().ano, idContrato = group.First().contratoItem.idContrato })</td>
                     </tr>
                 </tbody>
             }

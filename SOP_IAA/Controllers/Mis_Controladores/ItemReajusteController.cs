@@ -13,14 +13,15 @@ namespace SOP_IAA.Controllers
     public partial class ItemReajusteController : Controller
     {
         //GET: itemReajuste/Periodo
-        public ActionResult Periodo(int? periodo)
+        public ActionResult Periodo(int? mes, int? ano, int? idContrato)
         {
-            if (periodo == null)
+            if (idContrato == null || mes==null || ano==null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            return View();
+            var ir = db.itemReajuste.Where(p => p.ano == ano).Where(i => i.mes==mes);
+            return View(ir);
         }
 
         // POST: itemReajustes/Create
