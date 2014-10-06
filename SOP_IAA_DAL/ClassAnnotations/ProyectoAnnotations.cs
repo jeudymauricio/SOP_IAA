@@ -19,5 +19,12 @@ namespace SOP_IAA_DAL
         [DisplayName("Nombre de Proyecto")]
         public string nombre { get; set; }
 
+        [Required]
+        [DisplayName("Tipo del proyecto")]
+        public int idTipoProyecto { get; set; }
+
+        [Required]
+        [DisplayName("Ruta")]
+        public int idRuta { get; set; }
     }
 }
