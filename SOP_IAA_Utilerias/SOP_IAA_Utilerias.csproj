@@ -78,6 +78,11 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilerias.cs" />
+    <Compile Include="UtilPestanaTitulo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UtilPestanaTitulo.resx</DependentUpon>
+    </Compile>
     <Compile Include="UtilRecursos.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -85,6 +90,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="UtilPestanaTitulo.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UtilPestanaTitulo.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="UtilRecursos.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UtilRecursos.Designer.cs</LastGenOutput>

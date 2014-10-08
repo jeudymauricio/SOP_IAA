@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using System.Web.Script.Serialization;
 using System.Collections;
 
-namespace SOP_IAA.Controllers
+namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
 {
     public partial class ContratoController : Controller
     {

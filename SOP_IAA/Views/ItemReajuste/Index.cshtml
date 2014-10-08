@@ -1,0 +1,35 @@
+﻿@model IEnumerable<SOP_IAA_DAL.itemReajuste>
+
+@{
+    ViewBag.Title = "Reajustes por períodos";
+}
+
+<h2> </h2>
+<p>
+    @Html.ActionLink("Nueva Reajuste", "Create", new { }, new { @class = "btn btn-primary", @style = "width:150px" })
+</p>
+<!--http://stackoverflow.com/questions/20349711/group-model-elements-by-date-in-table-using-razor-->
+<div class="panel-body">
+    <div class="table-responsive table-bordered">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Período</th>
+                </tr>
+            </thead>
+            @foreach (var group in Model.GroupBy(m => new { m.mes, m.ano }))
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            @{var mes = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)group.First().mes);}
+                            @mes @group.First().ano
+                        </td>
+                        <td>@Html.ActionLink("Ver Reajustes", "Periodo", new { mes = group.First().mes, ano = group.First().ano, idContrato = group.First().contratoItem.idContrato })</td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
+
