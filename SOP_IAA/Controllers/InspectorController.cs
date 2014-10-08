@@ -39,7 +39,20 @@ namespace SOP_IAA.Controllers
         // GET: Inspector/Create
         public ActionResult Create()
         {
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre");
+            var personas = db.persona
+                  .Select(persona => new SelectListItem
+                  {
+                      Value = persona.id.ToString(),
+                      Text = persona.nombre + " " + persona.apellido1 + " " + persona.apellido2
+                  });
+            var inspectores = db.inspector.Select(i => new SelectListItem
+            {
+                Value = i.idPersona.ToString(),
+                Text = i.persona.nombre + " " + i.persona.apellido1 + " " + i.persona.apellido2
+            });
+
+            ViewBag.idPersona = new SelectList(personas.Except(inspectores), "Value", "Text");
+
             return View();
         }
 
@@ -52,12 +65,31 @@ namespace SOP_IAA.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.inspector.Add(inspector);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.inspector.Add(inspector);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch(Exception){
+                    ModelState.AddModelError("", "Error al crear el inspector, Verifique que la persona no sea ya un inspector");
+                }
             }
 
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", inspector.idPersona);
+            var personas = db.persona
+                  .Select(persona => new SelectListItem
+                  {
+                      Value = persona.id.ToString(),
+                      Text = persona.nombre + " " + persona.apellido1 + " " + persona.apellido2
+                  });
+            var inspectores = db.inspector.Select(i => new SelectListItem
+            {
+                Value = i.idPersona.ToString(),
+                Text = i.persona.nombre + " " + i.persona.apellido1 + " " + i.persona.apellido2
+            });
+
+            ViewBag.idPersona = new SelectList(personas.Except(inspectores), "Value", "Text");
+
             return View(inspector);
         }
 

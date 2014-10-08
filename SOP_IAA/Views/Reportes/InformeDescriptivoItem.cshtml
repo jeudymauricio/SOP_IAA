@@ -72,6 +72,10 @@
     </div>
     <!-- /.panel-body -->
 </div>
+
+<div>
+    @Html.ActionLink("Atrás", "Index", "Reportes", new { idContrato = Model.idContrato }, null)
+</div>
 @section Scripts{
     <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
     <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>

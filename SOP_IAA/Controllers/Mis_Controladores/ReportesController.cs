@@ -27,7 +27,7 @@ namespace SOP_IAA.Controllers
         }
 
         //GET: 
-        public ActionResult Reports(int? id)
+        public ActionResult InformeDescriptivoItem(int? id)
         {
             if ((id == null))
             {
@@ -55,6 +55,9 @@ namespace SOP_IAA.Controllers
             // Load Excel application
             Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
 
+            // Leer una planilla predefinida
+            /*excel.Workbooks.Open(HttpRuntime.AppDomainAppPath + "\\Plantillas\\Plantilla.xlsx");*/
+            
             // Create empty workbook
             excel.Workbooks.Add();
 

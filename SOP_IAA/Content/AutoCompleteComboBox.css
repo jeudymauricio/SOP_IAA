@@ -1,0 +1,58 @@
+﻿.custom-combobox {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+
+}
+
+/** Flecha izquierda del dropdown **/
+.custom-combobox-toggle {
+    /*position: absolute;*/
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    
+    position: inherit;
+    top: -2px;
+    height: 34.5px;
+}
+
+/** Fondo del combobox **/
+/*.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 1px solid #79b7e7;
+    background: url("images/ui-bg_glass_85_dfeffc_1x400.png") 50% 50% repeat-x; 
+    font-weight: normal;
+    color: #555;
+}*/
+
+/** Fondo de cada elemento sobre el que se pasa el mouse en la lista desplegable **/
+/*.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    border: 1px solid #79b7e7;
+    background: #dadada url("images/ui-bg_glass_85_dfeffc_1x400.png") 50% 50% repeat-x;
+    font-weight: normal;
+    color: #212121;
+}*/
+
+.ui-state-default .ui-icon {
+    background-image: url("images/ui-icons_888888_256x240.png");
+}
+
+.custom-combobox-input {
+    margin: 0;
+    padding: 6px 22px;
+}
+
+.ui-autocomplete {
+    max-height: 250px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+/* IE 6 doesn't support max-height
+         * we use height instead, but this forces the menu to always be this tall
+         */
+* html .ui-autocomplete {
+    height: 250px;
+}
