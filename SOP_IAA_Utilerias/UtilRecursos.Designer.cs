@@ -367,6 +367,15 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este item del contrato?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_ITEM_CONTRATO {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_ITEM_CONTRATO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este item del proyecto?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_ITEM_PROYECTO {

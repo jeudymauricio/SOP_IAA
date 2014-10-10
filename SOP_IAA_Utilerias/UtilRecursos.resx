@@ -219,6 +219,9 @@
   <data name="MSJ_CONFIRM_ELIMINAR_ITEM" xml:space="preserve">
     <value>¿Está seguro de eliminar este item?</value>
   </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_ITEM_CONTRATO" xml:space="preserve">
+    <value>¿Está seguro de eliminar este item del contrato?</value>
+  </data>
   <data name="MSJ_CONFIRM_ELIMINAR_ITEM_PROYECTO" xml:space="preserve">
     <value>¿Está seguro de eliminar este item del proyecto?</value>
   </data>

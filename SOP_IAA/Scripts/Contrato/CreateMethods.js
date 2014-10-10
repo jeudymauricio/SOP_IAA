@@ -1,8 +1,6 @@
-﻿// Array que contendrá los id de los ingenieros del proyecto
-var ingenieros = [];
-
-// Array que contendrá los id de los laboratorios del proyecto
-var laboratorios = [];
+﻿/*
+ *---------------------------------------------- Métodos de la vista 'Create' del ContratoController ---------------------------------------------- 
+ */
 
 $(document).ready(
 
@@ -56,7 +54,10 @@ $(document).ready(
             var dd = document.getElementById('ddlIngenieros')
             var _id = dd.options[dd.selectedIndex].value;
 
-            // Este ajax se realiza una acción de cobtrolador donde envía el id del ingeniero a buscar y recibe como retorno un JSON con los detalles del Ingeniero
+            // Se deshabilita el boton mientras se realiza la acción
+            $(this).toggleClass('disabled', true);
+
+            // Este ajax se realiza una acción de controlador donde envía el id del ingeniero a buscar y recibe como retorno un JSON con los detalles del Ingeniero
             $.ajax({
                 url: '/Contrato/IngenieroDetalles/',
                 type: "GET",
@@ -66,16 +67,13 @@ $(document).ready(
                 },
                 success: function (data) {
                     var json = $.parseJSON(data);
-                    ingenieros.push(_id.toString());
-
-                    // Impresion del json devuelto por el controller
-                    //console.log(data);
-
-                    var fila = '<tr id=' + json.persona.id + '><td>' + json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido2 + '</td> ';
+                    var nombreIngeniero = json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido2;
+                    
+                    var fila = '<tr id=' + json.persona.id + '><td>' + nombreIngeniero + '</td> ';
                     fila += '<td>' + json.rol + '</td>';
                     fila += '<td>' + json.descripcion + '</td>';
                     fila += '<td>' + json.departamento + '</td>';
-                    fila += '<td> <button class="remove btn btn-danger" onclick=" eliminarIngeniero(' + json.persona.id + ')">Quitar Ingeniero</button> </td></tr>';
+                    fila += '<td> <button class="remove btn btn-danger" onclick="eliminarIngeniero(' + json.persona.id + ',\'' + nombreIngeniero + '\')">Quitar Ingeniero</button> </td></tr>';
 
                     //Agrega el ingeniero a la tabla htlm
                     $('#tbIngenieros > tbody:last').append(fila);
@@ -87,12 +85,18 @@ $(document).ready(
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert(errorThrown);
                 }
-            })
+            });
+
+            // Se habilita nuevamente el botón
+            $(this).toggleClass('disabled', false);
         }),
 
         $('#btnAgregarLaboratorio').click(function () {
             var dd = document.getElementById('ddlLaboratorios')
             var _id = dd.options[dd.selectedIndex].value;
+
+            // Se deshabilita el boton mientras se realiza la acción
+            $(this).toggleClass('disabled', true);
 
             // Este ajax se realiza una acción de cobtrolador donde envía el id del laboratorio a buscar y recibe como retorno un JSON con los detalles del laboratorio
             $.ajax({
@@ -105,12 +109,10 @@ $(document).ready(
 
                 success: function (data) {
                     var json = $.parseJSON(data);
-                    laboratorios.push(_id.toString());
-                    //console.log("array -> " + laboratorios.toString());
 
                     var fila = '<tr id=' + json.id + '><td>' + json.nombre + '</td> ';
                     fila += '<td>' + json.tipo + '</td>';
-                    fila += '<td> <button class="remove btn btn-danger" onclick=" eliminarLaboratorio(' + json.id + ')">Quitar Laboratorio</button> </td></tr>';
+                    fila += '<td> <button class="remove btn btn-danger" onclick=" eliminarLaboratorio(' + json.id + ',\'' + json.nombre + '\')">Quitar Laboratorio</button> </td></tr>';
 
                     //Agrega el ingeniero a la tabla htlm
                     $('#tbLaboratorios > tbody:last').append(fila);
@@ -140,7 +142,10 @@ $(document).ready(
                         alert('Error: \n' + errorThrown + 'Reitente de nuevo.');
                     }
                 }
-            })
+            });
+
+            // Se habilita nuevamente el botón
+            $(this).toggleClass('disabled', false);
         }),
 
         // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
@@ -155,6 +160,23 @@ $(document).ready(
 
         //Antes de ir a la acción Post del submit, se agregan los ingenieros y labs modificados
         $("#formCreateContract").submit(function (eventObj) {
+            // Array que contendrá los id de los ingenieros del proyecto
+            var ingenieros = [];
+
+            // Array que contendrá los id de los laboratorios del proyecto
+            var laboratorios = [];
+
+            // Se agregan a la lista todos los ingenieros de la tabla ingenieros
+            $('#tbIngenieros > tbody > tr').each(function () {
+                ingenieros.push($(this).attr('id').toString());
+            });
+
+            // Se agregan a la lista todos los laboratorios de la tabla laboratorios
+            $('#tbLaboratorios > tbody > tr').each(function () {
+                laboratorios.push($(this).attr('id').toString());
+            });
+
+            // Se preparan las listas antes de convertirlas a JSON
             var jsonDatosIngenieros = { "Ingenieros": ingenieros };
             var jsonDatosLaboratorios = { "Laboratorios": laboratorios };
 
@@ -174,75 +196,12 @@ $(document).ready(
         })
     });
 
-
-function eliminarIngeniero(_id) {
-    $.ajax({
-        url: '/Contrato/IngenieroDetalles/',
-        type: "GET",
-        dataType: "json",
-        data: {
-            id: _id
-        },
-        success: function (data) {
-            var json = $.parseJSON(data);
-            //console.log("id ->" + _id);
-            //var index = ingenieros.indexOf(_id);
-            //console.log(index);
-            for (var i = ingenieros.length - 1; i >= 0; i--) {
-                if (ingenieros[i] == _id) {
-                    ingenieros.splice(i, 1);
-                }
-            }
-            // ingenieros.splice(ingenieros.indexOf(_id), 1);
-            $("<option value=" + json.persona.id + ">" + json.persona.nombre + " " + json.persona.apellido1 + " " + json.persona.apellido2 + "</option>").appendTo("#ddlIngenieros");
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            if (xhr.status == 400) {
-                // Bad request
-                alert('Error: Consulta inválida.\nVerifique que seleccionó un laboratorio.');
-            }
-            else if (xhr.status === 401) {
-                // Unauthorized error
-                alert('Error: Acceso denegado.\n Verifique que tenga privilegios para realizar la operación.');
-            }
-            else if (xhr.status == 404) {
-                // Not found
-                alert('Error: no se encontraron los detalles del laboratorio.\nVerifique que existe el laboratorio.');
-            }
-            else if (xhr.status == 500) {
-                // Server side error
-                alert('Error del servidor.\n Espere unos segundos y vuelva a reitentar.');
-            }
-            else {
-                alert('Error: \n' + errorThrown + 'Reitente de nuevo.');
-            }
-        }
-    })
+// Devuelve el nombre e id del ingeniero eliminado al dropdown de ingenieros
+function eliminarIngeniero(_id, _nombreIngeniero) {
+    $("<option value=" + _id + ">" + _nombreIngeniero.toString() + "</option>").appendTo("#ddlIngenieros");
 }
 
-function eliminarLaboratorio(_id) {
-    $.ajax({
-        url: '/Contrato/LaboratorioDetalles/',
-        type: "GET",
-        dataType: "json",
-        data: {
-            id: _id
-        },
-        success: function (data) {
-            var json = $.parseJSON(data);
-            console.log("id ->" + _id);
-            //var index = ingenieros.indexOf(_id);
-            //console.log(index);
-            for (var i = laboratorios.length - 1; i >= 0; i--) {
-                if (laboratorios[i] == _id) {
-                    laboratorios.splice(i, 1);
-                }
-            }
-            // ingenieros.splice(ingenieros.indexOf(_id), 1);
-            $("<option value=" + json.id + ">" + json.nombre + "</option>").appendTo("#ddlLaboratorios");
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
-    })
+// Devuelve el nombre e id del laboratorio eliminado al dropdown de laboratorios
+function eliminarLaboratorio(_id, _nombre) {
+    $("<option value=" + _id + ">" + _nombre + "</option>").appendTo("#ddlLaboratorios");
 }

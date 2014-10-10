@@ -66,11 +66,21 @@
     
     <script>
         $(document).ready(function () {
-            $('#tbItems').dataTable( {
+            $('#tbItems').dataTable({
                 "language": {
                     "url": "/Scripts/plugins/dataTables/Spanish.txt"
                 }
             });
-        })
+        });
+        
+        // Función de selecccionar las filas
+        $('#tbItems tbody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+
+        // Muestra cuantas filas se han seleccionado
+        $('#button').click(function () {
+            alert(table.rows('.selected').data().length + ' row(s) selected');
+        });
     </script>
 }

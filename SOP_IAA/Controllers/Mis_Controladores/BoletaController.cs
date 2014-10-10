@@ -74,23 +74,18 @@ namespace SOP_IAA.Controllers
             // Se cargan las rutas correspondientes a la zona del contrato
             var rutasContrato = new SelectList(contrato.zona.ruta, "id", "nombre");
             ViewBag.idRuta = rutasContrato;
-            if (rutasContrato.ToList().Count != 0)
-            {
-                // Se selecciona de la bd los proyectos estructuras y se convierten en una lista
-                ViewBag.idProyecto_Estructura = db.proyecto_estructura.ToList()
-                    // Se selecciona de la lista sólo los de la primer ruta que se carga al dropdown
-                    .Where(pe => pe.idRuta == int.Parse(rutasContrato.ToList().ElementAt(0).Value))
-                    // Se convirte a lista donde se toman solamente el id y la descripción del pe
-                    .Select(c => new SelectListItem
-                    {
-                        Value = c.id.ToString(),
-                        Text = c.descripcion.ToString()
-                    });
-            }
-            else
-            {
-                ViewBag.idProyecto_Estructura = new List<SelectListItem> { new SelectListItem { Text = " - ", Value = "-1" } };
-            }
+
+            // Se selecciona de la bd los proyectos estructuras y se convierten en una lista
+            ViewBag.idProyecto_Estructura = db.proyecto_estructura.ToList()
+                // Se selecciona de la lista sólo los de la primer ruta que se carga al dropdown
+                .Where(pe => pe.idRuta == int.Parse(rutasContrato.ToList().ElementAt(0).Value))
+                // Se convirte a lista donde se toman solamente el id y la descripción del pe
+                .Select(c => new SelectListItem
+                {
+                    Value = c.id.ToString(),
+                    Text = c.descripcion.ToString()
+                });
+
 
             // Se manda una boleta con los datos iniciales que debe ser llenada en la vista
             boleta boleta = new boleta
@@ -211,7 +206,7 @@ namespace SOP_IAA.Controllers
                 result.Add("precioReajustado", ci.precioUnitario.ToString("C3", System.Globalization.CultureInfo.CreateSpecificCulture("es-CR")));
             }
 
-            // Retorna un JSON con la lista de proyecto-estructuras de la ruta
+            // Retorna un JSON con los detalles del ítem
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -259,23 +254,67 @@ namespace SOP_IAA.Controllers
                 }
                 catch (Exception)
                 {
-                    ModelState.AddModelError("", "Ocurrió un error al ingresar la boleta, verifique que no sea un duplicado");
+                    // Se verifica que al menos hay una ruta seleccionada
+                    if (boleta.idRuta == 0)
+                    {
+                        ModelState.AddModelError("", "Debe seleccionar una ruta válida");
+                    }
+                    // Se verifica que al menos hay un PE
+                    else if (boleta.idProyecto_Estructura == 0)
+                    {
+                        ModelState.AddModelError("", "Debe seleccionar un Proyecto/Estructura válidos");
+                    }
+                    //
+                    else
+                    {
+                        ModelState.AddModelError("", "Ocurrió un error al ingresar la boleta, verifique que no sea un duplicado");
+                    }
                 }
             }
 
+            // Se busca el contrato, esto para cargar el fondo y las rutas correspondientes al contrato
+            Contrato contrato = db.Contrato.Find(boleta.idContrato);
+
+            // Selecciona solo los fondos que existen el el contrato, siempre va a ser uno
+            var fondoContrato = db.fondo.Where(f => f.id == contrato.fondo.id);
+            ViewBag.idFondo = new SelectList(fondoContrato, "id", "nombre");
+
+            // Se carga la lista de inspectores del sistema
+            var mquery = (
+                from p in db.persona
+                join i in db.inspector
+                on p.id equals i.idPersona
+                select new SelectListItem
+                {
+                    Value = p.id.ToString(),
+                    Text = p.nombre + " " + p.apellido1 + " " + p.apellido2
+                }
+            );
+            ViewBag.idInspector = new SelectList(mquery, "Value", "Text");
+
             // Se carga la lista de Items del contrato
             List<object> listItem = new List<object>();
-            foreach (var ci in db.contratoItem.Where(c => c.idContrato == boleta.idContrato))
+            foreach (var ci in contrato.contratoItem)
             {
                 listItem.Add(new Tuple<int, string>(ci.id, ci.item.codigoItem));
             }
             ViewBag.idItem = new SelectList(listItem, "item1", "item2");
 
-            ViewBag.idContrato = boleta.idContrato;
-            ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", boleta.idFondo);
-            ViewBag.idInspector = new SelectList(db.inspector, "idPersona", "idPersona", boleta.idInspector);
-            ViewBag.idProyecto_Estructura = new SelectList(db.proyecto_estructura, "id", "descripcion", boleta.idProyecto_Estructura);
-            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", boleta.idRuta);
+            // Se cargan las rutas correspondientes a la zona del contrato
+            var rutasContrato = new SelectList(contrato.zona.ruta, "id", "nombre");
+            ViewBag.idRuta = rutasContrato;
+
+            // Se selecciona de la bd los proyectos estructuras y se convierten en una lista
+            ViewBag.idProyecto_Estructura = db.proyecto_estructura.ToList()
+                // Se selecciona de la lista sólo los PEde la ruta seleccionada en la boleta
+                .Where(pe => pe.idRuta == boleta.idRuta)
+                // Se convirte a lista donde se toman solamente el id y la descripción del pe
+                .Select(c => new SelectListItem
+                {
+                    Value = c.id.ToString(),
+                    Text = c.descripcion.ToString()
+                });
+
             return View(boleta);
         }
 
@@ -330,7 +369,18 @@ namespace SOP_IAA.Controllers
             var rutasContrato = new SelectList(contrato.zona.ruta, "id", "nombre", boleta.idRuta);
             ViewBag.idRuta = rutasContrato;
 
-            ViewBag.idProyecto_Estructura = new SelectList(boleta.ruta.proyecto_estructura, "id", "descripcion");
+            // Se selecciona de la bd los proyectos estructuras y se convierten en una lista
+            var peAux = db.proyecto_estructura.ToList()
+                // Se selecciona de la lista sólo los PEde la ruta seleccionada en la boleta
+                .Where(pe => pe.idRuta == boleta.idRuta)
+                // Se convirte a lista donde se toman solamente el id y la descripción del pe
+                .Select(c => new SelectListItem
+                {
+                    Value = c.id.ToString(),
+                    Text = c.descripcion.ToString()
+                });
+
+            ViewBag.idProyecto_Estructura = new SelectList(peAux, "Value", "Text", boleta.idProyecto_Estructura);
 
             return View(boleta);
         }
@@ -342,7 +392,7 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(
             [Bind(Include = "id,idContrato,numeroBoleta,idFondo,idRuta,idInspector,fecha,seccionControl,estacionamientoInicial,estacionamientoFinal,periodo,idProyecto_Estructura,observaciones")] boleta boleta,
-            [Bind(Include="jsonItems")] string jsonItems)
+            [Bind(Include = "jsonItems")] string jsonItems)
         {
             if (ModelState.IsValid)
             {
@@ -373,16 +423,15 @@ namespace SOP_IAA.Controllers
 
                     // Se agrega el boleta-item a la base de datos
                     db.boletaItem.Add(bi);
-                    
-                    // Se guardan los cambios de la relacion boleta-item   
-                }
 
-                db.SaveChanges();
+                    // Se guardan los cambios de la relacion boleta-item   
+                    db.SaveChanges();
+                }
 
                 Repositorio<boleta> rep = new Repositorio<boleta>();
                 rep.Actualizar(boleta);
 
-                return RedirectToAction("Index", new { idContrato = boleta.idContrato});
+                return RedirectToAction("Index", new { idContrato = boleta.idContrato });
             }
             ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", boleta.idFondo);
             ViewBag.idInspector = new SelectList(db.inspector, "idPersona", "idPersona", boleta.idInspector);

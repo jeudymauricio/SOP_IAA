@@ -13,7 +13,7 @@
 
     <div class="form-horizontal">
         <div class="container-fluid panel-body" style="max-width:1500px">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
             @Html.HiddenFor(model => model.idContrato)
 
             <div id="rootwizard">
@@ -39,6 +39,9 @@
 
                 <!-- 3. Create a matching tab pane for each tab. Content goes within these panes -->
                 <div class="tab-content">
+
+                    <!-- Esto despliega los mensajes de error adjuntados al modelo en el controlador (en caso de haber errores al realizar el POST)-->
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <!-- Sección de datos de boleta -->
                     <div class="tab-pane active" id="step1">
@@ -117,7 +120,19 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.idProyecto_Estructura, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
                             <div class="col-md-10">
-                                @Html.DropDownList("idProyecto_Estructura", null, htmlAttributes: new { @class = "form-control", @id = "ddlProyectoEstructura" })
+                                @{
+                                    // Se pregunta si los proyectos estrcuturas vienen vacíos
+                                    if (Enumerable.Count(ViewBag.idProyecto_Estructura) < 1)
+                                    {
+                                        // Si están vacíos entonces se desactiva el dropdown
+                                        @Html.DropDownList("idProyecto_Estructura", null, htmlAttributes: new { @class = "form-control", @id = "ddlProyectoEstructura", @disabled = "disabled" })
+                                    }
+                                    else
+                                    {
+                                        // Sí la lista contiene elementos se cargan al dropdown
+                                        @Html.DropDownList("idProyecto_Estructura", null, htmlAttributes: new { @class = "form-control", @id = "ddlProyectoEstructura" })
+                                    }
+                                }
                                 @Html.ValidationMessageFor(model => model.idProyecto_Estructura, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -134,7 +149,7 @@
                     <!-- Sección de datos de los items -->
                     <div class="tab-pane" id="step2" style="min-height:377px">
                         <div>
-                            @Html.DropDownList("idItem", null, htmlAttributes: new { @class="input", @id = "ddlItems" })
+                            @Html.DropDownList("idItem", null, htmlAttributes: new { @class = "input", @id = "ddlItems" })
                             <input class="btn btn-primary" type="button" id="btnAgregarItem" value="Agregar Ítem" />
                             <br /><br />
                         </div>
@@ -169,7 +184,7 @@
                             </div>
                             <!-- /.panel-body -->
                         </div>
-
+                        <!-- /.panel-default -->
                     </div>
 
                     <!-- 4. Declare buttons used by the wizard. -->
@@ -200,6 +215,9 @@
     <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
     <script src="~/Scripts/AutoCompleteComboBox.js"></script>
 
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
     @** Función para el autocompletado del dropdown **@
     <script>
         $(function () {
@@ -208,6 +226,7 @@
                 $("#ddlItems").toggle();
             });
         });
+
     </script>
 
 }

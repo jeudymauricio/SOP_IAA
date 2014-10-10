@@ -262,6 +262,7 @@
     <Content Include="Scripts\Boleta\EditMethods.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\ContratoItem\CreateMethods.js" />
     <Content Include="Scripts\Contrato\CreateMethods.js" />
     <Content Include="Scripts\Contrato\EditMethods.js" />
     <Content Include="Scripts\DateRangePicker\daterangepicker.js" />
