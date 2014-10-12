@@ -20,7 +20,8 @@ namespace SOP_IAA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var ir = db.itemReajuste.Where(p => p.ano == ano).Where(i => i.mes==mes);
+            var ci = db.contratoItem.Where(cii => cii.idContrato == idContrato);
+            var ir = db.itemReajuste.Where(p => p.ano == ano).Where(i => i.mes==mes).Where(n => n.contratoItem.idContrato == idContrato);
             return View(ir);
         }
 
@@ -29,13 +30,32 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,idContratoItem,fecha,mes,ano,reajuste,precioReajustado")] itemReajuste itemReajuste)
+        public ActionResult Create([Bind(Include = "id,idContratoItem,fecha,mes,ano,reajuste")] itemReajuste itemReajuste)
         {
             if (ModelState.IsValid)
             {
+                var itemReajustado = db.itemReajuste.Where(ir => ir.idContratoItem == itemReajuste.idContratoItem);
+                var contratoItem = db.contratoItem.Where(ci => ci.id == itemReajuste.idContratoItem);
+                if (itemReajustado.Count() > 0)
+                {
+                    itemReajustado = itemReajustado.OrderByDescending(ir => ir.fecha);
+                    itemReajuste _temp = itemReajustado.First();
+
+                    decimal precioBase = _temp.precioReajustado;
+                    decimal reajustado = (precioBase * itemReajuste.reajuste) + precioBase;
+                    itemReajuste.precioReajustado = reajustado;
+                }
+                else // Si no hay reajustes se procede a poner el precio estipulado en el contrato.
+                {
+                    decimal precioBase = contratoItem.First().precioUnitario;
+                    decimal reajustado = (precioBase * itemReajuste.reajuste)+precioBase;
+                    itemReajuste.precioReajustado = reajustado;
+                }
+                
                 db.itemReajuste.Add(itemReajuste);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index/?id"+itemReajuste.contratoItem.idContrato);
+                return RedirectToAction("Index", new {id= contratoItem.First().idContrato });
             }
 
             ViewBag.idContratoItem = new SelectList(db.contratoItem, "id", "id", itemReajuste.idContratoItem);
@@ -47,10 +67,11 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,idContratoItem,fecha,mes,ano,reajuste,precioReajustado")] itemReajuste itemReajuste)
+        public ActionResult Edit([Bind(Include = "id,idContratoItem,fecha,mes,ano,reajuste")] itemReajuste itemReajuste)
         {
             if (ModelState.IsValid)
             {
+
                 db.Entry(itemReajuste).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

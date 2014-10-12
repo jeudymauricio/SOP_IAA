@@ -1,14 +1,13 @@
 ﻿@model SOP_IAA_DAL.itemReajuste
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar Reajuste";
 }
 
-<h2>Delete</h2>
+<h2>Eliminar Reajuste</h2>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>itemReajuste</h4>
+    <h4>@Model.contratoItem.item.codigoItem</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -55,18 +54,13 @@
             @Html.DisplayNameFor(model => model.contratoItem.id)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.contratoItem.id)
-        </dd>
-
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Delete" class="btn btn-danger" />
         </div>
     }
 </div>
