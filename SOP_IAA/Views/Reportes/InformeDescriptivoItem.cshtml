@@ -28,6 +28,7 @@
                         <th>Cantidad</th>
                         <th>Inspector</th>
                         <th>Proyecto/Estructura</th>
+                        <th>Comentarios</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,6 +63,9 @@
                             </td>
                            <td>
                                 @Html.DisplayFor(modelItem => item.boleta.proyecto_estructura.descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.observaciones)
                             </td>
                         </tr>
                     }
