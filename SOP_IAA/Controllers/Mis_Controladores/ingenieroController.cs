@@ -37,7 +37,21 @@ namespace SOP_IAA.Controllers
                 }
             }
 
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
+            //ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", ingeniero.idPersona);
+            var personas = db.persona
+                  .Select(persona => new SelectListItem
+                  {
+                      Value = persona.id.ToString(),
+                      Text = persona.nombre + " " + persona.apellido1 + " " + persona.apellido2
+                  });
+            var ingenieros = db.ingeniero.Select(i => new SelectListItem
+            {
+                Value = i.idPersona.ToString(),
+                Text = i.persona.nombre + " " + i.persona.apellido1 + " " + i.persona.apellido2
+            });
+
+            ViewBag.idPersona = new SelectList(personas.Except(ingenieros), "Value", "Text");
+
             return View(ingeniero);
         }
 

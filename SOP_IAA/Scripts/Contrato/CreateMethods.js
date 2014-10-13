@@ -5,6 +5,13 @@
 $(document).ready(
 
     function () {
+        // Funciones de autocomplete en los dropdown
+        $("#ddlIdContratista").combobox();
+        $("#ddlIdZona").combobox();
+        $("#ddlIdFondo").combobox();
+        $("#ddlIngenieros").combobox();
+        $("#ddlLaboratorios").combobox();
+
         // Función del Wizard
         $('#rootwizard').bootstrapWizard({
             onTabShow: function (tab, navigation, index) {
@@ -51,8 +58,13 @@ $(document).ready(
 
         // Función que permite agregar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
         $('#btnAgregarIngeniero').click(function () {
-            var dd = document.getElementById('ddlIngenieros')
-            var _id = dd.options[dd.selectedIndex].value;
+            var dd = document.getElementById('ddlIngenieros');
+            try {
+                // Se trata de obtener el valor del dropdown
+                var _id = dd.options[dd.selectedIndex].value;
+            } catch (error) {
+                return false;
+            }
 
             // Se deshabilita el boton mientras se realiza la acción
             $(this).toggleClass('disabled', true);
@@ -68,7 +80,7 @@ $(document).ready(
                 success: function (data) {
                     var json = $.parseJSON(data);
                     var nombreIngeniero = json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido2;
-                    
+
                     var fila = '<tr id=' + json.persona.id + '><td>' + nombreIngeniero + '</td> ';
                     fila += '<td>' + json.rol + '</td>';
                     fila += '<td>' + json.descripcion + '</td>';
@@ -81,6 +93,13 @@ $(document).ready(
                     //Elimina el ingeniero del dropdownlist
                     $("#ddlIngenieros option:selected").remove();
 
+                    // Actualiza el dropdown
+                    try {
+                        $("#ddlIngenieros").parent().find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+                    }
+                    catch (error) {
+                        $("#ddlIngenieros").parent().find('span.custom-combobox').find('input:text').val('');
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert(errorThrown);
@@ -93,7 +112,12 @@ $(document).ready(
 
         $('#btnAgregarLaboratorio').click(function () {
             var dd = document.getElementById('ddlLaboratorios')
-            var _id = dd.options[dd.selectedIndex].value;
+            try {
+                // Se trata de obtener el valor del dropdown
+                var _id = dd.options[dd.selectedIndex].value;
+            } catch (error) {
+                return false;
+            }
 
             // Se deshabilita el boton mientras se realiza la acción
             $(this).toggleClass('disabled', true);
@@ -119,6 +143,14 @@ $(document).ready(
 
                     //Elimina el ingeniero del dropdownlist
                     $("#ddlLaboratorios option:selected").remove();
+
+                    // Actualiza el dropdown
+                    try {
+                        $("#ddlLaboratorios").parent().find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+                    }
+                    catch (error) {
+                        $("#ddlLaboratorios").parent().find('span.custom-combobox').find('input:text').val('');
+                    }
 
                 },
                 error: function (xhr, textStatus, errorThrown) {

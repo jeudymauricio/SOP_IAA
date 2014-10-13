@@ -4,6 +4,7 @@ var items = [];
 $(document).ready(
 
     function () {
+
         // Funcion del dropdown ruta que según la seleccionada, carga los PE en el dropdown de proyecto estructura
         $("#ddlRuta").change(function () {
             var selectedItem = $(this).val();
