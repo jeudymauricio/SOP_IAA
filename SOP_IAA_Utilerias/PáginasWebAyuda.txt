@@ -5,6 +5,9 @@ http://dba.stackexchange.com/questions/31420/how-to-create-unique-index-for-mont
 
 
 Exportar a Excel
+	http://epplus.codeplex.com/wikipage?title=WebapplicationExample
+	https://epplus.codeplex.com/discussions/219864
+	https://epplus.codeplex.com/discussions/402366
 	http://csharp.net-informations.com/excel/csharp-excel-tutorial.htm
 
 	https://bytescout.com/products/developer/spreadsheetsdk/read-write-excel.html

@@ -26,7 +26,7 @@ namespace SOP_IAA_DAL
         public int idRuta { get; set; }
         public int idInspector { get; set; }
         public System.DateTime fecha { get; set; }
-        public short seccionControl { get; set; }
+        public int seccionControl { get; set; }
         public string estacionamientoInicial { get; set; }
         public string estacionamientoFinal { get; set; }
         public byte periodo { get; set; }
