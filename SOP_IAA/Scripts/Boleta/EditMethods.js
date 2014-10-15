@@ -4,12 +4,15 @@ var items = [];
 $(document).ready(
 
     function () {
+
         // Funcion del dropdown ruta que según la seleccionada, carga los PE en el dropdown de proyecto estructura
         $("#ddlRuta").change(function () {
             var selectedItem = $(this).val();
             var ddlProyectoEstructura = $("#ddlProyectoEstructura");
-            //var statesProgress = $("#states-loading-progress");
-            //statesProgress.show();
+            document.getElementById('ddlProyectoEstructura').disabled = false;
+            ddlProyectoEstructura.html('');
+            ddlProyectoEstructura.append($('<option></option>').val(0).html('- - - Cargando - - -'));
+
             $.ajax({
                 cache: false,
                 type: "GET",
@@ -17,14 +20,19 @@ $(document).ready(
                 data: { "idRuta": selectedItem },
                 success: function (data) {
                     ddlProyectoEstructura.html('');
-                    $.each(data, function (id, option) {
-                        ddlProyectoEstructura.append($('<option></option>').val(option.id).html(option.descripcion));
-                    });
-                    //statesProgress.hide();
+                    if (data.length < 1) {
+                        document.getElementById('ddlProyectoEstructura').disabled = true;
+                    }
+                    else {
+                        $.each(data, function (id, option) {
+                            ddlProyectoEstructura.append($('<option></option>').val(option.id).html(option.descripcion));
+                        });
+                    }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Fallo al obtener los proyectos/estructuras.');
-                    statesProgress.hide();
+                    ddlProyectoEstructura.html('');
+                    document.getElementById('ddlProyectoEstructura').disabled = true;
                 }
             });
         });
@@ -122,6 +130,8 @@ $(document).ready(
 //Antes de ir a la acción Post del submit, se agregan los ingenieros y labs modificados
 $("#formEdit").submit(function (eventObj) {
 
+    // Bandera que indicará si debe hacerse el submit o no
+    var doSubmit = true;
 
     // Se listan todos los items de la tabla
     $('#tbItems > tbody > tr').each(function () {
@@ -132,9 +142,36 @@ $("#formEdit").submit(function (eventObj) {
         singleObj['cantidad'] = removeCurrency($(this).children("td").eq(4).find("input:eq(0)").val());
         singleObj['costoTotal'] = removeCurrency($(this).children("td").eq(5).find("input:eq(0)").val());
         singleObj['redimientos'] = removeCurrency($(this).children("td").eq(6).find("input:eq(0)").val());
+
+        // Se verifica que la cantidad sea numérica
+        if (!((/[0-9]$/.test(singleObj.cantidad)) && (/[0-9]$/.test(singleObj.costoTotal)))) {
+            // Se indica el error
+            alert("Algunos campos son incorrectos, verifique las cantidades");
+            // Se indica que no debe hacerse el submit
+            doSubmit = false;
+            // Se detiene el ciclo
+            return false;
+        }
+
+        // Se verifica que la cantidad sea numérica
+        if (!(/[0-9]$/.test(singleObj.redimientos))) {
+            // Se informa del error
+            alert("Algunos campos son incorrectos, verifique los estacionamientos");
+            // Se indica que no debe hacerse el submit
+            doSubmit = false;
+            // Se detiene el ciclo
+            return false;
+        }
+
+        // Se agrega el objeto con los detalles del ítem a la lista a enviar en el submit
         items.push(singleObj);
 
     })
+
+    // Se verifica si debe hacerse el submit o no
+    if (!doSubmit) {
+        return false;
+    }
 
     // Se crea el Json con la lista de ítems
     var jsonItems = { "Items": items };

@@ -51,6 +51,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\..\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -262,6 +265,7 @@
     <Content Include="Scripts\Boleta\EditMethods.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\ContratoItem\CreateMethods.js" />
     <Content Include="Scripts\Contrato\CreateMethods.js" />
     <Content Include="Scripts\Contrato\EditMethods.js" />
     <Content Include="Scripts\DateRangePicker\daterangepicker.js" />
@@ -271,6 +275,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\Contrato\jQuery.toDictionary.js" />
     <Content Include="Mvc.sitemap" />
+    <Content Include="Plantillas\Informe_Descriptivo_Item.xlsx" />
+    <Content Include="Plantillas\Informe_Descriptivo_Item - Copia.xlsx" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

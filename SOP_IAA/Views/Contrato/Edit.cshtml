@@ -47,7 +47,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.idContratista, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownList("idContratista", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("idContratista", null, htmlAttributes: new { @class = "form-control", @id = "ddlIdContratista" })
                                         @Html.ValidationMessageFor(model => model.idContratista, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.idZona, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownList("idZona", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("idZona", null, htmlAttributes: new { @class = "form-control", @id = "ddlIdZona" })
                                         @Html.ValidationMessageFor(model => model.idZona, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.idFondo, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control", @id = "ddlIdFondo" })
                                         @Html.ValidationMessageFor(model => model.idFondo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -142,25 +142,25 @@
                                             <!-- Aqui se cargarán las filas dinámicamente con la información de los ingenieros -->
                                             @foreach (var item in Model.ingenieroContrato)
                                             {
-                                                <tr id=@item.ingeniero.idPersona>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.ingeniero.persona.nombre)
-                                                        @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido1)
-                                                        @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido2)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.ingeniero.rol)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.ingeniero.descripcion)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.ingeniero.departamento)
-                                                    </td>
-                                                    <td>
-                                                        <button class="remove btn btn-danger" onclick="eliminarIngeniero(@item.ingeniero.idPersona)">Quitar Ingeniero</button>
-                                                    </td>
-                                                </tr>
+                                            <tr id=@item.ingeniero.idPersona>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.persona.nombre)
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido1)
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido2)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.rol)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.descripcion)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.departamento)
+                                                </td>
+                                                <td>
+                                                    <button class="remove btn btn-danger" onclick="eliminarIngeniero(@item.ingeniero.idPersona, '@item.ingeniero.persona.nombre @item.ingeniero.persona.apellido1 @item.ingeniero.persona.apellido2')">Quitar Ingeniero</button>
+                                                </td>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -199,17 +199,17 @@
                                             <!-- Aqui se cargarán las filas dinámicamente con la información de los laboratorios -->
                                             @foreach (var item in Model.laboratorioCalidad)
                                             {
-                                                <tr id=@item.id>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.nombre)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.tipo)
-                                                    </td>
-                                                    <td>
-                                                        <button class="remove btn btn-danger" onclick="eliminarLaboratorio(@item.id)">Quitar Laboratorio</button>
-                                                    </td>
-                                                </tr>
+                                            <tr id=@item.id>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.nombre)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.tipo)
+                                                </td>
+                                                <td>
+                                                    <button class="remove btn btn-danger" onclick="eliminarLaboratorio(@item.id, '@item.nombre')">Quitar Laboratorio</button>
+                                                </td>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -241,7 +241,12 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jquery")
-    <link rel="stylesheet" href="~/Content/jquery-ui.css">
     <script src="~/Scripts/(personal)bootstrap-3.2.0.min.js"></script>
     <script src="~/Scripts/Contrato/EditMethods.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+
+    @** Función para el autocompletado del dropdown **@
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
 }

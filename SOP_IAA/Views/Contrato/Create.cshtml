@@ -207,7 +207,7 @@
             @Html.ActionLink("Atrás", "Index")
         </p>
     </div>
-    
+
 }
 
 @section Scripts {
@@ -215,7 +215,10 @@
     @Scripts.Render("~/bundles/jquery");
     @Scripts.Render("~/bundles/jqueryval");
     <script src="~/Scripts/(personal)bootstrap-3.2.0.min.js"></script>
-    <link rel="stylesheet" href="~/Content/jquery-ui.css">
     <script src="~/Scripts/Contrato/CreateMethods.js"></script>
-    
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+
+    @** Función para el autocompletado del dropdown **@
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
 }

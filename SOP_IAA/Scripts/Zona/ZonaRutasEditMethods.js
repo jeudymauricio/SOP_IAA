@@ -8,7 +8,12 @@ $(document).ready(
         // Función que permite agregar una fila con los detalles de una ruta a la tabla de rutas de la zona
         $('#btnAgregarRuta').click(function () {
             var dd = document.getElementById('ddlRutas')
-            var _id = dd.options[dd.selectedIndex].value;
+            try {
+                // Se trata de obtener el valor del dropdown
+                var _id = dd.options[dd.selectedIndex].value;
+            } catch (error) {
+                return false;
+            }
 
             // Este ajax se realiza una acción de cobtrolador donde envía el id de la ruta a buscar y recibe como retorno un JSON con los detalles de la ruta
             $.ajax({
@@ -31,6 +36,14 @@ $(document).ready(
 
                     //Elimina la ruta del dropdownlist
                     $("#ddlRutas option:selected").remove();
+
+                    // Actualiza el dropdown
+                    try {
+                        $("#ddlRutas").parent().find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+                    }
+                    catch (error) {
+                        $("#ddlRutas").parent().find('span.custom-combobox').find('input:text').val('');
+                    }
 
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

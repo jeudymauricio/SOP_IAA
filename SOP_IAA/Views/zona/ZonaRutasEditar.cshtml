@@ -72,5 +72,13 @@
 
 @section Scripts {
     <script src="~/Scripts/Zona/ZonaRutasEditMethods.js"></script>
-
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+    @** Función para el autocompletado del dropdown **@
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
+    <script>
+        $(function () {
+            $("#ddlRutas").combobox();
+        });
+    </script>
 }

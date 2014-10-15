@@ -1,5 +1,9 @@
-﻿// Array JSON que contendrá los id de los contratoItem que se agreguen a la boleta
-var items = [];
+﻿/*
+ *---------------------------------------------- Métodos de la vista 'Create' del BoletaController ---------------------------------------------- 
+ */
+
+// Varible contador que permite asignar nombre único a cada textBox agregado
+var counter = 1;
 
 $(document).ready(
 
@@ -8,10 +12,10 @@ $(document).ready(
         $("#ddlRuta").change(function () {
             var selectedItem = $(this).val();
             var ddlProyectoEstructura = $("#ddlProyectoEstructura");
-            //var statesProgress = $("#states-loading-progress");
+            document.getElementById('ddlProyectoEstructura').disabled = false;
             ddlProyectoEstructura.html('');
             ddlProyectoEstructura.append($('<option></option>').val(0).html('- - - Cargando - - -'));
-            //statesProgress.show();
+
             $.ajax({
                 cache: false,
                 type: "GET",
@@ -19,16 +23,19 @@ $(document).ready(
                 data: { "idRuta": selectedItem },
                 success: function (data) {
                     ddlProyectoEstructura.html('');
-                    $.each(data, function (id, option) {
-                        ddlProyectoEstructura.append($('<option></option>').val(option.id).html(option.descripcion));
-                    });
-                    //statesProgress.hide();
+                    if (data.length < 1) {
+                        document.getElementById('ddlProyectoEstructura').disabled = true;
+                    }
+                    else {
+                        $.each(data, function (id, option) {
+                            ddlProyectoEstructura.append($('<option></option>').val(option.id).html(option.descripcion));
+                        });
+                    }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Fallo al obtener los proyectos/estructuras.');
                     ddlProyectoEstructura.html('');
-                    ddlProyectoEstructura.append($('<option></option>').val(0).html('- - - Error - - -'));
-                    statesProgress.hide();
+                    document.getElementById('ddlProyectoEstructura').disabled = true;
                 }
             });
         });
@@ -52,12 +59,14 @@ $(document).ready(
             },
             onTabClick: function (tab, navigation, index) {
                 //alert('Utilice los botones de Siguiente, Anterior para desplazarse');
-                return false;
+                //return false;
             }
         }),
 
         // Función del DatePicker en los campos de Fecha
-        $("#txtFecha").datepicker({ dateFormat: 'dd/mm/yy' }),
+        $("#txtFecha").datepicker({
+            dateFormat: 'dd/mm/yy'
+        }),
         $.datepicker.regional['es'] = {
             closeText: 'Cerrar',
             prevText: 'Anterior',
@@ -79,9 +88,18 @@ $(document).ready(
 
         // Función que permite agregar una fila con los detalles del item seleccionado en la sección items del Wizard
         $('#btnAgregarItem').click(function () {
-            var dd = document.getElementById('ddlItems')
-            var _id = dd.options[dd.selectedIndex].value;
+            var dd = document.getElementById('ddlItems');
+            try {
+                // Se trata de obtener el valor del dropdown
+                var _id = dd.options[dd.selectedIndex].value;
+            } catch (error) {
+                return false;
+            }
+            // Se extrae la fecha seleccionada
             var _fecha = document.getElementById('txtFecha')
+
+            // Se deshabilita el boton mientras se realiza la acción
+            $(this).toggleClass('disabled', true);
 
             // Este ajax realiza una acción de controlador donde envía el id del ítem a buscar y recibe como retorno un JSON con los detalles del ítem
             $.ajax({
@@ -109,7 +127,14 @@ $(document).ready(
 
                     //Elimina el ingeniero del dropdownlist
                     $("#ddlItems option:selected").remove();
-
+                    
+                    // Actualiza el dropdown
+                    try{
+                        $('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+                    }
+                    catch(error){
+                        $('span.custom-combobox').find('input:text').val('');
+                    }
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     if (xhr.status == 99) {
@@ -136,7 +161,10 @@ $(document).ready(
                         alert('Error: \n ' + errorThrown + 'Reitente de nuevo.');
                     }
                 }
-            })
+            });
+
+            // Se habilita nuevamente el botón
+            $(this).toggleClass('disabled', false);
         }),
 
         // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
@@ -149,22 +177,53 @@ $(document).ready(
 
 //Antes de ir a la acción Post del submit, se agregan los ingenieros y labs modificados
 $("#formCreate").submit(function (eventObj) {
-    
+    // Array JSON que contendrá los id de los contratoItem que se agreguen a la boleta
+    var items = [];
+
+    // Bandera que indicará si debe hacerse el submit o no
+    var doSubmit = true;
 
     // Se listan todos los items de la tabla
     $('#tbItems > tbody > tr').each(function () {
-        
+
+        // Objeto simple que contendrá los detalles de cada ítem de la boleta
         var singleObj = {}
         singleObj['idItemContrato'] = $(this).attr('id');
         singleObj['precio'] = removeCurrency($(this).children("td").eq(3).find("input:eq(0)").val());
         singleObj['cantidad'] = removeCurrency($(this).children("td").eq(4).find("input:eq(0)").val());
         singleObj['costoTotal'] = removeCurrency($(this).children("td").eq(5).find("input:eq(0)").val());
         singleObj['redimientos'] = removeCurrency($(this).children("td").eq(6).find("input:eq(0)").val());
-        items.push(singleObj);
 
+        // Se verifica que la cantidad sea numérica
+        if (!((/[0-9]$/.test(singleObj.cantidad)) && (/[0-9]$/.test(singleObj.costoTotal)))) {
+            // Se indica el error
+            alert("Algunos campos son incorrectos, verifique las cantidades");
+            // Se indica que no debe hacerse el submit
+            doSubmit = false;
+            // Se detiene el ciclo
+            return false;
+        }
+
+        // Se verifica que la cantidad sea numérica
+        if (!(/[0-9]$/.test(singleObj.redimientos))) {
+            // Se informa del error
+            alert("Algunos campos son incorrectos, verifique los estacionamientos");
+            // Se indica que no debe hacerse el submit
+            doSubmit = false;
+            // Se detiene el ciclo
+            return false;
+        }
+
+        // Se agrega el objeto con los detalles del ítem a la lista a enviar en el submit
+        items.push(singleObj);
     })
 
-    // Se crea el Json con la lista de ítems
+    // Se verifica si debe hacerse el submit o no
+    if (!doSubmit) {
+        return false;
+    }
+
+    // Si no hay problemas, Se crea el Json con la lista de ítems
     var jsonItems = { "Items": items };
 
     // Se adjunta al submit el Json de los items de la boleta
@@ -183,6 +242,15 @@ $("#formCreate").submit(function (eventObj) {
 function eliminarItem(_id, _codigoItem) {
     // Se agrega nuevamente el item al dropdown
     $("<option value=" + _id + ">" + _codigoItem + "</option>").appendTo("#ddlItems");
+
+    // Actualiza el dropdown
+    var dd = document.getElementById('ddlItems');
+    try {
+        $('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+    }
+    catch (error) {
+        $('span.custom-combobox').find('input:text').val('');
+    }
 }
 
 // Función de los input "Cantidad" que cuando se escribe un número se realizan cálculos con otros campos de la fila
@@ -223,23 +291,23 @@ function alpha(_this) {
     try {
         _ct = parseFloat(cantidad) * parseFloat(precio);
         _rd = parseFloat(estFinal) - parseFloat(estInicial);
-        
+
         costoTotal.find("input:eq(0)").val("₡" + formatNumber(_ct));
 
-        if(_rd == 0){
+        if (_rd == 0) {
             redimientos.find("input:eq(0)").val("0");
         }
-        else if((_rd.toString() == "NaN")||(_rd < 0)){
+        else if ((_rd.toString() == "NaN") || (_rd < 0)) {
             redimientos.find("input:eq(0)").val("--- Error ---");
         }
-        else{
+        else {
             redimientos.find("input:eq(0)").val(formatNumber((parseFloat(cantidad) / _rd)));
         }
     }
     catch (err) {
         alert(err.message);
     }
-    
+
 }
 
 // Funcion que le da formato a un numero ejemplo: console.info(formatNumber(1240.5));    // 1,240.5

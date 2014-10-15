@@ -8,7 +8,7 @@
 <h2>Agregar Item al contrato </h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formCreate", id = "formCreate" }))
 {
     @Html.AntiForgeryToken()
 
@@ -18,57 +18,71 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => Model.idContrato)
 
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.idContrato, "idContrato", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("idContrato", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.idContrato, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-sm-6">
+                @Html.DropDownList("idItem", null, htmlAttributes: new { @class = "input", @id = "ddlItems" })
+                <input class="btn btn-primary" type="button" id="btnAgregarItem" value="Agregar Ítem" />
+            </div>
+
+            <div class="col-sm-6" style="text-align:right">
+                <input type="submit" value="Agregar Items al Contrato" class="btn btn-success" />
+            </div>
+        </div>
+        <br />
+
+        <!-- Panel que contendrá la tabla dinámica de ítems -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Items
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="tbItems" class="table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th style="text-align:center">Descripción</th>
+                                <th style="text-align:center">Unidad de Medida</th>
+                                <th style="text-align:center">Precio (₡)</th>
+                                <th style="text-align:center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ítems -->
+                        </tbody>
+                    </table>
                 </div>
-            </div>*@
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.idItem, "Código de Item", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idItem", null, htmlAttributes: new { @class = "form-control", @id = "combobox" })
-                @Html.ValidationMessageFor(model => model.idItem, "", new { @class = "text-danger" })
+                <!-- /.table-responsive -->
             </div>
+            <!-- /.panel-body -->
         </div>
+        <!-- /.panel-default -->
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.precioUnitario, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.precioUnitario, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
-                @Html.ValidationMessageFor(model => model.precioUnitario, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Agregar Item" class="btn btn-primary" />
-            </div>
+        <div class="col-sm-12">
+            @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
         </div>
 
     </div>
-}
 
-<div>
-    @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
-</div>
+
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/ContratoItem/CreateMethods.js"></script>
 
     <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+    @** Función para el autocompletado del dropdown **@
     <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
     <script src="~/Scripts/AutoCompleteComboBox.js"></script>
-    
-    @** Función para el autocompletado del dropdown **@
-    <script>
+    @*<script>
         $(function () {
-            $("#combobox").combobox();
+
+            $("#ddlItems").combobox();
             $("#toggle").click(function () {
-                $("#combobox").toggle();
+                $("#ddlItems").toggle();
             });
         });
-    </script>
+    </script>*@
 }

@@ -45,8 +45,14 @@ namespace SOP_IAA.Controllers
                       Value = persona.id.ToString(),
                       Text = persona.nombre + " " + persona.apellido1 + " " + persona.apellido2
                   });
+            var ingenieros = db.ingeniero.Select(i => new SelectListItem
+            {
+                Value = i.idPersona.ToString(),
+                Text = i.persona.nombre + " " + i.persona.apellido1 + " " + i.persona.apellido2
+            });
 
-            ViewBag.idPersona = new SelectList(personas, "Value", "Text");
+            ViewBag.idPersona = new SelectList(personas.Except(ingenieros), "Value", "Text");
+
             return View();
         }
         /*
