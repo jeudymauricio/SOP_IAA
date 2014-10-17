@@ -162,6 +162,10 @@
         $(document).ready(function () {
             $('nav a').removeClass('active');
             $('nav a[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active'); /*class="in"*/
+            try{
+                $('nav a[href^="/' + location.pathname.split("/")[1] + '"]').parents().addClass('in');
+            }
+            catch (error){};
         });
     </script>
 </body>

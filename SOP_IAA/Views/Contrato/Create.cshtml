@@ -5,9 +5,6 @@
 }
 
 <h2>Nuevo Contrato</h2>
-<div class="col-md-offset-11 col-md-10">
-    @Html.ActionLink("Atrás", "Index")
-</div>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formCreateContract", id = "formCreateContract" }))
 {
@@ -23,7 +20,7 @@
                     <li><a href="#step1" role="tab" data-toggle="tab">Datos Generales</a></li>
                     <li><a href="#step2" role="tab" data-toggle="tab">Ingenieros</a></li>
                     <li><a href="#step3" role="tab" data-toggle="tab">Laboratorios</a></li>
-                    <li><a href="#step4" role="tab" data-toggle="tab">Resumen</a></li>
+                    @*<li><a href="#step4" role="tab" data-toggle="tab">Resumen</a></li>*@
                 </ul>
 
                 <br />
@@ -129,11 +126,11 @@
                                     <table id="tbIngenieros" class="table">
                                         <thead>
                                             <tr>
-                                                <th>Ingeniero</th>
-                                                <th>Cargo</th>
-                                                <th>Descripción</th>
-                                                <th> Departamento/Empresa </th>
-                                                <th></th>
+                                                <th style="text-align:center">Ingeniero</th>
+                                                <th style="text-align:center">Cargo</th>
+                                                <th style="text-align:center">Descripción</th>
+                                                <th style="text-align:center"> Departamento/Empresa </th>
+                                                <th style="text-align:center"></th>
                                             </tr>
                                         </thead>
                                         <tbody>

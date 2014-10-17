@@ -56,7 +56,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.idFondo, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
                             <div class="col-md-10">
-                                @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
                                 @Html.ValidationMessageFor(model => model.idFondo, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -64,7 +64,25 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.idRuta, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
                             <div class="col-md-10">
-                                @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control", @id = "ddlRuta" })
+                                @{
+                                    // Se pregunta si los proyectos estrcuturas vienen vacíos
+                                    if (Enumerable.Count(ViewBag.idProyecto_Estructura) < 1)
+                                    {
+                                        // Si están vacíos entonces se desactiva el dropdown
+                                        var items = new List<SelectListItem>()
+                                        {
+                                            new SelectListItem {Text = "--- Sin Rutas ---", Value = "-1"}
+                                        };
+
+                                        @Html.DropDownList("idRuta", items, new { @class = "form-control", @id = "ddlRuta", @disabled = "disabled"});
+                                    }
+                                    else
+                                    {
+                                        // Sí la lista contiene elementos se cargan al dropdown
+                                        @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control", @id = "ddlRuta" })
+                                    }
+}
+                                
                                 @Html.ValidationMessageFor(model => model.idRuta, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -72,7 +90,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.idInspector, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
                             <div class="col-md-10">
-                                @Html.DropDownList("idInspector", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.DropDownList("idInspector", null, htmlAttributes: new { @class = "form-control", @id = "ddlInpectores" })
                                 @Html.ValidationMessageFor(model => model.idInspector, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -125,12 +143,17 @@
                                     if (Enumerable.Count(ViewBag.idProyecto_Estructura) < 1)
                                     {
                                         // Si están vacíos entonces se desactiva el dropdown
-                                        @Html.DropDownList("idProyecto_Estructura", null, htmlAttributes: new { @class = "form-control", @id = "ddlProyectoEstructura", @disabled = "disabled" })
+                                        var items = new List<SelectListItem>()
+                                        {
+                                            new SelectListItem {Text = "--- Sin Proyectos/Estructuras ---", Value = "-1"}
+                                        };
+
+                                        @Html.DropDownList("idProyecto_Estructura", items, new { @class = "form-control", @id = "ddlRuta", @disabled = "disabled" });
                                     }
                                     else
                                     {
                                         // Sí la lista contiene elementos se cargan al dropdown
-                                        @Html.DropDownList("idProyecto_Estructura", null, htmlAttributes: new { @class = "form-control", @id = "ddlProyectoEstructura" })
+                                        @Html.DropDownList("idProyecto_Estructura", null, htmlAttributes: new { @class = "form-control", @id = "ddlProyectoEstructura" });
                                     }
                                 }
                                 @Html.ValidationMessageFor(model => model.idProyecto_Estructura, "", new { @class = "text-danger" })
@@ -214,19 +237,7 @@
     <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
     <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
     <script src="~/Scripts/AutoCompleteComboBox.js"></script>
-
     <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
     <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
-
-    @** Función para el autocompletado del dropdown **@
-    <script>
-        $(function () {
-            $("#ddlItems").combobox();
-            $("#toggle").click(function () {
-                $("#ddlItems").toggle();
-            });
-        });
-
-    </script>
 
 }

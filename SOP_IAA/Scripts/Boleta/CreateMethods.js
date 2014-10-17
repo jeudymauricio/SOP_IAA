@@ -8,22 +8,38 @@ var counter = 1;
 $(document).ready(
 
     function () {
+        $("#ddlProyectoEstructura").combobox();
+        $("#ddlInpectores").combobox();
+        $("#ddlItems").combobox();
+        //$("#ddlRuta").combobox();
+
         // Funcion del dropdown ruta que según la seleccionada, carga los PE en el dropdown de proyecto estructura
         $("#ddlRuta").change(function () {
+
+            // Se almacena el id de la ruta seleccionada
             var selectedItem = $(this).val();
+
+            // Referencia al dropdown de proyectos/estructuras (PE)
             var ddlProyectoEstructura = $("#ddlProyectoEstructura");
-            document.getElementById('ddlProyectoEstructura').disabled = false;
-            ddlProyectoEstructura.html('');
+
+            // Se deshabilita el dropdown de PE mientras se realiza la operación
+            ddlProyectoEstructura.disabled = false;
+            ddlProyectoEstructura.empty();
             ddlProyectoEstructura.append($('<option></option>').val(0).html('- - - Cargando - - -'));
 
+            // Se consultan los proyectos estructuras de la ruta
             $.ajax({
                 cache: false,
                 type: "GET",
                 url: "/Boleta/ObtenerProyectosEstructuras/",
                 data: { "idRuta": selectedItem },
                 success: function (data) {
-                    ddlProyectoEstructura.html('');
+                    // Se limpia el dropdown
+                    ddlProyectoEstructura.empty();
+
+                    // Si la operacion es exitosa se procede a cargas los PE si los hay
                     if (data.length < 1) {
+                        ddlProyectoEstructura.append(new Option("--- Sin Proyectos/Estructuras ---", "-1"));
                         document.getElementById('ddlProyectoEstructura').disabled = true;
                     }
                     else {
@@ -31,13 +47,25 @@ $(document).ready(
                             ddlProyectoEstructura.append($('<option></option>').val(option.id).html(option.descripcion));
                         });
                     }
+
+                    // Actualiza el dropdown
+                    try {
+                        ddlProyectoEstructura.parent().find('span.custom-combobox').find('input:text').val($("#ddlProyectoEstructura option:selected").text());
+                    }
+                    catch (error) {
+                        ddlProyectoEstructura.parent().find('span.custom-combobox').find('input:text').val('');
+                    }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    // Se informa del error
                     alert('Fallo al obtener los proyectos/estructuras.');
-                    ddlProyectoEstructura.html('');
+                    // Se limpia el dropdown
+                    ddlProyectoEstructura.empty();
                     document.getElementById('ddlProyectoEstructura').disabled = true;
                 }
             });
+            
+            
         });
 
         // Función del Wizard

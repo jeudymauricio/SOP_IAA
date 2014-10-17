@@ -16,7 +16,7 @@
           <Property Name="idRuta" Type="int" Nullable="false" />
           <Property Name="idInspector" Type="int" Nullable="false" />
           <Property Name="fecha" Type="date" Nullable="false" />
-          <Property Name="seccionControl" Type="int" />
+          <Property Name="seccionControl" Type="int" Nullable="false" />
           <Property Name="estacionamientoInicial" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="estacionamientoFinal" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="periodo" Type="tinyint" Nullable="false" />
@@ -78,9 +78,6 @@
             <PropertyRef Name="idPersona" />
           </Key>
           <Property Name="idPersona" Type="int" Nullable="false" />
-          <Property Name="descripcion" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="departamento" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="rol" Type="varchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <EntityType Name="ingenieroContrato">
           <Key>
@@ -89,8 +86,12 @@
           </Key>
           <Property Name="idContrato" Type="int" Nullable="false" />
           <Property Name="idIngeniero" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="departamento" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="rol" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="fechaInicio" Type="date" />
           <Property Name="fechaFin" Type="date" />
+          <Property Name="activo" Type="bit" />
         </EntityType>
         <EntityType Name="inspector">
           <Key>
@@ -840,9 +841,6 @@
             <PropertyRef Name="idPersona" />
           </Key>
           <Property Name="idPersona" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="departamento" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="rol" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ingenieroContrato" Relationship="Self.fk_idIngeniero_ingenieroContrato" FromRole="ingeniero" ToRole="ingenieroContrato" />
           <NavigationProperty Name="persona" Relationship="Self.fk_idPersona_ingeniero" FromRole="ingeniero" ToRole="persona" />
         </EntityType>
@@ -853,10 +851,14 @@
           </Key>
           <Property Name="idContrato" Type="Int32" Nullable="false" />
           <Property Name="idIngeniero" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="departamento" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="rol" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="fechaInicio" Type="DateTime" Precision="0" />
           <Property Name="fechaFin" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_ingenieroContrato" FromRole="ingenieroContrato" ToRole="Contrato" />
           <NavigationProperty Name="ingeniero" Relationship="Self.fk_idIngeniero_ingenieroContrato" FromRole="ingenieroContrato" ToRole="ingeniero" />
+          <Property Name="activo" Type="Boolean" />
         </EntityType>
         <EntityType Name="inspector">
           <Key>
@@ -1550,17 +1552,18 @@
             <EntityTypeMapping TypeName="Proyecto_IAAModel.ingeniero">
               <MappingFragment StoreEntitySet="ingeniero">
                 <ScalarProperty Name="idPersona" ColumnName="idPersona" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="departamento" ColumnName="departamento" />
-                <ScalarProperty Name="rol" ColumnName="rol" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ingenieroContrato">
             <EntityTypeMapping TypeName="Proyecto_IAAModel.ingenieroContrato">
               <MappingFragment StoreEntitySet="ingenieroContrato">
+                <ScalarProperty Name="activo" ColumnName="activo" />
                 <ScalarProperty Name="idContrato" ColumnName="idContrato" />
                 <ScalarProperty Name="idIngeniero" ColumnName="idIngeniero" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="departamento" ColumnName="departamento" />
+                <ScalarProperty Name="rol" ColumnName="rol" />
                 <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
                 <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
               </MappingFragment>

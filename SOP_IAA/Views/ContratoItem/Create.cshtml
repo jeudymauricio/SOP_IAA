@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-sm-6">
                 @Html.DropDownList("idItem", null, htmlAttributes: new { @class = "input", @id = "ddlItems" })
-                <input class="btn btn-primary" type="button" id="btnAgregarItem" value="Agregar Ítem" />
+                <input class="btn btn-primary" type="button" id="btnAgregarItem" value="Incluir Ítem" />
             </div>
 
             <div class="col-sm-6" style="text-align:right">
@@ -76,13 +76,9 @@
     @** Función para el autocompletado del dropdown **@
     <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
     <script src="~/Scripts/AutoCompleteComboBox.js"></script>
-    @*<script>
-        $(function () {
+    
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
 
-            $("#ddlItems").combobox();
-            $("#toggle").click(function () {
-                $("#ddlItems").toggle();
-            });
-        });
-    </script>*@
+
 }

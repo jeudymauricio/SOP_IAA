@@ -59,6 +59,7 @@
     <Compile Include="ClassAnnotations\BoletaItemAnnotations.cs" />
     <Compile Include="ClassAnnotations\BoletaAnnotations.cs" />
     <Compile Include="ClassAnnotations\ContratoItemAnnotations.cs" />
+    <Compile Include="ClassAnnotations\IngenieroContratoAnnotations.cs" />
     <Compile Include="ClassAnnotations\ItemReajusteAnnotations.cs" />
     <Compile Include="ClassAnnotations\Proyecto_EstructuraAnnotations.cs" />
     <Compile Include="ClassAnnotations\TelefonoAnnotations.cs" />

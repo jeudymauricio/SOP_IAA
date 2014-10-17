@@ -1,37 +1,31 @@
 ﻿@model IEnumerable<SOP_IAA_DAL.ingeniero>
 
 @{
-    ViewBag.Title = "Nuevo Ingeniero";
+    ViewBag.Title = "Ingenieros";
 }
 
-<h2></h2>
+<h2> </h2>
 
 <p>
-    @Html.ActionLink("Nuevo Ingeniero", "Create", null, new { @class = "btn btn-primary", @style = "width:150px" })
+    @Html.ActionLink("Nuevo Inspector", "Create", null, new { @class = "btn btn-primary", @style = "width:150px" })
 </p>
-<br />
+
 <div class="panel panel-default">
     <div class="panel-heading">
-        Lista de Ingenieros
+        Lista Global de Ingenieros
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
         <div class="table-responsive">
-            <table id="tbIngenieros" class="display">
+            <table id="tbInspectores" class="display">
                 <thead>
                     <tr>
                         <th>
                             @Html.DisplayNameFor(model => model.persona.nombre)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.departamento) / Empresa
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.rol)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.descripcion)
-                        </th>
+                        @*<th>
+                                Teléfono(s)
+                            </th>*@
                         <th></th>
                     </tr>
                 </thead>
@@ -42,18 +36,14 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.persona.nombre) @Html.DisplayFor(modelItem => item.persona.apellido1) @Html.DisplayFor(modelItem => item.persona.apellido2)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.departamento)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.rol)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.descripcion)
-                            </td>
+                            @*<td>
+                                    @foreach (var telefono in item.persona.telefono)
+                                    {
+                                        @Html.DisplayFor(itemTelefono => telefono.telefono1)
+                                        <br />
+                                    }
+                                </td>*@
                             <td align="center">
-                                @Html.ActionLink("Editar", "Edit", new { id = item.idPersona }) |
-                                @*@Html.ActionLink("Detalles", "Details", new { id = item.idPersona }) |*@
                                 @Html.ActionLink("Eliminar", "Delete", new { id = item.idPersona })
                             </td>
                         </tr>
@@ -72,7 +62,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#tbIngenieros').dataTable({
+            $('#tbInspectores').dataTable({
                 "language": {
                     "url": "/Scripts/plugins/dataTables/Spanish.txt"
                 }

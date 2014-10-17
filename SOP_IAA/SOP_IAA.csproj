@@ -113,6 +113,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -186,7 +187,6 @@
     <Compile Include="Controllers\contratistaController.cs" />
     <Compile Include="Controllers\ContratoItemController.cs" />
     <Compile Include="Controllers\FondoController.cs" />
-    <Compile Include="Controllers\IngenieroContratoController.cs" />
     <Compile Include="Controllers\IngenieroController.cs" />
     <Compile Include="Controllers\InspectorController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
@@ -259,6 +259,7 @@
     <Content Include="Images\sort_asc.png" />
     <Content Include="Images\sort_both.png" />
     <Content Include="Images\sort_desc.png" />
+    <Content Include="Libreria de Excel\EPPlus.dll" />
     <Content Include="Scripts\%28personal%29bootstrap-3.2.0.min.js" />
     <Content Include="Scripts\AutoCompleteComboBox.js" />
     <Content Include="Scripts\Boleta\CreateMethods.js" />
@@ -326,19 +327,12 @@
     <Content Include="Views\Fondo\Index.cshtml" />
     <Content Include="Views\Ingeniero\Create.cshtml" />
     <Content Include="Views\Ingeniero\Delete.cshtml" />
-    <Content Include="Views\Ingeniero\Details.cshtml" />
-    <Content Include="Views\Ingeniero\Edit.cshtml" />
     <Content Include="Views\persona\Create.cshtml" />
     <Content Include="Views\persona\Delete.cshtml" />
     <Content Include="Views\persona\Details.cshtml" />
     <Content Include="Views\persona\Edit.cshtml" />
     <Content Include="Views\persona\Index.cshtml" />
     <Content Include="Views\Ingeniero\Index.cshtml" />
-    <Content Include="Views\IngenieroContrato\Create.cshtml" />
-    <Content Include="Views\IngenieroContrato\Delete.cshtml" />
-    <Content Include="Views\IngenieroContrato\Details.cshtml" />
-    <Content Include="Views\IngenieroContrato\Edit.cshtml" />
-    <Content Include="Views\IngenieroContrato\Index.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Create.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Delete.cshtml" />
     <Content Include="Views\LaboratorioCalidad\Details.cshtml" />

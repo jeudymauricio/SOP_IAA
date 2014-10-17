@@ -20,7 +20,6 @@ namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
         // GET: Contrato/Create
         public ActionResult Create()
         {
-            //var model = new Contrato();
             ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre");
             ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre");
             ViewBag.idZona = new SelectList(db.zona, "id", "nombre");
@@ -34,7 +33,6 @@ namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
                               Text = p.nombre + " " + p.apellido1 + " " + p.apellido2
                           }
                 );
-
 
             ViewBag.idIngeniero = new SelectList(mquery, "Value", "Text");
             ViewBag.idLaboratorio = new SelectList(db.laboratorioCalidad, "id", "nombre");
@@ -51,6 +49,7 @@ namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
         {
             if (ModelState.IsValid)
             {
+
                 //Obtener los laboratios
                 dynamic jObj = JsonConvert.DeserializeObject(jsonLab);
                 foreach (var child in jObj.Laboratorios.Children())
@@ -61,6 +60,7 @@ namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
                 //inserción del contrato a la DB
                 db.Contrato.Add(contrato);
                 db.SaveChanges();
+
                 //obtención del id del contrato
                 var idContrato = contrato.id;
 
@@ -71,12 +71,19 @@ namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
                     //Creación del ingeniero-contrato.
                     ingenieroContrato ing_contrato = new ingenieroContrato();
                     ing_contrato.idContrato = idContrato;
-                    ing_contrato.idIngeniero = (int)child;
+                    ing_contrato.idIngeniero = (int)child.idIngeniero;
+                    ing_contrato.rol = child.Cargo;
+                    ing_contrato.descripcion = child.Descripcion;
+                    ing_contrato.departamento = child.DeptEmpr;
+                    ing_contrato.fechaInicio = contrato.fechaInicio;
+                    ing_contrato.fechaFin = contrato.fechaInicio.AddDays(contrato.plazo);
+                    ing_contrato.activo = true;
                     db.ingenieroContrato.Add(ing_contrato);
                     db.SaveChanges();
                 }
                 return RedirectToAction("Index");
             }
+
             ViewBag.idContratista = new SelectList(db.contratista, "id", "nombre", contrato.idContratista);
             ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", contrato.idFondo);
             ViewBag.idZona = new SelectList(db.zona, "id", "nombre", contrato.idZona);
@@ -95,46 +102,6 @@ namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
             ViewBag.idLaboratorio = new SelectList(db.laboratorioCalidad, "id", "nombre");
 
             return View(contrato);
-        }
-
-        // GET: Obtener los detalles de un ingeniero específico
-        public ActionResult IngenieroDetalles(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            // SE busca el id de ingeniero en la lista de ingenieros
-            ingeniero ingeniero = db.ingeniero.Find(id);
-
-            if (ingeniero == null)
-            {
-                //Si no se encuetra una coincidencia se retorna un NotFound
-                return HttpNotFound();
-            }
-
-            // Se crea un objeto con las propiedades de ingeniero y persona
-            var obj = new ingeniero
-            {
-                idPersona = ingeniero.idPersona,
-                persona = new persona
-                {
-                    id = ingeniero.persona.id,
-                    nombre = ingeniero.persona.nombre,
-                    apellido1 = ingeniero.persona.apellido1,
-                    apellido2 = ingeniero.persona.apellido2
-                },
-                rol = ingeniero.rol,
-                descripcion = ingeniero.descripcion,
-                departamento = ingeniero.departamento
-            };
-
-            //Se procede a convertir a JSON el objeto recien creado
-            var json = new JavaScriptSerializer().Serialize(obj);
-
-            //Se retorna el JSON
-            return Json(json, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Obtener los detalles de un laboratorios específico
@@ -228,19 +195,55 @@ namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
                         contratoEditar.laboratorioCalidad.Add(lab);
                     }
 
-                    db.ingenieroContrato.RemoveRange(contratoEditar.ingenieroContrato);
-
+                    // Lista de ingenieros que contendrá los que vengan del editar
+                    List<ingenieroContrato> ingenierosNuevos = new List<ingenieroContrato>();
+                    List<ingenieroContrato> ingenierosSinCambios = new List<ingenieroContrato>();
+                    
                     //Obtener ingenieros.
                     jObj = JsonConvert.DeserializeObject(jsonIng);
                     foreach (var child in jObj.Ingenieros.Children())
                     {
-                        ingenieroContrato ing_contrato = new ingenieroContrato();
-                        ing_contrato.idContrato = contrato.id;
-                        ing_contrato.idIngeniero = (int)child;
-                        db.ingenieroContrato.Add(ing_contrato);
-                        db.SaveChanges();
+                        var evaluar = contratoEditar.ingenieroContrato.Select(ic => ic).Where(tmp => (tmp.idIngeniero == (int)child.idIngeniero));
+                        
+                        // Si ya existe el ingeniero, se omite en la inserción
+                        if (evaluar.Count() > 0)
+                        {
+                            ingenieroContrato tmp = new ingenieroContrato();
+                            tmp = evaluar.FirstOrDefault();
+                            tmp.activo = true;
+                            ingenierosSinCambios.Add(tmp);
+                            continue;
+                        }
+                        else{
+                            // si no existe se procede a crear el nuevo ingeniero del contrato
+                            ingenieroContrato ing_contrato = new ingenieroContrato();
+                            ing_contrato.idIngeniero = (int)child.idIngeniero;
+                            ing_contrato.idContrato = contrato.id;
+                            ing_contrato.rol = child.Cargo;
+                            ing_contrato.descripcion = child.Descripcion;
+                            ing_contrato.departamento = child.DeptEmpr;
+                            ing_contrato.activo = true;
+
+                            // Fechas de inicio y fin del ingeniero en el contrato
+                            ing_contrato.fechaInicio = DateTime.Now;
+                            ing_contrato.fechaFin = contrato.fechaInicio.AddDays(contrato.plazo);
+
+                            // Se agrega el ingeniero a la lista
+                            ingenierosNuevos.Add(ing_contrato);
+                        }
+                    }
+                    
+                    // Se inactivan de la lista los ingenieros que no viene en la lista
+                    foreach (ingenieroContrato ic in contratoEditar.ingenieroContrato)
+                    {
+                        if ((ingenierosNuevos.Find(i => i.idIngeniero == ic.idIngeniero) == null) && (ingenierosSinCambios.Find(i => i.idIngeniero == ic.idIngeniero) == null))
+                        {
+                            ic.activo = false;
+                        }
                     }
 
+                    // Se agregan los nuevos ingenieros a la base de datos
+                    db.ingenieroContrato.AddRange(ingenierosNuevos);
                     db.SaveChanges();
 
                     // Actualización del contrato

@@ -8,6 +8,11 @@ var counter = 1;
 $(document).ready(
 
     function () {
+        $('#tbItems').dataTable({
+            "language": {
+                "url": "/Scripts/plugins/dataTables/Spanish.txt"
+            }
+        });
 
         // Función de autocomplete en los dropdown
         $("#ddlItems").combobox();
@@ -93,15 +98,26 @@ $(document).ready(
                     // Aumenta el Contador
                     counter += 1;
 
+                    // Se quita la propiedad de dataTable(paginación)
+                    $('#tbItems').dataTable().fnDestroy();
+
                     //Agrega el ingeniero a la tabla htlm
                     $('#tbItems > tbody:last').append(fila);
-
+                    
+                    // Se agregan las validaciones de precio
                     $('#tbItems > tbody > tr:last').find('input:eq(0)').rules('add', {
                         number: true, // Validación de números
                         required: true, // Validación de campos vacíos
                         messages: {
-                            required: "Debe ingresar una cantidad.",
-                            number: "Ingrese un número válido."
+                            required: "Debe ingresar un precio.",
+                            number: "Ingrese un precio válido."
+                        }
+                    });
+
+                    // Se agrega la propiedad de dataTable(paginación)
+                    $('#tbItems').dataTable({
+                        "language": {
+                            "url": "/Scripts/plugins/dataTables/Spanish.txt"
                         }
                     });
 
@@ -140,13 +156,25 @@ $(document).ready(
                 }
             });
 
+            
             // Se habilita nuevamente el botón
             $(this).toggleClass('disabled', false);
         }),
 
         // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
         $(document).on("click", "#tbItems button.remove", function () {
+
+            // Se quita la propiedad de dataTable(paginación)
+            $('#tbItems').dataTable().fnDestroy();
+
             $(this).parents("tr").remove();
+
+            // Se agrega la propiedad de dataTable(paginación)
+            $('#tbItems').dataTable({
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
         })
     }); // .\document.ready
 

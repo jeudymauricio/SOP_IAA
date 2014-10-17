@@ -75,17 +75,25 @@ namespace SOP_IAA.Controllers
             var rutasContrato = new SelectList(contrato.zona.ruta, "id", "nombre");
             ViewBag.idRuta = rutasContrato;
 
-            // Se selecciona de la bd los proyectos estructuras y se convierten en una lista
-            ViewBag.idProyecto_Estructura = db.proyecto_estructura.ToList()
-                // Se selecciona de la lista sólo los de la primer ruta que se carga al dropdown
-                .Where(pe => pe.idRuta == int.Parse(rutasContrato.ToList().ElementAt(0).Value))
-                // Se convirte a lista donde se toman solamente el id y la descripción del pe
-                .Select(c => new SelectListItem
-                {
-                    Value = c.id.ToString(),
-                    Text = c.descripcion.ToString()
-                });
-
+            // Se verifica si existen rutas asociadas a la zona del contrato
+            if (rutasContrato.ToList().Count > 0)
+            {
+                // Se selecciona de la bd los proyectos estructuras y se convierten en una lista
+                ViewBag.idProyecto_Estructura = db.proyecto_estructura.ToList()
+                    // Se selecciona de la lista sólo los de la primer ruta que se carga al dropdown
+                    .Where(pe => pe.idRuta == int.Parse(rutasContrato.ToList().ElementAt(0).Value))
+                    // Se convirte a lista donde se toman solamente el id y la descripción del pe
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.id.ToString(),
+                        Text = c.descripcion.ToString()
+                    });
+            }
+            else
+            {
+                // Se envía una lista vacía
+                ViewBag.idProyecto_Estructura = Enumerable.Empty<SelectListItem>();
+            }
 
             // Se manda una boleta con los datos iniciales que debe ser llenada en la vista
             boleta boleta = new boleta

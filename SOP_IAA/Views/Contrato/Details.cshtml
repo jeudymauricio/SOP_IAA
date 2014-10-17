@@ -112,22 +112,25 @@
                                     <!-- Aqui se cargarán las filas dinámicamente con la información de los ingenieros -->
                                     @foreach (var item in Model.ingenieroContrato)
                                     {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ingeniero.persona.nombre)
-                                                @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido1)
-                                                @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido2)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ingeniero.rol)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ingeniero.descripcion)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ingeniero.departamento)
-                                            </td>
-                                        </tr>
+                                        if (item.activo == true)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.persona.nombre)
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido1)
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido2)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.rol)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.descripcion)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.departamento)
+                                                </td>
+                                            </tr>
+                                        }
                                     }
                                 </tbody>
                             </table>

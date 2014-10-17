@@ -62,6 +62,7 @@ $(document).ready(
             try {
                 // Se trata de obtener el valor del dropdown
                 var _id = dd.options[dd.selectedIndex].value;
+                var _nombreIngeniero = $("#ddlIngenieros option:selected").text();
             } catch (error) {
                 return false;
             }
@@ -69,42 +70,52 @@ $(document).ready(
             // Se deshabilita el boton mientras se realiza la acción
             $(this).toggleClass('disabled', true);
 
-            // Este ajax se realiza una acción de controlador donde envía el id del ingeniero a buscar y recibe como retorno un JSON con los detalles del Ingeniero
-            $.ajax({
-                url: '/Contrato/IngenieroDetalles/',
-                type: "GET",
-                dataType: "json",
-                data: {
-                    id: _id
-                },
-                success: function (data) {
-                    var json = $.parseJSON(data);
-                    var nombreIngeniero = json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido2;
+            //
+            var fila = '<tr id=' + _id + '><td>' + _nombreIngeniero + '</td> ';
+            fila += '<td style="text-align:center"><textarea rows="2" class="form-control" id="txaRol' + _id + '" name="txaRol'+_id +'" style="resize:vertical; min-width:150px" placeholder="Máximo 150 caracteres"></textarea>';
+            fila += '<span class="text-danger field-validation-error" data-valmsg-for="txaRol' + _id + '" data-valmsg-replace="true"></span> </td>';
 
-                    var fila = '<tr id=' + json.persona.id + '><td>' + nombreIngeniero + '</td> ';
-                    fila += '<td>' + json.rol + '</td>';
-                    fila += '<td>' + json.descripcion + '</td>';
-                    fila += '<td>' + json.departamento + '</td>';
-                    fila += '<td> <button class="remove btn btn-danger" onclick="eliminarIngeniero(' + json.persona.id + ',\'' + nombreIngeniero + '\')">Quitar Ingeniero</button> </td></tr>';
+            fila += '<td style="text-align:center"><textarea rows="2" class="form-control" id="txaDes' + _id + '" name="txaDes' + _id + '" style="resize:vertical; min-width:150px" placeholder="Máximo 150 caracteres"></textarea>';
+            fila += '<span class="text-danger field-validation-error" data-valmsg-for="txaDes' + _id + '" data-valmsg-replace="true"></span> </td>';
 
-                    //Agrega el ingeniero a la tabla htlm
-                    $('#tbIngenieros > tbody:last').append(fila);
+            fila += '<td style="text-align:center"><textarea rows="2" class="form-control" id="txaDep' + _id + '" name="txaDep' + _id + '" style="resize:vertical; min-width:150px" placeholder="Máximo 150 caracteres"></textarea>';
+            fila += '<span class="text-danger field-validation-error" data-valmsg-for="txaDep' + _id + '" data-valmsg-replace="true"></span> </td>';
 
-                    //Elimina el ingeniero del dropdownlist
-                    $("#ddlIngenieros option:selected").remove();
+            fila += '<td style="text-align:center"> <button class="remove btn btn-danger" onclick="eliminarIngeniero(' + _id + ',\'' + _nombreIngeniero + '\')">Quitar Ingeniero</button> </td></tr>';
 
-                    // Actualiza el dropdown
-                    try {
-                        $("#ddlIngenieros").parent().find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
-                    }
-                    catch (error) {
-                        $("#ddlIngenieros").parent().find('span.custom-combobox').find('input:text').val('');
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert(errorThrown);
+            //Agrega el ingeniero a la tabla htlm
+            $('#tbIngenieros > tbody:last').append(fila);
+
+            // Se agregan las validaciones de campos vacios
+            $('#tbIngenieros > tbody > tr:last').children("td").eq(1).find('textarea:eq(0)').rules('add', {
+                required: true, // Validación de campos vacíos
+                messages: {
+                    required: "*Campo obligatorio"
                 }
             });
+            $('#tbIngenieros > tbody > tr:last').children("td").eq(2).find('textarea:eq(0)').rules('add', {
+                required: true, // Validación de campos vacíos
+                messages: {
+                    required: "*Campo obligatorio"
+                }
+            });
+            $('#tbIngenieros > tbody > tr:last').children("td").eq(3).find('textarea:eq(0)').rules('add', {
+                required: true, // Validación de campos vacíos
+                messages: {
+                    required: "*Campo obligatorio"
+                }
+            });
+
+            //Elimina el ingeniero del dropdownlist
+            $("#ddlIngenieros option:selected").remove();
+
+            // Actualiza el dropdown
+            try {
+                $("#ddlIngenieros").parent().find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+            }
+            catch (error) {
+                $("#ddlIngenieros").parent().find('span.custom-combobox').find('input:text').val('');
+            }
 
             // Se habilita nuevamente el botón
             $(this).toggleClass('disabled', false);
@@ -198,10 +209,33 @@ $(document).ready(
             // Array que contendrá los id de los laboratorios del proyecto
             var laboratorios = [];
 
-            // Se agregan a la lista todos los ingenieros de la tabla ingenieros
+            // Bandera que indicará si debe hacerse el submit o no
+            var doSubmit = true;
+
+            // Se agregan a la lista todos los ingenieros de la tabla junto a sus detalles
             $('#tbIngenieros > tbody > tr').each(function () {
-                ingenieros.push($(this).attr('id').toString());
+
+                // Objeto simple que contendrá los detalles de cada ingeniero
+                var singleObj = {}
+                singleObj['idIngeniero'] = $(this).attr('id');
+                singleObj['Cargo'] = $(this).children("td").eq(1).find('textarea:eq(0)').val();
+                singleObj['Descripcion'] = $(this).children("td").eq(2).find('textarea:eq(0)').val();
+                singleObj['DeptEmpr'] = $(this).children("td").eq(3).find('textarea:eq(0)').val();
+
+                if ((singleObj.Cargo == "") || (singleObj.Descripcion == "") || (singleObj.DeptEmpr == "")) {
+                    alert("No deje espacios vacíos");
+                    doSubmit = false;
+                    return false;
+                }
+
+                // Se agrega el objeto con los detalles del ingeniero
+                ingenieros.push(singleObj);
             });
+
+            // Si ha un error se cancela el submit
+            if (!doSubmit) {
+                return false;
+            }
 
             // Se agregan a la lista todos los laboratorios de la tabla laboratorios
             $('#tbLaboratorios > tbody > tr').each(function () {

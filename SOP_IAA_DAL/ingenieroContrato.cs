@@ -16,8 +16,12 @@ namespace SOP_IAA_DAL
     {
         public int idContrato { get; set; }
         public int idIngeniero { get; set; }
+        public string descripcion { get; set; }
+        public string departamento { get; set; }
+        public string rol { get; set; }
         public Nullable<System.DateTime> fechaInicio { get; set; }
         public Nullable<System.DateTime> fechaFin { get; set; }
+        public Nullable<bool> activo { get; set; }
     
         public virtual Contrato Contrato { get; set; }
         public virtual ingeniero ingeniero { get; set; }
