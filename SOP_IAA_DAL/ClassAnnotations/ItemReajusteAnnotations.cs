@@ -17,6 +17,7 @@ namespace SOP_IAA_DAL
     {
         [Required]
         [DisplayName("Fecha")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public System.DateTime fecha { get; set; }
 
         [DisplayName("Mes")]

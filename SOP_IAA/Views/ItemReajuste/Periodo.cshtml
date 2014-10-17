@@ -3,27 +3,62 @@
 @{
     ViewBag.Title = "Reajustes por períodos";
 }
-
+<br />
 <!--http://stackoverflow.com/questions/20349711/group-model-elements-by-date-in-table-using-razor-->
+<div class="panel panel-default">
+<div class="panel-heading">
+    Reajustes
+</div>
+<!-- /.panel-heading -->
 <div class="panel-body">
-    <div class="table-responsive table-bordered">
-        <table class="table table-hover">
+    <div class="table-responsive">
+        <table id="tbReajustesI" class="display">
             <thead>
                 <tr>
-                    <th>Período</th>
+                    <th>Item</th>
+                    <th>Porcentaje de Reajuste</th>
+                    <th>Precio Reajustado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
-            @foreach (var group in Model)
-            {
-                <tbody>
+            <tbody>
+                @foreach (var group in Model)
+                {
                     <tr>
                         <td>
                             @group.contratoItem.item.codigoItem
                         </td>
+                        <td>
+                            @group.reajuste%
+                        </td>
+                        <td>
+                            @group.precioReajustado
+                        </td>
+                        <td>
+                            @Html.ActionLink("Eliminar", "Delete", new { id = group.id })
+                        </td>
                     </tr>
-                </tbody>
-            }
+                }
+            </tbody>
         </table>
     </div>
+    <!-- /.table-responsive -->
 </div>
+<!-- /.panel-body -->
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbReajustesI').dataTable({
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        })
+    </script>
+}
 

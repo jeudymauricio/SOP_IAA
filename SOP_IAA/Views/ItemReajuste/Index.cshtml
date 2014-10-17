@@ -4,9 +4,9 @@
     ViewBag.Title = "Reajustes por períodos";
 }
 
-<h2> </h2>
+
 <p>
-    @Html.ActionLink("Nueva Reajuste", "Create", new { }, new { @class = "btn btn-primary", @style = "width:150px" })
+    @Html.ActionLink("Agregar Reajuste", "Create", new { idContrato = ViewBag.contrato})
 </p>
 <!--http://stackoverflow.com/questions/20349711/group-model-elements-by-date-in-table-using-razor-->
 <div class="panel-body">
