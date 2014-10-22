@@ -26,6 +26,8 @@ namespace SOP_IAA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            
             Contrato contrato = db.Contrato.Find(idContrato);
             return View(contrato);
         }
@@ -183,6 +185,112 @@ namespace SOP_IAA.Controllers
             }
         }
 
+        public ActionResult exportarInformesItems(int? id, DateTime fecha1, DateTime fecha2)
+        {
+            if ((id == null))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            contratoItem contratoItem = db.contratoItem.Find(id);
+
+            // Se verifica que el ítem exista en el contrato
+            if (contratoItem == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            // Se indica la plantilla a utilizar
+            var template = new FileInfo(Server.MapPath("/Plantillas/Informe_Descriptivo_Item.xlsx"));
+
+            using (ExcelPackage package = new ExcelPackage(template, true))
+            {
+                // 
+                ExcelWorkbook workBook = package.Workbook;
+                try
+                {
+                    if (workBook != null)
+                    {
+                        if (workBook.Worksheets.Count > 0)
+                        {
+
+                            // Se crea la hoja de excel y se le coloca como nombre el código de ítem
+                            ExcelWorksheet worksheet = workBook.Worksheets["Hoja1"];
+
+                            // Se rempieza a llenar los campos con los datos correspondientes
+                            worksheet.Cells["D4"].Value = "ESTIMACIÓN DESCRIPTIVA N°  FONDO " + contratoItem.Contrato.fondo.nombre;
+                            worksheet.Cells["D5"].Value = contratoItem.Contrato.lugar;
+                            worksheet.Cells["D6"].Value = "Licitación Pública " + contratoItem.Contrato.licitacion;
+                            worksheet.Cells["D7"].Value = contratoItem.Contrato.contratista.nombre;
+                            worksheet.Cells["D11"].Value = contratoItem.item.codigoItem;
+                            worksheet.Cells["E11"].Value = contratoItem.item.descripcion;
+
+                            const int startRow = 14;
+                            int row = startRow;
+
+                            // Se insertan las filas ncecesarias al excel
+                            worksheet.InsertRow(startRow, contratoItem.boletaItem.Count - 2, startRow);
+
+                            //foreach (var contItem in contratoItem)
+                            //{
+                                foreach (var item in contratoItem.boletaItem)
+                                {
+                                    if (item.boleta.fecha >= fecha1 && item.boleta.fecha <= fecha2)
+                                    {
+
+                                        int col = 4;
+                                        worksheet.Cells[row, col].Value = item.boleta.numeroBoleta;
+                                        col++;
+                                        worksheet.Cells[row, col].Style.Numberformat.Format = "dd/MM/yyyy";
+                                        worksheet.Cells[row, col++].Value = item.boleta.fecha;
+                                        worksheet.Cells[row, col++].Value = item.boleta.ruta.nombre;
+                                        worksheet.Cells[row, col++].Value = item.boleta.seccionControl;
+                                        worksheet.Cells[row, col++].Value = int.Parse(item.boleta.estacionamientoInicial);
+                                        worksheet.Cells[row, col++].Value = int.Parse(item.boleta.estacionamientoFinal);
+                                        worksheet.Cells[row, col++].Value = decimal.Parse(@String.Format("{0:N3}", (item.cantidad)));
+                                        worksheet.Cells[row, col++].Value = item.boleta.inspector.persona.nombre + " "
+                                            + item.boleta.inspector.persona.apellido1 + " "
+                                            + item.boleta.inspector.persona.apellido2;
+                                        worksheet.Cells[row, col++].Value = item.boleta.proyecto_estructura.descripcion;
+                                        worksheet.Cells[row, col++].Value = item.boleta.observaciones;  // Observaciones de la boleta
+                                        row++;
+
+                                    }
+                                }
+                            //}
+                            row++;
+
+                            // Sumatoria de la boleta
+                            worksheet.Cells[row, 10].Formula = "SUM(" + worksheet.Cells[startRow, 10].Address + ":" + worksheet.Cells[row - 2, 10].Address + ")";
+
+                            // Se coloca la unidad de medida del ítem
+                            worksheet.Cells[row++, 11].Value = contratoItem.item.unidadMedida;
+                            worksheet.Cells[row, 11].Value = "/" + contratoItem.item.unidadMedida;
+
+                            // Se coloca el precio unitario
+                            worksheet.Cells[row++, 10].Value = precioALaFecha(contratoItem, DateTime.Now);
+
+                            // Fórmula de total a pagar
+                            worksheet.Cells[row, 10].Formula = "(" + worksheet.Cells[row - 1, 10].Address + "*" + worksheet.Cells[row - 2, 10].Address + ")";
+
+                            // Se cambia el nombre a la hoja
+                            worksheet.Name = contratoItem.item.codigoItem;
+                        }
+                    }
+
+
+                }
+                catch
+                {
+                    // Se indica que ocurrió un error en la operación
+                    return JavaScript("alert('Hubo un error en la operación, reintente mas tarde');");
+                }
+
+                // Nombre que va a tener el archivo
+                string nombreArchivo = "Informe Descriptivo del Item " + contratoItem.item.codigoItem + ".xlsx";
+                return File(package.GetAsByteArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
