@@ -1,12 +1,19 @@
+/*
+	Cantidades con 3 decimales
+	Precios con 4 decimales
+*/
+
 create database Proyecto_IAA
 go
 
  use Proyecto_IAA
  go
 
---tipo de datos teléfono
+ -- Regla de Formato de Teléfono
 Create rule Rtelefono as (@telefono like '[1-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]')
 go
+
+-- Tipo de datos teléfono
 EXEC sp_addtype 'TTelefono', 'varchar (14)', 'not null'
 go
 EXEC sp_bindrule 'RTelefono','TTelefono'
@@ -47,9 +54,6 @@ go
 
 create table ingeniero(
 	idPersona int not null,
-	descripcion varchar(100) not null,
-	departamento varchar(100) not null,
-	rol varchar(100) not null,
 	constraint pk_idPersona_ingeniero
         primary key (idPersona),
 	constraint fk_idPersona_ingeniero
@@ -113,11 +117,16 @@ create table Contrato
 )
 go
 
+--alter table ingenieroContrato add activo bit default 1
 create table ingenieroContrato(
 	idContrato int not null,
 	idIngeniero int not null,
+	descripcion varchar(150) not null,
+	departamento varchar(150) not null,
+	rol varchar(150) not null,
 	fechaInicio date,
 	fechaFin date,
+	activo bit default 1,
 	constraint pk_idContrato_idIngeniero_ingenieroContrato
         primary key (idContrato,idIngeniero),
     constraint fk_idContrato_ingenieroContrato
@@ -127,7 +136,6 @@ create table ingenieroContrato(
 )
 go
 
-
 create table ruta(
 	id int unique not null identity (1,1),
 	nombre varchar(20),
@@ -136,7 +144,6 @@ create table ruta(
         primary key (id)
 )
 go
-
 
 create table zonaRuta(
 	idZona smallint not null,
@@ -150,11 +157,10 @@ create table zonaRuta(
 )
 go
 
-
 create table proyecto_estructura(
 	id int not null identity(1,1),
 	idRuta int not null,
-	descripcion varchar(100) not null,
+	descripcion varchar(150) not null,
 	constraint pk_id_proyecto_estructura
 		primary key(id),
 	constraint fk_idRuta_proyecto_estructura
@@ -183,35 +189,14 @@ create table labCalidadContrato(
 )
 go
 
---create table progProy(
---	id int unique not null identity (1,1),
---	fechaInicio date,
---	fechaFin date,
---	monto money not null,
---	constraint pk_idProgProy
---        primary key (id),
---)
---go
-
---create table programa(
---	idContrato int not null,
---	ano smallint not null,
---	trimestre tinyint not null,
---	idProgProy int not null,
---	constraint pk_idContrato_ano_trimestre_programa
---        primary key (idContrato, ano, trimestre),
---	constraint fk_idContrato_programa
---        foreign key (idContrato) references Contrato,
---	constraint fk_idProgProy_progProy
---        foreign key (idProgProy) references progProy
---)
---go
-
 create table programa(
-	id int identity not null,
+	id int identity(1,1) not null,
 	idContrato int not null,
 	ano smallint not null,
 	trimestre tinyint not null,
+	fechaInicio	date not null,
+	fechaFin date not null,
+	monto money not null,
 	constraint pk_id_programa
 		primary key (id),
 	constraint uq_idContrato_ano_trimestre_programa
@@ -247,25 +232,6 @@ create table proyecto
 )
 go
 
---create table proyecto
---(
---	id int unique not null identity (1,1),
---	idProgProy int not null,
---	idTipoProyecto int not null,
---	idRuta int not null,
---	nombre varchar(50),
---	constraint pk_id_subProyecto
---        primary key (id),
---	constraint fk_idProgProy_proyecto
---        foreign key (idProgProy) references progproy,
---	constraint fk_idTipoProyecto_proyecto
---        foreign key (idTipoProyecto) references tipoProyecto,
---	constraint fk_idRuta_ruta
---        foreign key (idRuta) references ruta
---)
---go
-
-
 ---alter table item add unique (codigoItem)
 create table item(
 	id int unique not null identity (1,1),
@@ -284,7 +250,7 @@ create table contratoItem(
 	idItem int not null,
 	precioUnitario money not null,
 	CONSTRAINT uq_idContrato_idItem UNIQUE(idContrato, idItem),
-	constraint pk_id_contratoItem_idContrato_idItem
+	constraint pk_id_contratoItem
 		primary key(id),
 	constraint fk_id_contratoItem_idContrato
 		foreign key (idContrato) references contrato,
@@ -293,8 +259,26 @@ create table contratoItem(
 )
 go
 
+-- Recordar, los porcentajes se convierten a decimal para almacenarlos en la BD  Ej: 8.7941% -> 0.087941; el 100% equivale a 1
+create table itemReajuste(
+	id int not null identity(1,1),
+	idContratoItem int not null,
+	fecha date not null,
+	mes AS MONTH(fecha),
+	ano AS YEAR(fecha),
+	reajuste decimal(7,6) not null,
+	precioReajustado money not null,
+	constraint pk_id_itemReajuste
+		primary key (id),
+	constraint fk_idContratoItem_itemReajuste
+		foreign key (idContratoItem) references contratoItem,
+	constraint uq_idContratoItem_ano_mes_itemReajuste
+		unique (id, idContratoItem, mes, ano)
+)
+go
+
 ---
-create table proyectoItem(	
+create table proyectoItemReajuste(	
 	id int unique not null identity (1,1),
 	idProyecto int not null,
 	idContratoItem int not null,
@@ -311,7 +295,7 @@ create table proyectoItem(
 )
 go
 
-
+--ALTER TABLE [dbo].[boleta] ALTER COLUMN seccionControl int not null;
 create table boleta(
 	id int unique not null identity (1,1),
 	idContrato int not null,
@@ -320,12 +304,12 @@ create table boleta(
 	idRuta int not null,
 	idInspector int not null,
 	fecha date not null,
-	seccionControl smallint not null,
+	seccionControl int not null,
 	estacionamientoInicial varchar(10) not null,
 	estacionamientoFinal varchar(10) not null,
 	periodo tinyint not null,
 	idProyecto_Estructura int not null,
-	observaciones varchar(100)
+	observaciones varchar(150)
 	constraint pk_id_boleta
         primary key (id),
     constraint fk_idFondo_boleta
@@ -345,9 +329,11 @@ go
 create table boletaItem(
 	idContratoItem int not null,
 	idBoleta int not null,
-	cantidad decimal not null,
+	cantidad decimal(10,3) not null,
 	costoTotal money not null,
-	constraint pk_idContratoItem_idBoleta_boletaItem
+	redimientos decimal(10,3) not null,
+	precioUnitarioFecha money not null,
+	constraint pk_idItemReajuste_idBoleta_boletaItem
         primary key (idContratoItem,idBoleta),
     constraint fk_idContratoItem_boletaItem
         foreign key (idContratoItem) references contratoItem,
@@ -357,5 +343,3 @@ create table boletaItem(
 go
 
 /*Hasta aquí*/
-
- 

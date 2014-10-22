@@ -40,6 +40,7 @@ Formato Decimal CR - US
 	http://msdn.microsoft.com/en-us/library/s84kdbzx(v=vs.110).aspx
 
 Decimales, escala y precisión
+	http://mikemcl.github.io/decimal.js/
 	http://blog.sqlauthority.com/2007/08/29/sql-server-difference-and-explanation-among-decimal-float-and-numeric/
 	http://stackoverflow.com/questions/441600/write-a-number-with-two-decimal-places-sql-server
 	http://stackoverflow.com/questions/2377174/how-do-i-interpret-precision-and-scale-of-a-number-in-a-database
@@ -183,6 +184,7 @@ Validaciones en JS
 	http://stackoverflow.com/questions/15768335/jquery-validation-how-to-validade-a-dynamic-form
 	http://stackoverflow.com/questions/20561712/jquery-validate-plugin-on-dynamic-form-inputs-not-working
 	http://stackoverflow.com/questions/11536271/validate-dynamically-added-input-fields
+	http://stackoverflow.com/questions/241145/jquery-validate-plugin-how-to-create-a-simple-custom-rule
 
 
 	El siguiente ejempo muestra como llamar mediante AJAX una acción del controlador ContratoViewController que retorna un objeto JSON con los detalles de un ingeniero específico (id)

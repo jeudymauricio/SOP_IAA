@@ -4,32 +4,65 @@
     ViewBag.Title = "Reajustes por períodos";
 }
 
-
+<h2></h2>
 <p>
-    @Html.ActionLink("Agregar Reajuste", "Create", new { idContrato = ViewBag.contrato})
+    @Html.ActionLink("Agregar Reajuste", "Create", new { idContrato = ViewBag.contrato }, new { @class = "btn btn-primary", @style = "width:150px" })
 </p>
 <!--http://stackoverflow.com/questions/20349711/group-model-elements-by-date-in-table-using-razor-->
-<div class="panel-body">
-    <div class="table-responsive table-bordered">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Período</th>
-                </tr>
-            </thead>
-            @foreach (var group in Model.GroupBy(m => new { m.mes, m.ano }))
-            {
-                <tbody>
-                    <tr>
-                        <td>
-                            @{var mes = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)group.First().mes);}
-                            @mes @group.First().ano
-                        </td>
-                        <td>@Html.ActionLink("Ver Reajustes", "Periodo", new { mes = group.First().mes, ano = group.First().ano, idContrato = group.First().contratoItem.idContrato })</td>
-                    </tr>
-                </tbody>
-            }
-        </table>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Reajustes del Contrato
     </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbReajustes" class="display">
+                <thead>
+                    <tr>
+                        <th>Período</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var group in Model.GroupBy(m => new { m.mes, m.ano }))
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    var mes = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)group.First().mes);
+                                }
+                                @group.First().ano
+                                @mes
+                            </td>
+                            <td>@Html.ActionLink("Ver Reajustes", "Periodo", new { mes = group.First().mes, ano = group.First().ano, idContrato = group.First().contratoItem.idContrato })</td>
+                        </tr>
+                    
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+<div>
+    @Html.ActionLink("Atrás", "MiContrato", "Contrato", new { id = ViewBag.contrato }, null)
 </div>
 
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbReajustes').dataTable({
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+                //,
+                //"order": [[ 3, "desc" ]]
+            });
+        })
+    </script>
+}

@@ -261,6 +261,8 @@
     <Content Include="Images\sort_desc.png" />
     <Content Include="Libreria de Excel\EPPlus.dll" />
     <Content Include="Scripts\%28personal%29bootstrap-3.2.0.min.js" />
+    <Content Include="Scripts\API Decimales\decimal.js" />
+    <Content Include="Scripts\API Decimales\decimal.min.js" />
     <Content Include="Scripts\AutoCompleteComboBox.js" />
     <Content Include="Scripts\Boleta\CreateMethods.js" />
     <Content Include="Scripts\Boleta\EditMethods.js" />
@@ -270,6 +272,8 @@
     <Content Include="Scripts\Contrato\CreateMethods.js" />
     <Content Include="Scripts\Contrato\EditMethods.js" />
     <Content Include="Scripts\DateRangePicker\daterangepicker.js" />
+    <Content Include="Scripts\ItemReajuste\CreateMethods - Copia.js" />
+    <Content Include="Scripts\ItemReajuste\CreateMethods.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -277,7 +281,6 @@
     <Content Include="Scripts\Contrato\jQuery.toDictionary.js" />
     <Content Include="Mvc.sitemap" />
     <Content Include="Plantillas\Informe_Descriptivo_Item.xlsx" />
-    <Content Include="Plantillas\Informe_Descriptivo_Item - Copia.xlsx" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

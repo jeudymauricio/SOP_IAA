@@ -5,53 +5,94 @@
 }
 
 <h2>Agregar Reajuste</h2>
+<hr />
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formCreate", id = "formCreate" }))
 {
     @Html.AntiForgeryToken()
+    @*@Html.HiddenFor(model => model.precioReajustado, new { htmlAttributes = new { @class = "form-control" } })*@
     
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @*<div class="form-group">
+        <input class="form-control" id="txtFechaReajuste" placeholder="Fecha de los reajustes" title="Fecha valida para todo el mes" />
+    </div>
+    <div class="form-group">
+        @Html.DropDownList("idContratoItem", null, htmlAttributes: new { @class = "input", @id = "ddlItems" })
+        <input class="btn btn-primary" type="button" id="btnAgregarItem" value="Incluir Ítem" />
+    </div>*@
+    
+    <div class="row">
         <div class="form-group">
-            @Html.LabelFor(model => model.idContratoItem, "Item", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idContratoItem", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idContratoItem, "", new { @class = "text-danger" })
+            <div class="col-sm-3">
+                <input class="form-control" id="txtFechaReajuste" placeholder="Fecha de los reajustes" title="Fecha valida para todo el mes" />
+            </div>
+            <div class="col-sm-9">
+                <input class="btn btn-primary" type="button" onclick="cargarItems(@ViewBag.idContrato)" value="Cargar ítems" id="btnCargarItems"/>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    
+    
+    <br />
+    <!-- Panel que contendrá la tabla dinámica de ítems -->
+    <div class="panel panel-default">
+        <div class="panel-heading" style="text-align:center">
+            Items a Reajustar
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.reajuste, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.reajuste, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.reajuste, "", new { @class = "text-danger" })
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="tbItems" class="table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th style="text-align:center">Descripción</th>
+                            <th style="text-align:center">Unidad de Medida</th>
+                            <th style="text-align:center">Precio Actual(₡)</th>
+                            <th style="text-align:center">Reajuste(%)</th>
+                            <th style="text-align:center">Precio Reajustado(₡)</th>
+                            <th style="text-align:center; max-width:100px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Aqui se cargarán las filas dinámicamente con la información de los ítems -->
+                    </tbody>
+                </table>
             </div>
+            <!-- /.table-responsive -->
         </div>
-
-                @Html.HiddenFor(model => model.precioReajustado, new { htmlAttributes = new { @class = "form-control" } })
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+    <div class="row">
+        <div class="col-sm-6">
+            @Html.ActionLink("Atrás", "Index", new { idContrato = ViewBag.idContrato })
+        </div>
+        <div class="col-sm-6" style="text-align:right">
+            <input type="submit" value="Agregar Reajustes al Contrato" class="btn btn-success" />
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Atrás", "Index")
-</div>
-
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval");
+    
+    <!-- scripts para los estilos del jquery -->
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+
+    <!-- Función para el autocompletado del dropdown -->
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
+
+    <!-- Función del datatable-->
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <!-- Funciones internas de crear -->
+    <script src="~/Scripts/ItemReajuste/CreateMethods.js"></script>
+
+    <!-- Función para realizar operaciones con decimales -->
+    <script src="~/Scripts/API Decimales/decimal.js"></script>
+
+    
 }

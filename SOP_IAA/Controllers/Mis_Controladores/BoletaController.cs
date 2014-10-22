@@ -199,7 +199,7 @@ namespace SOP_IAA.Controllers
                     decimal precio = itemReajustado.First().precioReajustado;
                     foreach (var ir in itemReajustado)
                     {
-                        if (ir.fecha < fecha2)
+                        if (ir.fecha <= fecha2)
                         {
                             precio = ir.precioReajustado;
                             break;

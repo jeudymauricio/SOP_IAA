@@ -42,15 +42,7 @@ namespace SOP_IAA.Controllers
             }
             return View(itemReajuste);
         }
-
-        // GET: itemReajustes/Create
-        public ActionResult Create(int? idContrato)
-        {
-            ViewBag.idContratoItem = new SelectList(db.contratoItem.Where(p => p.idContrato==idContrato)
-                .Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
-            return View();
-        }
-
+        
         // GET: itemReajustes/Edit/5
         public ActionResult Edit(int? id)
         {
