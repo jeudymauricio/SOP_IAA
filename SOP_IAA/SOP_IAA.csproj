@@ -226,6 +226,7 @@
     <Content Include="Content\daterangepicker-bs3.css" />
     <Content Include="Content\Images\footer_bg.jpg" />
     <Content Include="Content\Images\iaa_logo.png" />
+    <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\Images\ui-bg_flat_55_fbec88_40x100.png" />
     <Content Include="Content\Images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -272,7 +273,7 @@
     <Content Include="Scripts\Contrato\CreateMethods.js" />
     <Content Include="Scripts\Contrato\EditMethods.js" />
     <Content Include="Scripts\DateRangePicker\daterangepicker.js" />
-    <Content Include="Scripts\ItemReajuste\CreateMethods - Copia.js" />
+    <Content Include="Scripts\ItemReajuste\EditMethods.js" />
     <Content Include="Scripts\ItemReajuste\CreateMethods.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

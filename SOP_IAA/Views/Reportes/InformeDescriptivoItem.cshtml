@@ -6,7 +6,7 @@
 
 <h2> Reportes del item @Model.item.codigoItem </h2>
 <p>
-    <button class="btn btn-primary" style="width:150px" onclick="ExportarInformeDescriptivoItem(@Model.id)"> Exportar a Excel </button>
+    @Html.ActionLink("Exportar a Excel", "exportarInformeDescriptivoItem", "Reportes", new { id = @Model.id }, new { @class = "btn btn-primary", @style = "width:150px" })
 </p>
 
 <div class="panel panel-default">

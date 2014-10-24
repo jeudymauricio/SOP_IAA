@@ -421,6 +421,15 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar los reajustes de este mes?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_REAJUSTES {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_REAJUSTES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar esta zona?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_ZONA {

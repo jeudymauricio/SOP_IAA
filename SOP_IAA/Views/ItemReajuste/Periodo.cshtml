@@ -5,55 +5,99 @@
 }
 <br />
 <!--http://stackoverflow.com/questions/20349711/group-model-elements-by-date-in-table-using-razor-->
-<div class="panel panel-default">
-<div class="panel-heading">
-    Reajustes @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)@Model.First().mes) @Model.First().ano
+
+<div>
+    <div style="text-align:right">
+        @Html.ActionLink("Editar Reajustes", "Edit", new { fecha = @Model.First().fecha, idContrato = ViewBag.idContrato }, new { @class = "btn btn-warning", @style = "width:150px" })
+        |
+        <!-- Button trigger modal -->
+        <button class="btn btn-danger" data-toggle="modal" data-target="#myModal" style="width:150px">
+            Eliminar Reajustes
+        </button>
+    </div>
+    <br />
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel" style="text-align:center">
+                        @SOP_IAA_Utilerias.Utilerias.ValorRecurso(SOP_IAA_Utilerias.Utilerias.ArchivoRecurso.UtilRecursos, "MSJ_CONFIRM_ELIMINAR_REAJUSTES") (@System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)@Model.First().mes).ToUpperInvariant())
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                    Realizar esta operación conllevará cierto tiempo y afectará a TODOS los reajustes y boletas después de esta fecha.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <img src="~/Content/Images/loading.gif" id="loadingGif" style="display: none;" />
+                    @Html.ActionLink("Eliminar Reajustes", "DeleteAllConfirmed", new { fecha = @Model.First().fecha, idContrato = ViewBag.idContrato }, new { @class = "btn btn-danger", @id = "btnDeleteConfirmed", @style = "width:150px" })
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
 </div>
 
-<!-- /.panel-heading -->
-<div class="panel-body">
-    <div class="table-responsive">
-        <table id="tbReajustesI" class="display" style="text-align: center">
-            <thead>
-                <tr>
-                    <th style="text-align:center">Item</th>
-                    <th style="text-align:center">Descripción</th>
-                    <th style="text-align:center">Precio Anterior</th>
-                    <th style="text-align:center">Porcentaje de Reajuste</th>
-                    <th style="text-align:center">Precio Reajustado</th>
-                    <th style="text-align:center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var group in Model)
-                {
-                    <tr>
-                        <td>
-                            @group.contratoItem.item.codigoItem
-                        </td>
-                        <td style="text-align:justify">
-                            @group.contratoItem.item.descripcion
-                        </td>
-                        <td style="text-align: right">
-                            @String.Format("{0:C4}", (ViewBag.reajustesAnteriores[group.idContratoItem]))
-                        </td>
-                        <td style="text-align: right">
-                            @String.Format("{0:P4}", (group.reajuste))
-                        </td>
-                        <td style="text-align: right">
-                            @String.Format("{0:C4}", (group.precioReajustado))
-                        </td>
-                        <td>
-                            @Html.ActionLink("Eliminar", "Delete", new { id = group.id })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Reajustes @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)@Model.First().mes).ToUpperInvariant() @Model.First().ano
     </div>
-    <!-- /.table-responsive -->
-</div>
-<!-- /.panel-body -->
+
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbReajustesI" class="display" style="text-align: center">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">Item</th>
+                        <th style="text-align:center">Descripción</th>
+                        <th style="text-align:center">Precio Anterior</th>
+                        <th style="text-align:center">Porcentaje de Reajuste</th>
+                        <th style="text-align:center">Precio Reajustado</th>
+                        @*<th style="text-align:center">Acciones</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var group in Model)
+                    {
+                        <tr>
+                            <td>
+                                @group.contratoItem.item.codigoItem
+                            </td>
+                            <td style="text-align:justify">
+                                @group.contratoItem.item.descripcion
+                            </td>
+                            <td style="text-align: right">
+                                @String.Format("{0:C4}", (ViewBag.reajustesAnteriores[group.idContratoItem]))
+                            </td>
+                            <td style="text-align: right">
+                                @String.Format("{0:P4}", (group.reajuste))
+                            </td>
+                            <td style="text-align: right">
+                                @String.Format("{0:C4}", (ViewBag.reajustesActuales[group.idContratoItem]))
+
+                                
+                                @*@String.Format("{0:C4}", (group.precioReajustado))*@
+                            </td>
+                            @*<td>
+                                @Html.ActionLink("Eliminar", "Delete", new { id = group.id })
+                            </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
 </div>
 
 <div>
@@ -70,6 +114,11 @@
                     "url": "/Scripts/plugins/dataTables/Spanish.txt"
                 }
             });
+        })
+
+        $("#btnDeleteConfirmed").on("click", function () {
+            $("input[name='btnDeleteConfirmed']").toggleClass('disabled', true)
+            $("#loadingGif").show();
         })
     </script>
 }

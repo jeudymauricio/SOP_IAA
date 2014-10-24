@@ -273,7 +273,7 @@ create table itemReajuste(
 	constraint fk_idContratoItem_itemReajuste
 		foreign key (idContratoItem) references contratoItem,
 	constraint uq_idContratoItem_ano_mes_itemReajuste
-		unique (id, idContratoItem, mes, ano)
+		unique (idContratoItem, mes, ano)
 )
 go
 

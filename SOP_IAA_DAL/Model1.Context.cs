@@ -20,10 +20,11 @@ namespace SOP_IAA_DAL
         {
         }
     
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        /*protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            throw new UnintentionalCodeFirstException();
-        }
+            //throw new UnintentionalCodeFirstException();
+            modelBuilder.Entity<itemReajuste>().Property(x => x.reajuste).HasPrecision(7, 6);
+        }*/
     
         public virtual DbSet<boleta> boleta { get; set; }
         public virtual DbSet<boletaItem> boletaItem { get; set; }

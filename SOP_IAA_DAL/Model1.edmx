@@ -117,7 +117,7 @@
           <Property Name="fecha" Type="date" Nullable="false" />
           <Property Name="mes" Type="int" StoreGeneratedPattern="Computed" />
           <Property Name="ano" Type="int" StoreGeneratedPattern="Computed" />
-          <Property Name="reajuste" Type="decimal" Precision="8" Scale="5" Nullable="false" />
+          <Property Name="reajuste" Type="decimal" Precision="7" Scale="6" Nullable="false" />
           <Property Name="precioReajustado" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="labCalidadContrato">
@@ -887,7 +887,7 @@
           <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="mes" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="ano" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="reajuste" Type="Decimal" Precision="8" Scale="5" Nullable="false" />
+          <Property Name="reajuste" Type="Decimal" Precision="7" Scale="6" Nullable="false" />
           <Property Name="precioReajustado" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_itemReajuste" FromRole="itemReajuste" ToRole="contratoItem" />
         </EntityType>

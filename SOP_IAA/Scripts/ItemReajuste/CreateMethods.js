@@ -4,6 +4,7 @@
 
 // Varible contador que permite asignar nombre único a cada textBox agregado
 var counter = 1;
+var idContrato;
 
 $(document).ready(
 
@@ -13,13 +14,6 @@ $(document).ready(
         jQuery.validator.addMethod("isNumberDecimal", function (value, element) {
             return this.optional(element) || !isNaN(removeCurrency(value));
         }, "El valor no es un número correcto");
-
-        // DataTable de los ítems
-        //$('#tbItems').dataTable({
-        //    "language": {
-        //        "url": "/Scripts/plugins/dataTables/Spanish.txt"
-        //    }
-        //});
 
         // Función de autocompletar de los dropdown
         $('#ddlItems').combobox();
@@ -58,6 +52,10 @@ $(document).ready(
 
         //Antes de ir a la acción Post del submit, se agrega la lista de ítems
         $("#formCreate").submit(function (eventObj) {
+
+            $("input[name='create']").toggleClass('disabled', true)
+            $("#loadingGif").show();
+
             // Array JSON que contendrá los id de los reajustes que se agreguen al contrato
             var items = [];
 
@@ -67,22 +65,31 @@ $(document).ready(
             // Se listan todos los items de la tabla
             $('#tbItems > tbody > tr').each(function () {
 
+                // Objeto simple que contendrá los detalles de cada ítem de la boleta
+                var singleObj = {}
+
+                // Se ubican los input de Reajuste y Precio reajustado
+                var txtReajuste = $(this).children("td").eq(4).find("input:eq(0)");
+                var txtPrecioReajustado = $(this).children("td").eq(5).find("input:eq(0)");
+
+                // Se obtienen los valores de reajuste y precio reajustado
+                var reajuste = txtReajuste.val();
+                var precioReajustado = txtPrecioReajustado.val();
+
+                // Se remueve el signo de ₡ y los separadores de miles (en caso de tenerlos) al precio actual y reajuste
+                reajuste = removeCurrency(reajuste);
+                precioReajustado = removeCurrency(precioReajustado);
+
                 // Se verifica que el reajuste sea numérico
-                if (!($(this).children("td").eq(4).find("input:eq(0)").valid())) {
+                if (!(txtReajuste.valid())) {
                     // Se indica que no debe hacerse el submit
                     doSubmit = false;
                     // Se detiene el ciclo
                     return false;
                 }
 
-                // Objeto simple que contendrá los detalles de cada ítem de la boleta
-                var singleObj = {}
-                singleObj['idItem'] = $(this).attr('id');
-                singleObj['reajuste'] = removeCurrency($(this).children("td").eq(4).find("input:eq(0)").val());
-                singleObj['precioReajustado'] = removeCurrency($(this).children("td").eq(5).find("input:eq(0)").val());
-
-                // Se verifica que la cantidad sea numérica
-                if (!(/[0-9]$/.test(singleObj.precioReajustado))) {
+                // Se verifica que el precio reajustado no tenga errores
+                if (!(/[0-9]$/.test(precioReajustado))) {
                     // Se indica el error
                     alert("Algunos campos son incorrectos, verifique los reajustes");
                     // Se indica que no debe hacerse el submit
@@ -91,12 +98,22 @@ $(document).ready(
                     return false;
                 }
 
+                // Se convierte el procentaje a decimal
+                reajuste = (new Decimal(reajuste)).dividedBy(100);
+
+                // Se agregan los detalles al objeto
+                singleObj['idContratoItem'] = $(this).attr('id');
+                singleObj['reajuste'] = reajuste.toString();
+                singleObj['precioReajustado'] = precioReajustado
+
                 // Se agrega el objeto con los detalles del ítem a la lista a enviar en el submit
                 items.push(singleObj);
             })
 
             // Se verifica si debe hacerse el submit o no
             if (!doSubmit) {
+                $("input[name='create']").toggleClass('disabled', false)
+                $("#loadingGif").hide();
                 return false;
             }
 
@@ -118,113 +135,12 @@ $(document).ready(
                 .attr('value', strFechaReajuste)
                 .appendTo('#formCreate');
 
+            $('<input />').attr('type', 'hidden')
+                .attr('name', 'idContrato')
+                .attr('value', idContrato)
+                .appendTo('#formCreate');
+
             return true;
-        }),
-
-        // Función que permite agregar una fila con los detalles del item seleccionado en la sección items del Wizard
-        $('#btnAgregarItem').click(function () {
-            var dd = document.getElementById('ddlItems');
-            var _fecha = document.getElementById('txtFechaReajuste').value;
-
-            $('#txtFechaReajuste').attr('disabled', 'disabled');
-
-            try {
-                // Se trata de obtener el valor del dropdown
-                var _id = dd.options[dd.selectedIndex].value;
-            } catch (error) {
-                return false;
-            }
-
-            // Se deshabilita el boton mientras se realiza la acción
-            $(this).toggleClass('disabled', true);
-
-            // Este ajax realiza una acción de controlador donde envía el id del ítem a buscar y recibe como retorno un JSON con los detalles del ítem
-            $.ajax({
-                url: '/ItemReajuste/ItemDetalles/',
-                type: "GET",
-                dataType: "json",
-                data: {
-                    id: _id,
-                    fecha: _fecha
-                },
-                success: function (data) {
-                    var json = data;
-
-                    var fila = '<tr id=' + _id + '><td>' + json.codigoItem + '</td> ';
-                    fila += '<td>' + json.descripcion + '</td>';
-                    fila += '<td align="center">' + json.unidadMedida + '</td>';
-                    fila += '<td align="center"><input class="form-control" style="text-align:right" value="' + json.precioReajustado + '" disabled="disabled"></td>';
-                    fila += '<td align="center"><input class="form-control" style="text-align:right"  onchange="alpha($(this))" id="txtReajuste' + counter + '" name="txtReajuste' + counter + '" type="text" >'; /*</td>*/
-                    fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtReajuste' + counter + '" data-valmsg-replace="true"></span> </td>';
-                    fila += '<td align="center"><input class="form-control" style="text-align:right" disabled="disabled"></td>';
-                    fila += '<td align="center" style="max-width:100px"><button class="remove btn btn-danger" onclick="eliminarItem(' + _id + ', \' ' + json.codigoItem + '\')">Quitar Item</button> </td></tr>';
-
-                    // Aumenta el Contador
-                    counter += 1;
-
-                    // Se quita la propiedad de dataTable(paginación)
-                    $('#tbItems').dataTable().fnDestroy();
-
-                    //Agrega el item a la tabla htlm
-                    $('#tbItems > tbody:last').append(fila);
-                    
-                    // Se agregan las validaciones de números
-                    $('#tbItems > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
-                        number: true, // Validación de números
-                        isNumberDecimal: true,
-                        required: true, // Validación de campos vacíos
-                        messages: {
-                            required: "Debe ingresar un reajuste.",
-                            number: "Ingrese un reajuste válido.",
-                            isNumberDecimal: "Ingrese un reajuste válido." // Validación propia declarada en el inicio del document.ready()
-                        }
-                    });
-
-                    // Se agrega la propiedad de dataTable(paginación)
-                    $('#tbItems').dataTable({
-                        "language": {
-                            "url": "/Scripts/plugins/dataTables/Spanish.txt"
-                        }
-                    });
-
-                    //Elimina el ingeniero del dropdownlist
-                    $("#ddlItems option:selected").remove();
-
-                    // Actualiza el dropdown
-                    try {
-                        $('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
-                    }
-                    catch (error) {
-                        $('span.custom-combobox').find('input:text').val('');
-                    }
-
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    if (xhr.status == 400) {
-                        // Bad request
-                        alert('Error: Consulta inválida.\nVerifique que ingresó una fecha de reajuste.');
-                    }
-                    else if (xhr.status === 401) {
-                        // Unauthorized error
-                        alert('Error: Acceso denegado.\n Verifique que tenga privilegios para realizar la operación.');
-                    }
-                    else if (xhr.status == 404) {
-                        // Not found
-                        alert('Error: no se encontraron los detalles del ítem.\nVerifique que el item pertenece al contrato.');
-                    }
-                    else if (xhr.status == 500) {
-                        // Server side error
-                        alert('Error del servidor.\n Espere unos segundos y vuelva a reitentar.');
-                    }
-                    else {
-                        alert('Error: \n ' + errorThrown + 'Reitente de nuevo.');
-                    }
-                }
-            });
-
-            
-            // Se habilita nuevamente el botón
-            $(this).toggleClass('disabled', false);
         }),
 
         // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
@@ -245,9 +161,14 @@ $(document).ready(
     }); // .\document.ready
 
 function cargarItems(_idContrato) {
+
+    // Se almacena el id del contrato
+    idContrato = _idContrato;
     var _fecha = document.getElementById('txtFechaReajuste').value;
 
-    $('btnCargarItems').prop('value', 'Cargando');
+    $('#txtFechaReajuste').attr('disabled', 'disabled');
+    $('#btnCargarItems').toggleClass('disabled', true);
+
     // Este ajax realiza una acción de controlador donde envía el id del ítem a buscar y recibe como retorno un JSON con los detalles del ítem
     $.ajax({
         url: '/ItemReajuste/cargarItems/',
@@ -259,43 +180,52 @@ function cargarItems(_idContrato) {
         },
         success: function (data) {
             var json = $.toJSON(data);
-            var fila;
+            //var fila;
+            $('#formCreate').validate({
+                errorPlacement: function(error, element) {
+                    error.appendTo( element.parent("td").children("span") );
+                }
+            });
+
+            console.info(data);
+
             $.each($.parseJSON(json), function (idx, obj) {
-                //console.info(obj.Item1);
                 
-                fila += '<tr id="' + obj.Item5+ '"><td>' + obj.Item1 + '</td>';
+                var fila = '<tr id="' + obj.Item5+ '"><td>' + obj.Item1 + '</td>';
                 fila += '<td>' + obj.Item2 + '</td>';
                 fila += '<td align="center">' + obj.Item3 + '</td>';
                 fila += '<td align="center"><input class="form-control" style="text-align:right" disabled="disabled" value="₡' + numberFormatCR(obj.Item4.toString()) + '"></td>';
-                fila += '<td align="center"><input class="form-control" style="text-align:right"  onchange="alpha($(this))" id="txtReajuste' + counter + '" name="txtReajuste' + counter + '" type="text" >'; /*</td>*/
+                fila += '<td align="center"><input class="form-control" style="text-align:right" value="0,0000" onchange="alpha($(this))" id="txtReajuste' + counter + '" name="txtReajuste' + counter + '" type="text" >'; /*</td>*/
                 fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtReajuste' + counter + '" data-valmsg-replace="true"></span> </td>';
-                fila += '<td align="center" style="max-width:100px"><input class="form-control" style="text-align:right" disabled="disabled"></td> <td></td></tr>';
+                fila += '<td align="center" style="max-width:100px"><input class="form-control" style="text-align:right" disabled="disabled" value="₡' + numberFormatCR(obj.Item4.toString()) + '"></td> </tr>';
+
+                //Agrega el item a la tabla htlm
+                $('#tbItems > tbody:last').append(fila);
+
+                //Se agregan las validaciones de números
+                $('#tbItems > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
+                    number: true, // Validación de números
+                    isNumberDecimal: true,
+                    range: [0, 999],
+                    required: true, // Validación de campos vacíos
+                    messages: {
+                        required: "Debe ingresar un reajuste.",
+                        number: "Ingrese un reajuste válido.",
+                        range: "Ingrese un numero menor o igual a 999.9999",
+                        isNumberDecimal: "Ingrese un reajuste válido." // Validación propia declarada en el inicio del document.ready()
+                    }
+                });
 
                 // Aumenta el Contador
                 counter += 1;
             });
-
-            //Agrega el item a la tabla htlm
-            $('#tbItems > tbody:last').append(fila);
-
-            // Se agregan las validaciones de números
-            //$('#tbItems > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
-            //    number: true, // Validación de números
-            //    isNumberDecimal: true,
-            //    required: true, // Validación de campos vacíos
-            //    messages: {
-            //        required: "Debe ingresar un reajuste.",
-            //        number: "Ingrese un reajuste válido.",
-            //        isNumberDecimal: "Ingrese un reajuste válido." // Validación propia declarada en el inicio del document.ready()
-            //    }
-            //});
-
+            
             // Se agrega la propiedad de dataTable(paginación)
-            $('#tbItems').dataTable({
+           /* $('#tbItems').dataTable({
                 "language": {
                     "url": "/Scripts/plugins/dataTables/Spanish.txt"
                 }
-            });
+            });*/
 
         },
         error: function (xhr, textStatus, errorThrown) {
@@ -399,7 +329,7 @@ function alpha(_this) {
         // Se suma el reajuste al precio actual
         var _precioReajuste =  new Decimal((_reajusteDecimal.times(precioActual)).plus(precioActual)).toDP(4);
 
-        txtPrecioReajustado.val("₡" + numberFormatCR(_precioReajuste.toString()));
+        txtPrecioReajustado.val("₡" + numberFormatCR(_precioReajuste.toFormat('', 4).toString()));
     }
     catch (err) {
         if (err instanceof Error && err.name == 'Decimal Error') {
@@ -455,7 +385,7 @@ function numberFormatCR(numero) {
     }
 }
 
-$.extend({
+/*$.extend({
     error: function (msg) { throw msg; },
     parseJSON: function (data) {
         if (typeof data !== "string" || !data) {
@@ -472,4 +402,4 @@ $.extend({
             jQuery.error("Invalid JSON: " + data);
         }
     }
-});
+});*/

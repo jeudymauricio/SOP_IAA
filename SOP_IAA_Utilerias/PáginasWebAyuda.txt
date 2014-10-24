@@ -3,6 +3,14 @@ http://www.codeproject.com/Articles/177335/Refreshing-content-of-the-table-using
 http://stackoverflow.com/questions/17671105/asp-mvc-href-to-a-controller-view
 http://dba.stackexchange.com/questions/31420/how-to-create-unique-index-for-month-and-year-column
 
+http://stackoverflow.com/questions/6629263/how-do-i-prevent-decimal-values-from-being-truncated-to-2-places-on-save-using-t
+http://www.reddybrek.com/allow-entity-framework-store-more-than-2-decimal-places
+
+
+
+<! ---------------------------------- decimales en EntityFramework ---------------------------------------------------->
+	http://weiding331.blogspot.com/2014/01/entity-framework-decimal-value.html
+
 Transacciones EntityFramework
 	http://msdn.microsoft.com/en-us/library/vstudio/bb738523(v=vs.100).aspx
 
@@ -185,6 +193,18 @@ Validaciones en JS
 	http://stackoverflow.com/questions/20561712/jquery-validate-plugin-on-dynamic-form-inputs-not-working
 	http://stackoverflow.com/questions/11536271/validate-dynamically-added-input-fields
 	http://stackoverflow.com/questions/241145/jquery-validate-plugin-how-to-create-a-simple-custom-rule
+
+
+
+
+	http://stackoverflow.com/questions/13593731/input-type-submit-button-onclick-jquery-replacewith-prevents-form-from-submit
+
+	$("input[name='save']").on("click", function () {
+    debugger;
+    $(this).replaceWith('<img class="submit-form" src=http://www.techgig.com/Themes/Release/images/loading.gif />');
+    //$("form").submit();
+});
+
 
 
 	El siguiente ejempo muestra como llamar mediante AJAX una acción del controlador ContratoViewController que retorna un objeto JSON con los detalles de un ingeniero específico (id)

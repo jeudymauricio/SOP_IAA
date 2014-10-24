@@ -186,32 +186,46 @@ namespace SOP_IAA.Controllers
             var itemReajustado = db.itemReajuste.Where(ir => ir.idContratoItem == id);
             if (itemReajustado.Count() > 0)
             {
-                itemReajustado = itemReajustado.OrderByDescending(ir => ir.fecha);
+
+                // Se ordenan los reajustes del primero al último
+                itemReajustado = itemReajustado.OrderBy(ir => ir.fecha);
 
                 // Si la fecha es menor que la del primer reajuste, se asigna el precio establecido en el contrato sin reajuste
-                if (fecha2 < itemReajustado.ToList().Last().fecha)
+                /*if (fecha2 < itemReajustado.ToList().First().fecha)
                 {
                     result.Add("precioReajustado", ci.precioUnitario.ToString("C3", System.Globalization.CultureInfo.CreateSpecificCulture("es-CR")));
                 }
                 else // Si la fecha es mayor que la del primer reajuste, se busca el reajuste o en su defecto el mas cercano
-                {
-                    // Se asigna el precio del reajuste mas cercano a ese mes (o el de ese mes)
-                    decimal precio = itemReajustado.First().precioReajustado;
+                {*/
+                    // Se asigna el precio de contrato como precio inicial, esta variable se irá acumulando según los reajustes
+                    decimal precio = ci.precioUnitario;
+
+                    // variable que irá cambiando según el mes
+                    decimal reajuste;
+
                     foreach (var ir in itemReajustado)
                     {
-                        if (ir.fecha <= fecha2)
-                        {
+                        // Se almacena el reajuste actual
+                        reajuste = ir.reajuste;
+
+                        if(ir.fecha == fecha2){
                             precio = ir.precioReajustado;
                             break;
                         }
+                        else if (ir.fecha > fecha2)
+                        {
+                            break;
+                        }
+                        precio = decimal.Round(precio * reajuste + precio, 4);
                     }
-                    result.Add("precioReajustado", precio.ToString("C3", System.Globalization.CultureInfo.CreateSpecificCulture("es-CR")));
-                }
+
+                    result.Add("precioReajustado", precio.ToString("C4", System.Globalization.CultureInfo.CreateSpecificCulture("es-CR")));
+                /*}*/
 
             }
             else // Si no hay reajustes se procede a poner el precio estipulado en el contrato.
             {
-                result.Add("precioReajustado", ci.precioUnitario.ToString("C3", System.Globalization.CultureInfo.CreateSpecificCulture("es-CR")));
+                result.Add("precioReajustado", ci.precioUnitario.ToString("C4", System.Globalization.CultureInfo.CreateSpecificCulture("es-CR")));
             }
 
             // Retorna un JSON con los detalles del ítem
