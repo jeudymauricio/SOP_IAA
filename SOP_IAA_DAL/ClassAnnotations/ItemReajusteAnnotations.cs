@@ -30,10 +30,6 @@ namespace SOP_IAA_DAL
         [DisplayName("Reajuste")]
         public decimal reajuste { get; set; }
 
-        [Required]
-        [DisplayName("Precio Reajustado")]
-        public decimal precioReajustado { get; set; }
-
         public virtual contratoItem contratoItem { get; set; }
 
     }

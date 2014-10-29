@@ -28,7 +28,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning">
-                    Realizar esta operación conllevará cierto tiempo y afectará a TODOS los reajustes y boletas después de esta fecha.
+                    Realizar esta operación conllevará cierto tiempo y afectará a TODAS las boletas comprendidas en esta fecha.
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -59,10 +59,9 @@
                     <tr>
                         <th style="text-align:center">Item</th>
                         <th style="text-align:center">Descripción</th>
-                        <th style="text-align:center">Precio Anterior</th>
+                        <th style="text-align:center">Precio de Contrato</th>
                         <th style="text-align:center">Porcentaje de Reajuste</th>
                         <th style="text-align:center">Precio Reajustado</th>
-                        @*<th style="text-align:center">Acciones</th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -76,7 +75,7 @@
                                 @group.contratoItem.item.descripcion
                             </td>
                             <td style="text-align: right">
-                                @String.Format("{0:C4}", (ViewBag.reajustesAnteriores[group.idContratoItem]))
+                                @String.Format("{0:C4}", group.contratoItem.precioUnitario) @* (ViewBag.reajustesAnteriores[group.idContratoItem])*@
                             </td>
                             <td style="text-align: right">
                                 @String.Format("{0:P4}", (group.reajuste))
@@ -87,9 +86,6 @@
                                 
                                 @*@String.Format("{0:C4}", (group.precioReajustado))*@
                             </td>
-                            @*<td>
-                                @Html.ActionLink("Eliminar", "Delete", new { id = group.id })
-                            </td>*@
                         </tr>
                     }
                 </tbody>

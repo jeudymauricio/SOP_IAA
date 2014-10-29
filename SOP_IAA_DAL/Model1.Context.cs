@@ -22,8 +22,7 @@ namespace SOP_IAA_DAL
     
         /*protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //throw new UnintentionalCodeFirstException();
-            modelBuilder.Entity<itemReajuste>().Property(x => x.reajuste).HasPrecision(7, 6);
+            throw new UnintentionalCodeFirstException();
         }*/
     
         public virtual DbSet<boleta> boleta { get; set; }

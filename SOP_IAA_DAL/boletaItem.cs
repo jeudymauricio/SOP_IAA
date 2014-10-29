@@ -17,9 +17,7 @@ namespace SOP_IAA_DAL
         public int idContratoItem { get; set; }
         public int idBoleta { get; set; }
         public decimal cantidad { get; set; }
-        public decimal costoTotal { get; set; }
         public decimal redimientos { get; set; }
-        public decimal precioUnitarioFecha { get; set; }
     
         public virtual boleta boleta { get; set; }
         public virtual contratoItem contratoItem { get; set; }

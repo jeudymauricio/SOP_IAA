@@ -45,10 +45,11 @@
                                         @group.contratoItem.item.unidadMedida
                                     </td>
                                     <td style="text-align: right">
-                                        <input class="form-control" style="text-align:right" disabled="disabled" value="@String.Format("{0:C4}", (ViewBag.reajustesAnteriores[group.idContratoItem]))">
+                                        <input class="form-control" style="text-align:right" disabled="disabled" value="@String.Format("{0:C4}", group.contratoItem.precioUnitario) ">
                                     </td>
                                     <td style="text-align: right">
-                                        <input class="form-control" style="text-align:right" value="@String.Format("{0:N4}", (group.reajuste * 100))" onchange="alpha($(this))" type="text" />
+                                        <input class="form-control" style="text-align:right" name="txtReajuste'@group.id'" value="@String.Format("{0:N4}", (group.reajuste * 100))" onchange="alpha($(this))" type="text" />
+                                       <span class="text-danger field-validation-error" data-valmsg-for="txtReajuste'@group.id'" data-valmsg-replace="true" style="max-width: 10px; text-align:center"></span>
                                     </td>
                                     <td style="text-align: right">
                                         <input class="form-control" style="text-align:right" disabled="disabled" value="@String.Format("{0:C4}", (ViewBag.reajustesActuales[group.idContratoItem]))">

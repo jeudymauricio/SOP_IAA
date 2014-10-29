@@ -20,7 +20,6 @@ namespace SOP_IAA_DAL
         public Nullable<int> mes { get; set; }
         public Nullable<int> ano { get; set; }
         public decimal reajuste { get; set; }
-        public decimal precioReajustado { get; set; }
     
         public virtual contratoItem contratoItem { get; set; }
     }

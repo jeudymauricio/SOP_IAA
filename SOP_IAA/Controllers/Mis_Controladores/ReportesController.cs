@@ -150,37 +150,24 @@ namespace SOP_IAA.Controllers
         /// <returns></returns>
         private decimal precioALaFecha(contratoItem ci, DateTime fecha)
         {
-            // Se busca dentro de los reajustes de precio el que le corresponde a la fecha
-            var itemReajustado = db.itemReajuste.Where(ir => ir.idContratoItem == ci.id);
+            // Precio base del item
+            decimal precio = ci.precioUnitario;
+
+            // Se busca si hay reajuste para ese mes
+            var itemReajustado = db.itemReajuste.Where(ir => (ir.ano == fecha.Year) && (ir.mes == fecha.Month) && (ir.idContratoItem == ci.id));
+
+            // Si hay reajuste se aplica
             if (itemReajustado.Count() > 0)
             {
-                itemReajustado = itemReajustado.OrderByDescending(ir => ir.fecha);
+                // Reajuste del mes
+                decimal reajuste = itemReajustado.First().reajuste;
 
-                // Si la fecha es menor que la del primer reajuste, se asigna el precio establecido en el contrato sin reajuste
-                if (fecha < itemReajustado.ToList().Last().fecha)
-                {
-                    return ci.precioUnitario;
-                }
-                else // Si la fecha es mayor que la del primer reajuste, se busca el reajuste o en su defecto el mas cercano
-                {
-                    // Se asigna el precio del reajuste mas cercano a ese mes (o el de ese mes)
-                    decimal precio = itemReajustado.First().precioReajustado;
-                    foreach (var ir in itemReajustado)
-                    {
-                        if (ir.fecha < fecha)
-                        {
-                            precio = ir.precioReajustado;
-                            break;
-                        }
-                    }
-                    return precio;
-                }
+                // Se aplica el reajuste
+                precio = decimal.Round(precio * reajuste + precio, 4);
+            }
 
-            }
-            else // Si no hay reajustes se procede a poner el precio estipulado en el contrato.
-            {
-                return ci.precioUnitario;
-            }
+            // Se retorna el precio a la fecha
+            return precio;
         }
 
         protected override void Dispose(bool disposing)

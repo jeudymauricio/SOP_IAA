@@ -25,13 +25,16 @@ namespace SOP_IAA.Controllers
                 ViewBag.idContrato = idContrato;
 
                 var ir = db.itemReajuste.Where(p => p.ano == fecha.Year).Where(i => i.mes == fecha.Month).Where(n => n.contratoItem.idContrato == idContrato);
+                if (ir == null)
+                {
+                    return HttpNotFound();
+                }
 
-                
-
+                // Se cargan los precios con reajuste
                 ViewBag.reajustesActuales = obtenerPrecios(fecha, (int)idContrato);
 
-                // Se almacenan los precios anteriores de cada item
-                ViewBag.reajustesAnteriores = obtenerPrecios(fecha.AddMonths(-1), (int)idContrato);
+                // Se almacenan los precios base de cada item
+                //ViewBag.reajustesAnteriores = new SelectList(db.contratoItem.Where(ci => ci.idContrato ==idContrato), "id", "precioUnitario");//obtenerPrecios(fecha.AddMonths(-1), (int)idContrato);
 
                 return View(ir);
             }
@@ -41,42 +44,14 @@ namespace SOP_IAA.Controllers
             }
         }
 
-        //GET: itemReajuste/Periodo
-        //public ActionResult Periodo(int? mes, int? ano, int? idContrato)
-        //{
-        //    if (idContrato == null || mes==null || ano==null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-
-        //    try
-        //    {
-        //        ViewBag.idContrato = idContrato;
-
-        //        var ir = db.itemReajuste.Where(p => p.ano == ano).Where(i => i.mes == mes).Where(n => n.contratoItem.idContrato == idContrato);
-
-        //        // Se almacenan los precios anteriores de cada item
-        //        ViewBag.reajustesAnteriores = obtenerPrecios(ir.First().fecha.AddMonths(-1), (int)idContrato);
-
-        //        return View(ir);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return RedirectToAction("Index", new { idContrato = idContrato });
-        //    }
-        //}
-
         /// <summary>
-        /// Con base a una fecha, retorna los reajustes del mes anterior de cada item o en su defecto el precio de contrato
+        /// Con base a una fecha, retorna el precio TODOS los ítems en esa fecha (con reajuste, o precio base si no hay reajustes)
         /// </summary>
-        /// <param name="fecha">Fecha inicial a la que se le debe restar un mes</param>
+        /// <param name="fecha">Fecha a buscar</param>
         /// <param name="idContrato">Contrato al que pertenecen los reajustes</param>
-        /// <returns>Lista de reajustes de cada item en el mes</returns>
+        /// <returns>Lista de precios de cada item en el mes</returns>
         public Dictionary<int, decimal> obtenerPrecios(DateTime fecha, int idContrato)
         {
-            // Fecha a buscar
-            //DateTime fechaAnterior = fecha.AddMonths(-1);
-            
             // Lista de items del contrato
             var contratoItem = db.contratoItem.Where(ci => ci.idContrato == idContrato);
 
@@ -85,48 +60,25 @@ namespace SOP_IAA.Controllers
 
             // Se procede a guardar los precios correspondientes a cada item del contrato
             foreach (contratoItem ci in contratoItem)
-            {   
-                // Se verifica si el item posee reajustes
-                if (ci.itemReajuste.Count() > 0)
-                {
-                    // Se ordenan los reajustes del primero al último
-                    var temp = ci.itemReajuste.OrderBy(ir => ir.fecha);
-                    
-                    // Si la fecha es menor que la del primer reajuste, se asigna el precio establecido en el contrato sin reajuste
-                    if (fecha < temp.ToList().First().fecha)
-                    {
-                        precios.Add(ci.id, ci.precioUnitario);
-                    }
-                    else // Si la fecha es mayor que la del primer reajuste, se busca el reajuste o en su defecto el mas cercano
-                    {
-                        // Se asigna el precio de contrato como precio inicial, esta variable se irá acumulando según los reajustes
-                        decimal precio = ci.precioUnitario;
-                        
-                        // variable que irá cambiando según el mes
-                        decimal reajuste;
+            {
+                // Precio base del item
+                decimal precio = ci.precioUnitario;
 
-                        int tamano = temp.Count();
-                        for (int i = 0; i < tamano; i++ )
-                        {
-                            // Se almacena el reajuste actual
-                            reajuste = temp.ElementAt(i).reajuste;
+                // Se busca si hay reajuste para ese mes
+                var itemReajustado = db.itemReajuste.Where(ir => (ir.ano == fecha.Year) && (ir.mes == fecha.Month) && (ir.idContratoItem == ci.id));
 
-                            // Se verifica si la fecha coincide o la fecha siguiente es mayor, de ser asi se coloca el precio con el rejuste actual y acaba el ciclo
-                            if ((temp.ElementAt(i).fecha == fecha) || (temp.ElementAt(i + 1).fecha > fecha))
-                            {
-                                precio = decimal.Round(precio * reajuste + precio, 4);
-                                break;
-                            }
-                            precio = decimal.Round(precio * reajuste + precio, 4);
-                        }
-                        precios.Add(ci.id, precio);
-                    }
-                }
-                else
+                // Si hay reajuste se aplica
+                if (itemReajustado.Count() > 0)
                 {
-                    // Si no hay reajutes se coloca el precio base del contrato
-                    precios.Add(ci.id, ci.precioUnitario);
+                    // Reajuste del mes
+                    decimal reajuste = itemReajustado.First().reajuste;
+
+                    // Se aplica el reajuste
+                    precio = decimal.Round(precio * reajuste + precio, 4);
                 }
+
+                // Se almacena el precio
+                precios.Add(ci.id, precio);
             }
 
             // Se retorna el diccionario con los precios correspondientes a los items segun la fecha anterior
@@ -150,9 +102,9 @@ namespace SOP_IAA.Controllers
         /// <summary>
         /// Funció que basada en un idContrato y fecha, devuelve los items y sus respectivos precios para esa fecha
         /// </summary>
-        /// <param name="idContrato"></param>
-        /// <param name="fecha"></param>
-        /// <returns></returns>
+        /// <param name="idContrato">Contrato al que pertenecen los items</param>
+        /// <param name="fecha">Fecha a buscar</param>
+        /// <returns>Json con los detalles del item y su precio al mes</returns>
         public ActionResult cargarItems(int? idContrato, string fecha)
         {
             if ((idContrato == null)||(string.IsNullOrWhiteSpace(fecha)) )
@@ -191,7 +143,7 @@ namespace SOP_IAA.Controllers
         /// </summary>
         /// <param name="id"> id del item de contrato a buscar</param>
         /// <param name="fecha">fecha de la boleta</param>
-        /// <returns>Json con los detalles del item del contrato(incluido su reajuste mas cercano)</returns>
+        /// <returns>Diccionario con los detalles del item del contrato(incluido su reajuste al mes si lo hay)</returns>
         public Dictionary<string,string> getItemDetail(int? id, string fecha)
         {
             // Si el id o la fecha están vacíos se retorna un badrequest
@@ -230,45 +182,10 @@ namespace SOP_IAA.Controllers
             result.Add("descripcion", ci.item.descripcion);
             result.Add("unidadMedida", ci.item.unidadMedida);
 
-            // Se busca dentro de los reajustes de precio el que le corresponde a la fecha de la boleta
-            //var itemReajustado = db.itemReajuste.Where(ir => (ir.ano == fecha2.Year) && (ir.mes == fecha2.Month) && (ir.idContratoItem == id));
-            var itemReajustado = db.itemReajuste.Where(ir => ir.idContratoItem == id);
-            if (itemReajustado.Count() > 0)
-            {
-                // Se ordenan los reajustes del primero al último
-                itemReajustado = itemReajustado.OrderBy(ir => ir.fecha);
-                
-                // Variable acumulativa de precio
-                decimal precio = ci.precioUnitario;
+            // Se almacena el precio
+            result.Add("precioReajustado", ci.precioUnitario.ToString());
 
-                // variable que irá cambiando según el mes
-                decimal reajuste;
-
-                foreach (var ir in itemReajustado)
-                {
-                    // Se almacena el reajuste actual
-                    reajuste = ir.reajuste;
-
-                    if (ir.fecha == fecha2)
-                    {
-                        precio = ir.precioReajustado;
-                        break;
-                    }
-                    else if (ir.fecha > fecha2)
-                    {
-                        break;
-                    }
-                    precio = decimal.Round(precio * reajuste + precio, 4);
-                }
-
-                result.Add("precioReajustado", precio.ToString());
-            }
-            else // Si no hay reajustes se procede a poner el precio estipulado en el contrato.
-            {
-                result.Add("precioReajustado", ci.precioUnitario.ToString());
-            }
-
-            // Retorna un JSON con los detalles del ítem
+            // Retorna un Diccionario con los detalles del ítem
             return result;
         }
         
@@ -314,7 +231,6 @@ namespace SOP_IAA.Controllers
                     ir.idContratoItem = int.Parse(child.idContratoItem.Value);
                     ir.fecha = fecha2;
                     ir.reajuste = decimal.Parse(child.reajuste.Value, cultureNumber);
-                    ir.precioReajustado = decimal.Parse(child.precioReajustado.Value, cultureNumber);
 
                     // Se agrega el item-reajuste a la base de datos
                     db.itemReajuste.Add(ir);
@@ -343,12 +259,15 @@ namespace SOP_IAA.Controllers
             {
                 ViewBag.idContrato = idContrato;
 
+                // Se busca el reajuste en la base de datos
                 var ir = db.itemReajuste.Where(p => p.ano == fecha.Year).Where(i => i.mes == fecha.Month).Where(n => n.contratoItem.idContrato == idContrato);
+                if (ir == null)
+                {
+                    return HttpNotFound();
+                }
 
+                // Se cargan los precios con reajuste
                 ViewBag.reajustesActuales = obtenerPrecios(fecha, (int)idContrato);
-
-                // Se almacenan los precios anteriores de cada item
-                ViewBag.reajustesAnteriores = obtenerPrecios(fecha.AddMonths(-1), (int)idContrato);
 
                 return View(ir);
             }
@@ -403,7 +322,6 @@ namespace SOP_IAA.Controllers
                     itemReajuste ir = db.itemReajuste.Find(int.Parse(h));
 
                     ir.reajuste = decimal.Parse(child.reajuste.Value, cultureNumber);
-                    ir.precioReajustado = decimal.Parse(child.precioReajustado.Value, cultureNumber);
 
                     // Se marca la modificación
                     db.Entry(ir).State = EntityState.Modified;
@@ -428,9 +346,13 @@ namespace SOP_IAA.Controllers
                 return View(ir);
             }
         }
-
-        //[HttpPost, ActionName("DeleteAll")]
-        //[ValidateAntiForgeryToken]
+        
+        /// <summary>
+        /// Elimina todos los reajustes de un mes y año específicos
+        /// </summary>
+        /// <param name="fecha">Fecha de la cual se extraerá el año y mes</param>
+        /// <param name="idContrato">Contrato al que pertenecen los reajustes (int id)</param>
+        /// <returns>Si fue correcto se redirecciona al index, de lo contrario se muestra un error</returns>
         public ActionResult DeleteAllConfirmed(DateTime fecha, int idContrato)
         {
 

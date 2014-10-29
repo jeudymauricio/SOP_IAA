@@ -13,6 +13,11 @@ $(document).ready(
         $("#ddlItems").combobox();
         //$("#ddlRuta").combobox();
 
+        // Regla para los números (verificar que se trata de un número y que no hay letras en el)
+        jQuery.validator.addMethod("isNumberDecimal", function (value, element) {
+            return this.optional(element) || !isNaN(removeCurrency(value));
+        }, "El valor no es un número correcto");
+
         // Funcion del dropdown ruta que según la seleccionada, carga los PE en el dropdown de proyecto estructura
         $("#ddlRuta").change(function () {
 
@@ -144,8 +149,9 @@ $(document).ready(
                     var fila = '<tr id=' + _id + '><td>' + json.codigoItem + '</td> ';
                     fila += '<td>' + json.descripcion + '</td>';
                     fila += '<td align="center">' + json.unidadMedida + '</td>';
-                    fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled="" value="' + json.precioReajustado + '"></td>';
-                    fila += '<td align="right"><input class="form-control" style="text-align:right" onchange="alpha($(this))"></td>';
+                    fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled="" value="₡' + numberFormatCR(removeCurrency(json.precioReajustado)) + '"></td>';
+                    fila += '<td align="right"><input class="form-control" style="text-align:right" onchange="alpha($(this))" id="txtCantidad' + counter + '" name="txtCantidad' + counter + '">';
+                    fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtCantidad' + counter + '" data-valmsg-replace="true"></span> </td>';
                     fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled=""></td>';
                     fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled=""></td>';
                     fila += '<td align="center"> <button class="remove btn btn-danger" onclick="eliminarItem(' + _id + ', \' ' + json.codigoItem + '\')">Quitar Item</button> </td></tr>';
@@ -153,14 +159,29 @@ $(document).ready(
                     //Agrega el ingeniero a la tabla htlm
                     $('#tbItems > tbody:last').append(fila);
 
+                    //Se agregan las validaciones de números
+                    $('#tbItems > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
+                        number: true, // Validación de números
+                        isNumberDecimal: true,
+                        required: true, // Validación de campos vacíos
+                        messages: {
+                            required: "Debe ingresar un reajuste.",
+                            number: "Ingrese un reajuste válido.",
+                            isNumberDecimal: "Ingrese un reajuste válido." // Validación propia declarada en el inicio del document.ready()
+                        }
+                    });
+
+                    // Aumenta el Contador
+                    counter += 1;
+
                     //Elimina el ingeniero del dropdownlist
                     $("#ddlItems option:selected").remove();
-                    
+
                     // Actualiza el dropdown
-                    try{
+                    try {
                         $('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
                     }
-                    catch(error){
+                    catch (error) {
                         $('span.custom-combobox').find('input:text').val('');
                     }
                 },
@@ -198,10 +219,73 @@ $(document).ready(
         // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
         $(document).on("click", "#tbItems button.remove", function () {
             $(this).parents("tr").remove();
-        })
+        });
+
+        $('#txtEstInicial').change(function () {
+            recalcularRedimientos();
+        });
+
+        $('#txtEstFinal').change(function () {
+            recalcularRedimientos();
+        });
     }
 )
 
+// Esta función se activa cuando se modifican los input de estacionamientos y actualiza los cambios en los items de la tabla en la pestaña items
+function recalcularRedimientos() {
+
+    // Se obtiene el estacionamiento inicial
+    var estInicial = document.getElementById("txtEstInicial").value;
+
+    // Se obtiene el estacionamiento final
+    var estFinal = document.getElementById("txtEstFinal").value;
+
+    // Se pasan a decimal los estacionamientos
+    try {
+        estFinal = new Decimal(estFinal);
+        estInicial = new Decimal(estInicial);
+    }
+    catch (error) {
+        $('#tbItems > tbody > tr').each(function () {
+            $(this).children("td").eq(6).find("input:eq(0)").val("--- Error ---");
+        });
+
+        return false;
+    }
+
+    // Se modifican los redimientos de todos los items de la tabla
+    $('#tbItems > tbody > tr').each(function () {
+
+        // input de redimientos
+        var txtRedimientos = $(this).children("td").eq(6).find("input:eq(0)");
+
+        // Se obtiene la cantidad
+        var cantidad = removeCurrency($(this).children("td").eq(4).find("input:eq(0)").val());
+
+        // Se verifica que la cantidad es numérica
+        try {
+            cantidad = new Decimal(cantidad);
+        }
+        catch (error) {
+            txtRedimientos.val("--- Error ---");
+            return false;
+        }
+
+        // 
+        var _rd = estFinal.minus(estInicial);
+
+        if (_rd == 0) {
+            txtRedimientos.val("0");
+        }
+        else if (_rd < 0) {
+            txtRedimientos.val("--- Error ---");
+        }
+        else {
+            txtRedimientos.val(numberFormatCR(cantidad.dividedBy(_rd).toFormat('', 3).toString()));
+        }
+
+    });
+}
 
 //Antes de ir a la acción Post del submit, se agregan los ingenieros y labs modificados
 $("#formCreate").submit(function (eventObj) {
@@ -265,7 +349,6 @@ $("#formCreate").submit(function (eventObj) {
     //return false;
 })
 
-
 // Función que elimina la fila de un ítem de la lista
 function eliminarItem(_id, _codigoItem) {
     // Se agrega nuevamente el item al dropdown
@@ -287,26 +370,33 @@ function alpha(_this) {
     // Almacena la columna donde se escribió algo
     var td = _this;
 
+    // Se ubican los input de cantidad, precio, redimientos y costo total
+    var txtCantidad = td.parent().find("input:eq(0)");
+    var txtPrecio = td.parents("tr").children("td").eq(3).find("input:eq(0)");
+    var txtCostoTotal = td.parents("tr").children("td").eq(5).find("input:eq(0)");
+    var txtRedimientos = td.parents("tr").children("td").eq(6).find("input:eq(0)");
+
+    // Se extraen los valores
+    var cantidad = txtCantidad.val();
+
     // Se ubica el input de costo total
     var costoTotal = td.parents("tr").children("td").eq(5);
 
-    // Se ubica el imput de redimientos
-    var redimientos = td.parents("tr").children("td").eq(6);
-
-    // Se obtiene la Cantidad del input
-    var cantidad = td.parent().find("input:eq(0)").val();
     // Se cambia el formato de número
     cantidad = removeCurrency(cantidad);
 
-    // Se verifica que la cantidad sea numérica
-    if (!(/[0-9]$/.test(cantidad))) {
-        costoTotal.find("input:eq(0)").val(" --- Error --- ");
+    // Verifica que la cantidad sea numérica
+    if (isNaN(cantidad)) {
+        txtCostoTotal.val("--- Error ---");
         return false;
+    }
+    else {
+        // Se pasa el número a formato de numero de CR y se muestra en el textbox
+        txtCantidad.val(numberFormatCR(new Decimal(cantidad).toDP(3).toFormat('', 3).toString()));
     }
 
     // Se obtiene el precio del ítem
-    var precio = td.parents("tr").children("td").eq(3).find("input:eq(0)").val();
-    // Se cambia el formato de número
+    var precio = txtPrecio.val();
     precio = removeCurrency(precio);
 
     // Se obtiene el estacionamiento inicial
@@ -315,21 +405,36 @@ function alpha(_this) {
     // Se obtiene el estacionamiento final
     var estFinal = document.getElementById("txtEstFinal").value;
 
+    // Se verifican los estacionamientos
+    try{
+        estFinal = new Decimal(estFinal);
+        estInicial = new Decimal(estInicial);
+    }
+    catch (error){
+        txtRedimientos.val("--- Error ---");
+        return false;
+    }
+
     // Se trata de hacer las operaciones
     try {
-        _ct = parseFloat(cantidad) * parseFloat(precio);
-        _rd = parseFloat(estFinal) - parseFloat(estInicial);
 
-        costoTotal.find("input:eq(0)").val("₡" + formatNumber(_ct));
+        // Se convierten los valores a decimal
+        cantidad = new Decimal(cantidad);
+        precio = new Decimal(precio);
+        
+        var _ct = new Decimal(precio.times(cantidad)).toDP(4);
+        var _rd = estFinal.minus(estInicial);
+
+        txtCostoTotal.val("₡" + numberFormatCR(_ct.toFormat('', 4).toString()));
 
         if (_rd == 0) {
-            redimientos.find("input:eq(0)").val("0");
+            txtRedimientos.val("0");
         }
         else if ((_rd.toString() == "NaN") || (_rd < 0)) {
-            redimientos.find("input:eq(0)").val("--- Error ---");
+            txtRedimientos.val("--- Error ---");
         }
         else {
-            redimientos.find("input:eq(0)").val(formatNumber((parseFloat(cantidad) / _rd)));
+            txtRedimientos.val(numberFormatCR(cantidad.dividedBy(_rd).toFormat('', 3).toString()));
         }
     }
     catch (err) {
@@ -338,12 +443,46 @@ function alpha(_this) {
 
 }
 
-// Funcion que le da formato a un numero ejemplo: console.info(formatNumber(1240.5));    // 1,240.5
-function formatNumber(num) {
-    return num
-       .toFixed(3) // 3 decimales
-       .replace(".", ",") // Se reemplaza el . por la , como separador de decimales
-       .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") // Se usa el . como separador de miles
+/**
+ * Funcion que devuelve un numero con separador de miles
+ * Puede recibir valores negativos y con decimales
+ */
+function numberFormatCR(numero) {
+    // Se coloca la , en lugar del . como separador decimal
+    numero = numero.replace(/\./g, ',');
+
+    // Variable que contendra el resultado final
+    var resultado = "";
+
+    // Si el numero empieza por el valor "-" (numero negativo)
+    if (numero[0] == "-") {
+        // Cogemos el numero eliminando los posibles puntos que tenga, y sin
+        // el signo negativo
+        nuevoNumero = numero.replace(/\./g, '').substring(1);
+    } else {
+        // Cogemos el numero eliminando los posibles puntos que tenga
+        nuevoNumero = numero.replace(/\./g, '');
+    }
+
+    // Si tiene decimales, se los quitamos al numero
+    if (numero.indexOf(",") >= 0)
+        nuevoNumero = nuevoNumero.substring(0, nuevoNumero.indexOf(","));
+
+    // Ponemos un punto cada 3 caracteres
+    for (var j, i = nuevoNumero.length - 1, j = 0; i >= 0; i--, j++)
+        resultado = nuevoNumero.charAt(i) + ((j > 0) && (j % 3 == 0) ? "." : "") + resultado;
+
+    // Si tiene decimales, se lo añadimos al numero una vez formateado con 
+    // los separadores de miles
+    if (numero.indexOf(",") >= 0)
+        resultado += numero.substring(numero.indexOf(","));
+
+    if (numero[0] == "-") {
+        // Devolvemos el valor añadiendo al inicio el signo negativo
+        return "-" + resultado;
+    } else {
+        return resultado;
+    }
 }
 
 // Función que limpia los elementos no numéricos de los precios y establece el formato de CR

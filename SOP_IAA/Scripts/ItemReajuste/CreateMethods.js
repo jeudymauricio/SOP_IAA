@@ -68,30 +68,17 @@ $(document).ready(
                 // Objeto simple que contendrá los detalles de cada ítem de la boleta
                 var singleObj = {}
 
-                // Se ubican los input de Reajuste y Precio reajustado
+                // Se ubica el input de Reajuste
                 var txtReajuste = $(this).children("td").eq(4).find("input:eq(0)");
-                var txtPrecioReajustado = $(this).children("td").eq(5).find("input:eq(0)");
 
-                // Se obtienen los valores de reajuste y precio reajustado
+                // Se obtienen los valores de reajuste
                 var reajuste = txtReajuste.val();
-                var precioReajustado = txtPrecioReajustado.val();
 
-                // Se remueve el signo de ₡ y los separadores de miles (en caso de tenerlos) al precio actual y reajuste
+                // Se remueve el signo de ₡ y los separadores de miles (en caso de tenerlos) al reajuste
                 reajuste = removeCurrency(reajuste);
-                precioReajustado = removeCurrency(precioReajustado);
 
                 // Se verifica que el reajuste sea numérico
                 if (!(txtReajuste.valid())) {
-                    // Se indica que no debe hacerse el submit
-                    doSubmit = false;
-                    // Se detiene el ciclo
-                    return false;
-                }
-
-                // Se verifica que el precio reajustado no tenga errores
-                if (!(/[0-9]$/.test(precioReajustado))) {
-                    // Se indica el error
-                    alert("Algunos campos son incorrectos, verifique los reajustes");
                     // Se indica que no debe hacerse el submit
                     doSubmit = false;
                     // Se detiene el ciclo
@@ -104,7 +91,6 @@ $(document).ready(
                 // Se agregan los detalles al objeto
                 singleObj['idContratoItem'] = $(this).attr('id');
                 singleObj['reajuste'] = reajuste.toString();
-                singleObj['precioReajustado'] = precioReajustado
 
                 // Se agrega el objeto con los detalles del ítem a la lista a enviar en el submit
                 items.push(singleObj);
@@ -187,7 +173,7 @@ function cargarItems(_idContrato) {
                 }
             });
 
-            console.info(data);
+            //console.info(data);
 
             $.each($.parseJSON(json), function (idx, obj) {
                 
@@ -211,7 +197,7 @@ function cargarItems(_idContrato) {
                     messages: {
                         required: "Debe ingresar un reajuste.",
                         number: "Ingrese un reajuste válido.",
-                        range: "Ingrese un numero menor o igual a 999.9999",
+                        range: "Ingrese un numero menor o igual a 999,9999",
                         isNumberDecimal: "Ingrese un reajuste válido." // Validación propia declarada en el inicio del document.ready()
                     }
                 });
@@ -312,8 +298,8 @@ function alpha(_this) {
         return false;
     }
     else {
-        // Se pasa el número a formato de numero de CR
-        txtReajuste.val(numberFormatCR(reajuste));
+        // Se pasa el número a formato de numero de CR y se muestra en el textbox
+        txtReajuste.val(numberFormatCR(new Decimal(reajuste).toDP(4).toFormat('',4).toString()));
     }
     
     // Se trata de hacer las operaciones

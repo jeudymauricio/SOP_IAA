@@ -26,11 +26,7 @@ namespace SOP_IAA_DAL
         [Required]
         [DisplayName("Cantidad")]
         public decimal cantidad { get; set; }
-
-        [Required]
-        [DisplayName("Costo Total")]
-        public decimal costoTotal { get; set; }
-
+        
         [Required]
         [DisplayName("Redimientos")]
         public decimal redimientos { get; set; }

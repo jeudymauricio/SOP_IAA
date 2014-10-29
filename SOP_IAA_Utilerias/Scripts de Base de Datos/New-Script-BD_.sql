@@ -99,12 +99,12 @@ create table Contrato
 (
 	id int unique not null identity (1,1),
 	idContratista int not null,
-	licitacion varchar(50) not null,
+	licitacion varchar(60) not null,
 	lineaContrato smallint not null,
 	idZona smallint not null,
 	fechaInicio date not null,
 	plazo smallint not null,
-	lugar varchar(100) not null,
+	lugar varchar(200) not null,
 	idFondo smallint not null,
 	constraint pk_id_Contrato
         primary key (id),
@@ -142,6 +142,21 @@ create table ruta(
 	descripcion varchar(100),
 	constraint pk_id_ruta
         primary key (id)
+)
+go
+
+-- =========================================================================
+-- Tabla con la información de la Sección de Control
+-- =========================================================================
+create table seccionControl(
+	id int not null,
+	idRuta int not null,
+	seccion int not null,
+	decripcion varchar(100) not null,
+	constraint pk_id_seccionControl
+		primary key (id),
+	constraint fk_idRuta_seccionControl
+		foreign key (idRuta) references ruta
 )
 go
 
@@ -189,6 +204,7 @@ create table labCalidadContrato(
 )
 go
 
+/*
 create table programa(
 	id int identity(1,1) not null,
 	idContrato int not null,
@@ -231,6 +247,7 @@ create table proyecto
         foreign key (idRuta) references ruta
 )
 go
+*/
 
 ---alter table item add unique (codigoItem)
 create table item(
@@ -260,6 +277,7 @@ create table contratoItem(
 go
 
 -- Recordar, los porcentajes se convierten a decimal para almacenarlos en la BD  Ej: 8.7941% -> 0.087941; el 100% equivale a 1
+-- ALTER TABLE itemReajuste DROP COLUMN precioReajustado
 create table itemReajuste(
 	id int not null identity(1,1),
 	idContratoItem int not null,
@@ -267,7 +285,7 @@ create table itemReajuste(
 	mes AS MONTH(fecha),
 	ano AS YEAR(fecha),
 	reajuste decimal(7,6) not null,
-	precioReajustado money not null,
+	--precioReajustado money not null,
 	constraint pk_id_itemReajuste
 		primary key (id),
 	constraint fk_idContratoItem_itemReajuste
@@ -277,7 +295,7 @@ create table itemReajuste(
 )
 go
 
----
+
 create table proyectoItemReajuste(	
 	id int unique not null identity (1,1),
 	idProyecto int not null,
@@ -326,19 +344,109 @@ create table boleta(
 go
 
 ---
+-- ALTER TABLE boletaItem DROP COLUMN costoTotal
+-- ALTER TABLE boletaItem DROP COLUMN precioUnitarioFecha
 create table boletaItem(
 	idContratoItem int not null,
 	idBoleta int not null,
 	cantidad decimal(10,3) not null,
-	costoTotal money not null,
+	--costoTotal money not null,
 	redimientos decimal(10,3) not null,
-	precioUnitarioFecha money not null,
+	--precioUnitarioFecha money not null,
 	constraint pk_idItemReajuste_idBoleta_boletaItem
         primary key (idContratoItem,idBoleta),
     constraint fk_idContratoItem_boletaItem
         foreign key (idContratoItem) references contratoItem,
     constraint fk_idBoleta_boletaItem
         foreign key (idBoleta) references boleta
+)
+go
+
+-- =========================================================================
+-- Tabla con la información de los subproyectos del contrato
+-- =========================================================================
+create table subProyecto(
+	id int not null,
+	idContrato int not null,
+	nombre varchar(100) not null,
+	constraint pk_id_subProyecto
+		primary key (id),
+	constraint fk_idContrato_subProyecto
+		foreign key (idContrato) references contrato
+)
+go
+
+-- =========================================================================
+-- Tabla con la realción de subproyecto e items del contrato
+-- =========================================================================
+create table subproyectoContratoItem(
+	id int not null,
+	idSubProyecto int not null,
+	idContratoItem int not null,
+	constraint pk_id_subProyecto
+		primary key (id),
+	constraint fk_idSubProyecto_subProyectoContratoItem
+		foreign key (idSubProyecto) references subProyecto,
+	constraint fk_idContratoItem_subProyectoContratoItem
+		foreign key (idContratoItem) references contratoItem,
+	constraint uq_idSubProyecto_subProyectoContratoItem
+		unique (idSubProyecto, idContratoItem)
+)
+go
+
+-- =========================================================================
+-- Tabla con la información principal de un Programa de trabajo
+-- =========================================================================
+create table programa(
+	id int not null,
+	idContrato int not null,
+	fecha date not null,
+	mes as month(fecha),
+	ano as year(fecha),
+	fechaInicio date not null,
+	fechaFin date not null,
+
+	constraint pk_id_programa
+		primary key (id),
+	constraint fk_idContrato_programa
+		foreign key (idContrato) references contrato,
+	constraint uq_mes_ano
+		unique (mes, ano)
+)
+go
+
+-- =========================================================================
+-- Tabla con la relación de un programa y los item de un subproyecto
+-- =========================================================================
+create table programaSubProyectoContratoItem(
+	id int not null,
+	idPrograma int not null,
+	idSubProyectoContratoItem int not null,
+
+	constraint pk_id_programa
+		primary key (id),
+	constraint fk_idContrato_programaSubProyectoContratoItem
+		foreign key (idPrograma) references programa,
+	constraint fk_idContrato_programaSubProyectoContratoItem
+		foreign key (idSubProyectoContratoItem) references subProyectoContratoItem,
+	constraint uq_idPrograma_idSubProyectoContratoItem
+		unique (idPrograma, idSubProyectoContratoItem)
+)
+go
+
+-- =========================================================================
+-- Tabla con la relación entre el programa, subproyectos, los items y secciones de control
+-- =========================================================================
+create table progSubContrItem(
+	idPrograma int not null,
+	idSeccionControl int not null,
+
+	constraint pk_idPrograma_idSeccionControl
+		primary key (idPrograma, idSeccionControl),
+	constraint fk_idContrato_progSubContrItem
+		foreign key (idPrograma) references programa,
+	constraint fk_idSeccionControl_progSubContrItem
+		foreign key (idSeccionControl) references seccionControl,
 )
 go
 
