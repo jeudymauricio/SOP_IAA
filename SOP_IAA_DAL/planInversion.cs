@@ -12,16 +12,22 @@ namespace SOP_IAA_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class proyectoItemReajuste
+    public partial class planInversion
     {
-        public int id { get; set; }
-        public int idProyecto { get; set; }
-        public int idContratoItem { get; set; }
-        public System.DateTime fechaInicio { get; set; }
-        public System.DateTime fechaFin { get; set; }
-        public decimal costoEstimado { get; set; }
+        public planInversion()
+        {
+            this.pICI = new HashSet<pICI>();
+            this.ruta = new HashSet<ruta>();
+        }
     
-        public virtual contratoItem contratoItem { get; set; }
-        public virtual proyecto proyecto { get; set; }
+        public int id { get; set; }
+        public int idContrato { get; set; }
+        public System.DateTime fecha { get; set; }
+        public Nullable<int> mes { get; set; }
+        public Nullable<int> ano { get; set; }
+    
+        public virtual Contrato Contrato { get; set; }
+        public virtual ICollection<pICI> pICI { get; set; }
+        public virtual ICollection<ruta> ruta { get; set; }
     }
 }

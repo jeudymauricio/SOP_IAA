@@ -10,107 +10,112 @@ using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
-    public class TipoProyectoController : Controller
+    public class SeccionControlController : Controller
     {
         private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
-        // GET: tipoProyecto
+        // GET: SeccionControl
         public ActionResult Index()
         {
-            return View(db.tipoProyecto.ToList());
+            var seccionControl = db.seccionControl.Include(s => s.ruta);
+            return View(seccionControl.ToList());
         }
 
-        // GET: tipoProyecto/Details/5
+        // GET: SeccionControl/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tipoProyecto tipoProyecto = db.tipoProyecto.Find(id);
-            if (tipoProyecto == null)
+            seccionControl seccionControl = db.seccionControl.Find(id);
+            if (seccionControl == null)
             {
                 return HttpNotFound();
             }
-            return View(tipoProyecto);
+            return View(seccionControl);
         }
 
-        // GET: tipoProyecto/Create
+        // GET: SeccionControl/Create
         public ActionResult Create()
         {
+            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre");
             return View();
         }
 
-        // POST: tipoProyecto/Create
+        // POST: SeccionControl/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nombre")] tipoProyecto tipoProyecto)
+        public ActionResult Create([Bind(Include = "id,idRuta,seccion,descripcion")] seccionControl seccionControl)
         {
             if (ModelState.IsValid)
             {
-                db.tipoProyecto.Add(tipoProyecto);
+                db.seccionControl.Add(seccionControl);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tipoProyecto);
+            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", seccionControl.idRuta);
+            return View(seccionControl);
         }
 
-        // GET: tipoProyecto/Edit/5
+        // GET: SeccionControl/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tipoProyecto tipoProyecto = db.tipoProyecto.Find(id);
-            if (tipoProyecto == null)
+            seccionControl seccionControl = db.seccionControl.Find(id);
+            if (seccionControl == null)
             {
                 return HttpNotFound();
             }
-            return View(tipoProyecto);
+            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", seccionControl.idRuta);
+            return View(seccionControl);
         }
 
-        // POST: tipoProyecto/Edit/5
+        // POST: SeccionControl/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nombre")] tipoProyecto tipoProyecto)
+        public ActionResult Edit([Bind(Include = "id,idRuta,seccion,descripcion")] seccionControl seccionControl)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tipoProyecto).State = EntityState.Modified;
+                db.Entry(seccionControl).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tipoProyecto);
+            ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre", seccionControl.idRuta);
+            return View(seccionControl);
         }
 
-        // GET: tipoProyecto/Delete/5
+        // GET: SeccionControl/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tipoProyecto tipoProyecto = db.tipoProyecto.Find(id);
-            if (tipoProyecto == null)
+            seccionControl seccionControl = db.seccionControl.Find(id);
+            if (seccionControl == null)
             {
                 return HttpNotFound();
             }
-            return View(tipoProyecto);
+            return View(seccionControl);
         }
 
-        // POST: tipoProyecto/Delete/5
+        // POST: SeccionControl/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tipoProyecto tipoProyecto = db.tipoProyecto.Find(id);
-            db.tipoProyecto.Remove(tipoProyecto);
+            seccionControl seccionControl = db.seccionControl.Find(id);
+            db.seccionControl.Remove(seccionControl);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

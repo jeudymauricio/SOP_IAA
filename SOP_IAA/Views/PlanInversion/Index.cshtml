@@ -1,0 +1,89 @@
+﻿@model IEnumerable<SOP_IAA_DAL.planInversion>
+
+@{
+    ViewBag.Title = "Plan de Inversión";
+}
+
+<h2> </h2>
+
+<p>
+    @Html.ActionLink("Agregar Plan Mensual", "Create", new { idContrato = @ViewBag.idContrato }, new { @class = "btn btn-primary" })
+</p>
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Contratación @ViewBag.contratacion
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbPlanInversion" class="table">
+                <thead>
+                    <tr>
+                        @*<th>
+                            @Html.DisplayNameFor(model => model.mes)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ano)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Contrato.licitacion)
+                        </th>*@
+                        <th>Periodo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aqui se cargarán las filas dinámicamente con la información de las SC -->
+                    @foreach (var group in Model.GroupBy(m => new { m.mes, m.ano }))
+                    {
+                        <tr>
+                            @*<td>
+                                @Html.DisplayFor(modelItem => item.mes)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ano)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Contrato.licitacion)
+                            </td>*@
+                            <td>
+                                @{
+                                    var mes = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)group.First().mes);
+                                }
+                                @group.First().ano
+                                @mes
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = group.First().id }) |
+                                @Html.ActionLink("Details", "Details", new { id = group.First().id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = group.First().id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+
+<div>
+    @Html.ActionLink("Atrás", "MiContrato", "Contrato", new { id = ViewBag.idContrato }, null)
+</div>
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbPlanInversion').dataTable({
+                "order": [],
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        })
+    </script>
+}

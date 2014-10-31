@@ -1,0 +1,148 @@
+﻿@model SOP_IAA_DAL.planInversion
+
+@{
+    ViewBag.Title = "Plan Inversión Mensual";
+}
+
+<h2>Plan de Inversión Mensual</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h4> </h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.idContrato)
+
+    <div class="row">
+        <div class="form-group col-md-12">
+            @Html.Label("Fecha del Plan", htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @id = "txtFecha", @placeholder = "Fecha de los reajustes", @title = "Fecha valida para todo el mes", @Value = @Model.fecha.ToString("MMMM yyyy") } })
+            @Html.ValidationMessageFor(model => model.idContrato, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        @Html.Label("Rutas", htmlAttributes: new { @class = "control-label col-md-12" })
+        <div class="col-md-12">
+            @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control col-md-4", @id = "ddlItems" })
+            <div class="col-md-4">
+                <input class="btn btn-primary" type="button" id="btnAgregarRuta" value="Incluir Ruta" />
+            </div>
+        </div>
+        
+    </div>
+    <br />
+
+    <div class="row form-group">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Plan por Ruta
+                </div>
+                <!-- .panel-heading -->
+                <div class="panel-body">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">Ruta 140</a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            @Html.DropDownList("idItem", null, htmlAttributes: new { @class = "input", @id = "ddlItems" })
+                                            <input class="btn btn-primary" type="button" id="btnAgregarItem" value="Incluir Ítem" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="tbItems" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th style="text-align:center">Descripción</th>
+                                                    <th style="text-align:center">Unidad de Medida</th>
+                                                    <th style="text-align:center">Precio(₡)</th>
+                                                    <th style="text-align:center">Cantidad</th>
+                                                    <th style="text-align:center">Monto(₡)</th>
+                                                    <th style="text-align:center"> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Aqui se cargarán las filas dinámicamente con la información de los ítems -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.table-responsive -->
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed" aria-expanded="false">Ruta 708</a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" aria-expanded="false">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed" aria-expanded="false">Collapsible Group Item #3</a>
+                                </h4>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse" aria-expanded="false">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- .panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
+        </div>
+        <div class="col-sm-6" style="text-align:right">
+            <input type="submit" value="Agregar Plan de Mes" class="btn btn-primary" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <!-- scripts para los estilos del jquery -->
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+
+    <!-- Función para el autocompletado del dropdown -->
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
+
+    <!-- Función del datatable-->
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <!-- Funciones internas de crear -->
+    <script src="~/Scripts/PlanInversion/CreateMethods.js"></script>
+
+    <!-- Función para realizar operaciones con decimales -->
+    <script src="~/Scripts/API Decimales/decimal.js"></script>
+}

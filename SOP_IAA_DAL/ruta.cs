@@ -17,9 +17,10 @@ namespace SOP_IAA_DAL
         public ruta()
         {
             this.boleta = new HashSet<boleta>();
-            this.proyecto = new HashSet<proyecto>();
             this.proyecto_estructura = new HashSet<proyecto_estructura>();
+            this.seccionControl = new HashSet<seccionControl>();
             this.zona = new HashSet<zona>();
+            this.planInversion = new HashSet<planInversion>();
         }
     
         public int id { get; set; }
@@ -27,8 +28,9 @@ namespace SOP_IAA_DAL
         public string descripcion { get; set; }
     
         public virtual ICollection<boleta> boleta { get; set; }
-        public virtual ICollection<proyecto> proyecto { get; set; }
         public virtual ICollection<proyecto_estructura> proyecto_estructura { get; set; }
+        public virtual ICollection<seccionControl> seccionControl { get; set; }
         public virtual ICollection<zona> zona { get; set; }
+        public virtual ICollection<planInversion> planInversion { get; set; }
     }
 }

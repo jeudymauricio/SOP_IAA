@@ -430,6 +430,15 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar la sección de control?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_SC {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_SC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar esta zona?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_ZONA {

@@ -240,6 +240,9 @@
   <data name="MSJ_CONFIRM_ELIMINAR_REAJUSTES" xml:space="preserve">
     <value>¿Está seguro de eliminar los reajustes de este mes?</value>
   </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_SC" xml:space="preserve">
+    <value>¿Está seguro de eliminar la sección de control?</value>
+  </data>
   <data name="MSJ_CONFIRM_ELIMINAR_ZONA" xml:space="preserve">
     <value>¿Está seguro de eliminar esta zona?</value>
   </data>

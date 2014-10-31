@@ -56,6 +56,7 @@
     <Compile Include="boletaItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ClassAnnotations\SeccionControlAnnotations.cs" />
     <Compile Include="ClassAnnotations\BoletaItemAnnotations.cs" />
     <Compile Include="ClassAnnotations\BoletaAnnotations.cs" />
     <Compile Include="ClassAnnotations\ContratoItemAnnotations.cs" />
@@ -73,6 +74,11 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="EditedDBContext.cs" />
+    <Compile Include="ClassAnnotations\ItemAnnotations.cs" />
+    <Compile Include="ClassAnnotations\ContratistaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\FondoAnnotations.cs" />
+    <Compile Include="ClassAnnotations\IngenieroAnnotations.cs" />
+    <Compile Include="ClassAnnotations\PersonaAnnotations.cs" />
     <Compile Include="fondo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -102,13 +108,16 @@
     <Compile Include="persona.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="pICI.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="planInversion.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="programa.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="proyecto.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="proyectoItemReajuste.cs">
+    <Compile Include="programaSubProyectoContratoItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="proyecto_estructura.cs">
@@ -117,10 +126,16 @@
     <Compile Include="ruta.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="telefono.cs">
+    <Compile Include="seccionControl.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="tipoProyecto.cs">
+    <Compile Include="subProyecto.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="subproyectoContratoItem.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="telefono.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="usuario.cs">
@@ -129,17 +144,9 @@
     <Compile Include="zona.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <None Include="ClassAnnotations\ProyectoItemAnnotations" />
-    <Compile Include="ClassAnnotations\ItemAnnotations.cs" />
-    <Compile Include="ClassAnnotations\ContratistaAnnotations.cs" />
-    <Compile Include="ClassAnnotations\FondoAnnotations.cs" />
-    <Compile Include="ClassAnnotations\IngenieroAnnotations.cs" />
-    <Compile Include="ClassAnnotations\PersonaAnnotations.cs" />
-    <Compile Include="ClassAnnotations\ProgramaAnotations.cs" />
-    <Compile Include="ClassAnnotations\ProyectoAnnotations.cs" />
-    <None Include="ClassAnnotations\ProyectosProgramaAnnotations" />
+    <None Include="ClassAnnotations\ProgramaAnotations" />
+    <None Include="ClassAnnotations\ProyectoAnnotations" />
     <Compile Include="ClassAnnotations\RutaAnnotations.cs" />
-    <Compile Include="ClassAnnotations\TipoProyectoAnnotations.cs" />
     <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />
     <Compile Include="ClassAnnotations\ContratoAnnotations.cs" />
     <Compile Include="IRepositorio.cs" />

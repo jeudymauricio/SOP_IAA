@@ -12,16 +12,13 @@ namespace SOP_IAA_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class tipoProyecto
+    public partial class pICI
     {
-        public tipoProyecto()
-        {
-            this.proyecto = new HashSet<proyecto>();
-        }
+        public int idPlanInversion { get; set; }
+        public int idContratoItem { get; set; }
+        public decimal cantidad { get; set; }
     
-        public int id { get; set; }
-        public string nombre { get; set; }
-    
-        public virtual ICollection<proyecto> proyecto { get; set; }
+        public virtual contratoItem contratoItem { get; set; }
+        public virtual planInversion planInversion { get; set; }
     }
 }

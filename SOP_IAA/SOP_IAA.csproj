@@ -206,10 +206,10 @@
     <Compile Include="Controllers\Mis_Controladores\ContratistaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\FondoController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ZonaController.cs" />
-    <Compile Include="Controllers\ProgramaController.cs" />
-    <Compile Include="Controllers\ProyectoController.cs" />
+    <Compile Include="Controllers\PlanInversionController.cs" />
     <Compile Include="Controllers\RutaController.cs" />
-    <Compile Include="Controllers\TipoProyectoController.cs" />
+    <Compile Include="Controllers\SeccionControlController.cs" />
+    <Compile Include="Controllers\SubProyectoController.cs" />
     <Compile Include="Controllers\ZonaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -293,6 +293,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\PlanInversion\CreateMethods.js" />
     <Content Include="Scripts\plugins\dataTables\jquery.dataTables.min.js" />
     <Content Include="Scripts\Programa\CreateMethods.js" />
     <Content Include="Scripts\Programa\EditMethods.js" />
@@ -408,6 +409,20 @@
     <Content Include="Views\ItemReajuste\Edit.cshtml" />
     <Content Include="Views\ItemReajuste\Index.cshtml" />
     <Content Include="Views\ItemReajuste\Periodo.cshtml" />
+    <Content Include="Views\SubProyecto\Create.cshtml" />
+    <Content Include="Views\SubProyecto\Delete.cshtml" />
+    <Content Include="Views\SubProyecto\Details.cshtml" />
+    <Content Include="Views\SubProyecto\Edit.cshtml" />
+    <Content Include="Views\SubProyecto\Index.cshtml" />
+    <Content Include="Views\SeccionControl\Create.cshtml" />
+    <Content Include="Views\SeccionControl\Delete.cshtml" />
+    <Content Include="Views\SeccionControl\Edit.cshtml" />
+    <Content Include="Views\SeccionControl\Index.cshtml" />
+    <Content Include="Views\PlanInversion\Create.cshtml" />
+    <Content Include="Views\PlanInversion\Delete.cshtml" />
+    <Content Include="Views\PlanInversion\Details.cshtml" />
+    <Content Include="Views\PlanInversion\Edit.cshtml" />
+    <Content Include="Views\PlanInversion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

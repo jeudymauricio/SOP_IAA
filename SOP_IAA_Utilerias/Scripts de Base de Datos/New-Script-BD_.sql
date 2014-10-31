@@ -149,14 +149,16 @@ go
 -- Tabla con la información de la Sección de Control
 -- =========================================================================
 create table seccionControl(
-	id int not null,
+	id int not null identity(1,1),
 	idRuta int not null,
 	seccion int not null,
-	decripcion varchar(100) not null,
+	descripcion varchar(100) not null,
 	constraint pk_id_seccionControl
 		primary key (id),
 	constraint fk_idRuta_seccionControl
-		foreign key (idRuta) references ruta
+		foreign key (idRuta) references ruta,
+	constraint uq_idRuta_seccion
+		unique (idRuta, seccion)
 )
 go
 
@@ -205,7 +207,7 @@ create table labCalidadContrato(
 go
 
 /*
-create table programa(
+drop table programa(
 	id int identity(1,1) not null,
 	idContrato int not null,
 	ano smallint not null,
@@ -222,7 +224,7 @@ create table programa(
 )
 go
 
-create table tipoProyecto(
+drop table tipoProyecto(
 	id int unique not null identity (1,1),
 	nombre varchar(50) not null,
 	constraint pk_id_TipoProyecto
@@ -230,7 +232,7 @@ create table tipoProyecto(
 )
 go
 
-create table proyecto
+drop table proyecto
 (
 	id int unique not null identity (1,1),
 	idPrograma int not null,
@@ -276,7 +278,7 @@ create table contratoItem(
 )
 go
 
--- Recordar, los porcentajes se convierten a decimal para almacenarlos en la BD  Ej: 8.7941% -> 0.087941; el 100% equivale a 1
+-- Recordar, los porcentajes se convierten a decimal para almacenarlos en la BD  Ej: 8.7941% -> 0.087941, el 100% equivale a 1
 -- ALTER TABLE itemReajuste DROP COLUMN precioReajustado
 create table itemReajuste(
 	id int not null identity(1,1),
@@ -295,8 +297,8 @@ create table itemReajuste(
 )
 go
 
-
-create table proyectoItemReajuste(	
+/*
+drop table proyectoItemReajuste(	
 	id int unique not null identity (1,1),
 	idProyecto int not null,
 	idContratoItem int not null,
@@ -312,8 +314,8 @@ create table proyectoItemReajuste(
         foreign key (idContratoItem) references contratoItem
 )
 go
-
---ALTER TABLE [dbo].[boleta] ALTER COLUMN seccionControl int not null;
+*/
+--ALTER TABLE [dbo].[boleta] ALTER COLUMN seccionControl int not null,
 create table boleta(
 	id int unique not null identity (1,1),
 	idContrato int not null,
@@ -366,8 +368,9 @@ go
 -- Tabla con la información de los subproyectos del contrato
 -- =========================================================================
 create table subProyecto(
-	id int not null,
+	id int not null identity(1,1),
 	idContrato int not null,
+	idProyectoEstructura int not null,
 	nombre varchar(100) not null,
 	constraint pk_id_subProyecto
 		primary key (id),
@@ -380,10 +383,10 @@ go
 -- Tabla con la realción de subproyecto e items del contrato
 -- =========================================================================
 create table subproyectoContratoItem(
-	id int not null,
+	id int not null identity(1,1),
 	idSubProyecto int not null,
 	idContratoItem int not null,
-	constraint pk_id_subProyecto
+	constraint pk_id_subProyectoContratoItem
 		primary key (id),
 	constraint fk_idSubProyecto_subProyectoContratoItem
 		foreign key (idSubProyecto) references subProyecto,
@@ -398,7 +401,7 @@ go
 -- Tabla con la información principal de un Programa de trabajo
 -- =========================================================================
 create table programa(
-	id int not null,
+	id int not null identity(1,1),
 	idContrato int not null,
 	fecha date not null,
 	mes as month(fecha),
@@ -419,15 +422,15 @@ go
 -- Tabla con la relación de un programa y los item de un subproyecto
 -- =========================================================================
 create table programaSubProyectoContratoItem(
-	id int not null,
+	id int not null identity(1,1),
 	idPrograma int not null,
 	idSubProyectoContratoItem int not null,
 
-	constraint pk_id_programa
+	constraint pk_id_programaSubProyectoContratoItem
 		primary key (id),
 	constraint fk_idContrato_programaSubProyectoContratoItem
 		foreign key (idPrograma) references programa,
-	constraint fk_idContrato_programaSubProyectoContratoItem
+	constraint fk_idSubProyectoContratoItem_programaSubProyectoContratoItem
 		foreign key (idSubProyectoContratoItem) references subProyectoContratoItem,
 	constraint uq_idPrograma_idSubProyectoContratoItem
 		unique (idPrograma, idSubProyectoContratoItem)
@@ -449,5 +452,58 @@ create table progSubContrItem(
 		foreign key (idSeccionControl) references seccionControl,
 )
 go
+
+-- =========================================================================
+-- Tabla con la información del plan de inversión
+-- =========================================================================
+create table planInversion(
+	id int not null identity(1,1),
+	idContrato int not null,
+	fecha date not null,
+	mes as month(fecha),
+	ano as year(fecha),
+
+	constraint pk_id_planIversion
+		primary key (id),
+	constraint fk_idContrato_planInversion
+		foreign key (idContrato) references contrato,
+	constraint uq_mes_ano_planInversion
+		unique (mes, ano)
+)
+go
+
+-- =========================================================================
+-- Tabla con la relación del plan de inversion con una ruta
+-- =========================================================================
+create table pIRuta(
+	idPlanInversion int not null,
+	idRuta int not null,
+	
+	constraint pk_idplanIversion_idRuta_pIRuta
+		primary key (idPlanInversion, idRuta),
+	constraint fk_idPlanInversion_pIRuta
+		foreign key (idPlanInversion) references planInversion,
+	constraint fk_idRuta_pIRuta
+		foreign key (idRuta) references ruta
+)
+go
+
+-- =========================================================================
+-- Tabla con la relación del plan de inversion con un item del contrato
+-- =========================================================================
+create table pICI(
+	idPlanInversion int not null,
+	idContratoItem int not null,
+	cantidad decimal(10,3) not null,
+	
+	constraint pk_idplanIversion_idContratoItem_pICI
+		primary key (idPlanInversion, idContratoItem),
+	constraint fk_idPlanInversion_pICI
+		foreign key (idPlanInversion) references planInversion,
+	constraint fk_idRuta_pICI
+		foreign key (idContratoItem) references contratoItem
+)
+go
+
 
 /*Hasta aquí*/

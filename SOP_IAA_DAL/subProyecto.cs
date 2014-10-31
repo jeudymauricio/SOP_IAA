@@ -12,24 +12,18 @@ namespace SOP_IAA_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class programa
+    public partial class subProyecto
     {
-        public programa()
+        public subProyecto()
         {
-            this.programaSubProyectoContratoItem = new HashSet<programaSubProyectoContratoItem>();
-            this.seccionControl = new HashSet<seccionControl>();
+            this.subproyectoContratoItem = new HashSet<subproyectoContratoItem>();
         }
     
         public int id { get; set; }
         public int idContrato { get; set; }
-        public System.DateTime fecha { get; set; }
-        public Nullable<int> mes { get; set; }
-        public Nullable<int> ano { get; set; }
-        public System.DateTime fechaInicio { get; set; }
-        public System.DateTime fechaFin { get; set; }
+        public string nombre { get; set; }
     
         public virtual Contrato Contrato { get; set; }
-        public virtual ICollection<programaSubProyectoContratoItem> programaSubProyectoContratoItem { get; set; }
-        public virtual ICollection<seccionControl> seccionControl { get; set; }
+        public virtual ICollection<subproyectoContratoItem> subproyectoContratoItem { get; set; }
     }
 }
