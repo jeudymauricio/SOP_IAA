@@ -4,24 +4,32 @@
     ViewBag.Title = @Model.licitacion + " Reportes";
 }
 
-<h2> Reportes del contrato @Model.licitacion </h2>
 
-<div class="form-group">
+<h2> Reportes del contrato @Model.licitacion </h2>
+@using (Html.BeginForm("exportarInformesItems", "Reportes"))
+{
+    <div class="form-group">
         <label for="FechaInicio">Fecha Inicio</label>
         <div class="col-md-10">
-            
-            <input class="form-control" type="date" id="fechaInicio" />
+
+            <input class="form-control" type="date" id="fechaInicio" name="fecha1" />
         </div>
     </div>
-<div class="form-group"> 
-    <label for="FechaFin">Fecha Fin</label>
-    <div class="col-md-10">
-        
-        <input class="form-control" type="date" id="fechaFin" />
+    <div class="form-group">
+        <label for="FechaFin">Fecha Fin</label>
+        <div class="col-md-10">
+
+            <input class="form-control" type="date" id="fechaFin" name="fecha2"/>
+        </div>
     </div>
-</div>
-<input class="btn btn-primary" type="button" id="btnRangoFechas" value="Exportar a excel" />
-<br /><br />
+    <input type="submit" value="Exportar a excel" class="btn-primary">
+    @*@Html.ActionLink("Exportar a excel", "exportarInformesItems", new { id = Model.id, fecha1 = fechaInicio.value, fecha2.fechaFinal.value }, new { @class = "btn btn-primary", @style = "width:150px" })*@
+    <br /><br />
+}
+
+
+
+
 <div class="panel panel-default">
     <div class="panel-heading">
         Items
@@ -37,7 +45,7 @@
                         <th>Unidad de medida</th>
                         <th>Precio unintario</th>
                         <th></th>
-                    </tr>   
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.contratoItem)
