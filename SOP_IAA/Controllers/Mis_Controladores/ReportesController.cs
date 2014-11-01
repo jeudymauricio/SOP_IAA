@@ -190,15 +190,17 @@ namespace SOP_IAA.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult exportarInformesItems(/*int? id, */DateTime fecha1, DateTime fecha2)
+        //[HttpPost]
+        public ActionResult exportarInformesItems(int? idContrato/*, DateTime fecha1, DateTime fecha2*/)
         {
-            if ((id == null))
+            DateTime fecha1 = DateTime.Parse("1/1/2013");
+            DateTime fecha2 = DateTime.Parse("1/11/2014");
+            if ((idContrato == null)) // pere para ver
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Contrato contrato = db.Contrato.Find(id);
+            Contrato contrato = db.Contrato.Find(idContrato);
 
             // Se verifica que el ítem exista en el contrato
             if (contrato == null)
@@ -216,8 +218,8 @@ namespace SOP_IAA.Controllers
                 // 
                 ExcelWorkbook workBook = package.Workbook;
                 int cont = 2;
-                try
-                {
+                //try
+                //{
                     if (workBook != null)
                     {
                         
@@ -225,17 +227,12 @@ namespace SOP_IAA.Controllers
                         {
 
                             // Se crea la hoja de excel y se le coloca como nombre el código de ítem
-                           // ExcelWorksheet worksheet = workBook.Worksheets["Hoja"+cont];
-
-
                             ExcelWorksheet worksheetResp = package.Workbook.Worksheets[1];
                             foreach(var contItem in contrato.contratoItem)
                             {
-                                //ExcelWorksheet worksheet = workBook.Worksheets[1];
-  
                                 // Se crea la hoja de excel y se le coloca como nombre el código de ítem
-                               // ExcelWorksheet worksheet = workBook.Worksheets["Hoja1"];
-                                ExcelWorksheet worksheet;
+                                ExcelWorksheet worksheet = workBook.Worksheets["Hoja1"];
+                                //ExcelWorksheet worksheet;
                                 string _SheetName = string.Format("Hoja{0}", sheetIndex.ToString());
       
                                 /* WorkSheet */
@@ -243,64 +240,7 @@ namespace SOP_IAA.Controllers
                                 {
                                     worksheet = package.Workbook.Worksheets[sheetIndex]; // add a new worksheet to the empty workbook
                                 }
-                               /* else
-                                {
-                                    //worksheet = package.Workbook.Worksheets[sheetIndex-1]; // add a new worksheet to the empty workbook
-                           
-                                   worksheet = package.Workbook.Worksheets.Add("Hoja1", worksheetResp);
-                                    //worksheet = package.Workbook.Worksheets[sheetIndex-1];
-                                }*/
-                                var wsTemplate = pckTemplate.Workbook.Worksheets.Add("NewSheet", worksheet);
-
-                                /*if (worksheet == null)
-                                {
-                                    worksheet = package.Workbook.Worksheets.Add(_SheetName); // add a new worksheet to the empty workbook    
-                                }
-                                else
-                                {
-
-                                }*/
-                                //ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Hoja");
-
-                               
-
-                               /* worksheet.Cells["D3:M3"].Merge = true;
-                                worksheet.Cells["D3:M3"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                worksheet.Cells["D3:M3"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                                worksheet.Cells["D3:M3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-                                worksheet.Cells["D4:M4"].Merge = true;
-                                worksheet.Cells["D4:M4"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                worksheet.Cells["D4:M4"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                                worksheet.Cells["D4:M4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-                                worksheet.Cells["D5:M5"].Merge = true;
-                                worksheet.Cells["D5:M5"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                worksheet.Cells["D5:M5"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                                worksheet.Cells["D5:M5"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-                                worksheet.Cells["D6:M6"].Merge = true;
-                                worksheet.Cells["D6:M6"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                worksheet.Cells["D6:M6"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                                worksheet.Cells["D6:M6"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-                                worksheet.Cells["D7:M7"].Merge = true;
-                                worksheet.Cells["D7:M7"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                worksheet.Cells["D7:M7"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                                worksheet.Cells["D7:M7"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-                                worksheet.Cells["D8:M8"].Merge = true;
-                                worksheet.Cells["D8:M8"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                worksheet.Cells["D8:M8"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                                worksheet.Cells["D8:M8"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-                                worksheet.Cells["D9:M9"].Merge = true;
-                                worksheet.Cells["D9:M9"].Style.Font.Bold = true;
-                                worksheet.Cells["D9:M9"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                worksheet.Cells["D9:M9"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                                worksheet.Cells["D9:M9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                worksheet.Cells["D9"].Value = "DESCRIPTIVA POR ITEMS";*/
-                                
+                                var wsTemplate = pckTemplate.Workbook.Worksheets.Add("NewSheet"+contItem.idItem, worksheet);
 
                                // Se rempieza a llenar los campos con los datos correspondientes
                                 worksheet.Cells["D4"].Value = "ESTIMACIÓN DESCRIPTIVA N°  FONDO " + contItem.Contrato.fondo.nombre;
@@ -314,13 +254,13 @@ namespace SOP_IAA.Controllers
                                 int row = startRow;
 
                                 // Se insertan las filas ncecesarias al excel
-                                worksheet.InsertRow(startRow, contItem.boletaItem.Count - 2, startRow);
+                                worksheet.InsertRow(startRow, ((contItem.boletaItem.Count) - 2), startRow);
 
                                 foreach (var item in contItem.boletaItem)
                                 {
                                     cont++;
-                                    if (item.boleta.fecha >= fecha1 && item.boleta.fecha <= fecha2)
-                                    {
+                                    //if ((item.boleta.fecha >= fecha1) && (item.boleta.fecha <= fecha2))
+                                    //{
                                         int col = 4;
                                         worksheet.Cells[row, col].Value = item.boleta.numeroBoleta;
                                         col++;
@@ -338,7 +278,7 @@ namespace SOP_IAA.Controllers
                                         worksheet.Cells[row, col++].Value = item.boleta.observaciones;  // Observaciones de la boleta
                                         row++;
 
-                                    }
+                                    //}
                                 }//foreach interno
                                 row++;
 
@@ -368,12 +308,12 @@ namespace SOP_IAA.Controllers
                     }
 
 
-                }
-                catch(Exception e)
+               // }
+                /*catch(Exception e)
                 {
                     // Se indica que ocurrió un error en la operación
-                    return JavaScript("alert('Hubo un error en la operación, reintente mas tarde');");
-                }
+                    return JavaScript(e.StackTrace);
+                }*/
 
                 // Nombre que va a tener el archivo
                 string nombreArchivo = "Informe Descriptivo del contarto " + contrato.licitacion + ".xlsx";

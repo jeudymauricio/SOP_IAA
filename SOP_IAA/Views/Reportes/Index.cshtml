@@ -22,8 +22,10 @@
             <input class="form-control" type="date" id="fechaFin" name="fecha2"/>
         </div>
     </div>
-    <input type="submit" value="Exportar a excel" class="btn-primary">
+    //<input type="submit" value="Exportar a excel" class="btn-primary">
+     @Html.ActionLink("Exportar a excel", "exportarInformesItems", new { idContrato = 1/*, fecha1 = DateTime.Parse("1/1/2013"), fecha2 = DateTime.Parse("1/11/2014")*/ }, new { @class = "btn btn-primary", @style = "width:150px" })
     @*@Html.ActionLink("Exportar a excel", "exportarInformesItems", new { id = Model.id, fecha1 = fechaInicio.value, fecha2.fechaFinal.value }, new { @class = "btn btn-primary", @style = "width:150px" })*@
+    
     <br /><br />
 }
 
