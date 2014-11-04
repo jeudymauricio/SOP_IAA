@@ -243,14 +243,14 @@ namespace SOP_IAA.Controllers
                                 {
                                     worksheet = package.Workbook.Worksheets[sheetIndex]; // add a new worksheet to the empty workbook
                                 }
-                               /* else
+                               else
                                 {
                                     //worksheet = package.Workbook.Worksheets[sheetIndex-1]; // add a new worksheet to the empty workbook
                            
-                                   worksheet = package.Workbook.Worksheets.Add("Hoja1", worksheetResp);
+                                   worksheet = package.Workbook.Worksheets.Add("Hoja1");
                                     //worksheet = package.Workbook.Worksheets[sheetIndex-1];
-                                }*/
-                                var wsTemplate = pckTemplate.Workbook.Worksheets.Add("NewSheet", worksheet);
+                                }
+                               // var wsTemplate = pckTemplate.Workbook.Worksheets.Add("NewSheet", worksheet);
 
                                 /*if (worksheet == null)
                                 {
