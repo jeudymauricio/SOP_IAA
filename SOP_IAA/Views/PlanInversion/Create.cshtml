@@ -18,7 +18,7 @@
     <div class="row">
         <div class="form-group col-md-12">
             @Html.Label("Fecha del Plan", htmlAttributes: new { @class = "control-label" })
-            @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @id = "txtFecha", @placeholder = "Fecha de los reajustes", @title = "Fecha valida para todo el mes", @Value = @Model.fecha.ToString("MMMM yyyy") } })
+            @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @id = "txtFecha", @placeholder = "Fecha que aplica", @title = "Fecha valida para todo el mes", @Value = @Model.fecha.ToString("MMMM yyyy") } })
             @Html.ValidationMessageFor(model => model.idContrato, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -26,7 +26,7 @@
     <div class="row">
         @Html.Label("Rutas", htmlAttributes: new { @class = "control-label col-md-12" })
         <div class="col-md-12">
-            @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control col-md-4", @id = "ddlItems" })
+            @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control col-md-4", @id = "ddlRutas" })
             <div class="col-md-4">
                 <input class="btn btn-primary" type="button" id="btnAgregarRuta" value="Incluir Ruta" />
             </div>
@@ -44,7 +44,7 @@
                 <!-- .panel-heading -->
                 <div class="panel-body">
                     <div class="panel-group" id="rutasAccordion">
-                        <div class="panel panel-default">
+                        @*<div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">Ruta 140</a>
@@ -84,7 +84,7 @@
 
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
                     </div>
                 </div>
@@ -119,13 +119,14 @@
     <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
     <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
 
-    <!-- Funciones internas de crear -->
-    <script src="~/Scripts/PlanInversion/CreateMethods.js"></script>
-
     <!-- Función para realizar operaciones con decimales -->
     <script src="~/Scripts/API Decimales/decimal.js"></script>
 
+    <!-- Funciones internas de crear -->
+    <script src="~/Scripts/PlanInversion/CreateMethods.js"></script>
+
     <script>
+        // Variable global de lista de items del contrato
         var itemList = @Html.Raw(Json.Encode(@ViewBag.idItem))
     </script>
 }

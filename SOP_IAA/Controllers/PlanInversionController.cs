@@ -73,6 +73,45 @@ namespace SOP_IAA.Controllers
             return View(pi);
         }
 
+        /// <summary>
+        /// Acción invocada por ajax y que devuelve los detalles de un item específico
+        /// </summary>
+        /// <param name="id"> id del item de contrato a buscar</param>
+        /// <returns>Json con los detalles del item del contrato(precio base de contrato)</returns>
+        public ActionResult ItemDetalles(int? id)
+        {
+            // Si el id está vacío se retorna un badrequest
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Selecciona de la base de datos el contratoItem correspondiente
+            contratoItem ci = db.contratoItem.Find(id);
+
+            // Si está nulo, quiere decir que no existe el item en el contrato
+            if (ci == null)
+            {
+                return HttpNotFound();
+            }
+
+            /// Se inicia con la creacion de un diccionario con toda la información pertinente del item
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            //result.Add("idContratoItem", ci.id.ToString());
+            result.Add("codigoItem", ci.item.codigoItem);
+            result.Add("descripcion", ci.item.descripcion);
+            result.Add("unidadMedida", ci.item.unidadMedida);
+
+            // Precio base del item
+            decimal precio = ci.precioUnitario;
+
+            // Se almacena el precio
+            result.Add("precio", precio.ToString());
+
+            // Retorna un JSON con los detalles del ítem
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         // POST: PlanInversion/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
