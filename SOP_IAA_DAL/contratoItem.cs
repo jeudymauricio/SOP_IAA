@@ -18,8 +18,8 @@ namespace SOP_IAA_DAL
         {
             this.boletaItem = new HashSet<boletaItem>();
             this.itemReajuste = new HashSet<itemReajuste>();
-            this.subproyectoContratoItem = new HashSet<subproyectoContratoItem>();
             this.pICI = new HashSet<pICI>();
+            this.subproyectoContratoItem = new HashSet<subproyectoContratoItem>();
         }
     
         public int id { get; set; }
@@ -31,7 +31,7 @@ namespace SOP_IAA_DAL
         public virtual Contrato Contrato { get; set; }
         public virtual item item { get; set; }
         public virtual ICollection<itemReajuste> itemReajuste { get; set; }
-        public virtual ICollection<subproyectoContratoItem> subproyectoContratoItem { get; set; }
         public virtual ICollection<pICI> pICI { get; set; }
+        public virtual ICollection<subproyectoContratoItem> subproyectoContratoItem { get; set; }
     }
 }

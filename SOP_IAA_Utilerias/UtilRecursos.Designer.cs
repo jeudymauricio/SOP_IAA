@@ -394,6 +394,15 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar el plan de este mes?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_PLAN {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_PLAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este programa?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_PROGRAMA {

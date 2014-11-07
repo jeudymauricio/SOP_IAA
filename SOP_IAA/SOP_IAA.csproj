@@ -293,6 +293,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\PlanInversion\EditMethods.js" />
     <Content Include="Scripts\PlanInversion\CreateMethods.js" />
     <Content Include="Scripts\plugins\dataTables\jquery.dataTables.min.js" />
     <Content Include="Scripts\Programa\CreateMethods.js" />
@@ -418,6 +419,7 @@
     <Content Include="Views\PlanInversion\Details.cshtml" />
     <Content Include="Views\PlanInversion\Edit.cshtml" />
     <Content Include="Views\PlanInversion\Index.cshtml" />
+    <Content Include="Views\PlanInversion\Periodo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

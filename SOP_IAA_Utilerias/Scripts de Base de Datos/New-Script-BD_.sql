@@ -467,24 +467,8 @@ create table planInversion(
 		primary key (id),
 	constraint fk_idContrato_planInversion
 		foreign key (idContrato) references contrato,
-	constraint uq_mes_ano_planInversion
-		unique (mes, ano)
-)
-go
-
--- =========================================================================
--- Tabla con la relación del plan de inversion con una ruta
--- =========================================================================
-create table pIRuta(
-	idPlanInversion int not null,
-	idRuta int not null,
-	
-	constraint pk_idplanIversion_idRuta_pIRuta
-		primary key (idPlanInversion, idRuta),
-	constraint fk_idPlanInversion_pIRuta
-		foreign key (idPlanInversion) references planInversion,
-	constraint fk_idRuta_pIRuta
-		foreign key (idRuta) references ruta
+	constraint uq_mes_ano_idContrato_planInversion
+		unique (mes, ano, idContrato)
 )
 go
 
@@ -492,16 +476,22 @@ go
 -- Tabla con la relación del plan de inversion con un item del contrato
 -- =========================================================================
 create table pICI(
+	id int not null identity(1,1),
 	idPlanInversion int not null,
 	idContratoItem int not null,
+	idRuta int not null,
 	cantidad decimal(10,3) not null,
 	
-	constraint pk_idplanIversion_idContratoItem_pICI
-		primary key (idPlanInversion, idContratoItem),
+	constraint pk_id_pICI
+		primary key (id),
 	constraint fk_idPlanInversion_pICI
 		foreign key (idPlanInversion) references planInversion,
+	constraint fk_idContratoItem_pICI
+		foreign key (idContratoItem) references contratoItem,
 	constraint fk_idRuta_pICI
-		foreign key (idContratoItem) references contratoItem
+		foreign key (idRuta) references ruta,
+	constraint uq_idPlanInversion_idContratoItem_idRuta_pICI
+		unique (idPlanInversion, idContratoItem, idRuta)
 )
 go
 

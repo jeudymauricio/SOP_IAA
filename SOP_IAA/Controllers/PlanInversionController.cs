@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SOP_IAA_DAL;
+using System.Data.SqlClient;
+using Newtonsoft.Json;
 
 namespace SOP_IAA.Controllers
 {
@@ -67,9 +69,10 @@ namespace SOP_IAA.Controllers
             planInversion pi = new planInversion();
             pi.idContrato = idContrato.Value;
             pi.fecha = DateTime.Now.AddMonths(1);
-            //ViewBag.idContrato = new SelectList(db.Contrato, "id", "licitacion");
+            
             ViewBag.idRuta = new SelectList(contrato.zona.ruta, "id", "Nombre");
             ViewBag.idItem = new SelectList(contrato.contratoItem.Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
+            
             return View(pi);
         }
 
@@ -117,7 +120,9 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,idContrato,fecha,mes,ano")] planInversion planInversion)
+        public ActionResult Create(
+            [Bind(Include = "id,idContrato,fecha,mes,ano")] planInversion planInversion,
+            [Bind(Include = "jsonRutas")] string jsonRutas)
         {
             if (ModelState.IsValid)
             {
@@ -125,32 +130,108 @@ namespace SOP_IAA.Controllers
                 {
                     db.planInversion.Add(planInversion);
                     db.SaveChanges();
+
+                    // Obtener las rutas.
+                    dynamic jObj = JsonConvert.DeserializeObject(jsonRutas);
+
+                    foreach (var child in jObj.rutas.Children())
+                    {
+                        // por cada ruta se obtiene sus ítems
+                        foreach (var item in child.items)
+                        {
+                            pICI planRutaItem = new pICI();
+                            planRutaItem.idRuta = (int)child.idRuta;
+                            planRutaItem.idPlanInversion = planInversion.id;
+                            planRutaItem.idContratoItem = (int)item.idContratoItem;
+                            planRutaItem.cantidad = (decimal)item.cantidad;
+
+                            db.pICI.Add(planRutaItem);
+                        }
+
+                        db.SaveChanges();
+                    }
+
                     return RedirectToAction("Index", new { idContrato = planInversion.idContrato });
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("","Ocurrió un error al ingresar el plan, verifique que no existe un plan para esa fecha");
+                    ModelState.AddModelError("", "Ocurrió un error al ingresar el plan, reintente en un momento");
+
+                    Contrato contrato = db.Contrato.Find(planInversion.idContrato);
+                    if (contrato == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    
+                    ViewBag.idRuta = new SelectList(contrato.zona.ruta, "id", "Nombre");
+                    ViewBag.idItem = new SelectList(contrato.contratoItem.Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
+
                     return View(planInversion);
                 }
             }
 
-            //ViewBag.idContrato = new SelectList(db.Contrato, "id", "licitacion", planInversion.idContrato);
+            // Si el modelo no es válido se vuelve a pedir los datos
+            Contrato c = db.Contrato.Find(planInversion.idContrato);
+            if (c == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.idRuta = new SelectList(c.zona.ruta, "id", "Nombre");
+            ViewBag.idItem = new SelectList(c.contratoItem.Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
+
             return View(planInversion);
         }
 
-        // GET: PlanInversion/Edit/5
-        public ActionResult Edit(int? id)
+        /// <summary>
+        /// Retorna el plan de inversión para una fecha específica
+        /// </summary>
+        /// <param name="fecha">Fecha del periodo a buscar</param>
+        /// <param name="idContrato">id del contrato</param>
+        /// <returns>Plan de inversión para la fecha recibida</returns>
+        public ActionResult Periodo(DateTime fecha, int? idContrato)
         {
-            if (id == null)
+            if (idContrato == null || fecha == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            planInversion planInversion = db.planInversion.Find(id);
+
+            try
+            {
+                ViewBag.idContrato = idContrato;
+
+                var pi = db.planInversion.Where(p => (p.ano == fecha.Year && p.mes == fecha.Month)).Where(i => i.idContrato == idContrato);
+
+                if (pi == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(pi.First());
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", new { idContrato = idContrato });
+            }
+        }
+
+        // GET: PlanInversion/Edit/5
+        public ActionResult Edit(int? idPlan)
+        {
+            if (idPlan == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            planInversion planInversion = db.planInversion.Find(idPlan);
             if (planInversion == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.idContrato = new SelectList(db.Contrato, "id", "licitacion", planInversion.idContrato);
+            Contrato contrato = db.Contrato.Find(planInversion.idContrato);
+            ViewBag.idRuta = new SelectList(contrato.zona.ruta, "id", "Nombre");
+            ViewBag.idItem = new SelectList(contrato.contratoItem.Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
+            ViewBag.idContrato = planInversion.idContrato;//new SelectList(db.Contrato, "id", "licitacion", planInversion.idContrato);
+            
             return View(planInversion);
         }
 
@@ -159,15 +240,78 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,idContrato,fecha,mes,ano")] planInversion planInversion)
+        public ActionResult Edit(
+            [Bind(Include = "id,idContrato,fecha,mes,ano")] planInversion planInversion,
+            [Bind(Include = "jsonRutas")] string jsonRutas)
         {
+            Contrato contrato;
+            
             if (ModelState.IsValid)
             {
-                db.Entry(planInversion).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index", new { idContrato = planInversion.idContrato });
+                try
+                {
+                    Repositorio<planInversion> rep = new Repositorio<SOP_IAA_DAL.planInversion>();
+                    rep.Actualizar(planInversion);
+                    /*db.Entry(planInversion).State = EntityState.Modified;
+                    db.SaveChanges();*/
+
+                    // Se busca el plan de inversión a modificar
+                    planInversion planInversion2 = db.planInversion.Find(planInversion.id);
+
+                    // Se eliminan los elementos de la base de datos
+                    db.pICI.RemoveRange(planInversion2.pICI);
+                    db.SaveChanges();
+
+                    // Objeto dinámico para las rutas y sus items
+                    dynamic jObj = JsonConvert.DeserializeObject(jsonRutas);
+
+                    foreach (var child in jObj.rutas.Children())
+                    {
+                        // por cada ruta se obtiene sus ítems
+                        foreach (var item in child.items)
+                        {
+                            pICI planRutaItem = new pICI();
+                            planRutaItem.idRuta = (int)child.idRuta;
+                            planRutaItem.idPlanInversion = planInversion.id;
+                            planRutaItem.idContratoItem = (int)item.idContratoItem;
+                            planRutaItem.cantidad = (decimal)item.cantidad;
+
+                            db.pICI.Add(planRutaItem);
+                        }
+
+                        db.SaveChanges();
+                    }
+
+                    return RedirectToAction("Periodo", new { fecha = planInversion.fecha, idContrato = planInversion.idContrato });
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al actualizar el plan, reintente en un momento");
+
+                    planInversion = db.planInversion.Find(planInversion.id);
+                    if (planInversion == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    contrato = db.Contrato.Find(planInversion.idContrato);
+                    ViewBag.idRuta = new SelectList(contrato.zona.ruta, "id", "Nombre");
+                    ViewBag.idItem = new SelectList(contrato.contratoItem.Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
+                    ViewBag.idContrato = planInversion.idContrato;
+
+                    return View(planInversion);
+                }
             }
-            ViewBag.idContrato = new SelectList(db.Contrato, "id", "licitacion", planInversion.idContrato);
+
+            planInversion = db.planInversion.Find(planInversion.id);
+            if (planInversion == null)
+            {
+                return HttpNotFound();
+            }
+            contrato = db.Contrato.Find(planInversion.idContrato);
+            ViewBag.idRuta = new SelectList(contrato.zona.ruta, "id", "Nombre");
+            ViewBag.idItem = new SelectList(contrato.contratoItem.Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
+            ViewBag.idContrato = planInversion.idContrato;
+
             return View(planInversion);
         }
 
@@ -195,6 +339,35 @@ namespace SOP_IAA.Controllers
             db.planInversion.Remove(planInversion);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Acción que elimina un plan y sus detalles de la base de datos
+        /// </summary>
+        /// <param name="idPlan">id del plan a eliminar (int)</param>
+        /// <returns>Si tuvo éxito retorna al index del contrato al que pertenecía el plan</returns>
+        public ActionResult DeleteAllConfirmed(int? idPlan)
+        {
+            // Se busca el plan en la base de datos
+            planInversion pi = db.planInversion.Find(idPlan);
+
+            if (pi == null){
+                return HttpNotFound();
+            }
+
+            int idContrato = pi.idContrato;
+            try
+            {
+                db.pICI.RemoveRange(pi.pICI);
+                db.planInversion.Remove(pi);
+                db.SaveChanges();
+
+                return RedirectToAction("index", new { idContrato = idContrato });
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Periodo", new { fecha = pi.fecha, idContrato = idContrato });
+            }
         }
 
         protected override void Dispose(bool disposing)

@@ -14,6 +14,10 @@ http://www.reddybrek.com/allow-entity-framework-store-more-than-2-decimal-places
 Transacciones EntityFramework
 	http://msdn.microsoft.com/en-us/library/vstudio/bb738523(v=vs.100).aspx
 
+Excepciones en c#
+	http://stackoverflow.com/questions/3967140/duplicate-key-exception-from-entity-framework
+	http://stackoverflow.com/questions/24740376/best-way-to-catch-sql-unique-constraint-violations-in-c-sharp-during-inserts
+
 Exportar a Excel
 	http://epplus.codeplex.com/wikipage?title=WebapplicationExample
 	https://epplus.codeplex.com/discussions/219864
@@ -118,6 +122,9 @@ datepicker - datetime format
 	http://instinctcoder.com/asp-net-mvc-4-jquery-datepicker-date-format-validation/
 	http://www.java2s.com/Tutorial/JavaScript/0571__jQuery/Addimagetodatepickertriggerbutton.htm
 	http://msdn.microsoft.com/es-es/library/cc165448.aspx
+
+	daterange
+		http://tamble.github.io/jquery-ui-daterangepicker/
 
 autocomplete
 	http://www.codeproject.com/Tips/789425/Auto-Complete-in-ASP-NET-MVC

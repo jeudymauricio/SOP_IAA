@@ -14,11 +14,14 @@ namespace SOP_IAA_DAL
     
     public partial class pICI
     {
+        public int id { get; set; }
         public int idPlanInversion { get; set; }
         public int idContratoItem { get; set; }
+        public int idRuta { get; set; }
         public decimal cantidad { get; set; }
     
         public virtual contratoItem contratoItem { get; set; }
         public virtual planInversion planInversion { get; set; }
+        public virtual ruta ruta { get; set; }
     }
 }

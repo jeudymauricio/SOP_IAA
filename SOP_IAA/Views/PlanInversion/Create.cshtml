@@ -7,7 +7,7 @@
 <h2>Plan de Inversión Mensual</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formCreate", id = "formCreate" }))
 {
     @Html.AntiForgeryToken()
     <h4> </h4>
@@ -43,49 +43,8 @@
                 </div>
                 <!-- .panel-heading -->
                 <div class="panel-body">
-                    <div class="panel-group" id="rutasAccordion">
-                        @*<div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">Ruta 140</a>
-                                    <button type="button" class="btn btn-danger btn-xs pull-right"> Excluir Ruta </button>
-                                </h4>
-
-                            </div>
-                            <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                                <div class="panel-body">
-
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            @Html.DropDownList("idItem", null, htmlAttributes: new { @class = "input", @id = "ddlItems" })
-                                            <input class="btn btn-primary" type="button" id="btnAgregarItem" value="Incluir Ítem" />
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table id="tbItems" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Item</th>
-                                                    <th style="text-align:center">Descripción</th>
-                                                    <th style="text-align:center">Unidad de Medida</th>
-                                                    <th style="text-align:center">Precio(₡)</th>
-                                                    <th style="text-align:center">Cantidad</th>
-                                                    <th style="text-align:center">Monto(₡)</th>
-                                                    <th style="text-align:center"> </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Aqui se cargarán las filas dinámicamente con la información de los ítems -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- /.table-responsive -->
-
-
-                                </div>
-                            </div>
-                        </div>*@
-
+                    <div class="panel-group" id="rutasAcordeon">
+                        <!-- Panels dinámicos que contendrás las rutas con sus respectivos ítems -->
                     </div>
                 </div>
                 <!-- .panel-body -->
@@ -100,7 +59,8 @@
             @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
         </div>
         <div class="col-sm-6" style="text-align:right">
-            <input type="submit" value="Agregar Plan de Mes" class="btn btn-primary" />
+            <input type="submit" name="create" value="Agregar Plan de Mes" class="btn btn-primary" />
+            <img src="~/Content/Images/loading.gif" id="loadingGif" style="display: none;" />
         </div>
     </div>
 }

@@ -17,7 +17,6 @@ namespace SOP_IAA_DAL
         public planInversion()
         {
             this.pICI = new HashSet<pICI>();
-            this.ruta = new HashSet<ruta>();
         }
     
         public int id { get; set; }
@@ -28,6 +27,5 @@ namespace SOP_IAA_DAL
     
         public virtual Contrato Contrato { get; set; }
         public virtual ICollection<pICI> pICI { get; set; }
-        public virtual ICollection<ruta> ruta { get; set; }
     }
 }

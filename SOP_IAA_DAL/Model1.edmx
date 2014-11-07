@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="boleta">
           <Key>
             <PropertyRef Name="id" />
@@ -145,20 +145,13 @@
         </EntityType>
         <EntityType Name="pICI">
           <Key>
-            <PropertyRef Name="idPlanInversion" />
-            <PropertyRef Name="idContratoItem" />
+            <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idPlanInversion" Type="int" Nullable="false" />
           <Property Name="idContratoItem" Type="int" Nullable="false" />
-          <Property Name="cantidad" Type="decimal" Precision="10" Scale="3" Nullable="false" />
-        </EntityType>
-        <EntityType Name="pIRuta">
-          <Key>
-            <PropertyRef Name="idPlanInversion" />
-            <PropertyRef Name="idRuta" />
-          </Key>
-          <Property Name="idPlanInversion" Type="int" Nullable="false" />
           <Property Name="idRuta" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="decimal" Precision="10" Scale="3" Nullable="false" />
         </EntityType>
         <EntityType Name="planInversion">
           <Key>
@@ -190,7 +183,7 @@
           <Property Name="idPrograma" Type="int" Nullable="false" />
           <Property Name="idSubProyectoContratoItem" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="progSubContrItem">
+        <EntityType Name="progSubContrItemSeccionControl">
           <Key>
             <PropertyRef Name="idPrograma" />
             <PropertyRef Name="idSeccionControl" />
@@ -405,12 +398,12 @@
         </Association>
         <Association Name="fk_idContrato_progSubContrItem">
           <End Role="programa" Type="Self.programa" Multiplicity="1" />
-          <End Role="progSubContrItem" Type="Self.progSubContrItem" Multiplicity="*" />
+          <End Role="progSubContrItemSeccionControl" Type="Self.progSubContrItemSeccionControl" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="programa">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="progSubContrItem">
+            <Dependent Role="progSubContrItemSeccionControl">
               <PropertyRef Name="idPrograma" />
             </Dependent>
           </ReferentialConstraint>
@@ -447,6 +440,18 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="itemReajuste">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_pICI">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pICI">
               <PropertyRef Name="idContratoItem" />
             </Dependent>
           </ReferentialConstraint>
@@ -571,18 +576,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_idPlanInversion_pIRuta">
-          <End Role="planInversion" Type="Self.planInversion" Multiplicity="1" />
-          <End Role="pIRuta" Type="Self.pIRuta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="planInversion">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="pIRuta">
-              <PropertyRef Name="idPlanInversion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_idProyecto_Estructura_proyecto_estructura">
           <End Role="proyecto_estructura" Type="Self.proyecto_estructura" Multiplicity="1" />
           <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
@@ -608,25 +601,13 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_idRuta_pICI">
-          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
-          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="contratoItem">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="pICI">
-              <PropertyRef Name="idContratoItem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_idRuta_pIRuta">
           <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
-          <End Role="pIRuta" Type="Self.pIRuta" Multiplicity="*" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ruta">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="pIRuta">
+            <Dependent Role="pICI">
               <PropertyRef Name="idRuta" />
             </Dependent>
           </ReferentialConstraint>
@@ -669,12 +650,12 @@
         </Association>
         <Association Name="fk_idSeccionControl_progSubContrItem">
           <End Role="seccionControl" Type="Self.seccionControl" Multiplicity="1" />
-          <End Role="progSubContrItem" Type="Self.progSubContrItem" Multiplicity="*" />
+          <End Role="progSubContrItemSeccionControl" Type="Self.progSubContrItemSeccionControl" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="seccionControl">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="progSubContrItem">
+            <Dependent Role="progSubContrItemSeccionControl">
               <PropertyRef Name="idSeccionControl" />
             </Dependent>
           </ReferentialConstraint>
@@ -743,11 +724,10 @@
           <EntitySet Name="laboratorioCalidad" EntityType="Self.laboratorioCalidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="persona" EntityType="Self.persona" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="pICI" EntityType="Self.pICI" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="pIRuta" EntityType="Self.pIRuta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="planInversion" EntityType="Self.planInversion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="programa" EntityType="Self.programa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="programaSubProyectoContratoItem" EntityType="Self.programaSubProyectoContratoItem" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="progSubContrItem" EntityType="Self.progSubContrItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="progSubContrItemSeccionControl" EntityType="Self.progSubContrItemSeccionControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="proyecto_estructura" EntityType="Self.proyecto_estructura" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ruta" EntityType="Self.ruta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="seccionControl" EntityType="Self.seccionControl" Schema="dbo" store:Type="Tables" />
@@ -803,7 +783,7 @@
           </AssociationSet>
           <AssociationSet Name="fk_idContrato_progSubContrItem" Association="Self.fk_idContrato_progSubContrItem">
             <End Role="programa" EntitySet="programa" />
-            <End Role="progSubContrItem" EntitySet="progSubContrItem" />
+            <End Role="progSubContrItemSeccionControl" EntitySet="progSubContrItemSeccionControl" />
           </AssociationSet>
           <AssociationSet Name="fk_idContrato_subProyecto" Association="Self.fk_idContrato_subProyecto">
             <End Role="Contrato" EntitySet="Contrato" />
@@ -816,6 +796,10 @@
           <AssociationSet Name="fk_idContratoItem_itemReajuste" Association="Self.fk_idContratoItem_itemReajuste">
             <End Role="contratoItem" EntitySet="contratoItem" />
             <End Role="itemReajuste" EntitySet="itemReajuste" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_pICI" Association="Self.fk_idContratoItem_pICI">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="pICI" EntitySet="pICI" />
           </AssociationSet>
           <AssociationSet Name="fk_idContratoItem_subProyectoContratoItem" Association="Self.fk_idContratoItem_subProyectoContratoItem">
             <End Role="contratoItem" EntitySet="contratoItem" />
@@ -857,10 +841,6 @@
             <End Role="planInversion" EntitySet="planInversion" />
             <End Role="pICI" EntitySet="pICI" />
           </AssociationSet>
-          <AssociationSet Name="fk_idPlanInversion_pIRuta" Association="Self.fk_idPlanInversion_pIRuta">
-            <End Role="planInversion" EntitySet="planInversion" />
-            <End Role="pIRuta" EntitySet="pIRuta" />
-          </AssociationSet>
           <AssociationSet Name="fk_idProyecto_Estructura_proyecto_estructura" Association="Self.fk_idProyecto_Estructura_proyecto_estructura">
             <End Role="proyecto_estructura" EntitySet="proyecto_estructura" />
             <End Role="boleta" EntitySet="boleta" />
@@ -870,12 +850,8 @@
             <End Role="boleta" EntitySet="boleta" />
           </AssociationSet>
           <AssociationSet Name="fk_idRuta_pICI" Association="Self.fk_idRuta_pICI">
-            <End Role="contratoItem" EntitySet="contratoItem" />
-            <End Role="pICI" EntitySet="pICI" />
-          </AssociationSet>
-          <AssociationSet Name="fk_idRuta_pIRuta" Association="Self.fk_idRuta_pIRuta">
             <End Role="ruta" EntitySet="ruta" />
-            <End Role="pIRuta" EntitySet="pIRuta" />
+            <End Role="pICI" EntitySet="pICI" />
           </AssociationSet>
           <AssociationSet Name="fk_idRuta_proyecto_estructura" Association="Self.fk_idRuta_proyecto_estructura">
             <End Role="ruta" EntitySet="ruta" />
@@ -891,7 +867,7 @@
           </AssociationSet>
           <AssociationSet Name="fk_idSeccionControl_progSubContrItem" Association="Self.fk_idSeccionControl_progSubContrItem">
             <End Role="seccionControl" EntitySet="seccionControl" />
-            <End Role="progSubContrItem" EntitySet="progSubContrItem" />
+            <End Role="progSubContrItemSeccionControl" EntitySet="progSubContrItemSeccionControl" />
           </AssociationSet>
           <AssociationSet Name="fk_idSubProyecto_subProyectoContratoItem" Association="Self.fk_idSubProyecto_subProyectoContratoItem">
             <End Role="subProyecto" EntitySet="subProyecto" />
@@ -910,7 +886,8 @@
             <End Role="zonaRuta" EntitySet="zonaRuta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -976,12 +953,12 @@
           <NavigationProperty Name="contratista" Relationship="Self.fk_idContratista_Contrato" FromRole="Contrato" ToRole="contratista" />
           <NavigationProperty Name="contratoItem" Relationship="Self.fk_id_contratoItem_idContrato" FromRole="Contrato" ToRole="contratoItem" />
           <NavigationProperty Name="ingenieroContrato" Relationship="Self.fk_idContrato_ingenieroContrato" FromRole="Contrato" ToRole="ingenieroContrato" />
+          <NavigationProperty Name="planInversion" Relationship="Self.fk_idContrato_planInversion" FromRole="Contrato" ToRole="planInversion" />
           <NavigationProperty Name="programa" Relationship="Self.fk_idContrato_programa" FromRole="Contrato" ToRole="programa" />
           <NavigationProperty Name="subProyecto" Relationship="Self.fk_idContrato_subProyecto" FromRole="Contrato" ToRole="subProyecto" />
           <NavigationProperty Name="fondo" Relationship="Self.fk_idFondo_Contrato" FromRole="Contrato" ToRole="fondo" />
           <NavigationProperty Name="zona" Relationship="Self.fk_idZona_Contrato" FromRole="Contrato" ToRole="zona" />
           <NavigationProperty Name="laboratorioCalidad" Relationship="Self.labCalidadContrato" FromRole="Contrato" ToRole="laboratorioCalidad" />
-          <NavigationProperty Name="planInversion" Relationship="Proyecto_IAAModel.fk_idContrato_planInversion" FromRole="Contrato" ToRole="planInversion" />
         </EntityType>
         <EntityType Name="contratoItem">
           <Key>
@@ -995,8 +972,8 @@
           <NavigationProperty Name="Contrato" Relationship="Self.fk_id_contratoItem_idContrato" FromRole="contratoItem" ToRole="Contrato" />
           <NavigationProperty Name="item" Relationship="Self.fk_id_contratoItem_idItem" FromRole="contratoItem" ToRole="item" />
           <NavigationProperty Name="itemReajuste" Relationship="Self.fk_idContratoItem_itemReajuste" FromRole="contratoItem" ToRole="itemReajuste" />
+          <NavigationProperty Name="pICI" Relationship="Self.fk_idContratoItem_pICI" FromRole="contratoItem" ToRole="pICI" />
           <NavigationProperty Name="subproyectoContratoItem" Relationship="Self.fk_idContratoItem_subProyectoContratoItem" FromRole="contratoItem" ToRole="subproyectoContratoItem" />
-          <NavigationProperty Name="pICI" Relationship="Proyecto_IAAModel.fk_idRuta_pICI" FromRole="contratoItem" ToRole="pICI" />
         </EntityType>
         <EntityType Name="fondo">
           <Key>
@@ -1084,6 +1061,31 @@
           <NavigationProperty Name="telefono" Relationship="Self.fk_id_telefono" FromRole="persona" ToRole="telefono" />
           <NavigationProperty Name="usuario" Relationship="Self.fk_idPersona_usuario" FromRole="persona" ToRole="usuario" />
         </EntityType>
+        <EntityType Name="pICI">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idPlanInversion" Type="Int32" Nullable="false" />
+          <Property Name="idContratoItem" Type="Int32" Nullable="false" />
+          <Property Name="idRuta" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_pICI" FromRole="pICI" ToRole="contratoItem" />
+          <NavigationProperty Name="planInversion" Relationship="Self.fk_idPlanInversion_pICI" FromRole="pICI" ToRole="planInversion" />
+          <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_pICI" FromRole="pICI" ToRole="ruta" />
+        </EntityType>
+        <EntityType Name="planInversion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idContrato" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="mes" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ano" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_planInversion" FromRole="planInversion" ToRole="Contrato" />
+          <NavigationProperty Name="pICI" Relationship="Self.fk_idPlanInversion_pICI" FromRole="planInversion" ToRole="pICI" />
+        </EntityType>
         <EntityType Name="programa">
           <Key>
             <PropertyRef Name="id" />
@@ -1097,7 +1099,7 @@
           <Property Name="fechaFin" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_programa" FromRole="programa" ToRole="Contrato" />
           <NavigationProperty Name="programaSubProyectoContratoItem" Relationship="Self.fk_idContrato_programaSubProyectoContratoItem" FromRole="programa" ToRole="programaSubProyectoContratoItem" />
-          <NavigationProperty Name="seccionControl" Relationship="Self.progSubContrItem" FromRole="programa" ToRole="seccionControl" />
+          <NavigationProperty Name="seccionControl" Relationship="Self.progSubContrItemSeccionControl" FromRole="programa" ToRole="seccionControl" />
         </EntityType>
         <EntityType Name="programaSubProyectoContratoItem">
           <Key>
@@ -1127,10 +1129,10 @@
           <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="boleta" Relationship="Self.fk_idRuta_boleta" FromRole="ruta" ToRole="boleta" />
+          <NavigationProperty Name="pICI" Relationship="Self.fk_idRuta_pICI" FromRole="ruta" ToRole="pICI" />
           <NavigationProperty Name="proyecto_estructura" Relationship="Self.fk_idRuta_proyecto_estructura" FromRole="ruta" ToRole="proyecto_estructura" />
           <NavigationProperty Name="seccionControl" Relationship="Self.fk_idRuta_seccionControl" FromRole="ruta" ToRole="seccionControl" />
           <NavigationProperty Name="zona" Relationship="Self.zonaRuta" FromRole="ruta" ToRole="zona" />
-          <NavigationProperty Name="planInversion" Relationship="Proyecto_IAAModel.pIRuta" FromRole="ruta" ToRole="planInversion" />
         </EntityType>
         <EntityType Name="seccionControl">
           <Key>
@@ -1141,7 +1143,7 @@
           <Property Name="seccion" Type="Int32" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_seccionControl" FromRole="seccionControl" ToRole="ruta" />
-          <NavigationProperty Name="programa" Relationship="Self.progSubContrItem" FromRole="seccionControl" ToRole="programa" />
+          <NavigationProperty Name="programa" Relationship="Self.progSubContrItemSeccionControl" FromRole="seccionControl" ToRole="programa" />
         </EntityType>
         <EntityType Name="subProyecto">
           <Key>
@@ -1312,6 +1314,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_idContrato_planInversion">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="planInversion" Type="Self.planInversion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="planInversion">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_idContrato_programa">
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
           <End Role="programa" Type="Self.programa" Multiplicity="*" />
@@ -1380,6 +1394,18 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="itemReajuste">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_pICI">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pICI">
               <PropertyRef Name="idContratoItem" />
             </Dependent>
           </ReferentialConstraint>
@@ -1456,6 +1482,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_idPlanInversion_pICI">
+          <End Role="planInversion" Type="Self.planInversion" Multiplicity="1" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="planInversion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pICI">
+              <PropertyRef Name="idPlanInversion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_pICI">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pICI">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_idContrato_programaSubProyectoContratoItem">
           <End Role="programa" Type="Self.programa" Multiplicity="1" />
           <End Role="programaSubProyectoContratoItem" Type="Self.programaSubProyectoContratoItem" Multiplicity="*" />
@@ -1520,7 +1570,7 @@
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
           <End Role="laboratorioCalidad" Type="Self.laboratorioCalidad" Multiplicity="*" />
         </Association>
-        <Association Name="progSubContrItem">
+        <Association Name="progSubContrItemSeccionControl">
           <End Role="programa" Type="Self.programa" Multiplicity="*" />
           <End Role="seccionControl" Type="Self.seccionControl" Multiplicity="*" />
         </Association>
@@ -1542,6 +1592,8 @@
           <EntitySet Name="itemReajuste" EntityType="Self.itemReajuste" />
           <EntitySet Name="laboratorioCalidad" EntityType="Self.laboratorioCalidad" />
           <EntitySet Name="persona" EntityType="Self.persona" />
+          <EntitySet Name="pICI" EntityType="Self.pICI" />
+          <EntitySet Name="planInversion" EntityType="Self.planInversion" />
           <EntitySet Name="programa" EntityType="Self.programa" />
           <EntitySet Name="programaSubProyectoContratoItem" EntityType="Self.programaSubProyectoContratoItem" />
           <EntitySet Name="proyecto_estructura" EntityType="Self.proyecto_estructura" />
@@ -1592,6 +1644,10 @@
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="ingenieroContrato" EntitySet="ingenieroContrato" />
           </AssociationSet>
+          <AssociationSet Name="fk_idContrato_planInversion" Association="Self.fk_idContrato_planInversion">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="planInversion" EntitySet="planInversion" />
+          </AssociationSet>
           <AssociationSet Name="fk_idContrato_programa" Association="Self.fk_idContrato_programa">
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="programa" EntitySet="programa" />
@@ -1615,6 +1671,10 @@
           <AssociationSet Name="fk_idContratoItem_itemReajuste" Association="Self.fk_idContratoItem_itemReajuste">
             <End Role="contratoItem" EntitySet="contratoItem" />
             <End Role="itemReajuste" EntitySet="itemReajuste" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_pICI" Association="Self.fk_idContratoItem_pICI">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="pICI" EntitySet="pICI" />
           </AssociationSet>
           <AssociationSet Name="fk_idContratoItem_subProyectoContratoItem" Association="Self.fk_idContratoItem_subProyectoContratoItem">
             <End Role="contratoItem" EntitySet="contratoItem" />
@@ -1640,6 +1700,14 @@
             <End Role="persona" EntitySet="persona" />
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
+          <AssociationSet Name="fk_idPlanInversion_pICI" Association="Self.fk_idPlanInversion_pICI">
+            <End Role="planInversion" EntitySet="planInversion" />
+            <End Role="pICI" EntitySet="pICI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_pICI" Association="Self.fk_idRuta_pICI">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="pICI" EntitySet="pICI" />
+          </AssociationSet>
           <AssociationSet Name="fk_idContrato_programaSubProyectoContratoItem" Association="Self.fk_idContrato_programaSubProyectoContratoItem">
             <End Role="programa" EntitySet="programa" />
             <End Role="programaSubProyectoContratoItem" EntitySet="programaSubProyectoContratoItem" />
@@ -1664,7 +1732,7 @@
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="laboratorioCalidad" EntitySet="laboratorioCalidad" />
           </AssociationSet>
-          <AssociationSet Name="progSubContrItem" Association="Self.progSubContrItem">
+          <AssociationSet Name="progSubContrItemSeccionControl" Association="Self.progSubContrItemSeccionControl">
             <End Role="programa" EntitySet="programa" />
             <End Role="seccionControl" EntitySet="seccionControl" />
           </AssociationSet>
@@ -1672,89 +1740,7 @@
             <End Role="ruta" EntitySet="ruta" />
             <End Role="zona" EntitySet="zona" />
           </AssociationSet>
-          <EntitySet Name="pICI" EntityType="Proyecto_IAAModel.pICI" />
-          <EntitySet Name="planInversion" EntityType="Proyecto_IAAModel.planInversion" />
-          <AssociationSet Name="fk_idContrato_planInversion" Association="Proyecto_IAAModel.fk_idContrato_planInversion">
-            <End Role="Contrato" EntitySet="Contrato" />
-            <End Role="planInversion" EntitySet="planInversion" />
-          </AssociationSet>
-          <AssociationSet Name="fk_idRuta_pICI" Association="Proyecto_IAAModel.fk_idRuta_pICI">
-            <End Role="contratoItem" EntitySet="contratoItem" />
-            <End Role="pICI" EntitySet="pICI" />
-          </AssociationSet>
-          <AssociationSet Name="fk_idPlanInversion_pICI" Association="Proyecto_IAAModel.fk_idPlanInversion_pICI">
-            <End Role="planInversion" EntitySet="planInversion" />
-            <End Role="pICI" EntitySet="pICI" />
-          </AssociationSet>
-          <AssociationSet Name="pIRuta" Association="Proyecto_IAAModel.pIRuta">
-            <End Role="planInversion" EntitySet="planInversion" />
-            <End Role="ruta" EntitySet="ruta" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="pICI">
-          <Key>
-            <PropertyRef Name="idPlanInversion" />
-            <PropertyRef Name="idContratoItem" />
-          </Key>
-          <Property Name="idPlanInversion" Type="Int32" Nullable="false" />
-          <Property Name="idContratoItem" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
-          <NavigationProperty Name="contratoItem" Relationship="Proyecto_IAAModel.fk_idRuta_pICI" FromRole="pICI" ToRole="contratoItem" />
-          <NavigationProperty Name="planInversion" Relationship="Proyecto_IAAModel.fk_idPlanInversion_pICI" FromRole="pICI" ToRole="planInversion" />
-        </EntityType>
-        <EntityType Name="planInversion">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idContrato" Type="Int32" Nullable="false" />
-          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="mes" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="ano" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="Contrato" Relationship="Proyecto_IAAModel.fk_idContrato_planInversion" FromRole="planInversion" ToRole="Contrato" />
-          <NavigationProperty Name="pICI" Relationship="Proyecto_IAAModel.fk_idPlanInversion_pICI" FromRole="planInversion" ToRole="pICI" />
-          <NavigationProperty Name="ruta" Relationship="Proyecto_IAAModel.pIRuta" FromRole="planInversion" ToRole="ruta" />
-        </EntityType>
-        <Association Name="fk_idContrato_planInversion">
-          <End Type="Proyecto_IAAModel.Contrato" Role="Contrato" Multiplicity="1" />
-          <End Type="Proyecto_IAAModel.planInversion" Role="planInversion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contrato">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="planInversion">
-              <PropertyRef Name="idContrato" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_idRuta_pICI">
-          <End Type="Proyecto_IAAModel.contratoItem" Role="contratoItem" Multiplicity="1" />
-          <End Type="Proyecto_IAAModel.pICI" Role="pICI" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="contratoItem">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="pICI">
-              <PropertyRef Name="idContratoItem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_idPlanInversion_pICI">
-          <End Type="Proyecto_IAAModel.planInversion" Role="planInversion" Multiplicity="1" />
-          <End Type="Proyecto_IAAModel.pICI" Role="pICI" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="planInversion">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="pICI">
-              <PropertyRef Name="idPlanInversion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="pIRuta">
-          <End Type="Proyecto_IAAModel.planInversion" Role="planInversion" Multiplicity="*" />
-          <End Type="Proyecto_IAAModel.ruta" Role="ruta" Multiplicity="*" />
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1902,6 +1888,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="pICI">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.pICI">
+              <MappingFragment StoreEntitySet="pICI">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idPlanInversion" ColumnName="idPlanInversion" />
+                <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
+                <ScalarProperty Name="idRuta" ColumnName="idRuta" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="planInversion">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.planInversion">
+              <MappingFragment StoreEntitySet="planInversion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="mes" ColumnName="mes" />
+                <ScalarProperty Name="ano" ColumnName="ano" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="programa">
             <EntityTypeMapping TypeName="Proyecto_IAAModel.programa">
               <MappingFragment StoreEntitySet="programa">
@@ -2004,7 +2012,7 @@
               <ScalarProperty Name="id" ColumnName="idLabCalidad" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="progSubContrItem" TypeName="Proyecto_IAAModel.progSubContrItem" StoreEntitySet="progSubContrItem">
+          <AssociationSetMapping Name="progSubContrItemSeccionControl" TypeName="Proyecto_IAAModel.progSubContrItemSeccionControl" StoreEntitySet="progSubContrItemSeccionControl">
             <EndProperty Name="programa">
               <ScalarProperty Name="id" ColumnName="idPrograma" />
             </EndProperty>
@@ -2018,34 +2026,6 @@
             </EndProperty>
             <EndProperty Name="zona">
               <ScalarProperty Name="id" ColumnName="idZona" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <EntitySetMapping Name="pICI">
-            <EntityTypeMapping TypeName="Proyecto_IAAModel.pICI">
-              <MappingFragment StoreEntitySet="pICI">
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
-                <ScalarProperty Name="idPlanInversion" ColumnName="idPlanInversion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="planInversion">
-            <EntityTypeMapping TypeName="Proyecto_IAAModel.planInversion">
-              <MappingFragment StoreEntitySet="planInversion">
-                <ScalarProperty Name="ano" ColumnName="ano" />
-                <ScalarProperty Name="mes" ColumnName="mes" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="pIRuta" TypeName="Proyecto_IAAModel.pIRuta" StoreEntitySet="pIRuta">
-            <EndProperty Name="ruta">
-              <ScalarProperty Name="id" ColumnName="idRuta" />
-            </EndProperty>
-            <EndProperty Name="planInversion">
-              <ScalarProperty Name="id" ColumnName="idPlanInversion" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

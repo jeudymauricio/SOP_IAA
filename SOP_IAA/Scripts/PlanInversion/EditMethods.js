@@ -1,10 +1,10 @@
 ﻿/*
- *---------------------------------------------- Métodos de la vista 'Create' del PlanInversionController ---------------------------------------------- 
+ *---------------------------------------------- Métodos de la vista 'Edit' del PlanInversionController ---------------------------------------------- 
  */
 
 // Varible contador que permite asignar nombre único a cada elemento agregado
-var panelCounter = 1;
-var rowCounter = 1;
+//var panelCounter = 1;
+//var rowCounter = 1;
 
 // Variable contador que indica el número de panels agregados
 var panels = 0;
@@ -12,8 +12,8 @@ var panels = 0;
 $(document).ready(
 
     function () {
-        panelCounter = 1;
-        rowCounter = 1;
+        //panelCounter = 1;
+        //rowCounter = 1;
         // Regla para los números (verificar que se trata de un número y que no hay letras en el)
         jQuery.validator.addMethod("isNumberDecimal", function (value, element) {
             return this.optional(element) || !isNaN(removeCurrency(value));
@@ -54,8 +54,40 @@ $(document).ready(
         },
         $.datepicker.setDefaults($.datepicker.regional['es']);
 
+        // Se remueve la validadción de la fecha
         $('#txtFecha').rules('remove');
         
+        // Se recorren los paneles para eliminar las opciones existentes de los dropdown
+        // Se listan todos los items de la tabla
+        $('#rutasAcordeon > div').each(function () {
+
+            // se almacena el id de la ruta
+            var _idRuta = $(this).attr('id').substring(5);
+
+            // Se elimina la ruta del dropdown
+            $("#ddlRutas option[value='" + _idRuta + "']").remove();
+
+            // Se recorre la tabla interna que contiene los ítems de la ruta
+            $(this).children('div:last').find('.table').children('tbody').children('tr').each(function () {
+                
+                // Se elimina el item del dropdown de ítems de la ruta
+                $("#ddlItems" + _idRuta + " option[value='" + $(this).attr('id') + "']").remove();
+
+                // Se agregan las validaciones de cantidad
+                $(this).children("td").eq(4).find('input:eq(0)').rules('add', {
+                    number: true, // Validación de números
+                    isNumberDecimal: true,
+                    required: true, // Validación de campos vacíos
+                    messages: {
+                        required: "Debe ingresar una cantidad.",
+                        number: "Ingrese una cantidad válida.",
+                        isNumberDecimal: "Ingrese una cantidad válida." // Validación propia declarada en el inicio del document.ready()
+                    }
+                }); // 
+            }); // 
+        }); // Fin de #rutasAcordeon.each
+
+
         // Función que permite agregar una ruta al panel principal
         $('#btnAgregarRuta').click(function () {
             var dd = document.getElementById('ddlRutas');
@@ -75,10 +107,10 @@ $(document).ready(
             panel += '<h4 class="panel-title">';
 
             // Este id identificará al div que contendrá tanto el dropdown como la tabla con les detalles de item por ruta
-            panel += '<a data-toggle="collapse" data-parent="#accordion" href="#collapse' + panelCounter + '" class="collapsed" aria-expanded="false"> Ruta ' + dd.options[dd.selectedIndex].text + '</a>';
+            panel += '<a data-toggle="collapse" data-parent="#accordion" href="#collapse' + _id + '" class="collapsed" aria-expanded="false"> Ruta ' + dd.options[dd.selectedIndex].text + '</a>';
             panel += '<button type="button" class="btn btn-warning btn-xs pull-right" onclick="eliminarRuta(' + _id + ',' + dd.options[dd.selectedIndex].text + ')"> Excluir Ruta </button>';
             panel += '</h4></div>';
-            panel += '<div id="collapse' + panelCounter + '" class="panel-collapse collapse" aria-expanded="false">';
+            panel += '<div id="collapse' + _id + '" class="panel-collapse collapse" aria-expanded="false">';
             panel += '<div class="panel-body">';
 
             //Cuerpo del panel -- Donde se cargarán los ítems
@@ -86,7 +118,7 @@ $(document).ready(
             panel += '<div class="col-sm-12">';
 
             // El dropdown donde está la lista de items, posee el mismo número de id que el panel global donde está
-            panel += '<select id = "ddlItems' + panelCounter + '">';
+            panel += '<select id = "ddlItems' + _id + '">';
             
             // Se carga el dropdown con los items (almacenados en la variable global del create.cshtml)
             for (var x = 0; x < itemList.length; x++) {
@@ -94,14 +126,14 @@ $(document).ready(
             }
             panel += '</select>';
 
-            panel += '<input class="btn btn-primary" type="button" id="btnAgregarItem' + panelCounter + '" value="Incluir Ítem" onclick="agregarItem(' + panelCounter + ')"/>';
-            panel += '<img src="/Content/Images/loading.gif" id="loadingGif' + panelCounter + '" style="display: none;" />';
+            panel += '<input class="btn btn-primary" type="button" id="btnAgregarItem' + _id + '" value="Incluir Ítem" onclick="agregarItem(' + _id + ')"/>';
+            panel += '<img src="/Content/Images/loading.gif" id="loadingGif' + _id + '" style="display: none;" />';
             panel += '</div>';
             panel += '</div>';
             panel += '<div class="table-responsive">';
 
             // La tabla dinámica donde se almacenarán los items de cada ruta, posee el mismo número de id que el panel global donde está
-            panel += '<table id="tbItems' + panelCounter + '" class="table">';
+            panel += '<table id="tbItems' + _id + '" class="table">';
             panel += '<thead>';
             panel += '<tr>';
             panel += '<th>Item</th>';
@@ -119,7 +151,7 @@ $(document).ready(
             $('#rutasAcordeon').append(panel);
 
             // Se procede a marcar como autocomplete el dropdown items del panel
-            var ddl = 'ddlItems' + panelCounter;
+            var ddl = 'ddlItems' + _id;
             var dd2 = document.getElementById(ddl);
             $(dd2).combobox();
 
@@ -130,16 +162,16 @@ $(document).ready(
             //panels++;
 
             // Se aumenta el contador
-            panelCounter += 1;
+            //panelCounter += 1;
 
             // Se habilita nuevamente el botón
             $(this).toggleClass('disabled', false);
         });
 
         //Antes de ir a la acción Post del submit, se agrega la lista de rutas y sus ítems
-        $("#formCreate").submit(function (eventObj) {
+        $("#formEdit").submit(function (eventObj) {
 
-            $("input[name='create']").toggleClass('disabled', true);
+            $("input[name='edit']").toggleClass('disabled', true);
             $("#loadingGif").show();
 
             // Array JSON que contendrá los id de las rutas y sus items
@@ -193,7 +225,7 @@ $(document).ready(
 
             // Se verifica si debe hacerse el submit o no
             if (!doSubmit) {
-                $("input[name='create']").toggleClass('disabled', false)
+                $("input[name='edit']").toggleClass('disabled', false)
                 $("#loadingGif").hide();
                 return false;
             }
@@ -205,7 +237,7 @@ $(document).ready(
             $('<input />').attr('type', 'hidden')
                 .attr('name', 'jsonRutas')
                 .attr('value', $.toJSON(_jsonRutas))
-                .appendTo('#formCreate');
+                .appendTo('#formEdit');
 
             return true;
         });
@@ -222,40 +254,40 @@ function eliminarRuta(_id, _ruta) {
 }
 
 // Función que elimina la fila de un ítem de la lista
-function eliminarItem(_panelCounter, _id, _codigoItem) {
+function eliminarItem(_idRuta, _id, _codigoItem) {
 
     //debugger;
     // Se agrega nuevamente el item al dropdown
-    $("<option value=" + _id + ">" + _codigoItem + "</option>").appendTo('#ddlItems' + _panelCounter);
+    $("<option value=" + _id + ">" + _codigoItem + "</option>").appendTo('#ddlItems' + _idRuta);
 
     // Actualiza el dropdown
-    var dd = document.getElementById('ddlItems' + _panelCounter);
+    var dd = document.getElementById('ddlItems' + _idRuta);
     try {
-        $('#collapse' + _panelCounter + '').find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+        $('#collapse' + _idRuta + '').find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
     }
     catch (error) {
-        $('#collapse' + _panelCounter + '').find('span.custom-combobox').find('input:text').val('');
+        $('#collapse' + _idRuta + '').find('span.custom-combobox').find('input:text').val('');
     }
 
     // Elimina la fila con la información
-    $('#tbItems' + _panelCounter + ' tr[id="'+_id+'"]').remove();
+    $('#tbItems' + _idRuta + ' tr[id="' + _id + '"]').remove();
 }
 
 
-function agregarItem(_panelCounter) {
+function agregarItem(_idRuta) {
 
     // Se deshabilita el boton mientras se realiza la acción
-    var btn = '#btnAgregarItem' + _panelCounter;
+    var btn = '#btnAgregarItem' + _idRuta;
     $(btn).toggleClass('disabled', true);
 
-    var dd = document.getElementById('ddlItems' + _panelCounter);
-    $("#loadingGif" + _panelCounter + "").show();
+    var dd = document.getElementById('ddlItems' + _idRuta);
+    $("#loadingGif" + _idRuta + "").show();
     try {
         // Se trata de obtener el valor del dropdown
         var _id = dd.options[dd.selectedIndex].value;
 
     } catch (error) {
-        $("#loadingGif" + _panelCounter + "").hide();
+        $("#loadingGif" + _idRuta + "").hide();
         // Se habilita nuevamente el botón
         $(btn).toggleClass('disabled', false);
         return false;
@@ -279,20 +311,20 @@ function agregarItem(_panelCounter) {
             // Columna de Precio
             fila += '<td align="center"><input class="form-control" style="min-width: 100px; text-align:right" disabled="disabled" value="₡' + numberFormatCR(json.precio) + '"></td>';
             // Columna de cantidad
-            fila += '<td align="center"><input class="form-control" style="min-width: 100px; text-align:right"  onchange="alpha($(this))" id="txtCantidad' + rowCounter + '" name="txtCantidad' + rowCounter + '" type="text" value="0,000">'; /*</td>*/
-            fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtCantidad' + rowCounter + '" data-valmsg-replace="true"></span> </td>';
+            fila += '<td align="center"><input class="form-control" style="min-width: 100px; text-align:right"  onchange="alpha($(this))" id="txtCantidad' + _id + '" name="txtCantidad' + _id + '" type="text" value="0,000">'; /*</td>*/
+            fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtCantidad' + _id + '" data-valmsg-replace="true"></span> </td>';
             // Columna de monto total
             fila += '<td align="center"><input class="form-control" style="min-width: 100px; text-align:right" disabled="disabled" value="₡0,0000"></td>';
             // Botón de excluir
-            fila += '<td align="center"><button type="button" class="btn btn-warning" onclick="eliminarItem(' + _panelCounter + ',' + _id + ',\'' + json.codigoItem + '\')">Excluir Item</button> </td></tr>';
+            fila += '<td align="center"><button type="button" class="btn btn-warning" onclick="eliminarItem(' + _idRuta + ',' + _id + ',\'' + json.codigoItem + '\')">Excluir Item</button> </td></tr>';
 
 
 
             //Agrega el ingeniero a la tabla htlm
-            $('#tbItems' + _panelCounter + ' > tbody:last').append(fila);
+            $('#tbItems' + _idRuta + ' > tbody:last').append(fila);
 
             // Se agregan las validaciones de precio
-            $('#tbItems' + _panelCounter + ' > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
+            $('#tbItems' + _idRuta + ' > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
                 number: true, // Validación de números
                 required: true, // Validación de campos vacíos
                 isNumberDecimal: true, // Validación de decimales
@@ -304,20 +336,20 @@ function agregarItem(_panelCounter) {
             });
             
             // Aumenta el Contador
-            rowCounter += 1;
+            //rowCounter += 1;
 
             //Elimina el item del dropdownlist
-            $('#ddlItems' + _panelCounter + ' option:selected').remove();
+            $('#ddlItems' + _idRuta + ' option:selected').remove();
 
             // Actualiza el dropdown
             try {
-                $('#collapse'+_panelCounter+'').find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+                $('#collapse' + _idRuta + '').find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
             }
             catch (error) {
-                $('#collapse' + _panelCounter + '').find('span.custom-combobox').find('input:text').val('');
+                $('#collapse' + _idRuta + '').find('span.custom-combobox').find('input:text').val('');
             }
 
-            $("#loadingGif" + _panelCounter + "").hide();
+            $("#loadingGif" + _idRuta + "").hide();
             // Se habilita nuevamente el botón
             $(btn).toggleClass('disabled', false);
         },
@@ -342,7 +374,7 @@ function agregarItem(_panelCounter) {
                 alert('Error: \n ' + errorThrown + 'Reitente de nuevo.');
             }
 
-            $("#loadingGif" + _panelCounter + "").hide();
+            $("#loadingGif" + _idRuta + "").hide();
             // Se habilita nuevamente el botón
             $(btn).toggleClass('disabled', false);
         }

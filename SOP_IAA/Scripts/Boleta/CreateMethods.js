@@ -419,8 +419,8 @@ function alpha(_this) {
     try {
 
         // Se convierten los valores a decimal
-        cantidad = new Decimal(cantidad);
-        precio = new Decimal(precio);
+        cantidad = new Decimal(cantidad).toDP(3);
+        precio = new Decimal(precio).toDP(4);
         
         var _ct = new Decimal(precio.times(cantidad)).toDP(4);
         var _rd = estFinal.minus(estInicial);

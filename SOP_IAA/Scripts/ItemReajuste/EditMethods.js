@@ -22,7 +22,7 @@ $(document).ready(
         });
 
         $('#tbReajustes > tbody  > tr').each(function () {
-            $(  this).children("td").eq(4).find('input:eq(0)').rules('add', {
+            $(this).children("td").eq(4).find('input:eq(0)').rules('add', {
                 number: true, // Validación de números
                 isNumberDecimal: true,
                 range: [0, 999],
@@ -184,8 +184,8 @@ function alpha(_this) {
     try {
 
         // Se convierten los valores a decimal
-        precioActual = new Decimal(precioActual);
-        reajuste = new Decimal(reajuste);
+        precioActual = new Decimal(precioActual).toDP(4)
+        reajuste = new Decimal(reajuste).toDP(4);
 
         // Se pasa a valor decimal el porcentaje de reajuste
         var _reajusteDecimal = new Decimal(reajuste.dividedBy(100));
