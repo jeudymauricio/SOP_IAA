@@ -293,22 +293,6 @@ insert into inspector (idPersona) values
 go
 
 -------------------------------------------------------------------------------
-insert into tipoProyecto (nombre) values 
-	('Mejoramiento derecho via'),
-	('Mejoramiento sistema drenaje'),
-	('Mejoramiento de Puentes'),
-	('Bacheos'),
-	('Chapea'),
-	('Mejoramiento de sistema cunetas y sistema drenajes'),
-	('Ampliación'),
-	('Construcción'),
-	('Mejoramiento'),
-	('Mejoramiento Entroque'),
-	('Muros'),
-	('Mantenimiento')
-go
-
--------------------------------------------------------------------------------
 SET IDENTITY_INSERT [dbo].[contratoItem] ON   -- Apaga el auto incremento Identity
 GO
 insert into contratoItem (id, idContrato, idItem, precioUnitario) VALUES
@@ -438,77 +422,77 @@ GO
 
 --- Reajustes de 7 meses de los primeros 10 ítems
 -------------------------------------------------------------------------------
-INSERT INTO itemReajuste (idContratoItem,fecha,reajuste,precioReajustado) VALUES 
-	('1','2011-09-01','0.08794',' 31,008.37 '),
-	('2','2011-09-01','0.09226',' 5,831.13 '),
-	('3','2011-09-01','0.08433',' 1,764.81 '),
-	('4','2011-09-01','0.09612',' 42.99 '),
-	('5','2011-09-01','0.0876',' 19,087.60 '),
-	('6','2011-09-01','0.0899',' 19,950.78 '),
-	('7','2011-09-01','0.08201',' 148.52 '),
-	('8','2011-09-01','0.10737',' 62,013.69 '),
-	('9','2011-09-01','0.10561',' 68,345.00 '),
-	('10','2011-09-01','0.08165',' 771.75 '),
-	('1','2011-10-01','0.08132',' 33,529.97 '),
-	('2','2011-10-01','0.08781',' 6,343.16 '),
-	('3','2011-10-01','0.07768',' 1,901.90 '),
-	('4','2011-10-01','0.09335',' 47.00 '),
-	('5','2011-10-01','0.08128',' 20,639.04 '),
-	('6','2011-10-01','0.08408',' 21,628.24 '),
-	('7','2011-10-01','0.07322',' 159.39 '),
-	('8','2011-10-01','0.06751',' 66,200.24 '),
-	('9','2011-10-01','0.06886',' 73,051.23 '),
-	('10','2011-10-01','0.07178',' 827.14 '),
-	('1','2011-11-01','0.07848',' 36,161.40 '),
-	('2','2011-11-01','0.08599',' 6,888.61 '),
-	('3','2011-11-01','0.07513',' 2,044.79 '),
-	('4','2011-11-01','0.0923',' 51.34 '),
-	('5','2011-11-01','0.07866',' 22,262.50 '),
-	('6','2011-11-01','0.08159',' 23,392.89 '),
-	('7','2011-11-01','0.0695',' 170.47 '),
-	('8','2011-11-01','0.06626',' 70,586.67 '),
-	('9','2011-11-01','0.06768',' 77,995.34 '),
-	('10','2011-11-01','0.06741',' 882.90 '),
-	('1','2011-12-01','0.08196',' 39,125.19 '),
-	('2','2011-12-01','0.08881',' 7,500.39 '),
-	('3','2011-12-01','0.08015',' 2,208.68 '),
-	('4','2011-12-01','0.0944',' 56.19 '),
-	('5','2011-12-01','0.08245',' 24,098.05 '),
-	('6','2011-12-01','0.08467',' 25,373.57 '),
-	('7','2011-12-01','0.07433',' 183.14 '),
-	('8','2011-12-01','0.06931',' 75,479.03 '),
-	('9','2011-12-01','0.0706',' 83,501.81 '),
-	('10','2011-12-01','0.07177',' 946.27 '),
-	('1','2012-01-01','0.09862',' 42,983.71 '),
-	('2','2012-01-01','0.10543',' 8,291.15 '),
-	('3','2012-01-01','0.09392',' 2,416.12 '),
-	('4','2012-01-01','0.11137',' 62.45 '),
-	('5','2012-01-01','0.09835',' 26,468.09 '),
-	('6','2012-01-01','0.1016',' 27,951.52 '),
-	('7','2012-01-01','0.08972',' 199.57 '),
-	('8','2012-01-01','0.0798',' 81,502.26 '),
-	('9','2012-01-01','0.08137',' 90,296.35 '),
-	('10','2012-01-01','0.08865',' 1,030.15 '),
-	('1','2012-02-01','0.08524',' 46,647.65 '),
-	('2','2012-02-01','0.09634',' 9,089.92 '),
-	('3','2012-02-01','0.08022',' 2,609.94 '),
-	('4','2012-02-01','0.10567',' 69.04 '),
-	('5','2012-02-01','0.08549',' 28,730.85 '),
-	('6','2012-02-01','0.08984',' 30,462.69 '),
-	('7','2012-02-01','0.07193',' 213.93 '),
-	('8','2012-02-01','0.09942',' 89,605.21 '),
-	('9','2012-02-01','0.09964',' 99,293.48 '),
-	('10','2012-02-01','0.06887',' 1,101.10 '),
-	('1','2012-03-01','0.03',' 48,047.08 '),
-	('2','2012-03-01','0.03',' 9,362.62 '),
-	('3','2012-03-01','0.03',' 2,688.24 '),
-	('4','2012-03-01','0.03',' 71.12 '),
-	('5','2012-03-01','0.03',' 29,592.77 '),
-	('6','2012-03-01','0.03',' 31,376.57 '),
-	('7','2012-03-01','0.03',' 220.34 '),
-	('8','2012-03-01','0.03',' 92,293.37 '),
-	('9','2012-03-01','0.03',' 102,272.29 '),
-	('10','2012-03-01','0.03',' 1,134.13 ')
+INSERT INTO itemReajuste (idContratoItem,fecha,reajuste) VALUES 
+	('1','2011-09-01','0.08794'),
+	('2','2011-09-01','0.09226'),
+	('3','2011-09-01','0.08433'),
+	('4','2011-09-01','0.09612'),
+	('5','2011-09-01','0.0876'),
+	('6','2011-09-01','0.0899'),
+	('7','2011-09-01','0.08201'),
+	('8','2011-09-01','0.10737'),
+	('9','2011-09-01','0.10561'),
+	('10','2011-09-01','0.08165'),
+	('1','2011-10-01','0.08132'),
+	('2','2011-10-01','0.08781'),
+	('3','2011-10-01','0.07768'),
+	('4','2011-10-01','0.09335'),
+	('5','2011-10-01','0.08128'),
+	('6','2011-10-01','0.08408'),
+	('7','2011-10-01','0.07322'),
+	('8','2011-10-01','0.06751'),
+	('9','2011-10-01','0.06886'),
+	('10','2011-10-01','0.07178'),
+	('1','2011-11-01','0.07848'),
+	('2','2011-11-01','0.08599'),
+	('3','2011-11-01','0.07513'),
+	('4','2011-11-01','0.0923'),
+	('5','2011-11-01','0.07866'),
+	('6','2011-11-01','0.08159'),
+	('7','2011-11-01','0.0695'),
+	('8','2011-11-01','0.06626'),
+	('9','2011-11-01','0.06768'),
+	('10','2011-11-01','0.06741'),
+	('1','2011-12-01','0.08196'),
+	('2','2011-12-01','0.08881'),
+	('3','2011-12-01','0.08015'),
+	('4','2011-12-01','0.0944'),
+	('5','2011-12-01','0.08245'),
+	('6','2011-12-01','0.08467'),
+	('7','2011-12-01','0.07433'),
+	('8','2011-12-01','0.06931'),
+	('9','2011-12-01','0.0706'),
+	('10','2011-12-01','0.07177'),
+	('1','2012-01-01','0.09862'),
+	('2','2012-01-01','0.10543'),
+	('3','2012-01-01','0.09392'),
+	('4','2012-01-01','0.11137'),
+	('5','2012-01-01','0.09835'),
+	('6','2012-01-01','0.1016'),
+	('7','2012-01-01','0.08972'),
+	('8','2012-01-01','0.0798'),
+	('9','2012-01-01','0.08137'),
+	('10','2012-01-01','0.08865'),
+	('1','2012-02-01','0.08524'),
+	('2','2012-02-01','0.09634'),
+	('3','2012-02-01','0.08022'),
+	('4','2012-02-01','0.10567'),
+	('5','2012-02-01','0.08549'),
+	('6','2012-02-01','0.08984'),
+	('7','2012-02-01','0.07193'),
+	('8','2012-02-01','0.09942'),
+	('9','2012-02-01','0.09964'),
+	('10','2012-02-01','0.06887'),
+	('1','2012-03-01','0.03'),
+	('2','2012-03-01','0.03'),
+	('3','2012-03-01','0.03'),
+	('4','2012-03-01','0.03'),
+	('5','2012-03-01','0.03'),
+	('6','2012-03-01','0.03'),
+	('7','2012-03-01','0.03'),
+	('8','2012-03-01','0.03'),
+	('9','2012-03-01','0.03'),
+	('10','2012-03-01','0.03')
 go
 
 -------------------------------------------------------------------------------
@@ -535,26 +519,26 @@ SET IDENTITY_INSERT [dbo].[boleta] OFF   -- Eciende el auto incremento Identity
 GO
 
 -------------------------------------------------------------------------------
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('1','0','88.96','1','4149774.652','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('2','0','160.6','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('3','0','222.8','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('4','0','44','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('5','0','401.8','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('6','0','153','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('7','0','13','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('8','3.672868217','473.8','2','9362.617974','9089.920363');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('9','1.102170543','142.18','3','2688.241962','2609.943653');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('10','0','60','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('11','0','86','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('12','0','106','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('13','0','86','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('14','1.781','17.81','4','71.11551163','69.04418605');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('14','0.271','2.71','5','29592.77307','28730.84764');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('14','1.129','11.29','1','48047.07612','46647.64672');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('14','1','6','6','31376.56988','30462.6892');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('15','0','29.61','7','220.3439298','213.9261455');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('15','0','1123.92','8','92293.3657','89605.20942');
-INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem,costototal,precioUnitarioFecha) VALUES ('15','0','37.11','9','102272.286','99293.48158');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('1','0','88.96','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('2','0','160.6','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('3','0','222.8','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('4','0','44','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('5','0','401.8','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('6','0','153','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('7','0','13','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('8','3.672868217','473.8','2');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('9','1.102170543','142.18','3');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('10','0','60','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('11','0','86','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('12','0','106','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('13','0','86','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('14','1.781','17.81','4');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('14','0.271','2.71','5');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('14','1.129','11.29','1');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('14','1','6','6');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('15','0','29.61','7');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('15','0','1123.92','8');
+INSERT INTO boletaItem (idBoleta,redimientos,cantidad,idContratoItem) VALUES ('15','0','37.11','9');
 go
 
 /*
@@ -568,5 +552,6 @@ select * from contratoItem
 DBCC CHECKIDENT ('boleta', NORESEED);
 
 -- Reinicia el identity
+
 DBCC CHECKIDENT ('boleta', reseed, 1);
 */

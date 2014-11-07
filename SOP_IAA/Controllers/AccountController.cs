@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
+using SOP_IAA_DAL;
 using SOP_IAA.Models;
 
 namespace SOP_IAA.Controllers
@@ -18,6 +19,7 @@ namespace SOP_IAA.Controllers
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
+        private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
 
         public AccountController()
         {
@@ -53,22 +55,23 @@ namespace SOP_IAA.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
-        public ActionResult Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        //public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                //var user = await UserManager.FindAsync(model.Usuario, model.Clave);
-                //if (user != null)
-                if(model.Usuario.Equals("user"))
-                {
+                var user = await db.usuario.FindAsync(model.Usuario, model.Clave);
+                if (user != null) { 
+                //if(model.Usuario.Equals("user"))
+                //{
                     //await SignInAsync(user, model.Recordar);
                     return RedirectToLocal(returnUrl);
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Nombre de usuario o contraseña no válidos.");
-                }
+                    }
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("", "Nombre de usuario o contraseña no válidos.");
+                //}
                 //return RedirectToLocal(returnUrl);
             }
 
