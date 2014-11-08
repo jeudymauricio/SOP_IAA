@@ -17,43 +17,55 @@ namespace SOP_IAA.Controllers
         // GET: Inspector
         public ActionResult Index()
         {
-            var inspector = db.inspector.Include(i => i.persona);
-            return View(inspector.ToList());
+            if (access())
+            {
+                var inspector = db.inspector.Include(i => i.persona);
+                return View(inspector.ToList());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: Inspector/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                inspector inspector = db.inspector.Find(id);
+                if (inspector == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(inspector);
             }
-            inspector inspector = db.inspector.Find(id);
-            if (inspector == null)
-            {
-                return HttpNotFound();
-            }
-            return View(inspector);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: Inspector/Create
         public ActionResult Create()
         {
-            var personas = db.persona
-                  .Select(persona => new SelectListItem
-                  {
-                      Value = persona.id.ToString(),
-                      Text = persona.nombre + " " + persona.apellido1 + " " + persona.apellido2
-                  });
-            var inspectores = db.inspector.Select(i => new SelectListItem
+            if (access())
             {
-                Value = i.idPersona.ToString(),
-                Text = i.persona.nombre + " " + i.persona.apellido1 + " " + i.persona.apellido2
-            });
+                var personas = db.persona
+                      .Select(persona => new SelectListItem
+                      {
+                          Value = persona.id.ToString(),
+                          Text = persona.nombre + " " + persona.apellido1 + " " + persona.apellido2
+                      });
+                var inspectores = db.inspector.Select(i => new SelectListItem
+                {
+                    Value = i.idPersona.ToString(),
+                    Text = i.persona.nombre + " " + i.persona.apellido1 + " " + i.persona.apellido2
+                });
 
-            ViewBag.idPersona = new SelectList(personas.Except(inspectores), "Value", "Text");
+                ViewBag.idPersona = new SelectList(personas.Except(inspectores), "Value", "Text");
 
-            return View();
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: Inspector/Create
@@ -63,50 +75,59 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "idPersona")] inspector inspector)
         {
-            if (ModelState.IsValid)
+            if (access())
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    db.inspector.Add(inspector);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    try
+                    {
+                        db.inspector.Add(inspector);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception)
+                    {
+                        ModelState.AddModelError("", "Error al crear el inspector, Verifique que la persona no sea ya un inspector");
+                    }
                 }
-                catch(Exception){
-                    ModelState.AddModelError("", "Error al crear el inspector, Verifique que la persona no sea ya un inspector");
-                }
+
+                var personas = db.persona
+                      .Select(persona => new SelectListItem
+                      {
+                          Value = persona.id.ToString(),
+                          Text = persona.nombre + " " + persona.apellido1 + " " + persona.apellido2
+                      });
+                var inspectores = db.inspector.Select(i => new SelectListItem
+                {
+                    Value = i.idPersona.ToString(),
+                    Text = i.persona.nombre + " " + i.persona.apellido1 + " " + i.persona.apellido2
+                });
+
+                ViewBag.idPersona = new SelectList(personas.Except(inspectores), "Value", "Text");
+
+                return View(inspector);
             }
-
-            var personas = db.persona
-                  .Select(persona => new SelectListItem
-                  {
-                      Value = persona.id.ToString(),
-                      Text = persona.nombre + " " + persona.apellido1 + " " + persona.apellido2
-                  });
-            var inspectores = db.inspector.Select(i => new SelectListItem
-            {
-                Value = i.idPersona.ToString(),
-                Text = i.persona.nombre + " " + i.persona.apellido1 + " " + i.persona.apellido2
-            });
-
-            ViewBag.idPersona = new SelectList(personas.Except(inspectores), "Value", "Text");
-
-            return View(inspector);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: Inspector/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                inspector inspector = db.inspector.Find(id);
+                if (inspector == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", inspector.idPersona);
+                return View(inspector);
             }
-            inspector inspector = db.inspector.Find(id);
-            if (inspector == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", inspector.idPersona);
-            return View(inspector);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: Inspector/Edit/5
@@ -116,29 +137,37 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "idPersona")] inspector inspector)
         {
-            if (ModelState.IsValid)
+            if (access())
             {
-                db.Entry(inspector).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(inspector).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", inspector.idPersona);
+                return View(inspector);
             }
-            ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", inspector.idPersona);
-            return View(inspector);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: Inspector/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                inspector inspector = db.inspector.Find(id);
+                if (inspector == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(inspector);
             }
-            inspector inspector = db.inspector.Find(id);
-            if (inspector == null)
-            {
-                return HttpNotFound();
-            }
-            return View(inspector);
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: Inspector/Delete/5
@@ -146,10 +175,27 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            inspector inspector = db.inspector.Find(id);
-            db.inspector.Remove(inspector);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (access())
+            {
+                inspector inspector = db.inspector.Find(id);
+                db.inspector.Remove(inspector);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Login", "Account");
+        }
+
+
+        private Boolean access()
+        {
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         protected override void Dispose(bool disposing)

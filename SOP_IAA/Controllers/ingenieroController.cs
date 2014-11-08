@@ -22,24 +22,45 @@ namespace SOP_IAA.Controllers
         // GET: Ingeniero
         public ActionResult Index()
         {
-            var ingeniero = db.ingeniero.Include(i => i.persona);
-            return View(ingeniero.ToList());
+            if (access())
+            {
+                var ingeniero = db.ingeniero.Include(i => i.persona);
+                return View(ingeniero.ToList());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: Ingeniero/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                ingeniero ingeniero = db.ingeniero.Find(id);
+                if (ingeniero == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(ingeniero);
             }
-            ingeniero ingeniero = db.ingeniero.Find(id);
-            if (ingeniero == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ingeniero);
+            return RedirectToAction("Login", "Account");
         }
+
+        private Boolean access()
+        {
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
 
         protected override void Dispose(bool disposing)
         {

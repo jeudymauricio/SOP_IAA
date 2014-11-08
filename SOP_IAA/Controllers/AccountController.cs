@@ -60,19 +60,20 @@ namespace SOP_IAA.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await db.usuario.FindAsync(model.Usuario, model.Clave);
-                if (user != null) { 
-                //if(model.Usuario.Equals("user"))
-                //{
-                    //await SignInAsync(user, model.Recordar);
-                    return RedirectToLocal(returnUrl);
+                var userResults = from u in db.usuario
+                                  where u.nombreUsuario == model.Usuario &&
+                                  u.contrasena == model.Clave
+                                  select u;
+                IQueryable<usuario> user = userResults;
+                if (user != null)
+                {
+                    foreach (var a in user)
+                    {
+                        Session["CurrentSession"] = a;
+                        return RedirectToLocal(returnUrl);
                     }
-                //}
-                //else
-                //{
-                //    ModelState.AddModelError("", "Nombre de usuario o contraseña no válidos.");
-                //}
-                //return RedirectToLocal(returnUrl);
+                    
+                }
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario

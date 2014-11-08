@@ -17,12 +17,21 @@ namespace SOP_IAA.Controllers
         // GET: Ruta
         public ActionResult Index()
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View(db.ruta.ToList());
         }
         
         // GET: Ruta/Details/5
         public ActionResult Details(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,6 +47,11 @@ namespace SOP_IAA.Controllers
         // GET: Ruta/Create
         public ActionResult Create()
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View();
         }
         /*
@@ -61,6 +75,11 @@ namespace SOP_IAA.Controllers
         // GET: Ruta/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -92,6 +111,11 @@ namespace SOP_IAA.Controllers
         // GET: Ruta/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -122,6 +146,18 @@ namespace SOP_IAA.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private Boolean access()
+        {
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

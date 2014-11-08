@@ -17,6 +17,11 @@ namespace SOP_IAA.Controllers
         // GET: SubProyecto
         public ActionResult Index(int? idContrato)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (idContrato == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -31,6 +36,11 @@ namespace SOP_IAA.Controllers
         // GET: SubProyecto/Details/5
         public ActionResult Details(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -46,6 +56,11 @@ namespace SOP_IAA.Controllers
         // GET: SubProyecto/Create
         public ActionResult Create(int? idContrato)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (idContrato == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,6 +95,11 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,idContrato,nombre")] subProyecto subProyecto)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.subProyecto.Add(subProyecto);
@@ -94,6 +114,11 @@ namespace SOP_IAA.Controllers
         // GET: SubProyecto/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -114,6 +139,11 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,idContrato,nombre")] subProyecto subProyecto)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(subProyecto).State = EntityState.Modified;
@@ -127,6 +157,11 @@ namespace SOP_IAA.Controllers
         // GET: SubProyecto/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -144,10 +179,27 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             subProyecto subProyecto = db.subProyecto.Find(id);
             db.subProyecto.Remove(subProyecto);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        private Boolean access()
+        {
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         protected override void Dispose(bool disposing)

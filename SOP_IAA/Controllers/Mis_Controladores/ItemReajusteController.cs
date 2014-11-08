@@ -88,15 +88,20 @@ namespace SOP_IAA.Controllers
         // GET: itemReajustes/Create
         public ActionResult Create(int? idContrato)
         {
-            if (idContrato == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //ViewBag.idContratoItem = new SelectList(db.contratoItem.Where(p => p.idContrato == idContrato)
-            //    .Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
-            ViewBag.idContrato = idContrato;
+                if (idContrato == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                //ViewBag.idContratoItem = new SelectList(db.contratoItem.Where(p => p.idContrato == idContrato)
+                //    .Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
+                ViewBag.idContrato = idContrato;
 
-            return View();
+                return View();
+            }
+             return RedirectToAction("Login", "Account");
+        
         }
 
         /// <summary>

@@ -17,103 +17,92 @@ namespace SOP_IAA.Controllers
         // GET: Item
         public ActionResult Index()
         {
-            return View(db.item.ToList());
+            if (access())
+            {
+                return View(db.item.ToList());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: Item/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                item item = db.item.Find(id);
+                if (item == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(item);
             }
-            item item = db.item.Find(id);
-            if (item == null)
-            {
-                return HttpNotFound();
-            }
-            return View(item);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: Item/Create
         public ActionResult Create()
         {
-            return View();
-        }
-        /*
-        // POST: Item/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,codigoItem,descripcion,unidadMedida,precioUnitario")] item item)
-        {
-            if (ModelState.IsValid)
+            if (access())
             {
-                db.item.Add(item);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                return View();
+            } 
+            return RedirectToAction("Login", "Account");
+        }
 
-            return View(item);
-        }*/
 
         // GET: Item/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                item item = db.item.Find(id);
+                if (item == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(item);
             }
-            item item = db.item.Find(id);
-            if (item == null)
-            {
-                return HttpNotFound();
-            }
-            return View(item);
+            return RedirectToAction("Login", "Account");
         }
-        /*
-        // POST: Item/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,codigoItem,descripcion,unidadMedida,precioUnitario")] item item)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(item).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(item);
-        }*/
 
         // GET: Item/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                item item = db.item.Find(id);
+                if (item == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(item);
             }
-            item item = db.item.Find(id);
-            if (item == null)
-            {
-                return HttpNotFound();
-            }
-            return View(item);
+            return RedirectToAction("Login", "Account");
         }
-        /*
-        // POST: Item/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+
+        private Boolean access()
         {
-            item item = db.item.Find(id);
-            db.item.Remove(item);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }*/
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {

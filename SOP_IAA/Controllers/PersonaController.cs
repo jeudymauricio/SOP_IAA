@@ -17,6 +17,10 @@ namespace SOP_IAA.Controllers
         // GET: persona
         public ActionResult Index()
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var persona = db.persona.Include(p => p.ingeniero).Include(p => p.inspector).Include(p => p.usuario);
             return View(persona.ToList());
         }
@@ -24,6 +28,11 @@ namespace SOP_IAA.Controllers
         // GET: persona/Details/5
         public ActionResult Details(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +48,12 @@ namespace SOP_IAA.Controllers
         // GET: persona/Create
         public ActionResult Create()
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             ViewBag.id = new SelectList(db.ingeniero, "idPersona", "descripcion");
             ViewBag.id = new SelectList(db.inspector, "idPersona", "idPersona");
             ViewBag.id = new SelectList(db.usuario, "idPersona", "nombreUsuario");
@@ -68,6 +83,12 @@ namespace SOP_IAA.Controllers
         // GET: persona/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -105,6 +126,12 @@ namespace SOP_IAA.Controllers
         // GET: persona/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -127,6 +154,18 @@ namespace SOP_IAA.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }*/
+
+        private Boolean access()
+        {
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {

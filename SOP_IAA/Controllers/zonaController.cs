@@ -17,12 +17,22 @@ namespace SOP_IAA.Controllers
         // GET: zona
         public ActionResult Index()
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View(db.zona.ToList());
         }
 
         // GET: zona/Details/5
         public ActionResult Details(short? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,6 +48,10 @@ namespace SOP_IAA.Controllers
         // GET: zona/Create
         public ActionResult Create()
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
@@ -62,6 +76,11 @@ namespace SOP_IAA.Controllers
         // GET: zona/Edit/5
         public ActionResult Edit(short? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -94,6 +113,11 @@ namespace SOP_IAA.Controllers
         // GET: zona/Delete/5
         public ActionResult Delete(short? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -126,5 +150,18 @@ namespace SOP_IAA.Controllers
             }
             base.Dispose(disposing);
         }
+
+        private Boolean access()
+        {
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
     }
 }

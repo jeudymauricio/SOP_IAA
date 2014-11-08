@@ -17,106 +17,93 @@ namespace SOP_IAA.Controllers
         // GET: fondo
         public ActionResult Index()
         {
-            return View(db.fondo.ToList());
+            if (access())
+            {
+                return View(db.fondo.ToList());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: fondo/Details/5
         public ActionResult Details(short? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                fondo fondo = db.fondo.Find(id);
+                if (fondo == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(fondo);
             }
-            fondo fondo = db.fondo.Find(id);
-            if (fondo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(fondo);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: fondo/Create
         public ActionResult Create()
         {
-            return View();
+            if (access())
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
-        /*
-        // POST: fondo/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nombre")] fondo fondo)
-        {
-            if (ModelState.IsValid)
-            {
-                db.fondo.Add(fondo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(fondo);
-        }*/
 
         // GET: fondo/Edit/5
         public ActionResult Edit(short? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                fondo fondo = db.fondo.Find(id);
+                if (fondo == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(fondo);
             }
-            fondo fondo = db.fondo.Find(id);
-            if (fondo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(fondo);
+            return RedirectToAction("Login", "Account");
         }
 
-        /*
-        // POST: fondo/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nombre")] fondo fondo)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(fondo).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(fondo);
-        }*/
 
         // GET: fondo/Delete/5
         public ActionResult Delete(short? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            fondo fondo = db.fondo.Find(id);
-            if (fondo == null)
-            {
-                return HttpNotFound();
+            if (access()) { 
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                fondo fondo = db.fondo.Find(id);
+                if (fondo == null)
+                {
+                    return HttpNotFound();
             }
             return View(fondo);
+            }
+        return RedirectToAction("Login", "Account");
         }
 
-        /*
-        // POST: fondo/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(short id)
+
+        private Boolean access()
         {
-            fondo fondo = db.fondo.Find(id);
-            db.fondo.Remove(fondo);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }*/
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {

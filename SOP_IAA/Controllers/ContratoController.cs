@@ -17,38 +17,51 @@ namespace SOP_IAA.Controllers
         // GET: Contrato
         public ActionResult Index()
         {
-            var contrato = db.Contrato.Include(c => c.contratista).Include(c => c.fondo).Include(c => c.zona);
-            return View(contrato.ToList());
+            if(access())
+            {
+                var contrato = db.Contrato.Include(c => c.contratista).Include(c => c.fondo).Include(c => c.zona);
+                return View(contrato.ToList());
+            }
+
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: Contrato/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Contrato contrato = db.Contrato.Find(id);
+                if (contrato == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(contrato);
             }
-            Contrato contrato = db.Contrato.Find(id);
-            if (contrato == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contrato);
+            return RedirectToAction("Login", "Account");
         }
         
         // GET: Contrato/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (access())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Contrato contrato = db.Contrato.Find(id);
+                if (contrato == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(contrato);
             }
-            Contrato contrato = db.Contrato.Find(id);
-            if (contrato == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contrato);
+         return RedirectToAction("Login", "Account");
         }
 
         protected override void Dispose(bool disposing)
@@ -58,6 +71,16 @@ namespace SOP_IAA.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private Boolean access() {
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
     }
 }

@@ -19,6 +19,11 @@ namespace SOP_IAA.Controllers
         // GET: PlanInversion
         public ActionResult Index(int? idContrato)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (idContrato == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -42,6 +47,11 @@ namespace SOP_IAA.Controllers
         // GET: PlanInversion/Details/5
         public ActionResult Details(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -57,6 +67,11 @@ namespace SOP_IAA.Controllers
         // GET: PlanInversion/Create
         public ActionResult Create(int? idContrato)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (idContrato == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -83,6 +98,12 @@ namespace SOP_IAA.Controllers
         /// <returns>Json con los detalles del item del contrato(precio base de contrato)</returns>
         public ActionResult ItemDetalles(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             // Si el id está vacío se retorna un badrequest
             if (id == null)
             {
@@ -124,6 +145,12 @@ namespace SOP_IAA.Controllers
             [Bind(Include = "id,idContrato,fecha,mes,ano")] planInversion planInversion,
             [Bind(Include = "jsonRutas")] string jsonRutas)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             if (ModelState.IsValid)
             {
                 try
@@ -191,6 +218,11 @@ namespace SOP_IAA.Controllers
         /// <returns>Plan de inversión para la fecha recibida</returns>
         public ActionResult Periodo(DateTime fecha, int? idContrato)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (idContrato == null || fecha == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -218,6 +250,11 @@ namespace SOP_IAA.Controllers
         // GET: PlanInversion/Edit/5
         public ActionResult Edit(int? idPlan)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (idPlan == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -244,6 +281,11 @@ namespace SOP_IAA.Controllers
             [Bind(Include = "id,idContrato,fecha,mes,ano")] planInversion planInversion,
             [Bind(Include = "jsonRutas")] string jsonRutas)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             Contrato contrato;
             
             if (ModelState.IsValid)
@@ -318,6 +360,11 @@ namespace SOP_IAA.Controllers
         // GET: PlanInversion/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -335,6 +382,11 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             planInversion planInversion = db.planInversion.Find(id);
             db.planInversion.Remove(planInversion);
             db.SaveChanges();
@@ -348,6 +400,10 @@ namespace SOP_IAA.Controllers
         /// <returns>Si tuvo éxito retorna al index del contrato al que pertenecía el plan</returns>
         public ActionResult DeleteAllConfirmed(int? idPlan)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
             // Se busca el plan en la base de datos
             planInversion pi = db.planInversion.Find(idPlan);
 
@@ -377,6 +433,18 @@ namespace SOP_IAA.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private Boolean access()
+        {
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

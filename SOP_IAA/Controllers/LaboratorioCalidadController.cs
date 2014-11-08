@@ -17,12 +17,20 @@ namespace SOP_IAA.Controllers
         // GET: LaboratorioCalidad
         public ActionResult Index()
         {
-            return View(db.laboratorioCalidad.ToList());
+            if (access())
+            {
+                return View(db.laboratorioCalidad.ToList());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: LaboratorioCalidad/Details/5
         public ActionResult Details(short? id)
         {
+            if (!access()) {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,6 +46,10 @@ namespace SOP_IAA.Controllers
         // GET: LaboratorioCalidad/Create
         public ActionResult Create()
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
@@ -48,6 +60,11 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,nombre,tipo")] laboratorioCalidad laboratorioCalidad)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.laboratorioCalidad.Add(laboratorioCalidad);
@@ -61,6 +78,10 @@ namespace SOP_IAA.Controllers
         // GET: LaboratorioCalidad/Edit/5
         public ActionResult Edit(short? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,6 +101,10 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,nombre,tipo")] laboratorioCalidad laboratorioCalidad)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(laboratorioCalidad).State = EntityState.Modified;
@@ -92,6 +117,12 @@ namespace SOP_IAA.Controllers
         // GET: LaboratorioCalidad/Delete/5
         public ActionResult Delete(short? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,11 +140,30 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(short id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             laboratorioCalidad laboratorioCalidad = db.laboratorioCalidad.Find(id);
             db.laboratorioCalidad.Remove(laboratorioCalidad);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        private Boolean access()
+        {
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
 
         protected override void Dispose(bool disposing)
         {

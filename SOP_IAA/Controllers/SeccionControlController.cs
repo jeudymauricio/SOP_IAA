@@ -17,6 +17,11 @@ namespace SOP_IAA.Controllers
         // GET: SeccionControl
         public ActionResult Index()
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var seccionControl = db.seccionControl.Include(s => s.ruta);
             return View(seccionControl.ToList());
         }
@@ -24,6 +29,11 @@ namespace SOP_IAA.Controllers
         // GET: SeccionControl/Details/5
         public ActionResult Details(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +49,11 @@ namespace SOP_IAA.Controllers
         // GET: SeccionControl/Create
         public ActionResult Create()
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             ViewBag.idRuta = new SelectList(db.ruta, "id", "nombre");
             return View();
         }
@@ -50,6 +65,12 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,idRuta,seccion,descripcion")] seccionControl seccionControl)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             if (ModelState.IsValid)
             {
                 db.seccionControl.Add(seccionControl);
@@ -64,6 +85,12 @@ namespace SOP_IAA.Controllers
         // GET: SeccionControl/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -84,6 +111,11 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,idRuta,seccion,descripcion")] seccionControl seccionControl)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(seccionControl).State = EntityState.Modified;
@@ -97,6 +129,11 @@ namespace SOP_IAA.Controllers
         // GET: SeccionControl/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -114,6 +151,10 @@ namespace SOP_IAA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!access())
+            {
+                return RedirectToAction("Login", "Account");
+            }
             seccionControl seccionControl = db.seccionControl.Find(id);
             db.seccionControl.Remove(seccionControl);
             db.SaveChanges();
@@ -128,5 +169,18 @@ namespace SOP_IAA.Controllers
             }
             base.Dispose(disposing);
         }
+
+        private Boolean access()
+        {
+            if (Session["CurrentSession"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
     }
 }
