@@ -5,8 +5,6 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -48,7 +46,11 @@ namespace SOP_IAA.Controllers
             return View(contratoItem);
         }
 
-        // Acción de exportar las boletas de un ítem a excel (Informe Descriptivo de ítem)
+        /// <summary>
+        /// Acción de exportar las boletas de un ítem específico a excel (Informe Descriptivo de ítem)
+        /// </summary>
+        /// <param name="id"> id del item a exportar</param>
+        /// <returns></returns>
         public ActionResult exportarInformeDescriptivoItem(int? id)
         {
             // Se verifica que venga un id
@@ -231,7 +233,7 @@ namespace SOP_IAA.Controllers
 
                                 // Se rempieza a llenar los campos con los datos correspondientes
                                 worksheet.Cells["D3"].Value = "ESTIMACIÓN DESCRIPTIVA N°  FONDO " + contItem.Contrato.fondo.nombre;
-                                worksheet.Cells["D4"].Value = "Periodo del " + fecha1.ToShortDateString() + " al " + fecha2.ToShortDateString();
+                                worksheet.Cells["D4"].Value = "PERIODO DEL " + fecha1.Day + " DE " + System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName(fecha1.Month).ToUpperInvariant() + " DE " + fecha1.Year + " AL " + fecha2.Day + " DE " + System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName(fecha2.Month).ToUpperInvariant() + " DE " + fecha2.Year;
                                 worksheet.Cells["D5"].Value = contItem.Contrato.lugar;
                                 worksheet.Cells["D6"].Value = "Licitación Pública " + contItem.Contrato.licitacion;
                                 worksheet.Cells["D7"].Value = contItem.Contrato.contratista.nombre;
@@ -313,12 +315,6 @@ namespace SOP_IAA.Controllers
             }
         }
 
-      /*  [HttpPost]
-        public ActionResult exportarInformesItems(DateTime fecha1, DateTime fecha2)
-        {
-
-        }
-       * */
         [HttpPost]
         public ActionResult InformeDescriptivoItemRango(DateTime fecha1, DateTime fecha2)
         {

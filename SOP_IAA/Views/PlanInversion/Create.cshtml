@@ -40,6 +40,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Plan por Ruta
+                    <input id="txtMontoPlan" class="btn-xs pull-right" value="0,0000" disabled style="text-align:right" />
+                    <label class="pull-right btn-xs">Monto Acumulado del plan</label>
                 </div>
                 <!-- .panel-heading -->
                 <div class="panel-body">
@@ -84,6 +86,11 @@
 
     <!-- Funciones internas de crear -->
     <script src="~/Scripts/PlanInversion/CreateMethods.js"></script>
+
+    <!-- Scripts y css para el single date picker -->
+    <script src="~/Scripts/DatePicker/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="~/Content/DatePicker/bootstrap-datetimepicker.css" />
+    <script type="text/javascript" src="~/Scripts/DatePicker/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
 
     <script>
         // Variable global de lista de items del contrato

@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     <h4> </h4>
     <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
     @Html.HiddenFor(model => model.idContrato)
     @Html.HiddenFor(model => model.id)
 
@@ -40,6 +40,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Plan de Inversión para @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)@Model.mes).ToUpperInvariant() de @Model.ano
+                    <input id="txtMontoPlan" class="btn-xs pull-right" value="0,0000" disabled style="text-align:right" />
+                    <label class="pull-right btn-xs">Monto Acumulado del plan</label>
                 </div>
                 <!-- .panel-heading -->
                 <div class="panel-body">
@@ -53,6 +55,8 @@
                                         <a data-toggle="collapse" data-parent="#accordion" href="@string.Format("#collapse" + @group.First().idRuta)" aria-expanded="false" class="collapsed">Ruta @group.First().ruta.nombre</a>
                                         <!-- botón para eliminar la ruta y sus elementos del plan -->
                                         <button type="button" class="btn btn-warning btn-xs pull-right" onclick="eliminarRuta('@group.First().idRuta','@group.First().ruta.nombre')"> Excluir Ruta </button>
+                                        <input class="btn-xs pull-right" value="0,0000" disabled style="text-align:right" />
+                                        <label class="pull-right btn-xs">Monto por Ruta</label>
                                     </h4>
                                 </div>
                                 <div id="@string.Format("collapse" + @group.First().idRuta)" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
@@ -121,6 +125,7 @@
             @Html.ActionLink("Atrás", "Periodo", new { fecha = @Model.fecha, idContrato = Model.idContrato })
         </div>
         <div class="col-sm-6" style="text-align:right">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <input type="submit" name="edit" value="Guardar Cambios" class="btn btn-success" />
             <img src="~/Content/Images/loading.gif" id="loadingGif" style="display: none;" />
         </div>
@@ -147,77 +152,13 @@
     <!-- Funciones internas de crear -->
     <script src="~/Scripts/PlanInversion/EditMethods.js"></script>
 
+    <!-- Scripts y css para el single date picker -->
+    <script src="~/Scripts/DatePicker/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="~/Content/DatePicker/bootstrap-datetimepicker.css" />
+    <script type="text/javascript" src="~/Scripts/DatePicker/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
+    
     <script>
         // Variable global de lista de items del contrato
         var itemList = @Html.Raw(Json.Encode(@ViewBag.idItem))
     </script>
 }
-
-
-@*@model SOP_IAA_DAL.planInversion
-
-    @{
-        ViewBag.Title = "Edit";
-    }
-
-    <h2>Edit</h2>
-
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h4>planInversion</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.id)
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.idContrato, "idContrato", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("idContrato", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.idContrato, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.mes, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.mes, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.mes, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ano, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ano, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ano, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }
-
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
-    >*@

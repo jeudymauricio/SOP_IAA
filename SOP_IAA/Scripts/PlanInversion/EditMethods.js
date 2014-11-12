@@ -19,47 +19,27 @@ $(document).ready(
             return this.optional(element) || !isNaN(removeCurrency(value));
         }, "El valor no es un número correcto");
 
-        // Función de autocompletar de los dropdown
-        //$('#ddlItems').combobox();
-
-        // Función del DatePicker en los campos de Fecha
-        $("#txtFecha").datepicker({
-            dateFormat: 'dd/mm/yy',
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true,
-            dateFormat: 'MM yy',
-            onClose: function (dateText, inst) {
-                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                $(this).datepicker('setDate', new Date(year, month, 1));
-            }
+        // Función del DatePicker en los campos de Fecha sencillos
+        $("#txtFecha").datetimepicker({
+            language: 'es',
+            autoclose: true,
+            format: "MM yyyy",
+            startView: 'year',
+            minView: 'year'
         });
-        $.datepicker.regional['es'] = {
-            closeText: 'Cerrar',
-            prevText: 'Anterior',
-            nextText: 'Siguiente',
-            currentText: 'Hoy',
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-            weekHeader: 'Sm',
-            dateFormat: 'dd/mm/yy',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: ''
-        },
-        $.datepicker.setDefaults($.datepicker.regional['es']);
 
         // Se remueve la validadción de la fecha
         $('#txtFecha').rules('remove');
         
+
+        // Suma total de todas las rutas
+        var montoPlan = new Decimal('0').toDP(4);
         // Se recorren los paneles para eliminar las opciones existentes de los dropdown
         // Se listan todos los items de la tabla
         $('#rutasAcordeon > div').each(function () {
+
+            // Suma parcial de cada ruta
+            var montoRuta = new Decimal('0').toDP(4);
 
             // se almacena el id de la ruta
             var _idRuta = $(this).attr('id').substring(5);
@@ -84,7 +64,28 @@ $(document).ready(
                         isNumberDecimal: "Ingrese una cantidad válida." // Validación propia declarada en el inicio del document.ready()
                     }
                 }); // 
+
+                // Se actualizan los combobox
+                $("#ddlItems" + _idRuta + "").combobox();
+                var dd = document.getElementById('ddlItems' + _idRuta);
+                try {
+                    $('#collapse' + _idRuta + '').find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+                }
+                catch (error) {
+                    $('#collapse' + _idRuta + '').find('span.custom-combobox').find('input:text').val('');
+                }
+
+                // Se suman los montos de cada item
+                montoRuta = montoRuta.plus(new Decimal(removeCurrency($(this).children("td").eq(5).find('input:eq(0)').val())));
+
             }); // 
+
+            // Se actualiza el monto total de la ruta
+            $(this).children('div:first').find('.btn-xs').val('₡' + numberFormatCR(montoRuta.toFormat('', 4).toString()));
+
+            //Se agrega el monto parcial a la suma global
+            montoPlan = montoPlan.plus(montoRuta);
+            $('#txtMontoPlan').val('₡' + numberFormatCR(montoPlan.toFormat('', 4).toString()));
         }); // Fin de #rutasAcordeon.each
 
 
@@ -109,6 +110,7 @@ $(document).ready(
             // Este id identificará al div que contendrá tanto el dropdown como la tabla con les detalles de item por ruta
             panel += '<a data-toggle="collapse" data-parent="#accordion" href="#collapse' + _id + '" class="collapsed" aria-expanded="false"> Ruta ' + dd.options[dd.selectedIndex].text + '</a>';
             panel += '<button type="button" class="btn btn-warning btn-xs pull-right" onclick="eliminarRuta(' + _id + ',' + dd.options[dd.selectedIndex].text + ')"> Excluir Ruta </button>';
+            panel += '<input class="btn-xs pull-right" value="0,0000" disabled style="text-align:right"/> <label class="pull-right btn-xs">Monto por Ruta</label>';
             panel += '</h4></div>';
             panel += '<div id="collapse' + _id + '" class="panel-collapse collapse" aria-expanded="false">';
             panel += '<div class="panel-body">';
@@ -250,7 +252,10 @@ function eliminarRuta(_id, _ruta) {
     $("<option value=" + _id + ">" + _ruta + "</option>").appendTo("#ddlRutas");
 
     // Puesto que el panel comparte el id con la ruta, se elimina de la siguiente forma
-    document.getElementById("panel"+_id).remove();
+    document.getElementById("panel" + _id).remove();
+
+    // Se llama la función que actuliza los totales tanto de monto por ruta como de plan
+    actualizarMontoPlan();
 }
 
 // Función que elimina la fila de un ítem de la lista
@@ -271,6 +276,9 @@ function eliminarItem(_idRuta, _id, _codigoItem) {
 
     // Elimina la fila con la información
     $('#tbItems' + _idRuta + ' tr[id="' + _id + '"]').remove();
+
+    // Se llama la función que actuliza los totales tanto de monto por ruta como de plan
+    actualizarMontoPlan();
 }
 
 
@@ -437,7 +445,8 @@ function alpha(_this) {
             txtMonto.val("--- Error ---");
         }
     }
-
+    // Se llama la función que actuliza los totales tanto de monto por ruta como de plan
+    actualizarMontoPlan();
 }
 
 // Función que limpia los elementos no numéricos de los precios y establece el formato de CR
@@ -495,4 +504,33 @@ function numberFormatCR(numero) {
     } else {
         return resultado;
     }
+}
+
+/*
+ * Fuunción que actualiza los montos totales de cada ruta y del plan
+ */
+function actualizarMontoPlan() {
+    // Suma total de todas las rutas
+    var montoPlan = new Decimal('0').toDP(4);
+
+    // Se recorren los paneles para sacar los montos totales
+    $('#rutasAcordeon > div').each(function () {
+
+        // Suma parcial de cada ruta
+        var montoRuta = new Decimal('0').toDP(4);
+
+        // Se recorre la tabla interna que contiene los ítems de la ruta
+        $(this).children('div:last').find('.table').children('tbody').children('tr').each(function () {
+
+            // Se suman los montos de cada item
+            montoRuta = montoRuta.plus(new Decimal(removeCurrency($(this).children("td").eq(5).find('input:eq(0)').val())));
+        }); // 
+
+        // Se actualiza el monto total de la ruta
+        $(this).children('div:first').find('.btn-xs').val('₡' + numberFormatCR(montoRuta.toFormat('', 4).toString()));
+
+        //Se agrega el monto parcial a la suma global
+        montoPlan = montoPlan.plus(montoRuta);
+        $('#txtMontoPlan').val('₡' + numberFormatCR(montoPlan.toFormat('', 4).toString()));
+    });
 }

@@ -19,21 +19,21 @@
 }
 
 /** Fondo del combobox **/
-/*.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
     border: 1px solid #79b7e7;
     background: url("images/ui-bg_glass_85_dfeffc_1x400.png") 50% 50% repeat-x; 
     font-weight: normal;
     color: #555;
-}*/
+}
 
 /** Fondo de cada elemento sobre el que se pasa el mouse en la lista desplegable **/
-/*.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
     border: 1px solid #79b7e7;
     background: #dadada url("images/ui-bg_glass_85_dfeffc_1x400.png") 50% 50% repeat-x;
     font-weight: normal;
     color: #212121;
-}*/
-
+}
+/*******/
 .ui-state-default .ui-icon {
     background-image: url("images/ui-icons_888888_256x240.png");
 }

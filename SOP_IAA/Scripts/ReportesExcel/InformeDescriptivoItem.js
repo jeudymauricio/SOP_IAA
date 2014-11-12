@@ -7,6 +7,48 @@
         }
     });
 
+    //Date range picker
+    $('#fechaInicio').datetimepicker({
+        language:  'es',
+        autoclose: true,
+        format: "dd/mm/yyyy",
+        startView: 'month',
+        minView: 'month'
+    });
+    //.daterangepicker({
+    //    format: 'DD/MM/YYYY',
+    //    showDropdowns: true,
+    //    locale: {
+    //        applyLabel: 'Aplicar',
+    //        cancelLabel: 'Cancelar',
+    //        fromLabel: 'Desde',
+    //        toLabel: 'Hasta',
+    //        weekLabel: 'W',
+    //        customRangeLabel: 'Rango Personalizado',
+    //        daysOfWeek: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+    //        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    //        firstDay: 0
+    //    },
+    //    ranges: {
+    //        'Hoy': [moment(), moment()],
+    //        'Ayer': [moment().subtract('days', 1), moment().subtract('days', 1)],
+    //        'Últimos 7 Días': [moment().subtract('days', 6), moment()],
+    //        'Últimos 30 Días': [moment().subtract('days', 29), moment()],
+    //        'Este Mes': [moment().startOf('month'), moment().endOf('month')],
+    //        'Mes Pasado': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+    //    },
+    //    startDate: moment().subtract('days', 29),
+    //    endDate: moment()
+    //});
+
+    $('#fechaFin').datetimepicker({
+        language:  'es',
+        autoclose: true,
+        format: "dd/mm/yyyy",
+        startView: 'month',
+        minView: 'month'
+    });
+    
 })
 
 // Función que llama a la acción de controlador 'ExportarInformeDescriptivoItem' para exportar el informe descriptivo de ítem a excel

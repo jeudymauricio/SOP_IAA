@@ -1,0 +1,10 @@
+﻿@model SOP_IAA_DAL.Contrato
+
+@{
+    ViewBag.Title = "Control de Inversión";
+}
+
+<h2>@Model.licitacion</h2>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+

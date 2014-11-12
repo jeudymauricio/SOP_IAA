@@ -28,7 +28,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning">
-                        Realizar esta operación conllevará cierto tiempo y afectará a TODAS las boletas comprendidas en esta fecha.
+                        Realizar esta operación conllevará cierto tiempo.
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -51,6 +51,8 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 Plan de Inversión para @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)@Model.mes).ToUpperInvariant() de @Model.ano
+                <input id="txtMontoPlan" class="btn-xs pull-right" value="0,0000" disabled style="text-align:right" />
+                <label class="pull-right btn-xs">Monto Acumulado del plan</label>
             </div>
             <!-- .panel-heading -->
             <div class="panel-body">
@@ -61,6 +63,9 @@
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="@string.Format("#collapse" + @group.First().idRuta)" aria-expanded="false" class="collapsed">Ruta @group.First().ruta.nombre</a>
+                                    
+                                    <input class="btn-xs pull-right" value="0,0000" disabled style="text-align:right"/>
+                                    <label class="pull-right btn-xs">Monto por Ruta</label>
                                 </h4>
 
                             </div>
@@ -115,15 +120,9 @@
 @section Scripts{
     <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
     <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#tbPlanInversion').dataTable({
-                "order": [],
-                "language": {
-                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
-                }
-            });
-        })
-    </script>
+    
+    <!-- Función para realizar operaciones con decimales -->
+    <script src="~/Scripts/API Decimales/decimal.js"></script>
+    
+    <script src="~/Scripts/PlanInversion/PeriodoMethods.js"></script>
 }

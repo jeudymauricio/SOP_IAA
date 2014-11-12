@@ -122,9 +122,13 @@ datepicker - datetime format
 	http://instinctcoder.com/asp-net-mvc-4-jquery-datepicker-date-format-validation/
 	http://www.java2s.com/Tutorial/JavaScript/0571__jQuery/Addimagetodatepickertriggerbutton.htm
 	http://msdn.microsoft.com/es-es/library/cc165448.aspx
-
+	
+		
+	date single
+		https://github.com/smalot/bootstrap-datetimepicker
 	daterange
 		http://tamble.github.io/jquery-ui-daterangepicker/
+		https://github.com/dangrossman/bootstrap-daterangepicker
 
 autocomplete
 	http://www.codeproject.com/Tips/789425/Auto-Complete-in-ASP-NET-MVC

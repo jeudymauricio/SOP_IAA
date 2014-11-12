@@ -36,7 +36,7 @@ namespace SOP_IAA.Controllers
             // Se seleccionan solo los Planes de inversión de un contrato específico
             //var planInversion = db.planInversion.Where(p => p.idContrato == idContrato.Value).Include(p => p.Contrato);
 
-            return View(contrato.planInversion.ToList());
+            return View(contrato.planInversion.ToList().OrderByDescending(c => c.fecha));
         }
 
         // GET: PlanInversion/Details/5
@@ -251,7 +251,10 @@ namespace SOP_IAA.Controllers
                 try
                 {
                     Repositorio<planInversion> rep = new Repositorio<SOP_IAA_DAL.planInversion>();
-                    rep.Actualizar(planInversion);
+                    if (! rep.Actualizar(planInversion))
+                    {
+                        throw new Exception();
+                    }
                     /*db.Entry(planInversion).State = EntityState.Modified;
                     db.SaveChanges();*/
 
@@ -286,7 +289,7 @@ namespace SOP_IAA.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("", "Ocurrió un error al actualizar el plan, reintente en un momento");
+                    ModelState.AddModelError("", "Ocurrió un error al actualizar el plan, verifique que no exista un plan para esa fecha");
 
                     planInversion = db.planInversion.Find(planInversion.id);
                     if (planInversion == null)
