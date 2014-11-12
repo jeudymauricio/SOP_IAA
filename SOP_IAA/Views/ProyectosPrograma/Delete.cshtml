@@ -1,0 +1,56 @@
+﻿@model SOP_IAA_DAL.proyecto
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>proyecto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.progProy.id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.progProy.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ruta.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ruta.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipoProyecto.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipoProyecto.nombre)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

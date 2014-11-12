@@ -1,0 +1,72 @@
+﻿@model IEnumerable<SOP_IAA_DAL.inspector>
+
+@{
+    ViewBag.Title = "Inspectores";
+}
+
+<h2></h2>
+
+<p>
+    @Html.ActionLink("Nuevo Inspector", "Create", null, new { @class = "btn btn-primary", @style = "width:150px" })
+</p>
+<br />
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Lista Global de Inspectores
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbInspectores" class="display">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.persona.nombre)
+                        </th>
+                        @*<th>
+                            Teléfono(s)
+                        </th>*@
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.persona.nombre) @Html.DisplayFor(modelItem => item.persona.apellido1) @Html.DisplayFor(modelItem => item.persona.apellido2)
+                            </td>
+                            @*<td>
+                                @foreach (var telefono in item.persona.telefono)
+                                {
+                                    @Html.DisplayFor(itemTelefono => telefono.telefono1)
+                                    <br />
+                                }
+                            </td>*@
+                            <td align="center">
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.idPersona } )
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbInspectores').dataTable({
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        })
+    </script>
+}

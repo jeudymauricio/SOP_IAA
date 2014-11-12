@@ -1,0 +1,82 @@
+﻿@model IEnumerable<SOP_IAA_DAL.itemReajuste>
+
+@{
+    ViewBag.Title = "Editar";
+}
+
+<h2></h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formEdit", id = "formEdit" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Editar los Reajustes de @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)@Model.First().mes).ToUpperInvariant() @Model.First().ano
+        </div>
+
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="tbReajustes" class="table" style="text-align: center">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">Item</th>
+                            <th style="text-align:center">Descripción</th>
+                            <th style="text-align:center">Unidad de Medida</th>
+                            <th style="text-align:center">Precio Anterior(₡)</th>
+                            <th style="text-align:center">Porcentaje de Reajuste(%)</th>
+                            <th style="text-align:center">Precio Reajustado(₡)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            @foreach (var group in Model)
+                            {
+                                <tr id="@group.id">
+                                    <td id="@group.idContratoItem">
+                                        @group.contratoItem.item.codigoItem
+                                    </td>
+                                    <td style="text-align:justify">
+                                        @group.contratoItem.item.descripcion
+                                    </td>
+                                    <td style="text-align:center">
+                                        @group.contratoItem.item.unidadMedida
+                                    </td>
+                                    <td style="text-align: right">
+                                        <input class="form-control" style="text-align:right" disabled="disabled" value="@String.Format("{0:C4}", group.contratoItem.precioUnitario) ">
+                                    </td>
+                                    <td style="text-align: right">
+                                        <input class="form-control" style="text-align:right" name="txtReajuste'@group.id'" value="@String.Format("{0:N4}", (group.reajuste * 100))" onchange="alpha($(this))" type="text" />
+                                       <span class="text-danger field-validation-error" data-valmsg-for="txtReajuste'@group.id'" data-valmsg-replace="true" style="max-width: 10px; text-align:center"></span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <input class="form-control" style="text-align:right" disabled="disabled" value="@String.Format("{0:C4}", (ViewBag.reajustesActuales[group.idContratoItem]))">
+                                    </td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+        <!-- /.panel-body -->
+    </div>
+}
+
+<div class="row">
+    <div class="col-sm-6">
+        @Html.ActionLink("Atrás", "Periodo", new { fecha = Model.First().fecha, idContrato = ViewBag.idContrato })
+    </div>
+    <div class="col-sm-6" style="text-align:right">
+        <input type="button" name="save" onclick="makeSubmit('@ViewBag.idContrato', '@Model.First().fecha.ToShortDateString()')" value="Guardar Cambios" class="btn btn-success" />
+        <img src="~/Content/Images/loading.gif" id="loadingGif" style="display: none;" />
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/API Decimales/decimal.min.js"></script>
+    <script src="~/Scripts/ItemReajuste/EditMethods.js"></script>
+}

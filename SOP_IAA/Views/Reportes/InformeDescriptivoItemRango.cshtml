@@ -1,0 +1,92 @@
+﻿@model IEnumerable<SOP_IAA_DAL.boletaItem>
+
+@{
+    ViewBag.Title = "Reportes del item entre las fechas"+ @ViewBag.fecha1 +" y "+@ViewBag.fecha2;
+}
+
+<h2> Reportes del item </h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Titulo del panel
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body" id="divPanel">
+        <div class="table-responsive" id="divTableResp">
+
+            <table id="tbReportes" class="display">
+                <thead>
+                    <tr>
+                        <th>N° Boleta</th>
+                        <th>Fecha</th>
+                        <th>Ruta</th>
+                        <th>Sección de control</th>
+                        <th>Est Inicio</th>
+                        <th>Est Final</th>
+                        <th>Cantidad</th>
+                        <th>Inspector</th>
+                        <th>Proyecto/Estructura</th>
+                        <th>Comentarios</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.numeroBoleta)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.ruta.nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.seccionControl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.estacionamientoInicial)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.estacionamientoFinal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cantidad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.inspector.persona.nombre)
+                                @Html.DisplayFor(modelItem => item.boleta.inspector.persona.apellido1)
+                                @Html.DisplayFor(modelItem => item.boleta.inspector.persona.apellido2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.proyecto_estructura.descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.observaciones)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-12 text-center">
+                <ul class="pagination pagination-lg pager" id="myPager"></ul>
+            </div>
+
+        </div>
+
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+
+<div>
+    @Html.ActionLink("Atrás", "InformeDescriptivoItem", "Reportes", new { id = ViewBag.id}, null)
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/ReportesExcel/InformeDescriptivoItem.js"></script>
+}
+

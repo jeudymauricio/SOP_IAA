@@ -16,8 +16,12 @@ namespace SOP_IAA_DAL
     public class contratistaMetaData
     {
         [Required]
-        [DisplayName("Nombre de Contratista")]
+        [DisplayName("Contratista")]
         [StringLength(50)]
         public string nombre { get; set; }
+
+        [DisplayName("Descripción")]
+        [StringLength(60)]
+        public string descripcion { get; set; }
     }
 }

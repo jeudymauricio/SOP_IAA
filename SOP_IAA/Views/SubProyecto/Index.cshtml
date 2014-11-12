@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SOP_IAA_DAL.subProyecto>
+
+@{
+    ViewBag.Title = "Lista de Subproyectos";
+}
+
+<h2></h2>
+
+<p>
+    @Html.ActionLink("Nuevo Subproyecto", "Create", new { idContrato = ViewBag.idContrato }, new { @class = "btn btn-primary", @style = "width:150px" })
+</p>
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Subproyectos del Contrato
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbSubproyectos" class="display">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Contrato.licitacion)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Contrato.licitacion)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
+                                @Html.ActionLink("Items", "Details", new { id = item.id }) |
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+
+<div>
+    @Html.ActionLink("Atrás", "MiContrato", "Contrato", new { id = ViewBag.idContrato }, null)
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#tbSubproyectos').dataTable({
+            "order": [],
+            "language": {
+                "url": "/Scripts/plugins/dataTables/Spanish.txt"
+            }
+        });
+    })
+</script>
+
+}

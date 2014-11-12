@@ -1,0 +1,106 @@
+﻿@model SOP_IAA_DAL.itemReajuste
+
+@{
+    ViewBag.Title = "Agregar Reajuste";
+}
+
+<h2>Agregar Reajuste</h2>
+<hr />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formCreate", id = "formCreate" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @*@Html.HiddenFor(model => model.precioReajustado, new { htmlAttributes = new { @class = "form-control" } })*@
+    
+
+    @*<div class="form-group">
+        <input class="form-control" id="txtFechaReajuste" placeholder="Fecha de los reajustes" title="Fecha valida para todo el mes" />
+    </div>
+    <div class="form-group">
+        @Html.DropDownList("idContratoItem", null, htmlAttributes: new { @class = "input", @id = "ddlItems" })
+        <input class="btn btn-primary" type="button" id="btnAgregarItem" value="Incluir Ítem" />
+    </div>*@
+    
+    <div class="row">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <input class="form-control" id="txtFechaReajuste" placeholder="Fecha de los reajustes" title="Fecha valida para todo el mes" />
+            </div>
+            <div class="col-sm-9">
+                <input class="btn btn-primary" type="button" onclick="cargarItems(@ViewBag.idContrato)" value="Cargar ítems" id="btnCargarItems"/>
+            </div>
+        </div>
+    </div>
+    
+    
+    <br />
+    <div class="">
+    
+        <!-- Panel que contendrá la tabla dinámica de ítems -->
+        <div class="panel panel-default">
+            <div class="panel-heading" style="text-align:center">
+                Items a Reajustar
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="tbItems" class="table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th style="text-align:center">Descripción</th>
+                                <th style="text-align:center">Unidad de Medida</th>
+                                <th style="text-align:center">Precio Actual(₡)</th>
+                                <th style="text-align:center">Reajuste(%)</th>
+                                <th style="text-align:center">Precio Reajustado(₡)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ítems -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel-default -->
+        <div class="row">
+            <div class="col-sm-6">
+                @Html.ActionLink("Atrás", "Index", new { idContrato = ViewBag.idContrato })
+            </div>
+            <div class="col-sm-6" style="text-align:right">
+                <input type="submit" value="Agregar Reajustes al Contrato" class="btn btn-success" name="create"/>
+                <img src="~/Content/Images/loading.gif" id="loadingGif" style="display: none;" />
+            </div>
+        </div>
+    
+    </div> <!-- Fin del div oculto-->
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval");
+    
+    <!-- scripts para los estilos del jquery -->
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+
+    <!-- Función para el autocompletado del dropdown -->
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
+
+    <!-- Función del datatable-->
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <!-- Funciones internas de crear -->
+    <script src="~/Scripts/ItemReajuste/CreateMethods.js"></script>
+
+    <!-- Función para realizar operaciones con decimales -->
+    <script src="~/Scripts/API Decimales/decimal.js"></script>
+
+    <!-- Scripts y css para el single date picker -->
+    <script src="~/Scripts/DatePicker/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="~/Content/DatePicker/bootstrap-datetimepicker.css" />
+    <script type="text/javascript" src="~/Scripts/DatePicker/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
+}

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SOP_IAA_DAL.ClassAnnotations
+namespace SOP_IAA_DAL
 {
     [MetadataType(typeof(zonaMetaData))]
     public partial class zona

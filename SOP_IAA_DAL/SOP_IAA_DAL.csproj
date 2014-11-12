@@ -30,11 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -49,114 +51,138 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="boleta.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="boletaItem.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ClassAnnotations\SeccionControlAnnotations.cs" />
+    <Compile Include="ClassAnnotations\BoletaItemAnnotations.cs" />
+    <Compile Include="ClassAnnotations\BoletaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\ContratoItemAnnotations.cs" />
+    <Compile Include="ClassAnnotations\IngenieroContratoAnnotations.cs" />
+    <Compile Include="ClassAnnotations\ItemReajusteAnnotations.cs" />
+    <Compile Include="ClassAnnotations\Proyecto_EstructuraAnnotations.cs" />
+    <Compile Include="ClassAnnotations\TelefonoAnnotations.cs" />
+    <Compile Include="contratista.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Contrato.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="contratoItem.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EditedDBContext.cs" />
+    <Compile Include="ClassAnnotations\ItemAnnotations.cs" />
     <Compile Include="ClassAnnotations\ContratistaAnnotations.cs" />
     <Compile Include="ClassAnnotations\FondoAnnotations.cs" />
     <Compile Include="ClassAnnotations\IngenieroAnnotations.cs" />
-    <Compile Include="ClassAnnotations\LaboratorioCalidadAnnotations.cs" />
     <Compile Include="ClassAnnotations\PersonaAnnotations.cs" />
-    <Compile Include="ClassAnnotations\TelefonoAnnotations.cs" />
-    <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />
-    <Compile Include="contratista.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
-    </Compile>
-    <Compile Include="contratistaProyecto.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
-    </Compile>
     <Compile Include="fondo.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ingeniero.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ingenieroProyecto.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+    <Compile Include="ingenieroContrato.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="inspector.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="IRepositorio.cs" />
     <Compile Include="item.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="itemReajuste.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="laboratorioCalidad.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model_SOP_IAA.Context.cs">
+    <Compile Include="Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model_SOP_IAA.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model_SOP_IAA.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model_SOP_IAA.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model_SOP_IAA.edmx</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="persona.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="pICI.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="planInversion.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="programa.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proyecto.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+    <Compile Include="programaSubProyectoContratoItem.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ClassAnnotations\ProyectoAnnotations.cs" />
-    <Compile Include="Repositorio.cs" />
+    <Compile Include="proyecto_estructura.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="ruta.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="seccionControl.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="subProyecto.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="subProyectoItem.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+    <Compile Include="subproyectoContratoItem.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="telefono.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TipoSubproyecto.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="usuario.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="zona.cs">
-      <DependentUpon>Model_SOP_IAA.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="Model_SOP_IAA.edmx">
+    <None Include="ClassAnnotations\ProgramaAnotations" />
+    <None Include="ClassAnnotations\ProyectoAnnotations" />
+    <Compile Include="ClassAnnotations\RutaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\ContratoAnnotations.cs" />
+    <Compile Include="IRepositorio.cs" />
+    <Compile Include="Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorio.cs" />
+    <EntityDeploy Include="Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model_SOP_IAA.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Model1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </None>
+    <None Include="Model1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="Model_SOP_IAA.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model_SOP_IAA.edmx</DependentUpon>
-      <LastGenOutput>Model_SOP_IAA.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Model_SOP_IAA.edmx.diagram">
-      <DependentUpon>Model_SOP_IAA.edmx</DependentUpon>
-    </None>
-    <None Include="Model_SOP_IAA.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model_SOP_IAA.edmx</DependentUpon>
-      <LastGenOutput>Model_SOP_IAA.cs</LastGenOutput>
-    </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

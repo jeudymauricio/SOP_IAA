@@ -1,0 +1,242 @@
+﻿@model SOP_IAA_DAL.boleta
+
+@{
+    ViewBag.Title = "Boleta - Editar";
+}
+
+<h2>Editar la boleta @Model.numeroBoleta</h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formEdit", id = "formEdit" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.idFondo)
+        @Html.HiddenFor(model => model.numeroBoleta)
+        @Html.HiddenFor(model => model.idContrato)
+        <hr />
+        <div id="tabPanelEditar">
+            <div class="panel-body">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tabGeneral" data-toggle="tab">General</a>
+                    </li>
+                    <li>
+                        <a href="#tabItems" data-toggle="tab">Items</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <!-- Tab de datos generales de la boleta -->
+                    <div class="tab-pane fade in active" id="tabGeneral">
+                        <br />
+                        <!-- Panel -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Datos Generales
+                            </div>
+                            <!-- /.panel-heading -->
+
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.numeroBoleta, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.numeroBoleta, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                        @Html.ValidationMessageFor(model => model.numeroBoleta, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.idFondo, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control", disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.idFondo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.idRuta, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control", @id = "ddlRuta" })
+                                        @Html.ValidationMessageFor(model => model.idRuta, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.idInspector, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("idInspector", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.idInspector, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fecha, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @id = "txtFecha", disabled = "disabled" } })
+                                        @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.seccionControl, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.seccionControl, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.seccionControl, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.estacionamientoInicial, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.estacionamientoInicial, new { htmlAttributes = new { @class = "form-control", @id = "txtEstInicial" } })
+                                        @Html.ValidationMessageFor(model => model.estacionamientoInicial, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.estacionamientoFinal, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.estacionamientoFinal, new { htmlAttributes = new { @class = "form-control", @id = "txtEstFinal" } })
+                                        @Html.ValidationMessageFor(model => model.estacionamientoFinal, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.periodo, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.periodo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.idProyecto_Estructura, null, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("idProyecto_Estructura", null, htmlAttributes: new { @class = "form-control", @id = "ddlProyectoEstructura" })
+                                        @Html.ValidationMessageFor(model => model.idProyecto_Estructura, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max 150 caracteres" } })
+                                        @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div><!-- .\ panel -->
+                        </div>
+                    </div>
+
+                    <!-- Tab de datos de los ítems de la boleta -->
+                    <div class="tab-pane fade" id="tabItems">
+                        <br />
+                        <div>
+                            @Html.DropDownList("idItem", null, htmlAttributes: new { @class = "form-horizontal input-sm", @id = "ddlItems" })
+                            <input class="btn btn-primary" type="button" id="btnAgregarItem" value="Agregar Ítem" />
+                            <br /><br />
+                        </div>
+                        <!-- Panel que contendrá la información de los ingenieros -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Ítems de la Boleta
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbItems" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Ítem</th>
+                                                <th>Descripción</th>
+                                                <th style="text-align:center">Unidad de medida</th>
+                                                <th style="text-align:right">Precio a la fecha</th>
+                                                <th style="text-align:right">Cantidad</th>
+                                                <th style="text-align:right">Costo Total</th>
+                                                <th style="text-align:right">Redimientos</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ingenieros -->
+                                            @foreach (var item in Model.boletaItem)
+                                            {
+                                                <tr id=@item.idContratoItem>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.contratoItem.item.codigoItem)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.contratoItem.item.descripcion)
+                                                    </td>
+                                                    <td align="center">
+                                                        @Html.DisplayFor(modelItem => item.contratoItem.item.unidadMedida)
+                                                    </td>
+                                                    <td align="right">
+                                                        <input class="form-control" style="text-align:right" type="text" disabled="" value=@String.Format("{0:C4}", (ViewBag.precios[item.idContratoItem]))>
+                                                    </td>
+                                                    <td align="right">
+                                                        <input class="form-control" style="text-align:right" onchange="alpha($(this))" value=@String.Format("{0:N3}", (item.cantidad))>
+                                                    </td>
+                                                    <td align="right">
+                                                        <input class="form-control" style="text-align:right" type="text" disabled="" value=@String.Format("{0:C4}", (item.cantidad * ViewBag.precios[item.idContratoItem]))>
+                                                    </td>
+                                                    <td align="right">
+                                                        <input class="form-control" style="text-align:right" type="text" disabled="" value=@String.Format("{0:N3}", (item.redimientos))>
+                                                    </td>
+                                                    <td align="center">
+                                                        <button class="remove btn btn-danger" onclick="eliminarItem(@item.idContratoItem, '@item.contratoItem.item.codigoItem')">Quitar Item</button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Botón de submit -->
+            <div class="form-group">
+                <div class="text-center">
+                    <!-- col-md-offset-2 col-md-10 -->
+                    <input type="submit" value="Guardar Cambios" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Boleta/EditMethods.js"></script>
+    <!-- Función para realizar operaciones con decimales -->
+    <script src="~/Scripts/API Decimales/decimal.js"></script>
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
+
+    <!-- Scripts y ccs para el date range picker -->
+    <script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+    <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+    <link rel="stylesheet" href="~/Content/DateRangePicker/daterangepicker-bs3.css" />
+
+    @** Función para el autocompletado del dropdown **@
+    <script>
+        $(function () {
+            $("#ddlItems").combobox();
+            $("#toggle").click(function () {
+                $("#ddlItems").toggle();
+            });
+        });
+    </script>
+}

@@ -15,9 +15,10 @@ namespace SOP_IAA_DAL
 
     public class telefonoMetaData
     {
-        [Required]
-        [RegularExpression("[1-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]")]
+
         [DisplayName("Teléfono")]
+        [StringLength(9)]
+        [RegularExpression("[1-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]")]
         public string telefono1 { get; set; }
     }
 }

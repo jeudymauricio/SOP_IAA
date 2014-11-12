@@ -16,18 +16,20 @@ namespace SOP_IAA_DAL
     {
         public programa()
         {
-            this.subProyecto = new HashSet<subProyecto>();
+            this.programaSubProyectoContratoItem = new HashSet<programaSubProyectoContratoItem>();
+            this.seccionControl = new HashSet<seccionControl>();
         }
     
         public int id { get; set; }
-        public int idProyecto { get; set; }
-        public short ano { get; set; }
+        public int idContrato { get; set; }
+        public System.DateTime fecha { get; set; }
+        public Nullable<int> mes { get; set; }
+        public Nullable<int> ano { get; set; }
         public System.DateTime fechaInicio { get; set; }
-        public System.DateTime fechaFinal { get; set; }
-        public byte trimestre { get; set; }
-        public int monto { get; set; }
+        public System.DateTime fechaFin { get; set; }
     
-        public virtual ICollection<subProyecto> subProyecto { get; set; }
-        public virtual Proyecto Proyecto { get; set; }
+        public virtual Contrato Contrato { get; set; }
+        public virtual ICollection<programaSubProyectoContratoItem> programaSubProyectoContratoItem { get; set; }
+        public virtual ICollection<seccionControl> seccionControl { get; set; }
     }
 }

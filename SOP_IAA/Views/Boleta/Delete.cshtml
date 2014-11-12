@@ -1,0 +1,115 @@
+﻿@model SOP_IAA_DAL.boleta
+
+@{
+    ViewBag.Title = "Eliminar Boleta";
+}
+
+<h2> </h2>
+
+<h3>
+    @SOP_IAA_Utilerias.Utilerias.ValorRecurso(SOP_IAA_Utilerias.Utilerias.ArchivoRecurso.UtilRecursos, "MSJ_CONFIRM_ELIMINAR_BOLETA")
+</h3>
+<div>
+    <h4> </h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <dt>
+            @Html.DisplayNameFor(model => model.numeroBoleta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.numeroBoleta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.seccionControl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.seccionControl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estacionamientoInicial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estacionamientoInicial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estacionamientoFinal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estacionamientoFinal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.periodo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.periodo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.observaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.observaciones)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fondo.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fondo.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.inspector.idPersona)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.inspector.idPersona)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.proyecto_estructura.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.proyecto_estructura.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ruta.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ruta.nombre)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar Boleta" class="btn btn-danger" /> |
+            @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
+        </div>
+    }
+</div>

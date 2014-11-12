@@ -126,6 +126,15 @@
   <data name="ERROR_CONTRATISTA_ELIMINAR" xml:space="preserve">
     <value>Error al eliminar el contratista: </value>
   </data>
+  <data name="ERROR_CONTRATO_ACTUALIZAR" xml:space="preserve">
+    <value>Error al actualizar el contrato: </value>
+  </data>
+  <data name="ERROR_CONTRATO_AGREGAR" xml:space="preserve">
+    <value>Error al agregar el contrato: </value>
+  </data>
+  <data name="ERROR_CONTRATO_ELIMINAR" xml:space="preserve">
+    <value>Error al eliminar el contrato: </value>
+  </data>
   <data name="ERROR_FONDO_ACTUALIZAR" xml:space="preserve">
     <value>Error al actualizar el Fondo: </value>
   </data>
@@ -171,6 +180,15 @@
   <data name="ERROR_PROYECTO_ELIMINAR" xml:space="preserve">
     <value>Error al eliminar el proyecto: </value>
   </data>
+  <data name="ERROR_RUTA_ACTUALIZAR" xml:space="preserve">
+    <value>Error al actualizar la ruta: </value>
+  </data>
+  <data name="ERROR_RUTA_AGREGAR" xml:space="preserve">
+    <value>Error al agregar la ruta: </value>
+  </data>
+  <data name="ERROR_RUTA_ELIMINAR" xml:space="preserve">
+    <value>Error al eliminar la ruta: </value>
+  </data>
   <data name="ERROR_ZONA_ACTUALIZAR" xml:space="preserve">
     <value>Error al actualizar el proyecto: </value>
   </data>
@@ -180,8 +198,14 @@
   <data name="ERROR_ZONA_ELIMINAR" xml:space="preserve">
     <value>Error al eliminar el proyecto: </value>
   </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_BOLETA" xml:space="preserve">
+    <value>¿Está seguro de eliminar esta boleta?</value>
+  </data>
   <data name="MSJ_CONFIRM_ELIMINAR_CONTRATISTA" xml:space="preserve">
     <value>¿Está seguro de eliminar este contratista?</value>
+  </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_CONTRATO" xml:space="preserve">
+    <value>¿Está seguro de eliminar este contrato?</value>
   </data>
   <data name="MSJ_CONFIRM_ELIMINAR_FONDO" xml:space="preserve">
     <value>¿Está seguro de eliminar este fondo?</value>
@@ -189,11 +213,38 @@
   <data name="MSJ_CONFIRM_ELIMINAR_INGENIERO" xml:space="preserve">
     <value>¿Está seguro de eliminar este ingeniero?</value>
   </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_INSPECTOR" xml:space="preserve">
+    <value>¿Está seguro de eliminar este inspector?</value>
+  </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_ITEM" xml:space="preserve">
+    <value>¿Está seguro de eliminar este item?</value>
+  </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_ITEM_CONTRATO" xml:space="preserve">
+    <value>¿Está seguro de eliminar este item del contrato?</value>
+  </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_ITEM_PROYECTO" xml:space="preserve">
+    <value>¿Está seguro de eliminar este item del proyecto?</value>
+  </data>
   <data name="MSJ_CONFIRM_ELIMINAR_LABORATORIO" xml:space="preserve">
     <value>¿Está seguro de eliminar este laboratorio?</value>
   </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_PLAN" xml:space="preserve">
+    <value>¿Está seguro de eliminar el plan de este mes?</value>
+  </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_PROGRAMA" xml:space="preserve">
+    <value>¿Está seguro de eliminar este programa?</value>
+  </data>
   <data name="MSJ_CONFIRM_ELIMINAR_PROYECTO" xml:space="preserve">
     <value>¿Está seguro de eliminar este proyecto?</value>
+  </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_PROYECTO_ESTRUCTURA" xml:space="preserve">
+    <value>¿Está seguro de eliminar este proyecto/estructura?</value>
+  </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_REAJUSTES" xml:space="preserve">
+    <value>¿Está seguro de eliminar los reajustes de este mes?</value>
+  </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_SC" xml:space="preserve">
+    <value>¿Está seguro de eliminar la sección de control?</value>
   </data>
   <data name="MSJ_CONFIRM_ELIMINAR_ZONA" xml:space="preserve">
     <value>¿Está seguro de eliminar esta zona?</value>

@@ -1,0 +1,2054 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="boleta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idContrato" Type="int" Nullable="false" />
+          <Property Name="numeroBoleta" Type="int" Nullable="false" />
+          <Property Name="idFondo" Type="smallint" Nullable="false" />
+          <Property Name="idRuta" Type="int" Nullable="false" />
+          <Property Name="idInspector" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="seccionControl" Type="int" Nullable="false" />
+          <Property Name="estacionamientoInicial" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="estacionamientoFinal" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="periodo" Type="tinyint" Nullable="false" />
+          <Property Name="idProyecto_Estructura" Type="int" Nullable="false" />
+          <Property Name="observaciones" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="boletaItem">
+          <Key>
+            <PropertyRef Name="idContratoItem" />
+            <PropertyRef Name="idBoleta" />
+          </Key>
+          <Property Name="idContratoItem" Type="int" Nullable="false" />
+          <Property Name="idBoleta" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="redimientos" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="contratista">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="Contrato">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idContratista" Type="int" Nullable="false" />
+          <Property Name="licitacion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lineaContrato" Type="smallint" Nullable="false" />
+          <Property Name="idZona" Type="smallint" Nullable="false" />
+          <Property Name="fechaInicio" Type="date" Nullable="false" />
+          <Property Name="plazo" Type="smallint" Nullable="false" />
+          <Property Name="lugar" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="idFondo" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="contratoItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idContrato" Type="int" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="precioUnitario" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="fondo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ingeniero">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ingenieroContrato">
+          <Key>
+            <PropertyRef Name="idContrato" />
+            <PropertyRef Name="idIngeniero" />
+          </Key>
+          <Property Name="idContrato" Type="int" Nullable="false" />
+          <Property Name="idIngeniero" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="departamento" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="rol" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="fechaInicio" Type="date" />
+          <Property Name="fechaFin" Type="date" />
+          <Property Name="activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="inspector">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigoItem" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="unidadMedida" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="itemReajuste">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idContratoItem" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="mes" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="ano" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="reajuste" Type="decimal" Precision="7" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="labCalidadContrato">
+          <Key>
+            <PropertyRef Name="idLabCalidad" />
+            <PropertyRef Name="idContrato" />
+          </Key>
+          <Property Name="idLabCalidad" Type="smallint" Nullable="false" />
+          <Property Name="idContrato" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="laboratorioCalidad">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="tipo" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="persona">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellido1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellido2" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cedula" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="pICI">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idPlanInversion" Type="int" Nullable="false" />
+          <Property Name="idContratoItem" Type="int" Nullable="false" />
+          <Property Name="idRuta" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="planInversion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idContrato" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="mes" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="ano" Type="int" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="programa">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idContrato" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="mes" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="ano" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="fechaInicio" Type="date" Nullable="false" />
+          <Property Name="fechaFin" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="programaSubProyectoContratoItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idPrograma" Type="int" Nullable="false" />
+          <Property Name="idSubProyectoContratoItem" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="progSubContrItemSeccionControl">
+          <Key>
+            <PropertyRef Name="idPrograma" />
+            <PropertyRef Name="idSeccionControl" />
+          </Key>
+          <Property Name="idPrograma" Type="int" Nullable="false" />
+          <Property Name="idSeccionControl" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="proyecto_estructura">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idRuta" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ruta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="20" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="seccionControl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idRuta" Type="int" Nullable="false" />
+          <Property Name="seccion" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="subProyecto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idContrato" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="subproyectoContratoItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idSubProyecto" Type="int" Nullable="false" />
+          <Property Name="idContratoItem" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="telefono">
+          <Key>
+            <PropertyRef Name="idPersona" />
+            <PropertyRef Name="telefono" />
+          </Key>
+          <Property Name="idPersona" Type="int" Nullable="false" />
+          <Property Name="telefono" Type="varchar" MaxLength="14" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="int" Nullable="false" />
+          <Property Name="nombreUsuario" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="contrasena" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="tipo" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="zona">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="zonaRuta">
+          <Key>
+            <PropertyRef Name="idZona" />
+            <PropertyRef Name="idRuta" />
+          </Key>
+          <Property Name="idZona" Type="smallint" Nullable="false" />
+          <Property Name="idRuta" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_id_contratoItem_idContrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratoItem">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_contratoItem_idItem">
+          <End Role="item" Type="Self.item" Multiplicity="1" />
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratoItem">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_telefono">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="telefono" Type="Self.telefono" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="telefono">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idBoleta_boletaItem">
+          <End Role="boleta" Type="Self.boleta" Multiplicity="1" />
+          <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boleta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boletaItem">
+              <PropertyRef Name="idBoleta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratista_Contrato">
+          <End Role="contratista" Type="Self.contratista" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratista">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="idContratista" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_boleta">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_ingenieroContrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="ingenieroContrato" Type="Self.ingenieroContrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ingenieroContrato">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_labCalidadContrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="labCalidadContrato" Type="Self.labCalidadContrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="labCalidadContrato">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_planInversion">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="planInversion" Type="Self.planInversion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="planInversion">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_programa">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="programa" Type="Self.programa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="programa">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_programaSubProyectoContratoItem">
+          <End Role="programa" Type="Self.programa" Multiplicity="1" />
+          <End Role="programaSubProyectoContratoItem" Type="Self.programaSubProyectoContratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="programa">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="programaSubProyectoContratoItem">
+              <PropertyRef Name="idPrograma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_progSubContrItem">
+          <End Role="programa" Type="Self.programa" Multiplicity="1" />
+          <End Role="progSubContrItemSeccionControl" Type="Self.progSubContrItemSeccionControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="programa">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="progSubContrItemSeccionControl">
+              <PropertyRef Name="idPrograma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_subProyecto">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="subProyecto" Type="Self.subProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subProyecto">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_boletaItem">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boletaItem">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_itemReajuste">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="itemReajuste" Type="Self.itemReajuste" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="itemReajuste">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_pICI">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pICI">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_subProyectoContratoItem">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="subproyectoContratoItem" Type="Self.subproyectoContratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subproyectoContratoItem">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idFondo_boleta">
+          <End Role="fondo" Type="Self.fondo" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fondo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idFondo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idFondo_Contrato">
+          <End Role="fondo" Type="Self.fondo" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fondo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="idFondo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idIngeniero_ingenieroContrato">
+          <End Role="ingeniero" Type="Self.ingeniero" Multiplicity="1" />
+          <End Role="ingenieroContrato" Type="Self.ingenieroContrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ingeniero">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="ingenieroContrato">
+              <PropertyRef Name="idIngeniero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idInspector_boleta">
+          <End Role="inspector" Type="Self.inspector" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inspector">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idInspector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idLabControl_labCalidadContrato">
+          <End Role="laboratorioCalidad" Type="Self.laboratorioCalidad" Multiplicity="1" />
+          <End Role="labCalidadContrato" Type="Self.labCalidadContrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="laboratorioCalidad">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="labCalidadContrato">
+              <PropertyRef Name="idLabCalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_ingeniero">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="ingeniero" Type="Self.ingeniero" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ingeniero">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_inspector">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="inspector" Type="Self.inspector" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inspector">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_usuario">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPlanInversion_pICI">
+          <End Role="planInversion" Type="Self.planInversion" Multiplicity="1" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="planInversion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pICI">
+              <PropertyRef Name="idPlanInversion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idProyecto_Estructura_proyecto_estructura">
+          <End Role="proyecto_estructura" Type="Self.proyecto_estructura" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="proyecto_estructura">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idProyecto_Estructura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_boleta">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_pICI">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pICI">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_proyecto_estructura">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="proyecto_estructura" Type="Self.proyecto_estructura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proyecto_estructura">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_seccionControl">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="seccionControl" Type="Self.seccionControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="seccionControl">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_zonaRuta">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="zonaRuta" Type="Self.zonaRuta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zonaRuta">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idSeccionControl_progSubContrItem">
+          <End Role="seccionControl" Type="Self.seccionControl" Multiplicity="1" />
+          <End Role="progSubContrItemSeccionControl" Type="Self.progSubContrItemSeccionControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seccionControl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="progSubContrItemSeccionControl">
+              <PropertyRef Name="idSeccionControl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idSubProyecto_subProyectoContratoItem">
+          <End Role="subProyecto" Type="Self.subProyecto" Multiplicity="1" />
+          <End Role="subproyectoContratoItem" Type="Self.subproyectoContratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subProyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subproyectoContratoItem">
+              <PropertyRef Name="idSubProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idSubProyectoContratoItem_programaSubProyectoContratoItem">
+          <End Role="subproyectoContratoItem" Type="Self.subproyectoContratoItem" Multiplicity="1" />
+          <End Role="programaSubProyectoContratoItem" Type="Self.programaSubProyectoContratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subproyectoContratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="programaSubProyectoContratoItem">
+              <PropertyRef Name="idSubProyectoContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idZona_Contrato">
+          <End Role="zona" Type="Self.zona" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="zona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="idZona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idZona_zonaRuta">
+          <End Role="zona" Type="Self.zona" Multiplicity="1" />
+          <End Role="zonaRuta" Type="Self.zonaRuta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="zona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zonaRuta">
+              <PropertyRef Name="idZona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Proyecto_IAAModelStoreContainer">
+          <EntitySet Name="boleta" EntityType="Self.boleta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="boletaItem" EntityType="Self.boletaItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="contratista" EntityType="Self.contratista" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contrato" EntityType="Self.Contrato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="contratoItem" EntityType="Self.contratoItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="fondo" EntityType="Self.fondo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ingeniero" EntityType="Self.ingeniero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ingenieroContrato" EntityType="Self.ingenieroContrato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inspector" EntityType="Self.inspector" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="item" EntityType="Self.item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="itemReajuste" EntityType="Self.itemReajuste" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="labCalidadContrato" EntityType="Self.labCalidadContrato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="laboratorioCalidad" EntityType="Self.laboratorioCalidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="persona" EntityType="Self.persona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pICI" EntityType="Self.pICI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="planInversion" EntityType="Self.planInversion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="programa" EntityType="Self.programa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="programaSubProyectoContratoItem" EntityType="Self.programaSubProyectoContratoItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="progSubContrItemSeccionControl" EntityType="Self.progSubContrItemSeccionControl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="proyecto_estructura" EntityType="Self.proyecto_estructura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ruta" EntityType="Self.ruta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="seccionControl" EntityType="Self.seccionControl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="subProyecto" EntityType="Self.subProyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="subproyectoContratoItem" EntityType="Self.subproyectoContratoItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="telefono" EntityType="Self.telefono" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zona" EntityType="Self.zona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zonaRuta" EntityType="Self.zonaRuta" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_id_contratoItem_idContrato" Association="Self.fk_id_contratoItem_idContrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="contratoItem" EntitySet="contratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_contratoItem_idItem" Association="Self.fk_id_contratoItem_idItem">
+            <End Role="item" EntitySet="item" />
+            <End Role="contratoItem" EntitySet="contratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_telefono" Association="Self.fk_id_telefono">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="telefono" EntitySet="telefono" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idBoleta_boletaItem" Association="Self.fk_idBoleta_boletaItem">
+            <End Role="boleta" EntitySet="boleta" />
+            <End Role="boletaItem" EntitySet="boletaItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratista_Contrato" Association="Self.fk_idContratista_Contrato">
+            <End Role="contratista" EntitySet="contratista" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_boleta" Association="Self.fk_idContrato_boleta">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_ingenieroContrato" Association="Self.fk_idContrato_ingenieroContrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="ingenieroContrato" EntitySet="ingenieroContrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_labCalidadContrato" Association="Self.fk_idContrato_labCalidadContrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="labCalidadContrato" EntitySet="labCalidadContrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_planInversion" Association="Self.fk_idContrato_planInversion">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="planInversion" EntitySet="planInversion" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_programa" Association="Self.fk_idContrato_programa">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="programa" EntitySet="programa" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_programaSubProyectoContratoItem" Association="Self.fk_idContrato_programaSubProyectoContratoItem">
+            <End Role="programa" EntitySet="programa" />
+            <End Role="programaSubProyectoContratoItem" EntitySet="programaSubProyectoContratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_progSubContrItem" Association="Self.fk_idContrato_progSubContrItem">
+            <End Role="programa" EntitySet="programa" />
+            <End Role="progSubContrItemSeccionControl" EntitySet="progSubContrItemSeccionControl" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_subProyecto" Association="Self.fk_idContrato_subProyecto">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="subProyecto" EntitySet="subProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_boletaItem" Association="Self.fk_idContratoItem_boletaItem">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="boletaItem" EntitySet="boletaItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_itemReajuste" Association="Self.fk_idContratoItem_itemReajuste">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="itemReajuste" EntitySet="itemReajuste" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_pICI" Association="Self.fk_idContratoItem_pICI">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="pICI" EntitySet="pICI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_subProyectoContratoItem" Association="Self.fk_idContratoItem_subProyectoContratoItem">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="subproyectoContratoItem" EntitySet="subproyectoContratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idFondo_boleta" Association="Self.fk_idFondo_boleta">
+            <End Role="fondo" EntitySet="fondo" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idFondo_Contrato" Association="Self.fk_idFondo_Contrato">
+            <End Role="fondo" EntitySet="fondo" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idIngeniero_ingenieroContrato" Association="Self.fk_idIngeniero_ingenieroContrato">
+            <End Role="ingeniero" EntitySet="ingeniero" />
+            <End Role="ingenieroContrato" EntitySet="ingenieroContrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idInspector_boleta" Association="Self.fk_idInspector_boleta">
+            <End Role="inspector" EntitySet="inspector" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idLabControl_labCalidadContrato" Association="Self.fk_idLabControl_labCalidadContrato">
+            <End Role="laboratorioCalidad" EntitySet="laboratorioCalidad" />
+            <End Role="labCalidadContrato" EntitySet="labCalidadContrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_ingeniero" Association="Self.fk_idPersona_ingeniero">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="ingeniero" EntitySet="ingeniero" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_inspector" Association="Self.fk_idPersona_inspector">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="inspector" EntitySet="inspector" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_usuario" Association="Self.fk_idPersona_usuario">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPlanInversion_pICI" Association="Self.fk_idPlanInversion_pICI">
+            <End Role="planInversion" EntitySet="planInversion" />
+            <End Role="pICI" EntitySet="pICI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idProyecto_Estructura_proyecto_estructura" Association="Self.fk_idProyecto_Estructura_proyecto_estructura">
+            <End Role="proyecto_estructura" EntitySet="proyecto_estructura" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_boleta" Association="Self.fk_idRuta_boleta">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_pICI" Association="Self.fk_idRuta_pICI">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="pICI" EntitySet="pICI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_proyecto_estructura" Association="Self.fk_idRuta_proyecto_estructura">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="proyecto_estructura" EntitySet="proyecto_estructura" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_seccionControl" Association="Self.fk_idRuta_seccionControl">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="seccionControl" EntitySet="seccionControl" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_zonaRuta" Association="Self.fk_idRuta_zonaRuta">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="zonaRuta" EntitySet="zonaRuta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idSeccionControl_progSubContrItem" Association="Self.fk_idSeccionControl_progSubContrItem">
+            <End Role="seccionControl" EntitySet="seccionControl" />
+            <End Role="progSubContrItemSeccionControl" EntitySet="progSubContrItemSeccionControl" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idSubProyecto_subProyectoContratoItem" Association="Self.fk_idSubProyecto_subProyectoContratoItem">
+            <End Role="subProyecto" EntitySet="subProyecto" />
+            <End Role="subproyectoContratoItem" EntitySet="subproyectoContratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idSubProyectoContratoItem_programaSubProyectoContratoItem" Association="Self.fk_idSubProyectoContratoItem_programaSubProyectoContratoItem">
+            <End Role="subproyectoContratoItem" EntitySet="subproyectoContratoItem" />
+            <End Role="programaSubProyectoContratoItem" EntitySet="programaSubProyectoContratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idZona_Contrato" Association="Self.fk_idZona_Contrato">
+            <End Role="zona" EntitySet="zona" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idZona_zonaRuta" Association="Self.fk_idZona_zonaRuta">
+            <End Role="zona" EntitySet="zona" />
+            <End Role="zonaRuta" EntitySet="zonaRuta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="boleta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idContrato" Type="Int32" Nullable="false" />
+          <Property Name="numeroBoleta" Type="Int32" Nullable="false" />
+          <Property Name="idFondo" Type="Int16" Nullable="false" />
+          <Property Name="idRuta" Type="Int32" Nullable="false" />
+          <Property Name="idInspector" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="seccionControl" Type="Int32" Nullable="false" />
+          <Property Name="estacionamientoInicial" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estacionamientoFinal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="periodo" Type="Byte" Nullable="false" />
+          <Property Name="idProyecto_Estructura" Type="Int32" Nullable="false" />
+          <Property Name="observaciones" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="boletaItem" Relationship="Self.fk_idBoleta_boletaItem" FromRole="boleta" ToRole="boletaItem" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_boleta" FromRole="boleta" ToRole="Contrato" />
+          <NavigationProperty Name="fondo" Relationship="Self.fk_idFondo_boleta" FromRole="boleta" ToRole="fondo" />
+          <NavigationProperty Name="inspector" Relationship="Self.fk_idInspector_boleta" FromRole="boleta" ToRole="inspector" />
+          <NavigationProperty Name="proyecto_estructura" Relationship="Self.fk_idProyecto_Estructura_proyecto_estructura" FromRole="boleta" ToRole="proyecto_estructura" />
+          <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_boleta" FromRole="boleta" ToRole="ruta" />
+        </EntityType>
+        <EntityType Name="boletaItem">
+          <Key>
+            <PropertyRef Name="idContratoItem" />
+            <PropertyRef Name="idBoleta" />
+          </Key>
+          <Property Name="idContratoItem" Type="Int32" Nullable="false" />
+          <Property Name="idBoleta" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="redimientos" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
+          <NavigationProperty Name="boleta" Relationship="Self.fk_idBoleta_boletaItem" FromRole="boletaItem" ToRole="boleta" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_boletaItem" FromRole="boletaItem" ToRole="contratoItem" />
+        </EntityType>
+        <EntityType Name="contratista">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_idContratista_Contrato" FromRole="contratista" ToRole="Contrato" />
+        </EntityType>
+        <EntityType Name="Contrato">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idContratista" Type="Int32" Nullable="false" />
+          <Property Name="licitacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lineaContrato" Type="Int16" Nullable="false" />
+          <Property Name="idZona" Type="Int16" Nullable="false" />
+          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="plazo" Type="Int16" Nullable="false" />
+          <Property Name="lugar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idFondo" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="boleta" Relationship="Self.fk_idContrato_boleta" FromRole="Contrato" ToRole="boleta" />
+          <NavigationProperty Name="contratista" Relationship="Self.fk_idContratista_Contrato" FromRole="Contrato" ToRole="contratista" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_id_contratoItem_idContrato" FromRole="Contrato" ToRole="contratoItem" />
+          <NavigationProperty Name="ingenieroContrato" Relationship="Self.fk_idContrato_ingenieroContrato" FromRole="Contrato" ToRole="ingenieroContrato" />
+          <NavigationProperty Name="planInversion" Relationship="Self.fk_idContrato_planInversion" FromRole="Contrato" ToRole="planInversion" />
+          <NavigationProperty Name="programa" Relationship="Self.fk_idContrato_programa" FromRole="Contrato" ToRole="programa" />
+          <NavigationProperty Name="subProyecto" Relationship="Self.fk_idContrato_subProyecto" FromRole="Contrato" ToRole="subProyecto" />
+          <NavigationProperty Name="fondo" Relationship="Self.fk_idFondo_Contrato" FromRole="Contrato" ToRole="fondo" />
+          <NavigationProperty Name="zona" Relationship="Self.fk_idZona_Contrato" FromRole="Contrato" ToRole="zona" />
+          <NavigationProperty Name="laboratorioCalidad" Relationship="Self.labCalidadContrato" FromRole="Contrato" ToRole="laboratorioCalidad" />
+        </EntityType>
+        <EntityType Name="contratoItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idContrato" Type="Int32" Nullable="false" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="precioUnitario" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="boletaItem" Relationship="Self.fk_idContratoItem_boletaItem" FromRole="contratoItem" ToRole="boletaItem" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_id_contratoItem_idContrato" FromRole="contratoItem" ToRole="Contrato" />
+          <NavigationProperty Name="item" Relationship="Self.fk_id_contratoItem_idItem" FromRole="contratoItem" ToRole="item" />
+          <NavigationProperty Name="itemReajuste" Relationship="Self.fk_idContratoItem_itemReajuste" FromRole="contratoItem" ToRole="itemReajuste" />
+          <NavigationProperty Name="pICI" Relationship="Self.fk_idContratoItem_pICI" FromRole="contratoItem" ToRole="pICI" />
+          <NavigationProperty Name="subproyectoContratoItem" Relationship="Self.fk_idContratoItem_subProyectoContratoItem" FromRole="contratoItem" ToRole="subproyectoContratoItem" />
+        </EntityType>
+        <EntityType Name="fondo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="boleta" Relationship="Self.fk_idFondo_boleta" FromRole="fondo" ToRole="boleta" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_idFondo_Contrato" FromRole="fondo" ToRole="Contrato" />
+        </EntityType>
+        <EntityType Name="ingeniero">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ingenieroContrato" Relationship="Self.fk_idIngeniero_ingenieroContrato" FromRole="ingeniero" ToRole="ingenieroContrato" />
+          <NavigationProperty Name="persona" Relationship="Self.fk_idPersona_ingeniero" FromRole="ingeniero" ToRole="persona" />
+        </EntityType>
+        <EntityType Name="ingenieroContrato">
+          <Key>
+            <PropertyRef Name="idContrato" />
+            <PropertyRef Name="idIngeniero" />
+          </Key>
+          <Property Name="idContrato" Type="Int32" Nullable="false" />
+          <Property Name="idIngeniero" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="departamento" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="rol" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fechaInicio" Type="DateTime" Precision="0" />
+          <Property Name="fechaFin" Type="DateTime" Precision="0" />
+          <Property Name="activo" Type="Boolean" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_ingenieroContrato" FromRole="ingenieroContrato" ToRole="Contrato" />
+          <NavigationProperty Name="ingeniero" Relationship="Self.fk_idIngeniero_ingenieroContrato" FromRole="ingenieroContrato" ToRole="ingeniero" />
+        </EntityType>
+        <EntityType Name="inspector">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="boleta" Relationship="Self.fk_idInspector_boleta" FromRole="inspector" ToRole="boleta" />
+          <NavigationProperty Name="persona" Relationship="Self.fk_idPersona_inspector" FromRole="inspector" ToRole="persona" />
+        </EntityType>
+        <EntityType Name="item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigoItem" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="unidadMedida" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_id_contratoItem_idItem" FromRole="item" ToRole="contratoItem" />
+        </EntityType>
+        <EntityType Name="itemReajuste">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idContratoItem" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="mes" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ano" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="reajuste" Type="Decimal" Precision="7" Scale="6" Nullable="false" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_itemReajuste" FromRole="itemReajuste" ToRole="contratoItem" />
+        </EntityType>
+        <EntityType Name="laboratorioCalidad">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contrato" Relationship="Self.labCalidadContrato" FromRole="laboratorioCalidad" ToRole="Contrato" />
+        </EntityType>
+        <EntityType Name="persona">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellido1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellido2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cedula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ingeniero" Relationship="Self.fk_idPersona_ingeniero" FromRole="persona" ToRole="ingeniero" />
+          <NavigationProperty Name="inspector" Relationship="Self.fk_idPersona_inspector" FromRole="persona" ToRole="inspector" />
+          <NavigationProperty Name="telefono" Relationship="Self.fk_id_telefono" FromRole="persona" ToRole="telefono" />
+          <NavigationProperty Name="usuario" Relationship="Self.fk_idPersona_usuario" FromRole="persona" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="pICI">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idPlanInversion" Type="Int32" Nullable="false" />
+          <Property Name="idContratoItem" Type="Int32" Nullable="false" />
+          <Property Name="idRuta" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_pICI" FromRole="pICI" ToRole="contratoItem" />
+          <NavigationProperty Name="planInversion" Relationship="Self.fk_idPlanInversion_pICI" FromRole="pICI" ToRole="planInversion" />
+          <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_pICI" FromRole="pICI" ToRole="ruta" />
+        </EntityType>
+        <EntityType Name="planInversion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idContrato" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="mes" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ano" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_planInversion" FromRole="planInversion" ToRole="Contrato" />
+          <NavigationProperty Name="pICI" Relationship="Self.fk_idPlanInversion_pICI" FromRole="planInversion" ToRole="pICI" />
+        </EntityType>
+        <EntityType Name="programa">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idContrato" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="mes" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ano" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fechaFin" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_programa" FromRole="programa" ToRole="Contrato" />
+          <NavigationProperty Name="programaSubProyectoContratoItem" Relationship="Self.fk_idContrato_programaSubProyectoContratoItem" FromRole="programa" ToRole="programaSubProyectoContratoItem" />
+          <NavigationProperty Name="seccionControl" Relationship="Self.progSubContrItemSeccionControl" FromRole="programa" ToRole="seccionControl" />
+        </EntityType>
+        <EntityType Name="programaSubProyectoContratoItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idPrograma" Type="Int32" Nullable="false" />
+          <Property Name="idSubProyectoContratoItem" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="programa" Relationship="Self.fk_idContrato_programaSubProyectoContratoItem" FromRole="programaSubProyectoContratoItem" ToRole="programa" />
+          <NavigationProperty Name="subproyectoContratoItem" Relationship="Self.fk_idSubProyectoContratoItem_programaSubProyectoContratoItem" FromRole="programaSubProyectoContratoItem" ToRole="subproyectoContratoItem" />
+        </EntityType>
+        <EntityType Name="proyecto_estructura">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idRuta" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="boleta" Relationship="Self.fk_idProyecto_Estructura_proyecto_estructura" FromRole="proyecto_estructura" ToRole="boleta" />
+          <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_proyecto_estructura" FromRole="proyecto_estructura" ToRole="ruta" />
+        </EntityType>
+        <EntityType Name="ruta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="boleta" Relationship="Self.fk_idRuta_boleta" FromRole="ruta" ToRole="boleta" />
+          <NavigationProperty Name="pICI" Relationship="Self.fk_idRuta_pICI" FromRole="ruta" ToRole="pICI" />
+          <NavigationProperty Name="proyecto_estructura" Relationship="Self.fk_idRuta_proyecto_estructura" FromRole="ruta" ToRole="proyecto_estructura" />
+          <NavigationProperty Name="seccionControl" Relationship="Self.fk_idRuta_seccionControl" FromRole="ruta" ToRole="seccionControl" />
+          <NavigationProperty Name="zona" Relationship="Self.zonaRuta" FromRole="ruta" ToRole="zona" />
+        </EntityType>
+        <EntityType Name="seccionControl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idRuta" Type="Int32" Nullable="false" />
+          <Property Name="seccion" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ruta" Relationship="Self.fk_idRuta_seccionControl" FromRole="seccionControl" ToRole="ruta" />
+          <NavigationProperty Name="programa" Relationship="Self.progSubContrItemSeccionControl" FromRole="seccionControl" ToRole="programa" />
+        </EntityType>
+        <EntityType Name="subProyecto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idContrato" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_subProyecto" FromRole="subProyecto" ToRole="Contrato" />
+          <NavigationProperty Name="subproyectoContratoItem" Relationship="Self.fk_idSubProyecto_subProyectoContratoItem" FromRole="subProyecto" ToRole="subproyectoContratoItem" />
+        </EntityType>
+        <EntityType Name="subproyectoContratoItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idSubProyecto" Type="Int32" Nullable="false" />
+          <Property Name="idContratoItem" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="contratoItem" Relationship="Self.fk_idContratoItem_subProyectoContratoItem" FromRole="subproyectoContratoItem" ToRole="contratoItem" />
+          <NavigationProperty Name="programaSubProyectoContratoItem" Relationship="Self.fk_idSubProyectoContratoItem_programaSubProyectoContratoItem" FromRole="subproyectoContratoItem" ToRole="programaSubProyectoContratoItem" />
+          <NavigationProperty Name="subProyecto" Relationship="Self.fk_idSubProyecto_subProyectoContratoItem" FromRole="subproyectoContratoItem" ToRole="subProyecto" />
+        </EntityType>
+        <EntityType Name="telefono">
+          <Key>
+            <PropertyRef Name="idPersona" />
+            <PropertyRef Name="telefono1" />
+          </Key>
+          <Property Name="idPersona" Type="Int32" Nullable="false" />
+          <Property Name="telefono1" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="persona" Relationship="Self.fk_id_telefono" FromRole="telefono" ToRole="persona" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="Int32" Nullable="false" />
+          <Property Name="nombreUsuario" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contrasena" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipo" Type="Byte" />
+          <NavigationProperty Name="persona" Relationship="Self.fk_idPersona_usuario" FromRole="usuario" ToRole="persona" />
+        </EntityType>
+        <EntityType Name="zona">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contrato" Relationship="Self.fk_idZona_Contrato" FromRole="zona" ToRole="Contrato" />
+          <NavigationProperty Name="ruta" Relationship="Self.zonaRuta" FromRole="zona" ToRole="ruta" />
+        </EntityType>
+        <Association Name="fk_idBoleta_boletaItem">
+          <End Role="boleta" Type="Self.boleta" Multiplicity="1" />
+          <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boleta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boletaItem">
+              <PropertyRef Name="idBoleta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_boleta">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idFondo_boleta">
+          <End Role="fondo" Type="Self.fondo" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fondo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idFondo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idInspector_boleta">
+          <End Role="inspector" Type="Self.inspector" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inspector">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idInspector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idProyecto_Estructura_proyecto_estructura">
+          <End Role="proyecto_estructura" Type="Self.proyecto_estructura" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="proyecto_estructura">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idProyecto_Estructura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_boleta">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="boleta" Type="Self.boleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boleta">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_boletaItem">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="boletaItem" Type="Self.boletaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="boletaItem">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratista_Contrato">
+          <End Role="contratista" Type="Self.contratista" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratista">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="idContratista" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_contratoItem_idContrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratoItem">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_ingenieroContrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="ingenieroContrato" Type="Self.ingenieroContrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ingenieroContrato">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_planInversion">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="planInversion" Type="Self.planInversion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="planInversion">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_programa">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="programa" Type="Self.programa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="programa">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_subProyecto">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="subProyecto" Type="Self.subProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subProyecto">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idFondo_Contrato">
+          <End Role="fondo" Type="Self.fondo" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fondo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="idFondo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idZona_Contrato">
+          <End Role="zona" Type="Self.zona" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="zona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="idZona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_contratoItem_idItem">
+          <End Role="item" Type="Self.item" Multiplicity="1" />
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contratoItem">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_itemReajuste">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="itemReajuste" Type="Self.itemReajuste" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="itemReajuste">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_pICI">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pICI">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_subProyectoContratoItem">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="subproyectoContratoItem" Type="Self.subproyectoContratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subproyectoContratoItem">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idIngeniero_ingenieroContrato">
+          <End Role="ingeniero" Type="Self.ingeniero" Multiplicity="1" />
+          <End Role="ingenieroContrato" Type="Self.ingenieroContrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ingeniero">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="ingenieroContrato">
+              <PropertyRef Name="idIngeniero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_ingeniero">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="ingeniero" Type="Self.ingeniero" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ingeniero">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_inspector">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="inspector" Type="Self.inspector" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inspector">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_telefono">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="telefono" Type="Self.telefono" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="telefono">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPersona_usuario">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idPlanInversion_pICI">
+          <End Role="planInversion" Type="Self.planInversion" Multiplicity="1" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="planInversion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pICI">
+              <PropertyRef Name="idPlanInversion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_pICI">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="pICI" Type="Self.pICI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pICI">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContrato_programaSubProyectoContratoItem">
+          <End Role="programa" Type="Self.programa" Multiplicity="1" />
+          <End Role="programaSubProyectoContratoItem" Type="Self.programaSubProyectoContratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="programa">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="programaSubProyectoContratoItem">
+              <PropertyRef Name="idPrograma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idSubProyectoContratoItem_programaSubProyectoContratoItem">
+          <End Role="subproyectoContratoItem" Type="Self.subproyectoContratoItem" Multiplicity="1" />
+          <End Role="programaSubProyectoContratoItem" Type="Self.programaSubProyectoContratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subproyectoContratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="programaSubProyectoContratoItem">
+              <PropertyRef Name="idSubProyectoContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_proyecto_estructura">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="proyecto_estructura" Type="Self.proyecto_estructura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proyecto_estructura">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idRuta_seccionControl">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="1" />
+          <End Role="seccionControl" Type="Self.seccionControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ruta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="seccionControl">
+              <PropertyRef Name="idRuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idSubProyecto_subProyectoContratoItem">
+          <End Role="subProyecto" Type="Self.subProyecto" Multiplicity="1" />
+          <End Role="subproyectoContratoItem" Type="Self.subproyectoContratoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subProyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subproyectoContratoItem">
+              <PropertyRef Name="idSubProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="labCalidadContrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <End Role="laboratorioCalidad" Type="Self.laboratorioCalidad" Multiplicity="*" />
+        </Association>
+        <Association Name="progSubContrItemSeccionControl">
+          <End Role="programa" Type="Self.programa" Multiplicity="*" />
+          <End Role="seccionControl" Type="Self.seccionControl" Multiplicity="*" />
+        </Association>
+        <Association Name="zonaRuta">
+          <End Role="ruta" Type="Self.ruta" Multiplicity="*" />
+          <End Role="zona" Type="Self.zona" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Proyecto_IAAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="boleta" EntityType="Self.boleta" />
+          <EntitySet Name="boletaItem" EntityType="Self.boletaItem" />
+          <EntitySet Name="contratista" EntityType="Self.contratista" />
+          <EntitySet Name="Contrato" EntityType="Self.Contrato" />
+          <EntitySet Name="contratoItem" EntityType="Self.contratoItem" />
+          <EntitySet Name="fondo" EntityType="Self.fondo" />
+          <EntitySet Name="ingeniero" EntityType="Self.ingeniero" />
+          <EntitySet Name="ingenieroContrato" EntityType="Self.ingenieroContrato" />
+          <EntitySet Name="inspector" EntityType="Self.inspector" />
+          <EntitySet Name="item" EntityType="Self.item" />
+          <EntitySet Name="itemReajuste" EntityType="Self.itemReajuste" />
+          <EntitySet Name="laboratorioCalidad" EntityType="Self.laboratorioCalidad" />
+          <EntitySet Name="persona" EntityType="Self.persona" />
+          <EntitySet Name="pICI" EntityType="Self.pICI" />
+          <EntitySet Name="planInversion" EntityType="Self.planInversion" />
+          <EntitySet Name="programa" EntityType="Self.programa" />
+          <EntitySet Name="programaSubProyectoContratoItem" EntityType="Self.programaSubProyectoContratoItem" />
+          <EntitySet Name="proyecto_estructura" EntityType="Self.proyecto_estructura" />
+          <EntitySet Name="ruta" EntityType="Self.ruta" />
+          <EntitySet Name="seccionControl" EntityType="Self.seccionControl" />
+          <EntitySet Name="subProyecto" EntityType="Self.subProyecto" />
+          <EntitySet Name="subproyectoContratoItem" EntityType="Self.subproyectoContratoItem" />
+          <EntitySet Name="telefono" EntityType="Self.telefono" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" />
+          <EntitySet Name="zona" EntityType="Self.zona" />
+          <AssociationSet Name="fk_idBoleta_boletaItem" Association="Self.fk_idBoleta_boletaItem">
+            <End Role="boleta" EntitySet="boleta" />
+            <End Role="boletaItem" EntitySet="boletaItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_boleta" Association="Self.fk_idContrato_boleta">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idFondo_boleta" Association="Self.fk_idFondo_boleta">
+            <End Role="fondo" EntitySet="fondo" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idInspector_boleta" Association="Self.fk_idInspector_boleta">
+            <End Role="inspector" EntitySet="inspector" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idProyecto_Estructura_proyecto_estructura" Association="Self.fk_idProyecto_Estructura_proyecto_estructura">
+            <End Role="proyecto_estructura" EntitySet="proyecto_estructura" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_boleta" Association="Self.fk_idRuta_boleta">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="boleta" EntitySet="boleta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_boletaItem" Association="Self.fk_idContratoItem_boletaItem">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="boletaItem" EntitySet="boletaItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratista_Contrato" Association="Self.fk_idContratista_Contrato">
+            <End Role="contratista" EntitySet="contratista" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_contratoItem_idContrato" Association="Self.fk_id_contratoItem_idContrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="contratoItem" EntitySet="contratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_ingenieroContrato" Association="Self.fk_idContrato_ingenieroContrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="ingenieroContrato" EntitySet="ingenieroContrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_planInversion" Association="Self.fk_idContrato_planInversion">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="planInversion" EntitySet="planInversion" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_programa" Association="Self.fk_idContrato_programa">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="programa" EntitySet="programa" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_subProyecto" Association="Self.fk_idContrato_subProyecto">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="subProyecto" EntitySet="subProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idFondo_Contrato" Association="Self.fk_idFondo_Contrato">
+            <End Role="fondo" EntitySet="fondo" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idZona_Contrato" Association="Self.fk_idZona_Contrato">
+            <End Role="zona" EntitySet="zona" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_contratoItem_idItem" Association="Self.fk_id_contratoItem_idItem">
+            <End Role="item" EntitySet="item" />
+            <End Role="contratoItem" EntitySet="contratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_itemReajuste" Association="Self.fk_idContratoItem_itemReajuste">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="itemReajuste" EntitySet="itemReajuste" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_pICI" Association="Self.fk_idContratoItem_pICI">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="pICI" EntitySet="pICI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_subProyectoContratoItem" Association="Self.fk_idContratoItem_subProyectoContratoItem">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="subproyectoContratoItem" EntitySet="subproyectoContratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idIngeniero_ingenieroContrato" Association="Self.fk_idIngeniero_ingenieroContrato">
+            <End Role="ingeniero" EntitySet="ingeniero" />
+            <End Role="ingenieroContrato" EntitySet="ingenieroContrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_ingeniero" Association="Self.fk_idPersona_ingeniero">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="ingeniero" EntitySet="ingeniero" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_inspector" Association="Self.fk_idPersona_inspector">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="inspector" EntitySet="inspector" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_telefono" Association="Self.fk_id_telefono">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="telefono" EntitySet="telefono" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPersona_usuario" Association="Self.fk_idPersona_usuario">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idPlanInversion_pICI" Association="Self.fk_idPlanInversion_pICI">
+            <End Role="planInversion" EntitySet="planInversion" />
+            <End Role="pICI" EntitySet="pICI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_pICI" Association="Self.fk_idRuta_pICI">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="pICI" EntitySet="pICI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContrato_programaSubProyectoContratoItem" Association="Self.fk_idContrato_programaSubProyectoContratoItem">
+            <End Role="programa" EntitySet="programa" />
+            <End Role="programaSubProyectoContratoItem" EntitySet="programaSubProyectoContratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idSubProyectoContratoItem_programaSubProyectoContratoItem" Association="Self.fk_idSubProyectoContratoItem_programaSubProyectoContratoItem">
+            <End Role="subproyectoContratoItem" EntitySet="subproyectoContratoItem" />
+            <End Role="programaSubProyectoContratoItem" EntitySet="programaSubProyectoContratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_proyecto_estructura" Association="Self.fk_idRuta_proyecto_estructura">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="proyecto_estructura" EntitySet="proyecto_estructura" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idRuta_seccionControl" Association="Self.fk_idRuta_seccionControl">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="seccionControl" EntitySet="seccionControl" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idSubProyecto_subProyectoContratoItem" Association="Self.fk_idSubProyecto_subProyectoContratoItem">
+            <End Role="subProyecto" EntitySet="subProyecto" />
+            <End Role="subproyectoContratoItem" EntitySet="subproyectoContratoItem" />
+          </AssociationSet>
+          <AssociationSet Name="labCalidadContrato" Association="Self.labCalidadContrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="laboratorioCalidad" EntitySet="laboratorioCalidad" />
+          </AssociationSet>
+          <AssociationSet Name="progSubContrItemSeccionControl" Association="Self.progSubContrItemSeccionControl">
+            <End Role="programa" EntitySet="programa" />
+            <End Role="seccionControl" EntitySet="seccionControl" />
+          </AssociationSet>
+          <AssociationSet Name="zonaRuta" Association="Self.zonaRuta">
+            <End Role="ruta" EntitySet="ruta" />
+            <End Role="zona" EntitySet="zona" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Proyecto_IAAModelStoreContainer" CdmEntityContainer="Proyecto_IAAEntities">
+          <EntitySetMapping Name="boleta">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.boleta">
+              <MappingFragment StoreEntitySet="boleta">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
+                <ScalarProperty Name="numeroBoleta" ColumnName="numeroBoleta" />
+                <ScalarProperty Name="idFondo" ColumnName="idFondo" />
+                <ScalarProperty Name="idRuta" ColumnName="idRuta" />
+                <ScalarProperty Name="idInspector" ColumnName="idInspector" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="seccionControl" ColumnName="seccionControl" />
+                <ScalarProperty Name="estacionamientoInicial" ColumnName="estacionamientoInicial" />
+                <ScalarProperty Name="estacionamientoFinal" ColumnName="estacionamientoFinal" />
+                <ScalarProperty Name="periodo" ColumnName="periodo" />
+                <ScalarProperty Name="idProyecto_Estructura" ColumnName="idProyecto_Estructura" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="boletaItem">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.boletaItem">
+              <MappingFragment StoreEntitySet="boletaItem">
+                <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
+                <ScalarProperty Name="idBoleta" ColumnName="idBoleta" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="redimientos" ColumnName="redimientos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="contratista">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.contratista">
+              <MappingFragment StoreEntitySet="contratista">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contrato">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.Contrato">
+              <MappingFragment StoreEntitySet="Contrato">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idContratista" ColumnName="idContratista" />
+                <ScalarProperty Name="licitacion" ColumnName="licitacion" />
+                <ScalarProperty Name="lineaContrato" ColumnName="lineaContrato" />
+                <ScalarProperty Name="idZona" ColumnName="idZona" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="plazo" ColumnName="plazo" />
+                <ScalarProperty Name="lugar" ColumnName="lugar" />
+                <ScalarProperty Name="idFondo" ColumnName="idFondo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="contratoItem">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.contratoItem">
+              <MappingFragment StoreEntitySet="contratoItem">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="precioUnitario" ColumnName="precioUnitario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fondo">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.fondo">
+              <MappingFragment StoreEntitySet="fondo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ingeniero">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.ingeniero">
+              <MappingFragment StoreEntitySet="ingeniero">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ingenieroContrato">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.ingenieroContrato">
+              <MappingFragment StoreEntitySet="ingenieroContrato">
+                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
+                <ScalarProperty Name="idIngeniero" ColumnName="idIngeniero" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="departamento" ColumnName="departamento" />
+                <ScalarProperty Name="rol" ColumnName="rol" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="inspector">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.inspector">
+              <MappingFragment StoreEntitySet="inspector">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="item">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.item">
+              <MappingFragment StoreEntitySet="item">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="codigoItem" ColumnName="codigoItem" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="unidadMedida" ColumnName="unidadMedida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="itemReajuste">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.itemReajuste">
+              <MappingFragment StoreEntitySet="itemReajuste">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="mes" ColumnName="mes" />
+                <ScalarProperty Name="ano" ColumnName="ano" />
+                <ScalarProperty Name="reajuste" ColumnName="reajuste" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="laboratorioCalidad">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.laboratorioCalidad">
+              <MappingFragment StoreEntitySet="laboratorioCalidad">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="persona">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.persona">
+              <MappingFragment StoreEntitySet="persona">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido1" ColumnName="apellido1" />
+                <ScalarProperty Name="apellido2" ColumnName="apellido2" />
+                <ScalarProperty Name="cedula" ColumnName="cedula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pICI">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.pICI">
+              <MappingFragment StoreEntitySet="pICI">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idPlanInversion" ColumnName="idPlanInversion" />
+                <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
+                <ScalarProperty Name="idRuta" ColumnName="idRuta" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="planInversion">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.planInversion">
+              <MappingFragment StoreEntitySet="planInversion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="mes" ColumnName="mes" />
+                <ScalarProperty Name="ano" ColumnName="ano" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="programa">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.programa">
+              <MappingFragment StoreEntitySet="programa">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="mes" ColumnName="mes" />
+                <ScalarProperty Name="ano" ColumnName="ano" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="programaSubProyectoContratoItem">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.programaSubProyectoContratoItem">
+              <MappingFragment StoreEntitySet="programaSubProyectoContratoItem">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idPrograma" ColumnName="idPrograma" />
+                <ScalarProperty Name="idSubProyectoContratoItem" ColumnName="idSubProyectoContratoItem" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="proyecto_estructura">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.proyecto_estructura">
+              <MappingFragment StoreEntitySet="proyecto_estructura">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idRuta" ColumnName="idRuta" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ruta">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.ruta">
+              <MappingFragment StoreEntitySet="ruta">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="seccionControl">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.seccionControl">
+              <MappingFragment StoreEntitySet="seccionControl">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idRuta" ColumnName="idRuta" />
+                <ScalarProperty Name="seccion" ColumnName="seccion" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subProyecto">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.subProyecto">
+              <MappingFragment StoreEntitySet="subProyecto">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subproyectoContratoItem">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.subproyectoContratoItem">
+              <MappingFragment StoreEntitySet="subproyectoContratoItem">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idSubProyecto" ColumnName="idSubProyecto" />
+                <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="telefono">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.telefono">
+              <MappingFragment StoreEntitySet="telefono">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="telefono1" ColumnName="telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
+                <ScalarProperty Name="contrasena" ColumnName="contrasena" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zona">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.zona">
+              <MappingFragment StoreEntitySet="zona">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="labCalidadContrato" TypeName="Proyecto_IAAModel.labCalidadContrato" StoreEntitySet="labCalidadContrato">
+            <EndProperty Name="Contrato">
+              <ScalarProperty Name="id" ColumnName="idContrato" />
+            </EndProperty>
+            <EndProperty Name="laboratorioCalidad">
+              <ScalarProperty Name="id" ColumnName="idLabCalidad" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="progSubContrItemSeccionControl" TypeName="Proyecto_IAAModel.progSubContrItemSeccionControl" StoreEntitySet="progSubContrItemSeccionControl">
+            <EndProperty Name="programa">
+              <ScalarProperty Name="id" ColumnName="idPrograma" />
+            </EndProperty>
+            <EndProperty Name="seccionControl">
+              <ScalarProperty Name="id" ColumnName="idSeccionControl" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="zonaRuta" TypeName="Proyecto_IAAModel.zonaRuta" StoreEntitySet="zonaRuta">
+            <EndProperty Name="ruta">
+              <ScalarProperty Name="id" ColumnName="idRuta" />
+            </EndProperty>
+            <EndProperty Name="zona">
+              <ScalarProperty Name="id" ColumnName="idZona" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

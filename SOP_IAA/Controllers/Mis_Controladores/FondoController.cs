@@ -14,7 +14,7 @@ namespace SOP_IAA.Controllers
     public partial class FondoController : Controller
     {
 
-        // POST: Fondo/Create
+        // POST: fondo/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -40,7 +40,7 @@ namespace SOP_IAA.Controllers
             return View(fondo);
         }
 
-        // POST: Fondo/Edit/5
+       // POST: fondo/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +65,7 @@ namespace SOP_IAA.Controllers
             return View(fondo);
         }
 
-        // POST: Fondo/Delete/5
+        // POST: fondo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(short id)

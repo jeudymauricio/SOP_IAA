@@ -15,6 +15,7 @@ namespace SOP_IAA_DAL
 
     public class personaMetaData
     {
+
         [Required]
         [DisplayName("Nombre")]
         [StringLength(50)]
@@ -30,8 +31,8 @@ namespace SOP_IAA_DAL
         [StringLength(50)]
         public string apellido2 { get; set; }
        
-        [Required]
         [DisplayName("Cédula")]
+        [StringLength(50)]
         public string cedula { get; set; }
     }
 }

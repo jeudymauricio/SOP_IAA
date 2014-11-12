@@ -1,0 +1,73 @@
+﻿@model SOP_IAA_DAL.zona
+
+@{
+    ViewBag.Title = "Rutas Asociadas";
+}
+
+<h2></h2>
+
+<p>
+    @Html.ActionLink("Editar las Rutas", "ZonaRutasEditar", new { id = Model.id }, new { @class = "btn btn-primary", @style = "width:150px" })
+</p>
+<br />
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Rutas de la zona @Model.nombre
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbZonaRuta" class="display">
+                <thead>
+                    <tr>
+                        <th>
+                            Ruta
+                        </th>
+                        <th>
+                            Descripción
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ruta)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.descripcion)
+                            </td>
+                            <td align="center">
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbZonaRuta').dataTable({
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        })
+    </script>
+}
+
+<p>
+    @Html.ActionLink("Atrás", "index")
+</p>

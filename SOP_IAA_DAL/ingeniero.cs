@@ -16,15 +16,12 @@ namespace SOP_IAA_DAL
     {
         public ingeniero()
         {
-            this.ingenieroProyecto = new HashSet<ingenieroProyecto>();
+            this.ingenieroContrato = new HashSet<ingenieroContrato>();
         }
     
         public int idPersona { get; set; }
-        public string descripcion { get; set; }
-        public string departamento { get; set; }
-        public string rol { get; set; }
     
-        public virtual ICollection<ingenieroProyecto> ingenieroProyecto { get; set; }
+        public virtual ICollection<ingenieroContrato> ingenieroContrato { get; set; }
         public virtual persona persona { get; set; }
     }
 }

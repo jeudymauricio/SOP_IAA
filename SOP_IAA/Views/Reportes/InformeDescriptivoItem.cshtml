@@ -1,0 +1,172 @@
+﻿@model SOP_IAA_DAL.contratoItem
+
+@{
+    ViewBag.Title = "Reportes del item ";
+}
+
+<h2> Reportes del item @Model.item.codigoItem </h2>
+@*<p>
+    @Html.ActionLink("Exportar a Excel", "exportarInformeDescriptivoItem", "Reportes", new { id = @Model.id }, new { @class = "btn btn-primary", @style = "width:150px" })
+</p>*@
+@using (Html.BeginForm("InformeDescriptivoItemRango", "Reportes"))
+{
+
+    <div>
+        <div style="text-align:right">
+            <!-- Button trigger modal -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" type="button">
+                Filtrar Boletas
+            </button>
+        </div>
+        <br />
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel" style="text-align:center">
+                            Mostrar las boletas en un rango de fechas específico
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-info form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-3">Fecha Inicio</label>
+                                <div class="col-md-9">
+                                    <input class="form-control" id="fechaInicio" name="fecha1" placeholder="dd/mm/aaaa" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3">Fecha Fin</label>
+                                <div class="col-md-9">
+                                    <input class="form-control" id="fechaFin" name="fecha2" placeholder="dd/mm/aaaa" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <img src="~/Content/Images/loading.gif" id="loadingGif" style="display: none;" />
+                        <input type="submit" value="Filtrar" class="btn btn-primary" id="btnRangoFechas" style="width: 83px;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+    </div>
+    
+    
+    @*<div class="form-group">
+        <label for="FechaInicio">Fecha Inicio</label>
+        <div class="col-md-10">
+
+            <input class="form-control" id="fechaInicio" name="fecha1" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="FechaFin">Fecha Fin</label>
+        <div class="col-md-10">
+
+            <input class="form-control" id="fechaFin" name="fecha2" />
+        </div>
+    </div>
+    <input class="btn btn-primary" type="submit" value="Buscar">*@
+
+    <br />
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Titulo del panel
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body" id="divPanel">
+        <div class="table-responsive" id="divTableResp">
+
+            <table id="tbReportes" class="display">
+                <thead>
+                    <tr>
+                        <th>N° Boleta</th>
+                        <th>Fecha</th>
+                        <th>Ruta</th>
+                        <th>Sección de control</th>
+                        <th>Est Inicio</th>
+                        <th>Est Final</th>
+                        <th>Cantidad</th>
+                        <th>Inspector</th>
+                        <th>Proyecto/Estructura</th>
+                        <th>Comentarios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.boletaItem)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.numeroBoleta)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.ruta.nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.seccionControl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.estacionamientoInicial)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.estacionamientoFinal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cantidad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.inspector.persona.nombre)
+                                @Html.DisplayFor(modelItem => item.boleta.inspector.persona.apellido1)
+                                @Html.DisplayFor(modelItem => item.boleta.inspector.persona.apellido2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.proyecto_estructura.descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.observaciones)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-12 text-center">
+                <ul class="pagination pagination-lg pager" id="myPager"></ul>
+            </div>
+
+        </div>
+
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+
+<div>
+    @Html.ActionLink("Atrás", "Index", "Reportes", new { idContrato = Model.idContrato }, null)
+</div>
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>   
+    <script src="~/Scripts/ReportesExcel/InformeDescriptivoItem.js"></script>
+
+    <!-- Scripts y ccs para el date range picker -->
+    <script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+    <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+    <link rel="stylesheet" href="~/Content/DateRangePicker/daterangepicker-bs3.css" />
+
+    <!-- Scripts y css para el single date picker -->
+    <script src="~/Scripts/DatePicker/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="~/Content/DatePicker/bootstrap-datetimepicker.css" />
+    <script type="text/javascript" src="~/Scripts/DatePicker/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
+}

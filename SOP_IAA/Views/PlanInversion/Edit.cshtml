@@ -1,0 +1,164 @@
+﻿@model SOP_IAA_DAL.planInversion
+
+@{
+    ViewBag.Title = "Plan Inversión Mensual";
+}
+
+<h2>Plan de Inversión Mensual</h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formEdit", id = "formEdit" }))
+{
+    @Html.AntiForgeryToken()
+    <h4> </h4>
+    <hr />
+    
+    @Html.HiddenFor(model => model.idContrato)
+    @Html.HiddenFor(model => model.id)
+
+    <div class="row">
+        <div class="form-group col-md-12">
+            @Html.Label("Fecha del Plan", htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @id = "txtFecha", @placeholder = "Fecha que aplica", @title = "Fecha valida para todo el mes", @Value = @Model.fecha.ToString("MMMM yyyy") } })
+        </div>
+    </div>
+
+    <div class="row">
+        @Html.Label("Rutas", htmlAttributes: new { @class = "control-label col-md-12" })
+        <div class="col-md-12">
+            @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control col-md-4", @id = "ddlRutas" })
+            <div class="col-md-4">
+                <input class="btn btn-primary" type="button" id="btnAgregarRuta" value="Incluir Ruta" />
+            </div>
+        </div>
+
+    </div>
+    <br />
+
+    <div class="row form-group">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Plan de Inversión para @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)@Model.mes).ToUpperInvariant() de @Model.ano
+                    <input id="txtMontoPlan" class="btn-xs pull-right" value="0,0000" disabled style="text-align:right" />
+                    <label class="pull-right btn-xs">Monto Acumulado del plan</label>
+                </div>
+                <!-- .panel-heading -->
+                <div class="panel-body">
+                    <div class="panel-group" id="rutasAcordeon">
+                        @foreach (var group in Model.pICI.GroupBy(m => new { m.ruta }))
+                        {
+                            <!-- Se coloca como id del panel el id de la ruta + la palabra panel -->
+                            <div class="panel panel-default" id="@string.Format("panel"+group.First().idRuta)">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="@string.Format("#collapse" + @group.First().idRuta)" aria-expanded="false" class="collapsed">Ruta @group.First().ruta.nombre</a>
+                                        <!-- botón para eliminar la ruta y sus elementos del plan -->
+                                        <button type="button" class="btn btn-warning btn-xs pull-right" onclick="eliminarRuta('@group.First().idRuta','@group.First().ruta.nombre')"> Excluir Ruta </button>
+                                        <input class="btn-xs pull-right" value="0,0000" disabled style="text-align:right" />
+                                        <label class="pull-right btn-xs">Monto por Ruta</label>
+                                    </h4>
+                                </div>
+                                <div id="@string.Format("collapse" + @group.First().idRuta)" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <!-- el dropdown tiene un id basado en su id de ruta-->
+                                                @Html.DropDownList("idItem", null, htmlAttributes: new { @class = "input", @id = string.Format("ddlItems" + @group.First().idRuta) })
+                                                <input class="btn btn-primary" type="button" id="@string.Format("btnAgregarItem" + @group.First().idRuta)" value="Incluir Ítem" onclick="agregarItem('@group.First().idRuta')" />
+                                                <img src="~/Content/Images/loading.gif" id="@string.Format("loadingGif" + @group.First().idRuta)" style="display: none;" />
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <!-- la tabla se identifica por medio del id de la ruta -->
+                                            <table id="@string.Format("tbItems" + group.First().idRuta)" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:center">Item</th>
+                                                        <th style="text-align:center">Descripción</th>
+                                                        <th style="text-align:center">Unidad de Medida</th>
+                                                        <th style="text-align:center">Precio(₡)</th>
+                                                        <th style="text-align:center">Cantidad</th>
+                                                        <th style="text-align:center">Monto(₡)</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Aqui se cargarán las filas dinámicamente con la información de los ítems -->
+                                                    @foreach (var item in group)
+                                                    {
+                                                        <tr id="@item.idContratoItem">
+                                                            <td style="text-align:center">@item.contratoItem.item.codigoItem</td>
+                                                            <td>@item.contratoItem.item.descripcion</td>
+                                                            <td style="text-align:center">@item.contratoItem.item.unidadMedida</td>
+                                                            <td style="text-align:center"> <input class="form-control" disabled="disabled" value="@String.Format("{0:C4}", @item.contratoItem.precioUnitario)" style="text-align:right" /> </td>
+                                                            <td style="text-align:center">
+                                                                <input class="form-control" style="min-width: 100px; text-align:right" onchange="alpha($(this))" id="@string.Format("txtCantidad" + item.idContratoItem)" name="@string.Format("txtCantidad" + item.idContratoItem)" type="text" value="@item.cantidad">
+                                                                <span class="text-danger field-validation-error" data-valmsg-for="@string.Format("txtCantidad" + item.idContratoItem)" data-valmsg-replace="true"></span>
+                                                            </td>
+                                                            <td style="text-align:center"> <input class="form-control" disabled="disabled" value="@String.Format("{0:C4}", @item.cantidad * @item.contratoItem.precioUnitario)" style="text-align:right" /> </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-warning" onclick="eliminarItem('@group.First().idRuta','@item.idContratoItem','@item.contratoItem.item.codigoItem')">Excluir Item</button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- /.table-responsive -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- .panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            @Html.ActionLink("Atrás", "Periodo", new { fecha = @Model.fecha, idContrato = Model.idContrato })
+        </div>
+        <div class="col-sm-6" style="text-align:right">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <input type="submit" name="edit" value="Guardar Cambios" class="btn btn-success" />
+            <img src="~/Content/Images/loading.gif" id="loadingGif" style="display: none;" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <!-- scripts para los estilos del jquery -->
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+
+    <!-- Función para el autocompletado del dropdown -->
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
+
+    <!-- Función del datatable-->
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <!-- Función para realizar operaciones con decimales -->
+    <script src="~/Scripts/API Decimales/decimal.js"></script>
+
+    <!-- Funciones internas de crear -->
+    <script src="~/Scripts/PlanInversion/EditMethods.js"></script>
+
+    <!-- Scripts y css para el single date picker -->
+    <script src="~/Scripts/DatePicker/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="~/Content/DatePicker/bootstrap-datetimepicker.css" />
+    <script type="text/javascript" src="~/Scripts/DatePicker/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
+    
+    <script>
+        // Variable global de lista de items del contrato
+        var itemList = @Html.Raw(Json.Encode(@ViewBag.idItem))
+    </script>
+}

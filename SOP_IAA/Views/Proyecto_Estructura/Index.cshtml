@@ -1,0 +1,72 @@
+﻿@model SOP_IAA_DAL.ruta
+
+@{
+    ViewBag.Title = "Proyectos y Estructuras";
+}
+
+<h2> </h2>
+<p>
+    @Html.ActionLink("Nuevo Proyecto/Estructura", "Create", new { idRuta = Model.id }, new { @class = "btn btn-primary"})
+</p>
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Proyectos y estructuras de @Model.nombre
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbProyecto_Estructura" class="display">
+                <thead>
+                    <tr>
+                        <th>
+                            Descripción
+                        </th>
+                        @*<th>
+                            @Html.DisplayNameFor(model => model.ruta.nombre)
+                        </th>*@
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.proyecto_estructura)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.descripcion)
+                            </td>
+                            @*<td>
+                                @Html.DisplayFor(modelItem => item.ruta.nombre)
+                            </td>*@
+                            <td align="center">
+                                @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
+                                @*@Html.ActionLink("Details", "Details", new { id=item.id }) |*@
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+<p>
+    @Html.ActionLink("Atrás", "Index", "Ruta")
+</p>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbProyecto_Estructura').dataTable({
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        })
+    </script>
+}

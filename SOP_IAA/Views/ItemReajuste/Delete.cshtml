@@ -1,0 +1,66 @@
+﻿@model SOP_IAA_DAL.itemReajuste
+
+@{
+    ViewBag.Title = "Eliminar Reajuste";
+}
+
+<h2>Eliminar Reajuste</h2>
+
+<div>
+    <h4>@Model.contratoItem.item.codigoItem</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ano)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ano)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reajuste)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reajuste)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.precioReajustado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.precioReajustado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.contratoItem.id)
+        </dt>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    }
+</div>

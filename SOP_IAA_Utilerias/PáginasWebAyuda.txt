@@ -1,0 +1,329 @@
+﻿http://www.corelangs.com/css/box/center-div.html
+http://www.codeproject.com/Articles/177335/Refreshing-content-of-the-table-using-AJAX-in-ASP
+http://stackoverflow.com/questions/17671105/asp-mvc-href-to-a-controller-view
+http://dba.stackexchange.com/questions/31420/how-to-create-unique-index-for-month-and-year-column
+
+http://stackoverflow.com/questions/6629263/how-do-i-prevent-decimal-values-from-being-truncated-to-2-places-on-save-using-t
+http://www.reddybrek.com/allow-entity-framework-store-more-than-2-decimal-places
+
+
+
+<! ---------------------------------- decimales en EntityFramework ---------------------------------------------------->
+	http://weiding331.blogspot.com/2014/01/entity-framework-decimal-value.html
+
+Transacciones EntityFramework
+	http://msdn.microsoft.com/en-us/library/vstudio/bb738523(v=vs.100).aspx
+
+Excepciones en c#
+	http://stackoverflow.com/questions/3967140/duplicate-key-exception-from-entity-framework
+	http://stackoverflow.com/questions/24740376/best-way-to-catch-sql-unique-constraint-violations-in-c-sharp-during-inserts
+
+Exportar a Excel
+	http://epplus.codeplex.com/wikipage?title=WebapplicationExample
+	https://epplus.codeplex.com/discussions/219864
+	https://epplus.codeplex.com/discussions/402366
+	http://csharp.net-informations.com/excel/csharp-excel-tutorial.htm
+
+	https://bytescout.com/products/developer/spreadsheetsdk/read-write-excel.html
+
+Manejo de Errores en ajax
+	http://stackoverflow.com/questions/12734714/jquery-ajax-error-handling-http-status-codes
+
+Alter tables SQL Server
+	http://stackoverflow.com/questions/10184086/mysql-how-to-increase-varchar-size-of-an-existing-column-in-a-database-without
+	http://dba.stackexchange.com/questions/15007/sql-server-2008-change-length-of-varchar-on-live-prod-table
+	http://www.sqlteam.com/forums/topic.asp?TOPIC_ID=81948
+	ALTER TABLE [dbo].[boleta] ALTER COLUMN [observaciones] VARCHAR(150); -- Cambia la columna observaciones a un varchar de 150
+
+Reset Identity SQL Server
+	http://msdn.microsoft.com/es-es/library/ms176057.aspx
+
+Formato de Moneda (vease también el apartado JavaScript...)
+	http://stackoverflow.com/questions/224462/storing-money-in-a-decimal-column-what-precision-and-scale
+	http://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.displayformatattribute(v=vs.110).aspx
+	http://www.growingwiththeweb.com/2012/12/aspnet-mvc-display-and-editor-templates.html
+	http://geeks.ms/blogs/jtorrecilla/archive/2014/04/19/mostrando-un-valor-de-moneda-con-formato-en-base-a-su-cultura.aspx
+	http://www.variablenotfound.com/2011/04/aspnet-mvc-3-y-la-coma-en-los-decimales.html
+	http://stackoverflow.com/questions/19800175/c-sharp-mvc-net-format-currency-without-decimals
+	http://www.csharp-examples.net/string-format-double/
+
+Formato Decimal CR - US
+	http://msdn.microsoft.com/en-us/library/t7xswkc6(v=vs.110).aspx
+	http://msdn.microsoft.com/en-us/library/s84kdbzx(v=vs.110).aspx
+
+Decimales, escala y precisión
+	http://mikemcl.github.io/decimal.js/
+	http://blog.sqlauthority.com/2007/08/29/sql-server-difference-and-explanation-among-decimal-float-and-numeric/
+	http://stackoverflow.com/questions/441600/write-a-number-with-two-decimal-places-sql-server
+	http://stackoverflow.com/questions/2377174/how-do-i-interpret-precision-and-scale-of-a-number-in-a-database
+		///***///
+		Numeric precision refers to the maximum number of digits that are present in the number.
+
+		ie 1234567.89 has a precision of 9
+
+		Numeric scale refers to the maximum number of decimal places
+
+		ie 123456.789 has a scale of 3
+
+		Thus the maximum allowed value for decimal(5,2) is 999.99
+		///***///
+
+Web Culture setting
+	http://msdn.microsoft.com/en-us/library/bz9tc508(v=vs.110).aspx
+	http://msdn.microsoft.com/en-us/library/hy4kkhe0(v=vs.71).aspx
+
+Exportar datos de excel a SQL
+	http://tools.perceptus.ca/text-wiz.php?ops=7
+	http://www.66pacific.com/sql_server_import_from_excel.aspx
+
+Comparaciones linQ, sacar los elementos de una tabla que no estan en otra etc.
+	http://stackoverflow.com/questions/3944803/use-linq-to-get-items-in-one-list-that-are-not-in-another-list
+	http://stackoverflow.com/questions/5640259/linq-select-where-object-does-not-contain-items-from-list
+
+activar los elementos de un menú
+	http://css-tricks.com/snippets/jquery/add-active-navigation-class-based-on-url/
+
+Página para probar código web
+	http://codepen.io/anon/pen/xHDiE?editors=101
+	http://jsfiddle.net
+
+bootsnip
+	http://www.bootply.com/
+
+breadcrumb - Migas de pan MVC
+	http://joeylicc.wordpress.com/2013/07/08/asp-net-mvc-sitemappath-using-site-map-provider-bootstrap-breadcrumbs/
+
+Dropdown en cascada
+	http://www.c-sharpcorner.com/UploadFile/3d39b4/casecading-dropdown-list-with-mvc-linq-to-sql-and-ajax/
+	http://www.codeproject.com/Articles/258172/Simple-Implementation-of-MVC-Cascading-Ajax-Drop-D
+	http://www.codeproject.com/Articles/730953/Cascading-Dropdown-List-With-MVC-LINQ-to-SQL-and-A
+	http://forums.asp.net/t/1986189.aspx?Passing+dropdown+selected+value+to+controller+using+ajax+call
+	http://stackoverflow.com/questions/16915438/asp-net-mvc-3-listt-to-ienumerableselectlistitem
+
+
+poner nombre al form de MVC
+	http://stackoverflow.com/questions/16186250/while-name-mvc3-form-with-html-beginform-it-display-form-fields-between-syste
+
+agregar parámetros a un submit MVC
+	http://stackoverflow.com/questions/17809056/how-to-add-additional-fields-to-form-before-submit
+	http://stackoverflow.com/questions/2530635/jquery-add-additional-parameters-on-submit-not-ajax
+
+<<<<<<<
+	http://stackoverflow.com/questions/16256290/asp-net-mvc-get-value-from-html-textboxfor
+>>>>>>>>
+
+Arrays en JavaScript
+	http://stackoverflow.com/questions/10451893/javascript-create-simple-dynamic-array
+
+datepicker - datetime format
+	http://stackoverflow.com/questions/12053022/mvc-datetime-validation-uk-date-format
+	http://www.bufa.es/jquery-ui-datepicker-espanol/
+	http://stackoverflow.com/questions/21598289/convert-mm-dd-yyyy-to-dd-mm-yyyy-using-javascript-while-adding-number-of-days-wi
+	http://instinctcoder.com/asp-net-mvc-4-jquery-datepicker-date-format-validation/
+	http://www.java2s.com/Tutorial/JavaScript/0571__jQuery/Addimagetodatepickertriggerbutton.htm
+	http://msdn.microsoft.com/es-es/library/cc165448.aspx
+	
+		
+	date single
+		https://github.com/smalot/bootstrap-datetimepicker
+	daterange
+		http://tamble.github.io/jquery-ui-daterangepicker/
+		https://github.com/dangrossman/bootstrap-daterangepicker
+
+autocomplete
+	http://www.codeproject.com/Tips/789425/Auto-Complete-in-ASP-NET-MVC
+	
+dropdownlist
+	http://www.jquerybyexample.net/2012/02/common-dropdown-operation-get-set-add.html
+	http://instinctcoder.com/asp-net-mvc-4-jquery-autocomplete-dropdownlist/
+	http://jqueryui.com/autocomplete/#combobox
+
+Sintaxis de Linq
+	http://www.mssqltips.com/sqlservertip/3169/understanding-linq-to-join-multiple-tables-where-null-match-are-expected/
+
+JavaScript, Ajax, JQuery
+	http://www.lawebdelprogramador.com/codigo/JavaScript/2236-formatear_numeros_con_los_separadores_de_miles.html --- Excelente cambiando de formato Inglés a Costarricense
+	http://blog.tompawlak.org/number-currency-formatting-javascript --- Formato de decimal
+	http://javascript.about.com/od/hintsandtips/a/makeunobtrusive_3.htm
+	http://forums.asp.net/t/1817945.aspx?calling+controller+method+using+ajax
+	http://stackoverflow.com/questions/19663762/mvc-ajax-post-to-controller-action-method
+	http://stackoverflow.com/questions/6467556/pass-tr-id-value-javascript-function
+	http://stackoverflow.com/questions/23292734/get-value-from-input-text-in-same-row-in-table
+
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
+
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt ---> validaciones filtros
+	ejemplo con expresiones regulares
+			filterInt = function (value) {
+			if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+			return Number(value);
+			return NaN;
+		}
+
+		console.log(filterInt('421'));               // 421
+		console.log(filterInt('-421'));              // -421
+		console.log(filterInt('+421'));              // 421
+		console.log(filterInt('Infinity'));          // Infinity
+		console.log(filterInt('421e+0'));            // NaN
+		console.log(filterInt('421hop'));            // NaN
+		console.log(filterInt('hop1.61803398875'));  // NaN
+		console.log(filterInt('1.61803398875'));     // NaN
+
+
+GRIDs
+	http://docs.telerik.com/kendo-ui/getting-started/using-kendo-with/aspnet-mvc/helpers/grid/ajax-editing
+
+HTML Table
+	>>> Tabla especial con search y paginación
+		http://www.datatables.net/examples/basic_init/zero_configuration.html
+		http://www.datatables.net/examples/advanced_init/language_file.html
+		http://datatables.net/plug-ins/i18n/Spanish
+	<<<
+	http://stackoverflow.com/questions/2545603/retrieve-table-row-index-of-current-row
+	http://www.sitepoint.com/forums/showthread.php?743696-Jquery-add-and-remove-table-row
+	http://www.w3schools.com/jsref/dom_obj_table.asp
+	http://stackoverflow.com/questions/10431987/jquery-each-loop-in-table-row
+	http://stackoverflow.com/questions/3065342/how-do-i-iterate-through-table-rows-and-cells-in-javascript
+	http://stackoverflow.com/questions/6443894/for-each-table-row-cell-with-specific-class-function-javascript-jquery
+	http://stackoverflow.com/questions/376081/how-to-get-a-table-cell-value-using-jquery
+	http://stackoverflow.com/questions/20116547/how-to-get-a-cells-value-in-html-table-with-jquery
+
+Manejo de objetos JSON 
+	https://www.udemy.com/blog/c-sharp-json/ --> su propio json a partir de un diccionario
+--> http://krishnarajb.wordpress.com/2009/05/28/pass-json-object-from-javascript-code-to-mvc-controller/  (javascript send json post controller)	
+	http://stackoverflow.com/questions/10895306/how-to-access-json-object-name-value
+	http://elrincondeneutron.blogspot.com/2013/04/json-javascript-object-notation.html
+	http://stackoverflow.com/questions/16507222/create-json-object-dynamically-via-javascript-without-concate-strings
+	https://coderwall.com/p/sp_t9q
+
+
+	http://stackoverflow.com/questions/5868850/creating-list-of-objects-in-javascript
+
+Validaciones en JS
+	http://stackoverflow.com/questions/15768335/jquery-validation-how-to-validade-a-dynamic-form
+	http://stackoverflow.com/questions/20561712/jquery-validate-plugin-on-dynamic-form-inputs-not-working
+	http://stackoverflow.com/questions/11536271/validate-dynamically-added-input-fields
+	http://stackoverflow.com/questions/241145/jquery-validate-plugin-how-to-create-a-simple-custom-rule
+
+
+
+
+	http://stackoverflow.com/questions/13593731/input-type-submit-button-onclick-jquery-replacewith-prevents-form-from-submit
+
+	$("input[name='save']").on("click", function () {
+    debugger;
+    $(this).replaceWith('<img class="submit-form" src=http://www.techgig.com/Themes/Release/images/loading.gif />');
+    //$("form").submit();
+});
+
+
+
+	El siguiente ejempo muestra como llamar mediante AJAX una acción del controlador ContratoViewController que retorna un objeto JSON con los detalles de un ingeniero específico (id)
+	y los agrega en una nueva fila a una tabla llamada "tbIngenieros". El Ajax está dentro de una función js asociada a un boton llamando "btnAgregarIngeniero" que busca el id del
+	ingeniero a buscar en un dropdownlist llamado "ddlIngenieros"
+	
+	<script>
+        $(document).ready(
+            function () {
+				$('#btnAgregarIngeniero').click(function () {
+                    var dd = document.getElementById('ddlIngenieros')
+					var _id = dd.options[dd.selectedIndex].value;
+					$.ajax({
+						url: '/ContratoView/IngenieroDetalles/',
+						type: "GET",
+						dataType: "json",
+						data: {
+							id: _id
+						},
+						success: function (data) {
+							var json = $.parseJSON(data);
+							var fila = '<tr><td>' + json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido1 + '</td> ';
+							fila += '<td>' + json.rol + '</td>';
+							fila += '<td>' + json.descripcion + '</td>';
+							fila += '<td>' + json.departamento + '</td></tr>';
+							$('#tbIngenieros > tbody:last').append(fila);
+							//alert(prueba.descripcion);
+					},
+					error: function (xhr, status) {
+						alert(status);
+					}
+                })
+			});
+		});
+
+    </script>
+
+
+	
+
+---------------------------------------------- Frágmentos de código que una vez sirvio y se ocupó ----------------------------------------------
+HOJA DE ESTILOS DEL DATEPICKER
+	@*   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">*@
+
+	                        @*<table class="table" style="border:hidden">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Ingeniero
+                                        </th>
+                                        <th>
+                                            Cargo
+                                        </th>
+                                        <th>
+                                            Descripción
+                                        </th>
+                                        <th>
+                                            Departamento/Empresa
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DropDownList("idIngeniero" + i, Model.ListIngeniero, htmlAttributes: new { @class = "form-control", @id = "ingenieroID" + i })
+                                            </td>
+                                            <td>
+                                                @Html.Label("---", htmlAttributes: new { @id = "lblCargo" + i })
+                                            </td>
+                                            <td>
+                                                @Html.Label("---", htmlAttributes: new { @id = "lblDescripcion" + i })
+                                            </td>
+                                            <td>
+                                                @Html.Label("---", htmlAttributes: new { @id = "lblDepartamento" + i })
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>*@
+    @*<script type="text/javascript">
+            $(function () {
+                $(".form-control").change(function () {
+                    //var select = this.selectedIndex;
+                    var texto = this.options[this.selectedIndex].text;
+                    var valor = this.options[this.selectedIndex].value;
+                    var row = this.parentNode.parentNode;
+                    //alert(select);
+                    /*var dd = */document.getElementById("lblCargo" + ((row.rowIndex) - 1)).innerHTML = "asdasd";
+                });
+
+            });
+        </script>*@
+
+
+--------------------------------------- Ajax que llama una pagina -------------------------------------------
+                        /*if (index == 1) {
+                            $.ajax({
+                                url: '/ingeniero/Create',
+                                contentType: 'application/html; charset=utf-8',
+                                type: 'GET',
+                                datatype:'html'
+                            })
+                            .success(function(result){
+                                $('#hola').html(result);
+                            })
+                            .error(function (xhr, status) {
+                                alert(status)
+                            })
+                        }*/

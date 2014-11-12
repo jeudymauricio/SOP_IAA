@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link href="@Url.Content("~/Content/admin_bootstrap.css")" rel="stylesheet" type="text/css" />
 
     <!-- MetisMenu CSS -->
@@ -12,7 +13,6 @@
 
     <!-- Timeline CSS -->
     <link href="@Url.Content("~/Content/plugins/timeline.css")" rel="stylesheet">
-
 
     <!-- Morris Charts CSS -->
     <link href="@Url.Content("~/Content/plugins/morris.css")" rel="stylesheet">
@@ -24,11 +24,13 @@
     <title>@ViewBag.Title</title>
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css")
+    <link rel="stylesheet" href="~/Content/StickyFooter.css" />
 
 </head>
 <body style="padding:0;">
 
     <div id="wrapper">
+
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -37,7 +39,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="Index">Ileana Aguilar Ingeniería y Administración</a>
+                <a class="navbar-brand" href=@Url.Action("Index", "Contrato")>Ileana Aguilar Ingeniería y Administración</a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
@@ -47,15 +49,15 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li>
-                            <a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        @*<li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> Perfil</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            <a href="#"><i class="fa fa-gear fa-fw"></i> Configuración</a>
                         </li>
-                        <li class="divider"></li>
+                        <li class="divider"></li>*@
                         <li>
-                            <a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            <a href=@Url.Action("Login", "Account")><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -66,21 +68,22 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-
-
-                        <li class="active">
-                            <a href="index"><i class="fa fa-briefcase fa-fw"></i> Proyectos <span class="fa arrow"></span></a>
+                        @*<li class="active">
+                            <a href="index"><i class="fa fa-briefcase fa-fw"></i> Contratos <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a class="active fa fa-list-ol" href="/Proyecto/index"> Proyectos </a>
+                                    <a class="active" href="/Contrato/index"> Todos </a>
                                 </li>
                                 <li>
-                                    <a class="fa fa-folder-open-o" href="#"> En curso </a>
+                                    <a href="#"> En curso </a>
                                 </li>
                                 <li>
-                                    <a class="fa fa-folder-o" href="#"> Finalizados </a>
+                                    <a href="#"> Finalizados </a>
                                 </li>
                             </ul>
+                        </li>*@
+                        <li>
+                            <a href="/Contrato/index"><i class="fa fa-briefcase fa-fw"></i> Contratos </a>
                         </li>
 
                         <li>
@@ -91,38 +94,46 @@
                             <a href="index"><i class="fa fa-male fa-fw"></i> Personas <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a class="fa fa-circle" href="/Persona/index"> Personas </a>
+                                    <a href="/Persona/index"> Personas </a>
                                 </li>
                                 <li>
-                                    <a class="fa fa-circle" href="/Ingeniero/index"> Ingenieros </a>
+                                    <a href="/Ingeniero/index"> Ingenieros </a>
                                 </li>
                                 <li>
-                                    <a class="fa fa-circle" href="/Inspector/index"> Inspectores </a>
+                                    <a href="/Inspector/index"> Inspectores </a>
                                 </li>
                             </ul>
                         </li>
-
-
+                        <li>
+                            <a href="/Item/index"><i class="fa fa-tasks fa-fw"></i> Items </a>
+                        </li>
                         <li>
                             <a href="/Zona/index"><i class="fa fa-globe fa-fw"></i> Zonas </a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-flask fa-fw"></i> Laboratorios <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="/LaboratorioCalidad/index">AutoControl</a>
-                                </li>
-                                <li>
-                                    <a href="#">Verificación</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
+                            <a href="/Ruta/index"><i class="fa fa-road fa-fw"></i> Rutas </a>
+                        </li>
+                        <li>
+                            <a href="/SeccionControl/index"><i class="fa fa-arrows-alt fa-fw"></i> Secciones de Control </a>
+                        </li>
+                        @*<li>
+                                <a href="#"><i class="fa fa-flask fa-fw"></i> Laboratorios <span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="/LaboratorioCalidad/index">AutoControl</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Verificación</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>*@
+                        <li>
+                            <a href="/LaboratorioCalidad/index"><i class="fa fa-flask fa-fw"></i> Laboratorios </a>
                         </li>
                         <li>
                             <a href="/Fondo/index"><i class="fa fa-credit-card fa-fw"></i> Fondos </a>
                         </li>
-
-
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -133,15 +144,29 @@
         <div id="page-wrapper">
             @RenderBody()
             <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - CTEC</p>
-            </footer>
         </div>
+
+    </div>
+
+    <!-- Footer de la página -->
+    <div class="col-md-12 footer">
+        <h5 style="vertical-align:middle">&copy; CTEC - @DateTime.Now.Year</h5>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/pluggins")
+
     @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            $('nav a').removeClass('active');
+            $('nav a[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active'); /*class="in"*/
+            try{
+                $('nav a[href^="/' + location.pathname.split("/")[1] + '"]').parents().addClass('in');
+            }
+            catch (error){};
+        });
+    </script>
 </body>
 </html>

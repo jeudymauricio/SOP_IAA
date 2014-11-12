@@ -1,0 +1,84 @@
+﻿@using SOP_IAA.HTML_Helpers
+@model SOP_IAA_DAL.contratoItem
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Agregar Item al contrato </h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formCreate", id = "formCreate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4> </h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => Model.idContrato)
+
+        <div class="row">
+            <div class="col-sm-6">
+                @Html.DropDownList("idItem", null, htmlAttributes: new { @class = "input", @id = "ddlItems" })
+                <input class="btn btn-primary" type="button" id="btnAgregarItem" value="Incluir Ítem" />
+            </div>
+
+            <div class="col-sm-6" style="text-align:right">
+                <input type="submit" value="Agregar Items al Contrato" class="btn btn-success" />
+            </div>
+        </div>
+        <br />
+
+        <!-- Panel que contendrá la tabla dinámica de ítems -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Items
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="tbItems" class="table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th style="text-align:center">Descripción</th>
+                                <th style="text-align:center">Unidad de Medida</th>
+                                <th style="text-align:center">Precio (₡)</th>
+                                <th style="text-align:center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ítems -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel-default -->
+
+        <div class="col-sm-12">
+            @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
+        </div>
+
+    </div>
+
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/ContratoItem/CreateMethods.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+    @** Función para el autocompletado del dropdown **@
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
+    
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+
+}

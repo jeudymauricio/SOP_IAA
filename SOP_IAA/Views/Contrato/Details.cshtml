@@ -1,0 +1,193 @@
+﻿@model SOP_IAA_DAL.Contrato
+
+@{
+    ViewBag.Title = "Detalles Contrato";
+}
+
+@*<h2>Detalles del Contrato</h2>*@
+<br /><br />
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Contratación: @Html.DisplayFor(model => model.licitacion)
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tabGeneral" data-toggle="tab">General</a>
+            </li>
+            <li>
+                <a href="#tabIngenieros" data-toggle="tab">Ingenieros</a>
+            </li>
+            <li>
+                <a href="#tabLaboratorios" data-toggle="tab">Laboratorios</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tabGeneral">
+
+                <br />
+                <!-- Panel que contendrá la información general -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Datos Generales
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tbDetallesGenerales" class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.licitacion)</th>
+                                        <td>@Html.DisplayFor(model => model.licitacion)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.lineaContrato)</th>
+                                        <td>@Html.DisplayFor(model => model.lineaContrato)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.fechaInicio)</th>
+                                        <td>@Html.DisplayFor(model => model.fechaInicio)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.plazo)</th>
+                                        <td>@Html.DisplayFor(model => model.plazo)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.lugar)</th>
+                                        <td>@Html.DisplayFor(model => model.lugar)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.contratista.nombre)</th>
+                                        <td>@Html.DisplayFor(model => model.contratista.nombre)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.fondo.nombre)</th>
+                                        <td>@Html.DisplayFor(model => model.fondo.nombre)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.zona.nombre)</th>
+                                        <td>@Html.DisplayFor(model => model.zona.nombre)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="tabIngenieros">
+
+                <br />
+                <!-- Panel que contendrá la información de los ingenieros -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Ingenieros
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tbDetallesIngenieros" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Ingeniero</th>
+                                        <th>Cargo</th>
+                                        <th>Descripción</th>
+                                        <th> Departamento/Empresa </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Aqui se cargarán las filas dinámicamente con la información de los ingenieros -->
+                                    @foreach (var item in Model.ingenieroContrato)
+                                    {
+                                        if (item.activo == true)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.persona.nombre)
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido1)
+                                                    @Html.DisplayFor(modelItem => item.ingeniero.persona.apellido2)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.rol)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.descripcion)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.departamento)
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="tabLaboratorios">
+
+                <br />
+                <!-- Panel que contendrá la información de laboratorios -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Laboratorios
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tbLaboratorios" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Aqui se cargarán las filas dinámicamente con la información de los laboratorios -->
+                                    @foreach (var item in Model.laboratorioCalidad)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.nombre)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.tipo)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- /.panel-body -->
+</div>
+
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Atrás", "MiContrato", new { id = Model.id })
+</p>

@@ -11,15 +11,15 @@ using SOP_IAA_Utilerias;
 
 namespace SOP_IAA.Controllers
 {
-    public partial class ContratistaController : Controller
+    public partial class contratistaController : Controller // El namespace no debe incluir .Mis_Controladores
     {
-
-        // POST: Contratista/Create
+        
+        // POST: contratista/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nombre")] contratista contratista)
+        public ActionResult Create([Bind(Include = "id,nombre,descripcion")] contratista contratista)
         {
             if (ModelState.IsValid)
             {
@@ -40,12 +40,12 @@ namespace SOP_IAA.Controllers
             return View(contratista);
         }
 
-        // POST: Contratista/Edit/5
+        // POST: contratista/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nombre")] contratista contratista)
+        public ActionResult Edit([Bind(Include = "id,nombre,descripcion")] contratista contratista)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace SOP_IAA.Controllers
             return View(contratista);
         }
 
-        // POST: Contratista/Delete/5
+        // POST: contratista/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

@@ -1,0 +1,145 @@
+﻿@model SOP_IAA_DAL.Contrato
+
+@{
+    ViewBag.Title = @Model.licitacion + " Reportes";
+}
+
+
+<h2> Reportes del contrato @Model.licitacion </h2>
+@using (Html.BeginForm("exportarInformesItems", "Reportes"))
+{
+    @*<br />
+        <div class="form-horizontal">
+            <div class="form-group col-sm-2">
+                <input class="form-control" id="txtDateRange" placeholder="dd/mm/aaaa - dd/mm/aaaa" />
+            </div>
+            <div class="col-sm-10">
+                <input type="submit" value="Exportar Boletas" class="btn btn-primary" id="btnRangoFechas" title="Exporta las boletas dentro del rango especificado en el campo de texto">
+            </div>
+        </div>*@
+    <div>
+        <div style="text-align:right">
+
+            <!-- Button trigger modal -->
+
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" type="button">
+                Exportar Personalizado
+            </button>
+        </div>
+        <br />
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel" style="text-align:center">
+                            Exportar a excel todas las boletas en un rango de fechas específico
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-info form-horizontal">
+
+                            <div class="form-group">
+                                <label class="col-md-3">Fecha Inicio</label>
+                                <div class="col-md-9">
+                                    <input class="form-control" id="fechaInicio" name="fecha1" placeholder="dd/mm/aaaa" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3">Fecha Fin</label>
+                                <div class="col-md-9">
+                                    <input class="form-control" id="fechaFin" name="fecha2" placeholder="dd/mm/aaaa" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <img src="~/Content/Images/loading.gif" id="loadingGif" style="display: none;" />
+                        <input type="submit" value="Exportar" class="btn btn-primary" id="btnRangoFechas">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+    </div>
+
+    <br /><br />
+}
+
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Items
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbItemsContrato" class="display">
+                <thead>
+                    <tr>
+                        <th>Código de item</th>
+                        <th>Descripción</th>
+                        <th>Unidad de medida</th>
+                        <th>Precio unintario</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.contratoItem)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.item.codigoItem)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.item.descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.item.unidadMedida)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.precioUnitario)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Ver Boletas", "InformeDescriptivoItem", new { id = item.id })
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+
+
+<div>
+    @Html.ActionLink("Atrás", "MiContrato", "Contrato", new { id = Model.id }, null)
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <!-- Scripts y css para el single date picker -->
+    <script src="~/Scripts/DatePicker/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="~/Content/DatePicker/bootstrap-datetimepicker.css" />
+    <script type="text/javascript" src="~/Scripts/DatePicker/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
+
+    <!-- scripts para los estilos del jquery -->
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+
+    <!-- Metodos internos de la vista -->
+    <script src="~/Scripts/ReportesExcel/IndexMethods.js"></script>
+}
+

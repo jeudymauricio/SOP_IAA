@@ -1,0 +1,26 @@
+﻿@model SOP_IAA_DAL.inspector
+
+@{
+    ViewBag.Title = "Inspector Detalles";
+}
+
+<h2></h2>
+
+<div>
+    <h4>Detalles del inspector</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.persona.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.persona.nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.idPersona }) |
+    @Html.ActionLink("Atrás", "Index")
+</p>

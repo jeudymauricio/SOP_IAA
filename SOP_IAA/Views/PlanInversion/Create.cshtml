@@ -1,0 +1,99 @@
+﻿@model SOP_IAA_DAL.planInversion
+
+@{
+    ViewBag.Title = "Plan Inversión Mensual";
+}
+
+<h2>Plan de Inversión Mensual</h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formCreate", id = "formCreate" }))
+{
+    @Html.AntiForgeryToken()
+    <h4> </h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.idContrato)
+
+    <div class="row">
+        <div class="form-group col-md-12">
+            @Html.Label("Fecha del Plan", htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @id = "txtFecha", @placeholder = "Fecha que aplica", @title = "Fecha valida para todo el mes", @Value = @Model.fecha.ToString("MMMM yyyy") } })
+            @Html.ValidationMessageFor(model => model.idContrato, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        @Html.Label("Rutas", htmlAttributes: new { @class = "control-label col-md-12" })
+        <div class="col-md-12">
+            @Html.DropDownList("idRuta", null, htmlAttributes: new { @class = "form-control col-md-4", @id = "ddlRutas" })
+            <div class="col-md-4">
+                <input class="btn btn-primary" type="button" id="btnAgregarRuta" value="Incluir Ruta" />
+            </div>
+        </div>
+        
+    </div>
+    <br />
+
+    <div class="row form-group">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Plan por Ruta
+                    <input id="txtMontoPlan" class="btn-xs pull-right" value="0,0000" disabled style="text-align:right" />
+                    <label class="pull-right btn-xs">Monto Acumulado del plan</label>
+                </div>
+                <!-- .panel-heading -->
+                <div class="panel-body">
+                    <div class="panel-group" id="rutasAcordeon">
+                        <!-- Panels dinámicos que contendrás las rutas con sus respectivos ítems -->
+                    </div>
+                </div>
+                <!-- .panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
+        </div>
+        <div class="col-sm-6" style="text-align:right">
+            <input type="submit" name="create" value="Agregar Plan de Mes" class="btn btn-primary" />
+            <img src="~/Content/Images/loading.gif" id="loadingGif" style="display: none;" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <!-- scripts para los estilos del jquery -->
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+
+    <!-- Función para el autocompletado del dropdown -->
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
+
+    <!-- Función del datatable-->
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <!-- Función para realizar operaciones con decimales -->
+    <script src="~/Scripts/API Decimales/decimal.js"></script>
+
+    <!-- Funciones internas de crear -->
+    <script src="~/Scripts/PlanInversion/CreateMethods.js"></script>
+
+    <!-- Scripts y css para el single date picker -->
+    <script src="~/Scripts/DatePicker/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="~/Content/DatePicker/bootstrap-datetimepicker.css" />
+    <script type="text/javascript" src="~/Scripts/DatePicker/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
+
+    <script>
+        // Variable global de lista de items del contrato
+        var itemList = @Html.Raw(Json.Encode(@ViewBag.idItem))
+    </script>
+}

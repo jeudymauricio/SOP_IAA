@@ -16,17 +16,14 @@ namespace SOP_IAA_DAL
     {
         public item()
         {
-            this.boletaItem = new HashSet<boletaItem>();
-            this.subProyectoItem = new HashSet<subProyectoItem>();
+            this.contratoItem = new HashSet<contratoItem>();
         }
     
         public int id { get; set; }
         public string codigoItem { get; set; }
         public string descripcion { get; set; }
         public string unidadMedida { get; set; }
-        public int precioUnitario { get; set; }
     
-        public virtual ICollection<boletaItem> boletaItem { get; set; }
-        public virtual ICollection<subProyectoItem> subProyectoItem { get; set; }
+        public virtual ICollection<contratoItem> contratoItem { get; set; }
     }
 }

@@ -88,6 +88,33 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error al actualizar el contrato: .
+        /// </summary>
+        internal static string ERROR_CONTRATO_ACTUALIZAR {
+            get {
+                return ResourceManager.GetString("ERROR_CONTRATO_ACTUALIZAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al agregar el contrato: .
+        /// </summary>
+        internal static string ERROR_CONTRATO_AGREGAR {
+            get {
+                return ResourceManager.GetString("ERROR_CONTRATO_AGREGAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al eliminar el contrato: .
+        /// </summary>
+        internal static string ERROR_CONTRATO_ELIMINAR {
+            get {
+                return ResourceManager.GetString("ERROR_CONTRATO_ELIMINAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error al actualizar el Fondo: .
         /// </summary>
         internal static string ERROR_FONDO_ACTUALIZAR {
@@ -223,6 +250,33 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error al actualizar la ruta: .
+        /// </summary>
+        internal static string ERROR_RUTA_ACTUALIZAR {
+            get {
+                return ResourceManager.GetString("ERROR_RUTA_ACTUALIZAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al agregar la ruta: .
+        /// </summary>
+        internal static string ERROR_RUTA_AGREGAR {
+            get {
+                return ResourceManager.GetString("ERROR_RUTA_AGREGAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al eliminar la ruta: .
+        /// </summary>
+        internal static string ERROR_RUTA_ELIMINAR {
+            get {
+                return ResourceManager.GetString("ERROR_RUTA_ELIMINAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error al actualizar el proyecto: .
         /// </summary>
         internal static string ERROR_ZONA_ACTUALIZAR {
@@ -250,11 +304,29 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar esta boleta?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_BOLETA {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_BOLETA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este contratista?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_CONTRATISTA {
             get {
                 return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_CONTRATISTA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este contrato?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_CONTRATO {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_CONTRATO", resourceCulture);
             }
         }
         
@@ -277,6 +349,42 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este inspector?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_INSPECTOR {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_INSPECTOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este item?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_ITEM {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_ITEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este item del contrato?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_ITEM_CONTRATO {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_ITEM_CONTRATO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este item del proyecto?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_ITEM_PROYECTO {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_ITEM_PROYECTO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este laboratorio?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_LABORATORIO {
@@ -286,11 +394,56 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar el plan de este mes?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_PLAN {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_PLAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este programa?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_PROGRAMA {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_PROGRAMA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este proyecto?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_PROYECTO {
             get {
                 return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_PROYECTO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este proyecto/estructura?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_PROYECTO_ESTRUCTURA {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_PROYECTO_ESTRUCTURA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar los reajustes de este mes?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_REAJUSTES {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_REAJUSTES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar la sección de control?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_SC {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_SC", resourceCulture);
             }
         }
         

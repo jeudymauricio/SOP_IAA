@@ -16,18 +16,14 @@ namespace SOP_IAA_DAL
     {
         public subProyecto()
         {
-            this.subProyectoItem = new HashSet<subProyectoItem>();
+            this.subproyectoContratoItem = new HashSet<subproyectoContratoItem>();
         }
     
         public int id { get; set; }
-        public int idPrograma { get; set; }
-        public int idProyecto { get; set; }
-        public int idTipoSubProyecto { get; set; }
-        public int idRuta { get; set; }
+        public int idContrato { get; set; }
         public string nombre { get; set; }
     
-        public virtual programa programa { get; set; }
-        public virtual ICollection<subProyectoItem> subProyectoItem { get; set; }
-        public virtual TipoSubproyecto TipoSubproyecto { get; set; }
+        public virtual Contrato Contrato { get; set; }
+        public virtual ICollection<subproyectoContratoItem> subproyectoContratoItem { get; set; }
     }
 }

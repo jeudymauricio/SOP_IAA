@@ -1,0 +1,49 @@
+﻿@model SOP_IAA_DAL.item
+
+@{
+    ViewBag.Title = "Eliminar Item";
+}
+
+
+<h3>
+    @SOP_IAA_Utilerias.Utilerias.ValorRecurso(SOP_IAA_Utilerias.Utilerias.ArchivoRecurso.UtilRecursos, "MSJ_CONFIRM_ELIMINAR_ITEM")
+</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.codigoItem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.codigoItem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.unidadMedida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.unidadMedida)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            @Html.ActionLink("Atrás", "Index")
+        </div>
+    }
+</div>

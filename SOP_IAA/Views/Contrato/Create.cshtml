@@ -1,0 +1,226 @@
+﻿@model SOP_IAA_DAL.Contrato
+
+@{
+    ViewBag.Title = "Nuevo Contrato";
+}
+
+<h2>Nuevo Contrato</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "formCreateContract", id = "formCreateContract" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="container-fluid panel-body" style="max-width:1500px">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div id="rootwizard">
+
+                <!-- 1. Create the tabs themselves  -->
+                <!-- data-toggle required. -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li><a href="#step1" role="tab" data-toggle="tab">Datos Generales</a></li>
+                    <li><a href="#step2" role="tab" data-toggle="tab">Ingenieros</a></li>
+                    <li><a href="#step3" role="tab" data-toggle="tab">Laboratorios</a></li>
+                    @*<li><a href="#step4" role="tab" data-toggle="tab">Resumen</a></li>*@
+                </ul>
+
+                <br />
+                <!-- 2. Create progress bar -->
+                <!-- div class="progress" required. -->
+                <!-- on div id="progressBar" class="progress" required. -->
+                <div class="progress progress-striped active">
+                    <div id="progressBar" class="progress-bar progress-bar-striped" role="progressbar">
+                        <div class="bar">
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Create a matching tab pane for each tab. Content goes within these panes -->
+                <div class="tab-content">
+
+                    <!-- Sección de datos del contrato -->
+                    <div class="tab-pane active" id="step1">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.idContratista, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("idContratista", null, htmlAttributes: new { @class = "form-control", @id = "ddlIdContratista" })
+                                @Html.ValidationMessageFor(model => model.idContratista, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.licitacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.licitacion, new { htmlAttributes = new { @class = "form-control", @id = "txtLicitacion", autofocus = "" } })
+                                @Html.ValidationMessageFor(model => model.licitacion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.lineaContrato, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.lineaContrato, new { htmlAttributes = new { @class = "form-control", @id = "txtLineaContrato" } })
+                                @Html.ValidationMessageFor(model => model.lineaContrato, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.idZona, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("idZona", null, htmlAttributes: new { @class = "form-control", @id = "ddlIdZona" })
+                                @Html.ValidationMessageFor(model => model.idZona, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group input-group-sm">
+                            @Html.LabelFor(model => model.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control", @id = "txtFechaInicio" } })
+                                @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.plazo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.plazo, new { htmlAttributes = new { @class = "form-control", @id = "txtPlazo" } })
+                                @Html.ValidationMessageFor(model => model.plazo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.lugar, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.lugar, new { htmlAttributes = new { @class = "form-control", @id = "txtLugar" } })
+                                @Html.ValidationMessageFor(model => model.lugar, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.idFondo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("idFondo", null, htmlAttributes: new { @class = "form-control", @id = "ddlIdFondo" })
+                                @Html.ValidationMessageFor(model => model.idFondo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección de datos de los ingenieros -->
+                    <div class="tab-pane" id="step2" style="min-height:377px">
+
+                        <div>
+                            @Html.DropDownList("idIngeniero", null, htmlAttributes: new { @class = "form-horizontal input-sm", @id = "ddlIngenieros" })
+                            <input class="btn btn-primary" type="button" id="btnAgregarIngeniero" value="Agregar Ingeniero" />
+                            <br /><br />
+                        </div>
+
+                        <!-- Panel que contendrá la tabla dinámica de ingenieros -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Ingenieros del Proyecto
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbIngenieros" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center">Ingeniero</th>
+                                                <th style="text-align:center">Cargo</th>
+                                                <th style="text-align:center">Descripción</th>
+                                                <th style="text-align:center"> Departamento/Empresa </th>
+                                                <th style="text-align:center"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ingenieros -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+
+                    </div>
+
+                    <!-- Sección de datos de los Laboratorios -->
+                    <div class="tab-pane" id="step3" style="min-height:377px">
+                        <div>
+                            @Html.DropDownList("idLaboratorio", null, htmlAttributes: new { @class = "form-horizontal input-sm", @id = "ddlLaboratorios" })
+                            <input class="btn btn-primary" type="button" id="btnAgregarLaboratorio" value="Agregar Laboratorio" />
+                            <br /><br />
+                        </div>
+
+                        <!-- Panel que contendrá la tabla dinámica de laboratorios -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Laboratorios
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbLaboratorios" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Tipo</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Aqui se cargarán las filas dinámicamente con la información de los laboratorios -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                    </div>
+
+                    <!-- Sección de resumen del contrato -->
+                    <div class="tab-pane" id="step4" style="min-height:377px">
+                        <h1>Resumen del contrato a crear</h1>
+
+                        ¿Crear el contrato con estos datos?
+                    </div>
+
+                    <!-- 4. Declare buttons used by the wizard. -->
+                    <!-- "pager wizard" required. -->
+                    <ul class="pager wizard">
+                        <!-- These show as disabled on first tab. Add style="display:none;" to make the First button disappear when first tab.	  -->
+                        <li class="first previous"><a href="#" accesskey="f">Primero</a></li>
+                        <li class="previous"><a href="#" accesskey="p">Anterior</a></li>
+                        <li class="last" style="display:none;"><input type="submit" value="Crear Contrato" class="btn btn-success" /></li>
+                        <li class="next"><a href="#" accesskey="n">Siguiente</a></li>
+                    </ul>
+                </div><!-- ./tab-content -->
+
+            </div><!-- ./rootwizard -->
+        </div> <!-- Fin del Contenedor Principal -->
+        <p>
+            @Html.ActionLink("Atrás", "Index")
+        </p>
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/bootstrap");
+    @Scripts.Render("~/bundles/jquery");
+    @Scripts.Render("~/bundles/jqueryval");
+    <script src="~/Scripts/(personal)bootstrap-3.2.0.min.js"></script>
+    <script src="~/Scripts/Contrato/CreateMethods.js"></script>
+    <script src="~/Scripts/jquery-ui-1.11.1.js"></script>
+
+    <!-- Scripts y ccs para el date range picker -->
+    <script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+    <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+    <link rel="stylesheet" href="~/Content/DateRangePicker/daterangepicker-bs3.css" />
+
+    @** Función para el autocompletado del dropdown **@
+    <link rel="stylesheet" href="~/Content/AutoCompleteComboBox.css">
+    <script src="~/Scripts/AutoCompleteComboBox.js"></script>
+}
