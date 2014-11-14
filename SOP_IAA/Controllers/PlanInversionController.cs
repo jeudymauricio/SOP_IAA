@@ -72,7 +72,8 @@ namespace SOP_IAA.Controllers
             
             ViewBag.idRuta = new SelectList(contrato.zona.ruta, "id", "Nombre");
             ViewBag.idItem = new SelectList(contrato.contratoItem.Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
-            
+            ViewBag.FechaInicio = Json(new { fechaInicio = contrato.fechaInicio.ToShortDateString() });
+
             return View(pi);
         }
 
@@ -230,8 +231,9 @@ namespace SOP_IAA.Controllers
             Contrato contrato = db.Contrato.Find(planInversion.idContrato);
             ViewBag.idRuta = new SelectList(contrato.zona.ruta, "id", "Nombre");
             ViewBag.idItem = new SelectList(contrato.contratoItem.Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
-            ViewBag.idContrato = planInversion.idContrato;//new SelectList(db.Contrato, "id", "licitacion", planInversion.idContrato);
-            
+            ViewBag.idContrato = planInversion.idContrato;
+            ViewBag.FechaInicio = Json(new { fechaInicio = planInversion.Contrato.fechaInicio.ToShortDateString() });
+
             return View(planInversion);
         }
 

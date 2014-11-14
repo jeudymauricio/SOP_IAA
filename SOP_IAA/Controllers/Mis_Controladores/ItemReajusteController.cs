@@ -95,6 +95,7 @@ namespace SOP_IAA.Controllers
             //ViewBag.idContratoItem = new SelectList(db.contratoItem.Where(p => p.idContrato == idContrato)
             //    .Where(x => x.item.id == x.idItem), "id", "item.codigoItem");
             ViewBag.idContrato = idContrato;
+            ViewBag.FechaInicio = Json(new { fechaInicio = db.Contrato.Find(idContrato).fechaInicio.ToShortDateString() });
 
             return View();
         }

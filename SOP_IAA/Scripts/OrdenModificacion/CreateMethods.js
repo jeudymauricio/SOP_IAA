@@ -1,10 +1,6 @@
 ﻿/*
- *---------------------------------------------- Métodos de la vista 'Create' del ItemReajusteController ---------------------------------------------- 
+ *---------------------------------------------- Métodos de la vista 'Create' del OrdenModificaciónController ---------------------------------------------- 
  */
-
-// Varible contador que permite asignar nombre único a cada textBox agregado
-var counter = 1;
-var idContrato;
 
 $(document).ready(
 
@@ -15,17 +11,14 @@ $(document).ready(
             return this.optional(element) || !isNaN(removeCurrency(value));
         }, "El valor no es un número correcto");
 
-        // Función de autocompletar de los dropdown
-        $('#ddlItems').combobox();
-
         // Función del DatePicker en los campos de Fecha sencillos
-        $("#txtFechaReajuste").datetimepicker({
+        $("#txtFecha").datetimepicker({
             language: 'es',
             autoclose: true,
-            format: "MM yyyy",
-            startView: 'year',
-            minView: 'year',
-            startDate: fechaInicio
+            format: "dd/mm/yyyy",
+            startView: 'month',
+            minView: 'month'/*,
+            startDate: fechaInicio*/
         });
 
         //Antes de ir a la acción Post del submit, se agrega la lista de ítems
@@ -348,22 +341,3 @@ function numberFormatCR(numero) {
         return resultado;
     }
 }
-
-/*$.extend({
-    error: function (msg) { throw msg; },
-    parseJSON: function (data) {
-        if (typeof data !== "string" || !data) {
-            return null;
-        }
-        data = jQuery.trim(data);
-        if (/^[\],:{}\s]*$/.test(data.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, "@")
-            .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, "]")
-            .replace(/(?:^|:|,)(?:\s*\[)+/g, ""))) {
-            return window.JSON && window.JSON.parse ?
-                window.JSON.parse(data) :
-                (new Function("return " + data))();
-        } else {
-            jQuery.error("Invalid JSON: " + data);
-        }
-    }
-});*/

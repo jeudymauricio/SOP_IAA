@@ -25,12 +25,20 @@ namespace SOP_IAA.Controllers
             {
                 return HttpNotFound();
             }
+            
+            // LIsta de fechas desde el inicio del contrato hasta la fecha
+            var dates = new List<DateTime>();
+            for (var date = contrato.fechaInicio; date <= DateTime.Now; date = date.AddMonths(1))
+            {
+                dates.Add(date);
+            }
 
+            ViewBag.fechas = dates.OrderByDescending(x => x).ToList();
             ViewBag.contratacion = contrato.licitacion;
             ViewBag.idContrato = contrato.id;
 
             // En caso de que haya un error (esto en una vista hija) se le muestra al usuario
-            if (String.IsNullOrEmpty(error) || String.IsNullOrWhiteSpace(error))
+            if ((!String.IsNullOrEmpty(error)) ||(!String.IsNullOrWhiteSpace(error)))
             {
                 ModelState.AddModelError("", error.ToString());
             }
@@ -38,11 +46,16 @@ namespace SOP_IAA.Controllers
             return View(contrato);
         }
 
-        //
-        //public ActionResult 
-        // 
-        public ActionResult BalanceInversion(int? idContrato, DateTime fecha)
+        /// <summary>
+        /// Retorna la comparación de las cantidades programadas vs las cantidades realizadas(según las boletas)
+        /// y todo según una fecha específica
+        /// </summary>
+        /// <param name="idContrato"></param>
+        /// <param name="fecha"></param>
+        /// <returns></returns>
+        public ActionResult Periodo(int? idContrato, DateTime fecha)
         {
+
             if (idContrato == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -55,38 +68,42 @@ namespace SOP_IAA.Controllers
                 return HttpNotFound();
             }
 
+            //Lista con los balances de programado, ejecuta y a reajustar por item
+            // <CodigoItem, Descripcion, unidad, programado, ejecutado, reajustar>
+            List<Tuple<string, string, string, decimal, decimal, decimal>> listaItems = new List<Tuple<string, string, string, decimal, decimal, decimal>>();
+
             // Se recorren cada uno de los ítems del contrato
             foreach(var item in contrato.contratoItem){
-                // Se selecciona el plan de inversion de la ficha si existe
-                var pi = item.pICI.Where(p => p.planInversion.fecha == fecha).FirstOrDefault();
+                // Se selecciona del plan de inversion de la fecha, todos las menciones del ítem(porque el item puede estar planeado en mas de una ruta)
+                var pi = item.pICI.Where(p => (p.planInversion.fecha.Month == fecha.Month && p.planInversion.fecha.Year == fecha.Year));
                 // Se seleccionan las boletas del mes y año
                 var bo = item.boletaItem.Where(b => (b.boleta.fecha.Month == fecha.Month && b.boleta.fecha.Year == fecha.Year));
 
+                decimal cantidadProgramada = 0;
+                
+                // Si estaba programado se suman las cantidades
+                foreach ( var planInversionSubItem in pi)
+                {
+                    cantidadProgramada += planInversionSubItem.cantidad;
+                }
 
+                decimal cantidadLaborada = 0;
+                // Se recorren todas las boletas para sumar sus cantidades
+                foreach (var boleta in item.boletaItem)
+                {
+                    cantidadLaborada += boleta.cantidad;
+                }
+
+                // Se guardan los detalles en una tupla
+                var detalleItem = new Tuple<string, string, string, decimal, decimal, decimal>(item.item.codigoItem, item.item.descripcion, item.item.unidadMedida, cantidadProgramada, cantidadLaborada, decimal.Round(cantidadProgramada - cantidadLaborada, 3));
+
+                // Se agrega la tupla a la lista de items
+                listaItems.Add(detalleItem);
             }
 
-
-
-
-
-            // Se selecciona el plan de inversión de la fecha
-            planInversion pI = contrato.planInversion.Where(pi => pi.fecha == fecha).FirstOrDefault();
-            if (pI == null)
-            {
-                return RedirectToAction("Index", new { idContrato = idContrato, error = "No existe un plan de inversión para la fecha" });
-            }
-
-            // Se seleccionan todas las boletas dentro del rango de fecha
-            var boletas = contrato.boleta.Where(b => b.fecha == fecha);
-
-            //Lista con los balances de programado, ejecuta y a reajustar por item
-            List<Tuple<string,string,string,decimal,decimal,decimal>> listaItems = new List<Tuple<string,string,string,decimal,decimal,decimal>>();
-
-            // Se recorren cada uno de los ítems programados
-            foreach (var item in pI.pICI)
-            {
-
-            }
+            ViewBag.listaItems = listaItems;
+            ViewBag.idContrato = idContrato;
+            ViewBag.fecha = fecha;
 
             return View();
         }

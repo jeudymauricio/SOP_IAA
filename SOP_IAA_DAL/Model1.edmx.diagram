@@ -64,6 +64,11 @@
         <AssociationConnector Association="Proyecto_IAAModel.labCalidadContrato" ManuallyRouted="false" />
         <AssociationConnector Association="Proyecto_IAAModel.progSubContrItemSeccionControl" ManuallyRouted="false" />
         <AssociationConnector Association="Proyecto_IAAModel.zonaRuta" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.oMCI" Width="1.5" PointX="12.75" PointY="29.625" />
+        <EntityTypeShape EntityType="Proyecto_IAAModel.ordenModificacion" Width="1.5" PointX="7.5" PointY="27.25" />
+        <AssociationConnector Association="Proyecto_IAAModel.fk_idContrato_ordenModificacion" />
+        <AssociationConnector Association="Proyecto_IAAModel.fk_idContratoItem_oMCI" />
+        <AssociationConnector Association="Proyecto_IAAModel.fk_idOrdenModificacion_oMCI" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

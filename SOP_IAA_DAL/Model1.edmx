@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="boleta">
           <Key>
             <PropertyRef Name="id" />
@@ -132,6 +132,25 @@
           <Property Name="id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="tipo" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="oMCI">
+          <Key>
+            <PropertyRef Name="idOrdenModificacion" />
+            <PropertyRef Name="idContratoItem" />
+          </Key>
+          <Property Name="idOrdenModificacion" Type="int" Nullable="false" />
+          <Property Name="idContratoItem" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ordenModificacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idContrato" Type="int" Nullable="false" />
+          <Property Name="numeroOficio" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="objetoOM" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <EntityType Name="persona">
           <Key>
@@ -360,6 +379,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_idContrato_ordenModificacion">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="ordenModificacion" Type="Self.ordenModificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ordenModificacion">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_idContrato_planInversion">
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
           <End Role="planInversion" Type="Self.planInversion" Multiplicity="*" />
@@ -440,6 +471,18 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="itemReajuste">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_oMCI">
+          <End Role="contratoItem" Type="Self.contratoItem" Multiplicity="1" />
+          <End Role="oMCI" Type="Self.oMCI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="oMCI">
               <PropertyRef Name="idContratoItem" />
             </Dependent>
           </ReferentialConstraint>
@@ -525,6 +568,18 @@
             </Principal>
             <Dependent Role="labCalidadContrato">
               <PropertyRef Name="idLabCalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idOrdenModificacion_oMCI">
+          <End Role="ordenModificacion" Type="Self.ordenModificacion" Multiplicity="1" />
+          <End Role="oMCI" Type="Self.oMCI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ordenModificacion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="oMCI">
+              <PropertyRef Name="idOrdenModificacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -722,6 +777,8 @@
           <EntitySet Name="itemReajuste" EntityType="Self.itemReajuste" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="labCalidadContrato" EntityType="Self.labCalidadContrato" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="laboratorioCalidad" EntityType="Self.laboratorioCalidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="oMCI" EntityType="Self.oMCI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ordenModificacion" EntityType="Self.ordenModificacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="persona" EntityType="Self.persona" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="pICI" EntityType="Self.pICI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="planInversion" EntityType="Self.planInversion" Schema="dbo" store:Type="Tables" />
@@ -769,6 +826,10 @@
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="labCalidadContrato" EntitySet="labCalidadContrato" />
           </AssociationSet>
+          <AssociationSet Name="fk_idContrato_ordenModificacion" Association="Self.fk_idContrato_ordenModificacion">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="ordenModificacion" EntitySet="ordenModificacion" />
+          </AssociationSet>
           <AssociationSet Name="fk_idContrato_planInversion" Association="Self.fk_idContrato_planInversion">
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="planInversion" EntitySet="planInversion" />
@@ -797,6 +858,10 @@
             <End Role="contratoItem" EntitySet="contratoItem" />
             <End Role="itemReajuste" EntitySet="itemReajuste" />
           </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_oMCI" Association="Self.fk_idContratoItem_oMCI">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="oMCI" EntitySet="oMCI" />
+          </AssociationSet>
           <AssociationSet Name="fk_idContratoItem_pICI" Association="Self.fk_idContratoItem_pICI">
             <End Role="contratoItem" EntitySet="contratoItem" />
             <End Role="pICI" EntitySet="pICI" />
@@ -824,6 +889,10 @@
           <AssociationSet Name="fk_idLabControl_labCalidadContrato" Association="Self.fk_idLabControl_labCalidadContrato">
             <End Role="laboratorioCalidad" EntitySet="laboratorioCalidad" />
             <End Role="labCalidadContrato" EntitySet="labCalidadContrato" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idOrdenModificacion_oMCI" Association="Self.fk_idOrdenModificacion_oMCI">
+            <End Role="ordenModificacion" EntitySet="ordenModificacion" />
+            <End Role="oMCI" EntitySet="oMCI" />
           </AssociationSet>
           <AssociationSet Name="fk_idPersona_ingeniero" Association="Self.fk_idPersona_ingeniero">
             <End Role="persona" EntitySet="persona" />
@@ -886,8 +955,7 @@
             <End Role="zonaRuta" EntitySet="zonaRuta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -959,6 +1027,7 @@
           <NavigationProperty Name="fondo" Relationship="Self.fk_idFondo_Contrato" FromRole="Contrato" ToRole="fondo" />
           <NavigationProperty Name="zona" Relationship="Self.fk_idZona_Contrato" FromRole="Contrato" ToRole="zona" />
           <NavigationProperty Name="laboratorioCalidad" Relationship="Self.labCalidadContrato" FromRole="Contrato" ToRole="laboratorioCalidad" />
+          <NavigationProperty Name="ordenModificacion" Relationship="Proyecto_IAAModel.fk_idContrato_ordenModificacion" FromRole="Contrato" ToRole="ordenModificacion" />
         </EntityType>
         <EntityType Name="contratoItem">
           <Key>
@@ -974,6 +1043,7 @@
           <NavigationProperty Name="itemReajuste" Relationship="Self.fk_idContratoItem_itemReajuste" FromRole="contratoItem" ToRole="itemReajuste" />
           <NavigationProperty Name="pICI" Relationship="Self.fk_idContratoItem_pICI" FromRole="contratoItem" ToRole="pICI" />
           <NavigationProperty Name="subproyectoContratoItem" Relationship="Self.fk_idContratoItem_subProyectoContratoItem" FromRole="contratoItem" ToRole="subproyectoContratoItem" />
+          <NavigationProperty Name="oMCI" Relationship="Proyecto_IAAModel.fk_idContratoItem_oMCI" FromRole="contratoItem" ToRole="oMCI" />
         </EntityType>
         <EntityType Name="fondo">
           <Key>
@@ -1740,7 +1810,80 @@
             <End Role="ruta" EntitySet="ruta" />
             <End Role="zona" EntitySet="zona" />
           </AssociationSet>
+          <EntitySet Name="oMCI" EntityType="Proyecto_IAAModel.oMCI" />
+          <EntitySet Name="ordenModificacion" EntityType="Proyecto_IAAModel.ordenModificacion" />
+          <AssociationSet Name="fk_idContrato_ordenModificacion" Association="Proyecto_IAAModel.fk_idContrato_ordenModificacion">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="ordenModificacion" EntitySet="ordenModificacion" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idContratoItem_oMCI" Association="Proyecto_IAAModel.fk_idContratoItem_oMCI">
+            <End Role="contratoItem" EntitySet="contratoItem" />
+            <End Role="oMCI" EntitySet="oMCI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idOrdenModificacion_oMCI" Association="Proyecto_IAAModel.fk_idOrdenModificacion_oMCI">
+            <End Role="ordenModificacion" EntitySet="ordenModificacion" />
+            <End Role="oMCI" EntitySet="oMCI" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="oMCI">
+          <Key>
+            <PropertyRef Name="idOrdenModificacion" />
+            <PropertyRef Name="idContratoItem" />
+          </Key>
+          <Property Name="idOrdenModificacion" Type="Int32" Nullable="false" />
+          <Property Name="idContratoItem" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <NavigationProperty Name="contratoItem" Relationship="Proyecto_IAAModel.fk_idContratoItem_oMCI" FromRole="oMCI" ToRole="contratoItem" />
+          <NavigationProperty Name="ordenModificacion" Relationship="Proyecto_IAAModel.fk_idOrdenModificacion_oMCI" FromRole="oMCI" ToRole="ordenModificacion" />
+        </EntityType>
+        <EntityType Name="ordenModificacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idContrato" Type="Int32" Nullable="false" />
+          <Property Name="numeroOficio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="objetoOM" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contrato" Relationship="Proyecto_IAAModel.fk_idContrato_ordenModificacion" FromRole="ordenModificacion" ToRole="Contrato" />
+          <NavigationProperty Name="oMCI" Relationship="Proyecto_IAAModel.fk_idOrdenModificacion_oMCI" FromRole="ordenModificacion" ToRole="oMCI" />
+        </EntityType>
+        <Association Name="fk_idContrato_ordenModificacion">
+          <End Type="Proyecto_IAAModel.Contrato" Role="Contrato" Multiplicity="1" />
+          <End Type="Proyecto_IAAModel.ordenModificacion" Role="ordenModificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ordenModificacion">
+              <PropertyRef Name="idContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idContratoItem_oMCI">
+          <End Type="Proyecto_IAAModel.contratoItem" Role="contratoItem" Multiplicity="1" />
+          <End Type="Proyecto_IAAModel.oMCI" Role="oMCI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contratoItem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="oMCI">
+              <PropertyRef Name="idContratoItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idOrdenModificacion_oMCI">
+          <End Type="Proyecto_IAAModel.ordenModificacion" Role="ordenModificacion" Multiplicity="1" />
+          <End Type="Proyecto_IAAModel.oMCI" Role="oMCI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ordenModificacion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="oMCI">
+              <PropertyRef Name="idOrdenModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2028,6 +2171,26 @@
               <ScalarProperty Name="id" ColumnName="idZona" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="oMCI">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.oMCI">
+              <MappingFragment StoreEntitySet="oMCI">
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="idContratoItem" ColumnName="idContratoItem" />
+                <ScalarProperty Name="idOrdenModificacion" ColumnName="idOrdenModificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ordenModificacion">
+            <EntityTypeMapping TypeName="Proyecto_IAAModel.ordenModificacion">
+              <MappingFragment StoreEntitySet="ordenModificacion">
+                <ScalarProperty Name="objetoOM" ColumnName="objetoOM" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="numeroOficio" ColumnName="numeroOficio" />
+                <ScalarProperty Name="idContrato" ColumnName="idContrato" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

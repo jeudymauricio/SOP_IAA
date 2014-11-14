@@ -50,5 +50,7 @@ namespace SOP_IAA_DAL
         public virtual DbSet<telefono> telefono { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
         public virtual DbSet<zona> zona { get; set; }
+        public virtual DbSet<oMCI> oMCI { get; set; }
+        public virtual DbSet<ordenModificacion> ordenModificacion { get; set; }
     }
 }

@@ -25,7 +25,8 @@ $(document).ready(
             autoclose: true,
             format: "MM yyyy",
             startView: 'year',
-            minView: 'year'
+            minView: 'year',
+            startDate: fechaInicio
         });
 
         // Se remueve la validadción de la fecha

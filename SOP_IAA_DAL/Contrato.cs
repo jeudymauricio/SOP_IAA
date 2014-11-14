@@ -23,6 +23,7 @@ namespace SOP_IAA_DAL
             this.programa = new HashSet<programa>();
             this.subProyecto = new HashSet<subProyecto>();
             this.laboratorioCalidad = new HashSet<laboratorioCalidad>();
+            this.ordenModificacion = new HashSet<ordenModificacion>();
         }
     
         public int id { get; set; }
@@ -45,5 +46,6 @@ namespace SOP_IAA_DAL
         public virtual fondo fondo { get; set; }
         public virtual zona zona { get; set; }
         public virtual ICollection<laboratorioCalidad> laboratorioCalidad { get; set; }
+        public virtual ICollection<ordenModificacion> ordenModificacion { get; set; }
     }
 }

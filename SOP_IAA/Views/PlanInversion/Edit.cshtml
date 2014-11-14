@@ -157,8 +157,13 @@
     <link rel="stylesheet" href="~/Content/DatePicker/bootstrap-datetimepicker.css" />
     <script type="text/javascript" src="~/Scripts/DatePicker/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
     
+    <!-- Se establece la fecha inicial mínima -->
     <script>
         // Variable global de lista de items del contrato
-        var itemList = @Html.Raw(Json.Encode(@ViewBag.idItem))
+        var itemList = @Html.Raw(Json.Encode(@ViewBag.idItem));
+        var json = @Html.Raw(Json.Encode(@ViewBag.FechaInicio));
+        var fecha = json.Data.fechaInicio;
+        var fechaInicio = fecha.substring(6) + '-' + fecha.substring(3,5) + '-' + fecha.substring(0,2);
     </script>
+
 }

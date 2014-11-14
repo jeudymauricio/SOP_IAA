@@ -1,4 +1,4 @@
-﻿@model SOP_IAA_DAL.planInversion
+﻿@model SOP_IAA_DAL.ordenModificacion
 
 @{
     ViewBag.Title = "Details";
@@ -7,9 +7,17 @@
 <h2>Details</h2>
 
 <div>
-    <h4>planInversion</h4>
+    <h4>ordenModificacion</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.numeroOficio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.numeroOficio)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.fecha)
         </dt>
@@ -19,19 +27,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.mes)
+            @Html.DisplayNameFor(model => model.objetoOM)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.mes)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ano)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ano)
+            @Html.DisplayFor(model => model.objetoOM)
         </dd>
 
         <dt>

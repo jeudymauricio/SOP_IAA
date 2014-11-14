@@ -20,15 +20,6 @@
             <table id="tbPlanInversion" class="table">
                 <thead>
                     <tr>
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.mes)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ano)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Contrato.licitacion)
-                        </th>*@
                         <th>Periodo</th>
                         <th></th>
                     </tr>
@@ -38,15 +29,6 @@
                     @foreach (var group in Model.GroupBy(m => new { m.mes, m.ano }))
                     {
                         <tr>
-                            @*<td>
-                                @Html.DisplayFor(modelItem => item.mes)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ano)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Contrato.licitacion)
-                            </td>*@
                             <td>
                                 @{
                                     var mes = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)group.First().mes);
@@ -55,12 +37,7 @@
                                 @mes
                             </td>
                             <td>
-
                                 @Html.ActionLink("Ver Plan", "Periodo", new { fecha = group.First().fecha, idContrato = group.First().idContrato })
-
-                                @*@Html.ActionLink("Edit", "Edit", new { id = group.First().id }) |
-                                @Html.ActionLink("Details", "Details", new { id = group.First().id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = group.First().id })*@
                             </td>
                         </tr>
                     }

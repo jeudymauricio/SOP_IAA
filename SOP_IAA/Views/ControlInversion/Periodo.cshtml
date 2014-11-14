@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Balance " + @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)@ViewBag.fecha.Month).ToUpperInvariant() + " " + @ViewBag.fecha.Year;
+}
+
+<h2></h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Balance para el periodo @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)@ViewBag.fecha.Month).ToUpperInvariant() @ViewBag.fecha.Year
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbItems" class="table" style="text-align: center;">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">Item</th>
+                        <th style="text-align:center">Descripción</th>
+                        <th style="text-align:center">Unidad de Medida</th>
+                        <th style="text-align:center">Cantidad Programada</th>
+                        <th style="text-align:center">Cantidad Realizada</th>
+                        <th style="text-align:center">A Reajustar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @ViewBag.listaItems)
+                    {
+                        if (item.Item6 < 0)
+                        {
+                            <tr class="danger"> @*style="background-color:#f2dede"*@
+                                <td>@item.Item1</td>
+                                <td align="justify">@item.Item2</td>
+                                <td>@item.Item3</td>
+                                <td>@item.Item4</td>
+                                <td>@item.Item5</td>
+                                <td>@item.Item6</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="success">
+                                <td>@item.Item1</td>
+                                <td align="justify">@item.Item2</td>
+                                <td>@item.Item3</td>
+                                <td>@item.Item4</td>
+                                <td>@item.Item5</td>
+                                <td>@item.Item6</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+
+<div>
+    @Html.ActionLink("Atrás", "Index", new { idContrato = ViewBag.idContrato })
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbItems').dataTable({
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        });
+    </script>
+}

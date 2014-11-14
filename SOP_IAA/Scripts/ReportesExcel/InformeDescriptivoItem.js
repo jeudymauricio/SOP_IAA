@@ -15,7 +15,7 @@
         startView: 'month',
         minView: 'month'
     });
-    //.daterangepicker({
+    //$('#fechaInicio').daterangepicker({
     //    format: 'DD/MM/YYYY',
     //    showDropdowns: true,
     //    locale: {

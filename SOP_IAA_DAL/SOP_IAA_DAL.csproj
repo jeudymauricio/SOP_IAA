@@ -105,6 +105,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="oMCI.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ordenModificacion.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="persona.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -144,7 +150,7 @@
     <Compile Include="zona.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <None Include="ClassAnnotations\ProgramaAnotations" />
+    <Compile Include="ClassAnnotations\OrdenModificacionAnotations.cs" />
     <None Include="ClassAnnotations\ProyectoAnnotations" />
     <Compile Include="ClassAnnotations\RutaAnnotations.cs" />
     <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />

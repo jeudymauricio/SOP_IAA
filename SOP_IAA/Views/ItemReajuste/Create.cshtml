@@ -93,9 +93,6 @@
     <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
     <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
 
-    <!-- Funciones internas de crear -->
-    <script src="~/Scripts/ItemReajuste/CreateMethods.js"></script>
-
     <!-- Función para realizar operaciones con decimales -->
     <script src="~/Scripts/API Decimales/decimal.js"></script>
 
@@ -103,4 +100,14 @@
     <script src="~/Scripts/DatePicker/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet" href="~/Content/DatePicker/bootstrap-datetimepicker.css" />
     <script type="text/javascript" src="~/Scripts/DatePicker/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
+
+    <!-- Se establece la fecha inicial mínima -->
+    <script>
+        var json = @Html.Raw(Json.Encode(@ViewBag.FechaInicio));
+        var fecha = json.Data.fechaInicio;
+        var fechaInicio = fecha.substring(6) + '-' + fecha.substring(3,5) + '-' + fecha.substring(0,2);
+    </script>
+
+    <!-- Funciones internas de crear -->
+    <script src="~/Scripts/ItemReajuste/CreateMethods.js"></script>
 }

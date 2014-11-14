@@ -19,16 +19,14 @@ $(document).ready(
             return this.optional(element) || !isNaN(removeCurrency(value));
         }, "El valor no es un número correcto");
 
-        // Función de autocompletar de los dropdown
-        //$('#ddlItems').combobox();
-
         // Función del DatePicker en los campos de Fecha sencillos
         $("#txtFecha").datetimepicker({
             language: 'es',
             autoclose: true,
             format: "MM yyyy",
             startView: 'year',
-            minView: 'year'
+            minView: 'year',
+            startDate: fechaInicio
         });
 
         $('#txtFecha').rules('remove');

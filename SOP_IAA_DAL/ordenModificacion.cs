@@ -12,28 +12,20 @@ namespace SOP_IAA_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class contratoItem
+    public partial class ordenModificacion
     {
-        public contratoItem()
+        public ordenModificacion()
         {
-            this.boletaItem = new HashSet<boletaItem>();
-            this.itemReajuste = new HashSet<itemReajuste>();
-            this.pICI = new HashSet<pICI>();
-            this.subproyectoContratoItem = new HashSet<subproyectoContratoItem>();
             this.oMCI = new HashSet<oMCI>();
         }
     
         public int id { get; set; }
         public int idContrato { get; set; }
-        public int idItem { get; set; }
-        public decimal precioUnitario { get; set; }
+        public string numeroOficio { get; set; }
+        public System.DateTime fecha { get; set; }
+        public string objetoOM { get; set; }
     
-        public virtual ICollection<boletaItem> boletaItem { get; set; }
         public virtual Contrato Contrato { get; set; }
-        public virtual item item { get; set; }
-        public virtual ICollection<itemReajuste> itemReajuste { get; set; }
-        public virtual ICollection<pICI> pICI { get; set; }
-        public virtual ICollection<subproyectoContratoItem> subproyectoContratoItem { get; set; }
         public virtual ICollection<oMCI> oMCI { get; set; }
     }
 }
