@@ -1,11 +1,13 @@
 ﻿/*
  *---------------------------------------------- Métodos de la vista 'Create' del OrdenModificaciónController ---------------------------------------------- 
  */
+var counter = 1;
 
 $(document).ready(
 
     function () {
-        
+        $("#ddlItems").combobox();
+
         // Regla para los números (verificar que se trata de un número y que no hay letras en el)
         jQuery.validator.addMethod("isNumberDecimal", function (value, element) {
             return this.optional(element) || !isNaN(removeCurrency(value));
@@ -21,13 +23,137 @@ $(document).ready(
             startDate: fechaInicio*/
         });
 
+        // Función del Wizard
+        $('#rootwizard').bootstrapWizard({
+            onTabShow: function (tab, navigation, index) {
+                // Dynamically change percentage completion on progress bar
+                var tabCount = navigation.find('li').length;
+                var current = index + 1;
+                var percentDone = (current / tabCount) * 100;
+                $('#rootwizard').find('#progressBar').css({ width: percentDone + '%' });
+
+                // Optional: Show Done button when on last tab;
+                // It is invisible by default.
+                $('#rootwizard').find('.last').toggle(current >= tabCount);
+
+                // Optional: Hide Next button if on last tab;
+                // otherwise it shows but is disabled
+                $('#rootwizard').find('.next').toggle(current < tabCount);
+            },
+            onTabClick: function (tab, navigation, index) {
+                //alert('Utilice los botones de Siguiente, Anterior para desplazarse');
+                //return false;
+            }
+        });
+
+        // Función que permite agregar una fila con los detalles del item seleccionado en la sección items del Wizard
+        $('#btnAgregarItem').click(function () {
+            var dd = document.getElementById('ddlItems');
+            try {
+                // Se trata de obtener el valor del dropdown
+                var _id = dd.options[dd.selectedIndex].value;
+            } catch (error) {
+                return false;
+            }
+            // Se extrae la fecha seleccionada
+            var _fecha = document.getElementById('txtFecha')
+
+            // Se deshabilita el boton mientras se realiza la acción
+            $(this).toggleClass('disabled', true);
+
+            // Este ajax realiza una acción de controlador donde envía el id del ítem a buscar y recibe como retorno un JSON con los detalles del ítem
+            $.ajax({
+                url: '/OrdenModificacion/ItemDetalles/',
+                type: "GET",
+                dataType: "json",
+                data: {
+                    id: _id,
+                    fecha: _fecha.value
+                },
+                success: function (data) {
+                    var json = data;
+
+                    var fila = '<tr id=' + _id + '><td>' + json.codigoItem + '</td> ';
+                    fila += '<td>' + json.descripcion + '</td>';
+                    fila += '<td align="center">' + json.unidadMedida + '</td>';
+                    fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled="" value="₡' + numberFormatCR(removeCurrency(json.precioReajustado)) + '"></td>';
+                    fila += '<td align="right"><input class="form-control" style="text-align:right" onchange="alpha($(this))" id="txtCantidad' + counter + '" name="txtCantidad' + counter + '">';
+                    fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtCantidad' + counter + '" data-valmsg-replace="true"></span> </td>';
+                    fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled=""></td>';
+                    fila += '<td align="center"> <button class="remove btn btn-danger" onclick="eliminarItem(' + _id + ', \' ' + json.codigoItem + '\')">Quitar Item</button> </td></tr>';
+
+                    //Agrega el ingeniero a la tabla htlm
+                    $('#tbItems > tbody:last').append(fila);
+
+                    //Se agregan las validaciones de números
+                    $('#tbItems > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
+                        number: true, // Validación de números
+                        isNumberDecimal: true,
+                        required: true, // Validación de campos vacíos
+                        messages: {
+                            required: "Debe ingresar una cantidad.",
+                            number: "Ingrese una cantidad válida.",
+                            isNumberDecimal: "Ingrese una cantidad válida." // Validación propia declarada en el inicio del document.ready()
+                        }
+                    });
+
+                    // Aumenta el Contador
+                    counter += 1;
+
+                    //Elimina el ingeniero del dropdownlist
+                    $("#ddlItems option:selected").remove();
+
+                    // Actualiza el dropdown
+                    try {
+                        $('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+                    }
+                    catch (error) {
+                        $('span.custom-combobox').find('input:text').val('');
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    if (xhr.status == 99) {
+                        // error de fecha (error establecido manualmente)
+                        alert('Error de fecha.\nVerifique que indico un formato de fecha correcto.');
+                    }
+                    else if (xhr.status == 400) {
+                        // Bad request
+                        alert('Error: Consulta inválida.\n.');
+                    }
+                    else if (xhr.status === 401) {
+                        // Unauthorized error
+                        alert('Error: Acceso denegado.\n Verifique que tenga privilegios para realizar la operación.');
+                    }
+                    else if (xhr.status == 404) {
+                        // Not found
+                        alert('Error: no se encontraron los detalles del ítem.\nVerifique que el item pertenece al contrato.');
+                    }
+                    else if (xhr.status == 500) {
+                        // Server side error
+                        alert('Error del servidor.\n Espere unos segundos y vuelva a reitentar.');
+                    }
+                    else {
+                        alert('Error: \n ' + errorThrown + 'Reitente de nuevo.');
+                    }
+                }
+            });
+
+            // Se habilita nuevamente el botón
+            $(this).toggleClass('disabled', false);
+        });
+
+        // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
+        $(document).on("click", "#tbItems button.remove", function () {
+            $(this).parents("tr").remove();
+        });
+
         //Antes de ir a la acción Post del submit, se agrega la lista de ítems
         $("#formCreate").submit(function (eventObj) {
 
             $("input[name='create']").toggleClass('disabled', true)
             $("#loadingGif").show();
 
-            // Array JSON que contendrá los id de los reajustes que se agreguen al contrato
+            // Array JSON que contendrá los id de las cantidads que se agreguen al contrato
             var items = [];
 
             // Bandera que indicará si debe hacerse el submit o no
@@ -39,17 +165,17 @@ $(document).ready(
                 // Objeto simple que contendrá los detalles de cada ítem de la boleta
                 var singleObj = {}
 
-                // Se ubica el input de Reajuste
-                var txtReajuste = $(this).children("td").eq(4).find("input:eq(0)");
+                // Se ubica el input de cantidad
+                var txtCantidad = $(this).children("td").eq(4).find("input:eq(0)");
 
-                // Se obtienen los valores de reajuste
-                var reajuste = txtReajuste.val();
+                // Se obtienen los valores de cantidad
+                var cantidad = txtCantidad.val();
 
-                // Se remueve el signo de ₡ y los separadores de miles (en caso de tenerlos) al reajuste
-                reajuste = removeCurrency(reajuste);
+                // Se remueve el signo de ₡ y los separadores de miles (en caso de tenerlos) al cantidad
+                cantidad = removeCurrency(cantidad);
 
-                // Se verifica que el reajuste sea numérico
-                if (!(txtReajuste.valid())) {
+                // Se verifica que el cantidad sea numérico
+                if (!(txtCantidad.valid())) {
                     // Se indica que no debe hacerse el submit
                     doSubmit = false;
                     // Se detiene el ciclo
@@ -57,11 +183,11 @@ $(document).ready(
                 }
 
                 // Se convierte el procentaje a decimal
-                reajuste = (new Decimal(reajuste)).dividedBy(100);
+                cantidad = (new Decimal(cantidad)).dividedBy(100);
 
                 // Se agregan los detalles al objeto
                 singleObj['idContratoItem'] = $(this).attr('id');
-                singleObj['reajuste'] = reajuste.toString();
+                singleObj['cantidad'] = cantidad.toString();
 
                 // Se agrega el objeto con los detalles del ítem a la lista a enviar en el submit
                 items.push(singleObj);
@@ -83,13 +209,13 @@ $(document).ready(
                 .attr('value', $.toJSON(jsonItems))
                 .appendTo('#formCreate');
 
-            var strFechaReajuste = document.getElementById('txtFechaReajuste').value.toString();
-            console.log(strFechaReajuste);
+            var strFechaCantidad = document.getElementById('txtFechaCantidad').value.toString();
+            console.log(strFechaCantidad);
 
-            // Se adjunta al submit la fecha de los reajustes
+            // Se adjunta al submit la fecha de los cantidads
             $('<input />').attr('type', 'hidden')
-                .attr('name', 'strFechaReajuste')
-                .attr('value', strFechaReajuste)
+                .attr('name', 'strFechaCantidad')
+                .attr('value', strFechaCantidad)
                 .appendTo('#formCreate');
 
             $('<input />').attr('type', 'hidden')
@@ -109,11 +235,11 @@ $(document).ready(
             $(this).parents("tr").remove();
 
             // Se agrega la propiedad de dataTable(paginación)
-            $('#tbItems').dataTable({
+            /*$('#tbItems').dataTable({
                 "language": {
                     "url": "/Scripts/plugins/dataTables/Spanish.txt"
                 }
-            });
+            });*/
         })
     }); // .\document.ready
 
@@ -121,14 +247,14 @@ function cargarItems(_idContrato) {
 
     // Se almacena el id del contrato
     idContrato = _idContrato;
-    var _fecha = document.getElementById('txtFechaReajuste').value;
+    var _fecha = document.getElementById('txtFechaCantidad').value;
 
-    $('#txtFechaReajuste').attr('disabled', 'disabled');
+    $('#txtFechaCantidad').attr('disabled', 'disabled');
     $('#btnCargarItems').toggleClass('disabled', true);
 
     // Este ajax realiza una acción de controlador donde envía el id del ítem a buscar y recibe como retorno un JSON con los detalles del ítem
     $.ajax({
-        url: '/ItemReajuste/cargarItems/',
+        url: '/OrdenModificacion/cargarItems/',
         type: "GET",
         dataType: "json",
         data: {
@@ -152,8 +278,8 @@ function cargarItems(_idContrato) {
                 fila += '<td>' + obj.Item2 + '</td>';
                 fila += '<td align="center">' + obj.Item3 + '</td>';
                 fila += '<td align="center"><input class="form-control" style="text-align:right" disabled="disabled" value="₡' + numberFormatCR(obj.Item4.toString()) + '"></td>';
-                fila += '<td align="center"><input class="form-control" style="text-align:right" value="0,0000" onchange="alpha($(this))" id="txtReajuste' + counter + '" name="txtReajuste' + counter + '" type="text" >'; /*</td>*/
-                fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtReajuste' + counter + '" data-valmsg-replace="true"></span> </td>';
+                fila += '<td align="center"><input class="form-control" style="text-align:right" value="0,0000" onchange="alpha($(this))" id="txtCantidad' + counter + '" name="txtCantidad' + counter + '" type="text" >'; /*</td>*/
+                fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtCantidad' + counter + '" data-valmsg-replace="true"></span> </td>';
                 fila += '<td align="center" style="max-width:100px"><input class="form-control" style="text-align:right" disabled="disabled" value="₡' + numberFormatCR(obj.Item4.toString()) + '"></td> </tr>';
 
                 //Agrega el item a la tabla htlm
@@ -166,10 +292,10 @@ function cargarItems(_idContrato) {
                     range: [0, 999],
                     required: true, // Validación de campos vacíos
                     messages: {
-                        required: "Debe ingresar un reajuste.",
-                        number: "Ingrese un reajuste válido.",
-                        range: "Ingrese un numero menor o igual a 999,9999",
-                        isNumberDecimal: "Ingrese un reajuste válido." // Validación propia declarada en el inicio del document.ready()
+                        required: "Debe ingresar una cantidad.",
+                        number: "Ingrese una cantidad válida.",
+                        range: "Ingrese un numero menor o igual a 999,999",
+                        isNumberDecimal: "Ingrese una cantidad válida." // Validación propia declarada en el inicio del document.ready()
                     }
                 });
 
@@ -188,7 +314,7 @@ function cargarItems(_idContrato) {
         error: function (xhr, textStatus, errorThrown) {
             if (xhr.status == 400) {
                 // Bad request
-                alert('Error: Consulta inválida.\nVerifique que ingresó una fecha de reajuste.');
+                alert('Error: Consulta inválida.\n');
             }
             else if (xhr.status === 401) {
                 // Unauthorized error
@@ -245,32 +371,32 @@ function alpha(_this) {
     // Almacena la columna donde se escribió algo
     var td = _this;
 
-    // Se ubican los input de precio actual, Reajuste y Precio reajustado
+    // Se ubican los input de precio actual, cantidad y Precio reajustado
     var txtPrecioActual = td.parents("tr").children("td").eq(3).find("input:eq(0)");
-    var txtReajuste = td.parent().find("input:eq(0)");
+    var txtCantidad = td.parent().find("input:eq(0)");
     var txtPrecioReajustado = td.parents("tr").children("td").eq(5).find("input:eq(0)");
 
-    // Se obtienen los valores de precio actual y reajuste
+    // Se obtienen los valores de precio actual y cantidad
     var precioActual = txtPrecioActual.val();
-    var reajuste = txtReajuste.val();
+    var cantidad = txtCantidad.val();
 
-    // Se remueve el signo de ₡ y los separadores de miles (en caso de tenerlos) al precio actual y reajuste
+    // Se remueve el signo de ₡ y los separadores de miles (en caso de tenerlos) al precio actual y cantidad
     precioActual = removeCurrency(precioActual)
-    reajuste = removeCurrency(reajuste);
+    cantidad = removeCurrency(cantidad);
 
-    // Se verifica que el reajuste sea numérico
-    if (!(txtReajuste.valid())) {
+    // Se verifica que el cantidad sea numérico
+    if (!(txtCantidad.valid())) {
         return false;
     }
 
-    if(isNaN(reajuste)){
-        //alert('El reajuste debe ser númerico y se usa la , como separador de decimales');
+    if(isNaN(cantidad)){
+        //alert('El cantidad debe ser númerico y se usa la , como separador de decimales');
         txtPrecioReajustado.val("--- Error ---");
         return false;
     }
     else {
         // Se pasa el número a formato de numero de CR y se muestra en el textbox
-        txtReajuste.val(numberFormatCR(new Decimal(reajuste).toDP(4).toFormat('',4).toString()));
+        txtCantidad.val(numberFormatCR(new Decimal(cantidad).toDP(3).toFormat('',3).toString()));
     }
     
     // Se trata de hacer las operaciones
@@ -278,15 +404,12 @@ function alpha(_this) {
 
         // Se convierten los valores a decimal
         precioActual = new Decimal(precioActual).toDP(4);
-        reajuste = new Decimal(reajuste).toDP(4);
+        cantidad = new Decimal(cantidad).toDP(3);
+        
+        // Se obtiene el monto
+        var monto =  new Decimal(precioActual.times(cantidad)).toDP(4);
 
-        // Se pasa a valor decimal el porcentaje de reajuste
-        var _reajusteDecimal = new Decimal(reajuste.dividedBy(100));
-
-        // Se suma el reajuste al precio actual
-        var _precioReajuste =  new Decimal((_reajusteDecimal.times(precioActual)).plus(precioActual)).toDP(4);
-
-        txtPrecioReajustado.val("₡" + numberFormatCR(_precioReajuste.toFormat('', 4).toString()));
+        txtPrecioReajustado.val("₡" + numberFormatCR(monto.toFormat('', 4).toString()));
     }
     catch (err) {
         if (err instanceof Error && err.name == 'Decimal Error') {

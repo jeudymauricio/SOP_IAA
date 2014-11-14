@@ -25,6 +25,9 @@ $(document).ready(
             // Bandera que indicará si debe hacerse el submit o no
             var doSubmit = true;
 
+            // Se quita la propiedad de dataTable(paginación)
+            $('#tbItems').dataTable().fnDestroy();
+
             // Se listan todos los items de la tabla
             $('#tbItems > tbody > tr').each(function () {
 

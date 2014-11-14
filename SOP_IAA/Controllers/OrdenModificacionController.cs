@@ -58,6 +58,15 @@ namespace SOP_IAA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            var contrato = db.Contrato.Find(idContrato);
+            // Se carga la lista de Items del contrato
+            List<object> listItem = new List<object>();
+            foreach (var ci in contrato.contratoItem)
+            {
+                listItem.Add(new Tuple<int, string>(ci.id, ci.item.codigoItem));
+            }
+            ViewBag.idItem = new SelectList(listItem, "item1", "item2");
+
             ViewBag.idContrato = idContrato;
             ordenModificacion om = new ordenModificacion();
             
@@ -66,6 +75,73 @@ namespace SOP_IAA.Controllers
             
             //ViewBag.idContrato = new SelectList(db.Contrato, "id", "licitacion");
             return View(om);
+        }
+
+        /// <summary>
+        /// Acción invocada por ajax y que devuelve los detalles de un item específico
+        /// </summary>
+        /// <param name="id"> id del item de contrato a buscar</param>
+        /// <param name="fecha">fecha de la boleta</param>
+        /// <returns>Json con los detalles del item del contrato(incluido su reajuste si lo hay)</returns>
+        public ActionResult ItemDetalles(int? id, string fecha)
+        {
+            // Si el id o la fecha están vacíos se retorna un badrequest
+            if ((id == null) || (string.IsNullOrWhiteSpace(fecha)))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Especifica el formato en que está la fecha, en este caso Costa Rica (es-CR)
+            IFormatProvider culture = new System.Globalization.CultureInfo("es-CR", true);
+
+            DateTime fecha2 = new DateTime();
+            // convierte el string en datetime
+            try
+            {
+                fecha2 = DateTime.Parse(fecha, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+            }
+            catch (Exception e)
+            {
+                return new HttpStatusCodeResult(99, e.Message.ToString());
+            }
+
+            // Selecciona de la base de datos el contratoItem correspondiente
+            contratoItem ci = db.contratoItem.Find(id);
+
+            // Si está nulo, quiere decir que no existe el item en el contrato
+            if (ci == null)
+            {
+                return HttpNotFound();
+            }
+
+            /// Se inicia con la creacion de un diccionario con toda la información pertinente del item
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            //result.Add("idContratoItem", ci.id.ToString());
+            result.Add("codigoItem", ci.item.codigoItem);
+            result.Add("descripcion", ci.item.descripcion);
+            result.Add("unidadMedida", ci.item.unidadMedida);
+
+            // Precio base del item
+            decimal precio = ci.precioUnitario;
+
+            // Se busca si hay reajuste para ese mes
+            var itemReajustado = db.itemReajuste.Where(ir => (ir.ano == fecha2.Year) && (ir.mes == fecha2.Month) && (ir.idContratoItem == ci.id));
+
+            // Si hay reajuste se aplica
+            if (itemReajustado.Count() > 0)
+            {
+                // Reajuste del mes
+                decimal reajuste = itemReajustado.First().reajuste;
+
+                // Se aplica el reajuste
+                precio = decimal.Round(precio * reajuste + precio, 4);
+            }
+
+            // Se almacena el precio
+            result.Add("precioReajustado", precio.ToString());
+
+            // Retorna un JSON con los detalles del ítem
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         // POST: OrdenModificacion/Create

@@ -128,7 +128,7 @@ function cargarItems(_idContrato) {
 
     // Se almacena el id del contrato
     idContrato = _idContrato;
-    var _fecha = document.getElementById('txtFechaReajuste').value;
+    //var _fecha = document.getElementById('txtFechaReajuste').value;
 
     $('#txtFechaReajuste').attr('disabled', 'disabled');
     $('#btnCargarItems').toggleClass('disabled', true);
@@ -139,8 +139,7 @@ function cargarItems(_idContrato) {
         type: "GET",
         dataType: "json",
         data: {
-            idContrato: _idContrato,
-            fecha: _fecha
+            idContrato: _idContrato
         },
         success: function (data) {
             var json = $.toJSON(data);

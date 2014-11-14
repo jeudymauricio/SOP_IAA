@@ -200,9 +200,23 @@ namespace SOP_IAA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             contratoItem contratoItem = db.contratoItem.Find(id);
-            db.contratoItem.Remove(contratoItem);
-            db.SaveChanges();
-            return RedirectToAction("Index", new { idContrato = contratoItem.idContrato });
+
+            try
+            {    
+                db.boletaItem.RemoveRange(contratoItem.boletaItem);
+                db.pICI.RemoveRange(contratoItem.pICI);
+                db.oMCI.RemoveRange(contratoItem.oMCI);
+                db.subproyectoContratoItem.RemoveRange(contratoItem.subproyectoContratoItem);
+                db.itemReajuste.RemoveRange(contratoItem.itemReajuste);
+                //db.itemReajuste.RemoveRange(contratoItem.itemReajuste);
+                db.contratoItem.Remove(contratoItem);
+                db.SaveChanges();
+                return RedirectToAction("Index", new { idContrato = contratoItem.idContrato });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", new { idContrato = contratoItem.idContrato });
+            }
         }
     }
 }

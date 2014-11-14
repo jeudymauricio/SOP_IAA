@@ -106,9 +106,9 @@ namespace SOP_IAA.Controllers
         /// <param name="idContrato">Contrato al que pertenecen los items</param>
         /// <param name="fecha">Fecha a buscar</param>
         /// <returns>Json con los detalles del item y su precio al mes</returns>
-        public ActionResult cargarItems(int? idContrato, string fecha)
+        public ActionResult cargarItems(int? idContrato)
         {
-            if ((idContrato == null)||(string.IsNullOrWhiteSpace(fecha)) )
+            if (idContrato == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -126,7 +126,7 @@ namespace SOP_IAA.Controllers
             foreach (contratoItem ci in contrato.contratoItem)
             {
                 // Obtener los detalles del item.
-                jObj = getItemDetail(ci.id, fecha);
+                jObj = getItemDetail(ci.id);
                 
                 // Se guardan los detalles en una tupla
                 var itemDetalle = new Tuple<string, string, string, string, string>(jObj["codigoItem"], jObj["descripcion"], jObj["unidadMedida"], jObj["precioReajustado"], jObj["idContratoItem"]);
@@ -145,24 +145,10 @@ namespace SOP_IAA.Controllers
         /// <param name="id"> id del item de contrato a buscar</param>
         /// <param name="fecha">fecha de la boleta</param>
         /// <returns>Diccionario con los detalles del item del contrato(incluido su reajuste al mes si lo hay)</returns>
-        public Dictionary<string,string> getItemDetail(int? id, string fecha)
+        public Dictionary<string,string> getItemDetail(int? id)
         {
             // Si el id o la fecha están vacíos se retorna un badrequest
-            if ((id == null) || (string.IsNullOrWhiteSpace(fecha)))
-            {
-                return null;
-            }
-
-            // Especifica el formato en que está la fecha, en este caso Costa Rica (es-CR)
-            IFormatProvider culture = new System.Globalization.CultureInfo("es-CR", true);
-
-            DateTime fecha2 = new DateTime();
-            // convierte el string en datetime
-            try
-            {
-                fecha2 = DateTime.Parse(fecha, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-            }
-            catch (Exception e)
+            if (id == null)
             {
                 return null;
             }
