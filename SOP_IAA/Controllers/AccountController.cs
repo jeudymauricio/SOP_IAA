@@ -46,6 +46,7 @@ namespace SOP_IAA.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            Session["CurrentSession"] = null;
             ViewBag.ReturnUrl = returnUrl;
             return View(returnUrl);
         }
@@ -58,6 +59,7 @@ namespace SOP_IAA.Controllers
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         //public ActionResult Login(LoginViewModel model, string returnUrl)
         {
+            Session["CurrentSession"] = null;
             if (ModelState.IsValid)
             {
                 var userResults = from u in db.usuario
