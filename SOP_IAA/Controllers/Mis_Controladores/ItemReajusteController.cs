@@ -8,6 +8,10 @@ using System.Web;
 using System.Web.Mvc;
 using SOP_IAA_DAL;
 using Newtonsoft.Json;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.Drawing;
+using System.IO;
 
 namespace SOP_IAA.Controllers
 {
@@ -351,6 +355,82 @@ namespace SOP_IAA.Controllers
                 return View(ir);
             }
         }
+
+        public ActionResult exportarInformesItems(int? idContrato)
+        {
+            if ((idContrato == null))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Contrato contrato = db.Contrato.Find(idContrato);
+
+            // Se verifica que el ítem exista en el contrato
+            if (contrato == null)
+            {
+                return new HttpNotFoundResult();
+            }
+            ExcelPackage pckTemplate = new ExcelPackage();
+            // Se indica la plantilla a utilizar
+            var template = new FileInfo(Server.MapPath("/Plantillas/Informe_Descriptivo_Item.xlsx"));
+            FileInfo newFile = new FileInfo(@"Sample2.xlsx");
+            ExcelPackage pkg = new ExcelPackage(newFile);
+            int sheetIndex = 1;
+
+            using (ExcelPackage package = new ExcelPackage(newFile, template))
+            {
+
+                ExcelWorkbook workBook = package.Workbook;
+                int cont = 2;
+                try
+                {
+                    if (workBook != null)
+                    {
+
+                        if (workBook.Worksheets.Count > 0)
+                        {
+
+                            int cantidad = contrato.contratoItem.Count;
+
+                            ExcelWorksheet worksheet;
+
+                            worksheet = package.Workbook.Worksheets[sheetIndex];
+                            string _SheetName = string.Format("Hoja{0}", sheetIndex.ToString());
+
+                            const int startRow = 14;
+                            int row = startRow;
+                            foreach (var contItem in contrato.contratoItem)
+                            {
+                                int col = 4;
+                                worksheet.Cells[row, col].Value = contItem.item.codigoItem;
+
+                                 foreach (var item in contItem.itemReajuste)
+                                 {
+                                     col++;
+                                     worksheet.Cells[row, col].Value = (item.reajuste*100);
+                                 }
+                                //foreach interno
+                                 col = 4;
+                                row++;
+                            }//foreach externo
+
+                        }
+                    }
+
+
+                }
+                catch (Exception e)
+                {
+                    // Se indica que ocurrió un error en la operación
+                    return JavaScript("alert('Hubo un error en la operación, reintente mas tarde');");
+                }
+
+                // Nombre que va a tener el archivo
+                string nombreArchivo = "Informe Descriptivo del contarto " + contrato.licitacion + ".xlsx";
+                return File(package.GetAsByteArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
+            }
+        }
+
         
         /// <summary>
         /// Elimina todos los reajustes de un mes y año específicos
@@ -393,4 +473,5 @@ namespace SOP_IAA.Controllers
             }
         }
     }
+
 }

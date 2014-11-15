@@ -200,6 +200,7 @@
     <Compile Include="Controllers\Mis_Controladores\ItemReajusteController.cs" />
     <Compile Include="Controllers\Mis_Controladores\PersonaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\Proyecto_EstructuraController.cs" />
+    <Compile Include="Controllers\Mis_Controladores\ReportesItemController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ReportesController.cs" />
     <Compile Include="Controllers\Mis_Controladores\RutaController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
