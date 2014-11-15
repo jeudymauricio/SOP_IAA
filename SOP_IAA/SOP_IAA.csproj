@@ -222,6 +222,7 @@
     <Compile Include="Models\LinkContratoProgramaModels.cs" />
     <Compile Include="Models\LinkPersonaTelefono.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReporteBoleta.cs" />
     <Compile Include="Startup.cs" />
     <Content Include="Content\daterangepicker-bs3.css" />
     <Content Include="Content\Images\footer_bg.jpg" />
@@ -420,6 +421,8 @@
     <Content Include="Views\PlanInversion\Edit.cshtml" />
     <Content Include="Views\PlanInversion\Index.cshtml" />
     <Content Include="Views\PlanInversion\Periodo.cshtml" />
+    <Content Include="Views\Reportes\Reports.cshtml" />
+    <Content Include="Views\Reportes\InformeDescriptivoItemRango.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

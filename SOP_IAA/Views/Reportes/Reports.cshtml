@@ -1,0 +1,88 @@
+﻿@model SOP_IAA_DAL.contratoItem
+
+@{
+    ViewBag.Title ="Reportes del item ";
+}
+
+<h2> Reportes del item @Model.item.codigoItem </h2>
+<p>
+    @Html.ActionLink("Exportar a Excel", "Export", new { id = Model.id }, new { @class = "btn btn-primary", @style = "width:150px" })
+</p>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Titulo del panel
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tbReportes" class="display">
+                <thead>
+                    <tr>
+                        <th>N° Boleta</th>
+                        <th>Fecha</th>
+                        <th>Ruta</th>
+                        <th>Sección de control</th>
+                        <th>Est Inicio</th>
+                        <th>Est Final</th>
+                        <th>Cantidad</th>
+                        <th>Inspector</th>
+                        <th>Proyecto/Estructura</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.boletaItem)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.numeroBoleta)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.ruta.nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.seccionControl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.estacionamientoInicial)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.estacionamientoFinal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cantidad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.inspector.persona.nombre)
+                                @Html.DisplayFor(modelItem => item.boleta.inspector.persona.apellido1)
+                                @Html.DisplayFor(modelItem => item.boleta.inspector.persona.apellido2)
+                            </td>
+                           <td>
+                                @Html.DisplayFor(modelItem => item.boleta.proyecto_estructura.descripcion)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbReportes').dataTable({
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        })
+    </script>
+}

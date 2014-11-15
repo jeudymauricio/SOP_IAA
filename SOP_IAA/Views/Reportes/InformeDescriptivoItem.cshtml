@@ -8,14 +8,33 @@
 <p>
     @Html.ActionLink("Exportar a Excel", "exportarInformeDescriptivoItem", "Reportes", new { id = @Model.id }, new { @class = "btn btn-primary", @style = "width:150px" })
 </p>
+@using (Html.BeginForm("InformeDescriptivoItemRango", "Reportes"))
+{
+    <div class="form-group">
+        <label for="FechaInicio">Fecha Inicio</label>
+        <div class="col-md-10">
 
+            <input class="form-control" type="date" id="fechaInicio" name="fecha1" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="FechaFin">Fecha Fin</label>
+        <div class="col-md-10">
+
+            <input class="form-control" type="date" id="fechaFin" name="fecha2" />
+        </div>
+    </div>
+    <input class="btn btn-primary" type="submit" value="Buscar" >
+    <br /><br />
+}
 <div class="panel panel-default">
     <div class="panel-heading">
         Titulo del panel
     </div>
     <!-- /.panel-heading -->
-    <div class="panel-body">
-        <div class="table-responsive">
+    <div class="panel-body" id="divPanel">
+        <div class="table-responsive" id="divTableResp">
+            
             <table id="tbReportes" class="display">
                 <thead>
                     <tr>
@@ -28,6 +47,7 @@
                         <th>Cantidad</th>
                         <th>Inspector</th>
                         <th>Proyecto/Estructura</th>
+                        <th>Comentarios</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,14 +80,22 @@
                                 @Html.DisplayFor(modelItem => item.boleta.inspector.persona.apellido1)
                                 @Html.DisplayFor(modelItem => item.boleta.inspector.persona.apellido2)
                             </td>
-                           <td>
+                            <td>
                                 @Html.DisplayFor(modelItem => item.boleta.proyecto_estructura.descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.boleta.observaciones)
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
+            <div class="col-md-12 text-center">
+                <ul class="pagination pagination-lg pager" id="myPager"></ul>
+            </div>
+
         </div>
+               
         <!-- /.table-responsive -->
     </div>
     <!-- /.panel-body -->
@@ -80,4 +108,242 @@
     <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
     <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/ReportesExcel/InformeDescriptivoItem.js"></script>
+
+
+    @*<script>
+        $(document).ready(function () {
+        // Función que permite agregar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
+            $('#btnBuscarRango').click(function () {
+                
+                
+                var old_table = document.getElementById('tableReportes');
+                var new_div = document.createElement('div');
+                new_div.className = "table-responsive";
+                new_div.id = "divTableResp";
+                var new_table = document.createElement('table');         
+                new_table.className = "table table-hover";
+                new_table.id = "tableReportes";
+                var thead = document.createElement('thead');
+                var tr=document.createElement('tr');
+                var th=document.createElement('th');
+                th.appendChild(document.createTextNode("N° Boleta"));
+                th.appendChild(document.createTextNode("Fecha"));
+                th.appendChild(document.createTextNode("Ruta"));
+                th.appendChild(document.createTextNode("Sección de control"));
+                th.appendChild(document.createTextNode("Est Inicio"));
+                th.appendChild(document.createTextNode("Est Final"));
+                th.appendChild(document.createTextNode("Cantidad"));
+                th.appendChild(document.createTextNode("Inspector"));
+                th.appendChild(document.createTextNode("Proyecto/Estructura"));
+                th.appendChild(document.createTextNode("Comentarios"));
+                tr.appendChild(th);
+                thead.appendChild(tr);
+                new_table.appendChild(thead);
+
+                /*var tbody = document.createElement('tbody');
+                tbody.id = "myTable";
+                var tr = document.createElement('tr');
+                tr.style = "display: table-row;";
+                var td = document.createElement('td');
+                
+                td.appendChild(document.createTextNode("Hola"));
+                td.appendChild(document.createTextNode("Hola"));
+                td.appendChild(document.createTextNode("Hola"));
+                td.appendChild(document.createTextNode("Hola"));
+                td.appendChild(document.createTextNode("Hola"));
+                td.appendChild(document.createTextNode("Hola"));
+                td.appendChild(document.createTextNode("Hola"));
+                td.appendChild(document.createTextNode("Hola"));
+                td.appendChild(document.createTextNode("Hola"));
+                td.appendChild(document.createTextNode("Hola"));
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+                new_table.appendChild(tbody);*/
+                //var new_div = document.getElementById("divTableResp");
+                //new_div.replaceChild(new_table, old_table);
+                //new_div.appendChild(new_table)
+               // new_div.removeChild(old_table);
+               // new_div.appendChild(new_table);
+                var div = document.getElementById("divPanel");
+                var div2 = document.getElementById("divTableResp");
+
+                div.replaceChild(new_div, div2);
+                
+
+            var inputFechaInicio = document.getElementById('fechaInicio');
+            var inputFechaFin = document.getElementById('fechaFin');
+
+            var fecha1 = inputFechaInicio.value;
+            var fecha2 = inputFechaFin.value;
+
+            if (fecha1 == "" || fecha2 == "") {
+                alert("No deje los campos vacíos");
+                return false;
+            }
+            else if (fecha1 > fecha2) {
+                alert("La fecha de inicio debe de ser menor que la final");
+            }
+            else {
+                alert("hola xP");
+            }
+
+            // Se deshabilita el boton mientras se realiza la acción
+            $(this).toggleClass('disabled', true);
+
+            // Este ajax se realiza una acción de controlador donde envía el id del ingeniero a buscar y recibe como retorno un JSON con los detalles del Ingeniero
+            $.ajax({
+                url: '/Reportes/IngenieroDetalles/',
+                type: "GET",
+                dataType: "json",
+                data: {
+                    id: _id
+                },
+                success: function (data) {
+                    var json = $.parseJSON(data);
+                    var nombreIngeniero = json.persona.nombre + ' ' + json.persona.apellido1 + ' ' + json.persona.apellido2;
+
+                    var fila = '<tr id=' + json.persona.id + '><td>' + nombreIngeniero + '</td> ';
+                    fila += '<td>' + json.rol + '</td>';
+                    fila += '<td>' + json.descripcion + '</td>';
+                    fila += '<td>' + json.departamento + '</td>';
+                    fila += '<td> <button class="remove btn btn-danger" onclick="eliminarIngeniero(' + json.persona.id + ',\'' + nombreIngeniero + '\')">Quitar Ingeniero</button> </td></tr>';
+
+                    //Agrega el ingeniero a la tabla htlm
+                    $('#tbIngenieros > tbody:last').append(fila);
+
+                    //Elimina el ingeniero del dropdownlist
+                    $("#ddlIngenieros option:selected").remove();
+
+                    // Actualiza el dropdown
+                    try {
+                        $("#ddlIngenieros").parent().find('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
+                    }
+                    catch (error) {
+                        $("#ddlIngenieros").parent().find('span.custom-combobox').find('input:text').val('');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+
+            // Se habilita nuevamente el botón
+            $(this).toggleClass('disabled', false);
+        });
+        })
+    </script>
+
+    <script>
+        $.fn.pageMe = function (opts) {
+            var $this = this,
+                defaults = {
+                    perPage: 7,
+                    showPrevNext: false,
+                    hidePageNumbers: false
+                },
+                settings = $.extend(defaults, opts);
+
+            var listElement = $this;
+            var perPage = settings.perPage;
+            var children = listElement.children();
+            var pager = $('.pager');
+
+            if (typeof settings.childSelector != "undefined") {
+                children = listElement.find(settings.childSelector);
+            }
+
+            if (typeof settings.pagerSelector != "undefined") {
+                pager = $(settings.pagerSelector);
+            }
+
+            var numItems = children.size();
+            var numPages = Math.ceil(numItems / perPage);
+
+            pager.data("curr", 0);
+
+            if (settings.showPrevNext) {
+                $('<li><a href="#" class="prev_link">«</a></li>').appendTo(pager);
+            }
+
+            var curr = 0;
+            while (numPages > curr && (settings.hidePageNumbers == false)) {
+                $('<li><a href="#" class="page_link">' + (curr + 1) + '</a></li>').appendTo(pager);
+                curr++;
+            }
+
+            if (settings.showPrevNext) {
+                $('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
+            }
+
+            pager.find('.page_link:first').addClass('active');
+            pager.find('.prev_link').hide();
+            if (numPages <= 1) {
+                pager.find('.next_link').hide();
+            }
+            pager.children().eq(1).addClass("active");
+
+            children.hide();
+            children.slice(0, perPage).show();
+
+            pager.find('li .page_link').click(function () {
+                var clickedPage = $(this).html().valueOf() - 1;
+                goTo(clickedPage, perPage);
+                return false;
+            });
+            pager.find('li .prev_link').click(function () {
+                previous();
+                return false;
+            });
+            pager.find('li .next_link').click(function () {
+                next();
+                return false;
+            });
+
+            function previous() {
+                var goToPage = parseInt(pager.data("curr")) - 1;
+                goTo(goToPage);
+            }
+
+            function next() {
+                goToPage = parseInt(pager.data("curr")) + 1;
+                goTo(goToPage);
+            }
+
+            function goTo(page) {
+                var startAt = page * perPage,
+                    endOn = startAt + perPage;
+
+                children.css('display', 'none').slice(startAt, endOn).show();
+
+                if (page >= 1) {
+                    pager.find('.prev_link').show();
+                }
+                else {
+                    pager.find('.prev_link').hide();
+                }
+
+                if (page < (numPages - 1)) {
+                    pager.find('.next_link').show();
+                }
+                else {
+                    pager.find('.next_link').hide();
+                }
+
+                pager.data("curr", page);
+                pager.children().removeClass("active");
+                pager.children().eq(page + 1).addClass("active");
+
+            }
+        };
+
+        $(document).ready(function () {
+
+            $('#myTable').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: 10 });
+
+        });
+    </script>
+
+    <script type="text/css">
+        .table-responsive {height:180px;}
+    </script>*@
 }
