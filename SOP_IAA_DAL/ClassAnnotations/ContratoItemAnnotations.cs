@@ -28,5 +28,8 @@ namespace SOP_IAA_DAL
         [DisplayName("Precio Unitario")]
         public decimal precioUnitario { get; set; }
 
+        [Required]
+        [DisplayName("Cantidad Aprobada")]
+        public decimal cantidadAprobada { get; set; }
     }
 }

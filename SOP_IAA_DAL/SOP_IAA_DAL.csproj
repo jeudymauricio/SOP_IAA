@@ -79,6 +79,7 @@
     <Compile Include="ClassAnnotations\FondoAnnotations.cs" />
     <Compile Include="ClassAnnotations\IngenieroAnnotations.cs" />
     <Compile Include="ClassAnnotations\PersonaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\OrdenModificacionAnotations.cs" />
     <Compile Include="fondo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -150,7 +151,6 @@
     <Compile Include="zona.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ClassAnnotations\OrdenModificacionAnotations.cs" />
     <None Include="ClassAnnotations\ProyectoAnnotations" />
     <Compile Include="ClassAnnotations\RutaAnnotations.cs" />
     <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />

@@ -78,15 +78,15 @@ namespace SOP_IAA.Controllers
         }
 
         /// <summary>
-        /// Acción invocada por ajax y que devuelve los detalles de un item específico
+        /// Retorna un JSON con la comparación de las cantidades programadas vs las cantidades realizadas(según las boletas)
+        /// y todo según una fecha específica
         /// </summary>
-        /// <param name="id"> id del item de contrato a buscar</param>
-        /// <param name="fecha">fecha de la boleta</param>
-        /// <returns>Json con los detalles del item del contrato(incluido su reajuste si lo hay)</returns>
-        public ActionResult ItemDetalles(int? id, string fecha)
+        /// <param name="idContrato">id del contrato a consultar</param>
+        /// <param name="fecha">fecha a consultar</param>
+        /// <returns>JSON(List<Tuple<int, string, string, string, decimal, decimal, decimal>>) -> <idContratoItem, CodigoItem, Descripcion, unidad, programado, ejecutado, reajustar> </returns>
+        public ActionResult CargarPeriodo(int? idContrato, string fecha)
         {
-            // Si el id o la fecha están vacíos se retorna un badrequest
-            if ((id == null) || (string.IsNullOrWhiteSpace(fecha)))
+            if (idContrato == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -105,44 +105,54 @@ namespace SOP_IAA.Controllers
                 return new HttpStatusCodeResult(99, e.Message.ToString());
             }
 
-            // Selecciona de la base de datos el contratoItem correspondiente
-            contratoItem ci = db.contratoItem.Find(id);
-
-            // Si está nulo, quiere decir que no existe el item en el contrato
-            if (ci == null)
+            // Se selecciona el contrato
+            Contrato contrato = db.Contrato.Find(idContrato);
+            if (contrato == null)
             {
                 return HttpNotFound();
             }
 
-            /// Se inicia con la creacion de un diccionario con toda la información pertinente del item
-            Dictionary<string, string> result = new Dictionary<string, string>();
-            //result.Add("idContratoItem", ci.id.ToString());
-            result.Add("codigoItem", ci.item.codigoItem);
-            result.Add("descripcion", ci.item.descripcion);
-            result.Add("unidadMedida", ci.item.unidadMedida);
+            //Lista con los balances de programado, ejecuta y a reajustar por item
+            // <idContratoItem, CodigoItem, Descripcion, unidad, programado, ejecutado, reajustar>
+            List<Tuple<int, string, string, string, decimal, decimal, decimal>> listaItems = new List<Tuple<int, string, string, string, decimal, decimal, decimal>>();
 
-            // Precio base del item
-            decimal precio = ci.precioUnitario;
-
-            // Se busca si hay reajuste para ese mes
-            var itemReajustado = db.itemReajuste.Where(ir => (ir.ano == fecha2.Year) && (ir.mes == fecha2.Month) && (ir.idContratoItem == ci.id));
-
-            // Si hay reajuste se aplica
-            if (itemReajustado.Count() > 0)
+            // Se recorren cada uno de los ítems del contrato
+            foreach (var item in contrato.contratoItem)
             {
-                // Reajuste del mes
-                decimal reajuste = itemReajustado.First().reajuste;
+                // Se seleccionan las boletas hasta la fecha
+                var bo = item.boletaItem.Where(b => (b.boleta.fecha <= fecha2));
+                // Se seleccionan las ordenes de modificación válidas hasta la fecha
+                var om = item.oMCI.Where(o => (o.ordenModificacion.fecha <= fecha2));
 
-                // Se aplica el reajuste
-                precio = decimal.Round(precio * reajuste + precio, 4);
+                decimal cantidadAutorizada = 0;
+
+                cantidadAutorizada = item.cantidadAprobada;
+                // Se recorren las OM correspondientes a la fecha
+                foreach (var ordenModificacion in om)
+                {
+                    cantidadAutorizada += ordenModificacion.cantidad;
+                }
+
+                decimal cantidadLaborada = 0;
+                // Se recorren todas las boletas hasta la fecha para sumar sus cantidades
+                foreach (var boleta in bo)
+                {
+                    cantidadLaborada += boleta.cantidad;
+                }
+
+                // Se guardan los detalles en una tupla
+                var detalleItem = new Tuple<int, string, string, string, decimal, decimal, decimal>(item.id, item.item.codigoItem, item.item.descripcion, item.item.unidadMedida, cantidadAutorizada, cantidadLaborada, decimal.Round(cantidadAutorizada - cantidadLaborada, 3));
+
+                // Se agrega la tupla a la lista de items
+                listaItems.Add(detalleItem);
             }
 
-            // Se almacena el precio
-            result.Add("precioReajustado", precio.ToString());
-
             // Retorna un JSON con los detalles del ítem
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(listaItems, JsonRequestBehavior.AllowGet);
         }
+
+
+
 
         // POST: OrdenModificacion/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 

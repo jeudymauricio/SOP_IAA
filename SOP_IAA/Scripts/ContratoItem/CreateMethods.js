@@ -8,6 +8,12 @@ var counter = 1;
 $(document).ready(
 
     function () {
+
+        // Regla para los números (verificar que se trata de un número y que no hay letras en el)
+        jQuery.validator.addMethod("isNumberDecimal", function (value, element) {
+            return this.optional(element) || !isNaN(removeCurrency(value));
+        }, "El valor no es un número correcto");
+
         $('#tbItems').dataTable({
             "language": {
                 "url": "/Scripts/plugins/dataTables/Spanish.txt"
@@ -35,11 +41,12 @@ $(document).ready(
                 var singleObj = {}
                 singleObj['idItem'] = $(this).attr('id');
                 singleObj['precio'] = removeCurrency($(this).children("td").eq(3).find("input:eq(0)").val());
+                singleObj['cantidadAprobada'] = removeCurrency($(this).children("td").eq(4).find("input:eq(0)").val());
 
                 // Se verifica que la cantidad sea numérica
                 if (!(/[0-9]$/.test(singleObj.precio))) {
                     // Se indica el error
-                    alert("Algunos campos son incorrectos, verifique los precios");
+                    alert("Algunos campos son incorrectos, verifique los precios y cantidades");
                     // Se indica que no debe hacerse el submit
                     doSubmit = false;
                     // Se detiene el ciclo
@@ -94,8 +101,15 @@ $(document).ready(
                     var fila = '<tr id=' + _id + '><td>' + json.codigoItem + '</td> ';
                     fila += '<td>' + json.descripcion + '</td>';
                     fila += '<td align="center">' + json.unidadMedida + '</td>';
-                    fila += '<td align="center"><input class="form-control" style="text-align:right"  onchange="addCurrency($(this))" id="txtPrecio' + counter + '" name="txtPrecio' + counter + '" type="text" >'; /*</td>*/
+
+                    // Campo para ingresar el precio de contrato
+                    fila += '<td align="center"><input class="form-control" style="text-align:right"  onchange="addCurrency($(this))" id="txtPrecio' + counter + '" name="txtPrecio' + counter + '" type="text" >';
                     fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtPrecio' + counter + '" data-valmsg-replace="true"></span> </td>';
+
+                    // Campo para ingresar la cantidad aprobada
+                    fila += '<td align="center"><input class="form-control" style="text-align:right"  onchange="onchangeCantidad($(this))" id="txtCantidad' + counter + '" name="txtCantidad' + counter + '" type="text" >';
+                    fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtCantidad' + counter + '" data-valmsg-replace="true"></span> </td>';
+
                     fila += '<td align="center"><button class="remove btn btn-danger" onclick="eliminarItem(' + _id + ', \' ' + json.codigoItem + '\')">Quitar Item</button> </td></tr>';
 
                     // Aumenta el Contador
@@ -107,8 +121,20 @@ $(document).ready(
                     //Agrega el ingeniero a la tabla htlm
                     $('#tbItems > tbody:last').append(fila);
                     
+                    // Se agregan las validaciones de cantidad
+                    $('#tbItems > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
+                        number: true, // Validación de números
+                        isNumberDecimal: true,
+                        required: true, // Validación de campos vacíos
+                        messages: {
+                            required: "Debe ingresar una cantidad.",
+                            number: "Ingrese una cantidad válida.",
+                            isNumberDecimal: "Ingrese una cantidad válida." // Validación propia declarada en el inicio del document.ready()
+                        }
+                    });
+
                     // Se agregan las validaciones de precio
-                    $('#tbItems > tbody > tr:last').find('input:eq(0)').rules('add', {
+                    $('#tbItems > tbody > tr:last').children("td").eq(3).find('input:eq(0)').rules('add', {
                         number: true, // Validación de números
                         required: true, // Validación de campos vacíos
                         messages: {
@@ -271,4 +297,62 @@ function removeCurrency(num) {
     num = num.replace(/,/g, ".");
 
     return num;
+}
+
+
+// Función para comprobar la cantidad ingresada
+function onchangeCantidad(_this) {
+    // Almacena la columna donde se escribió algo
+    var num = removeCurrency(_this.parent().find("input:eq(0)").val());
+
+    try{
+        num = new Decimal(num).toDP(3);
+        _this.parent().find("input:eq(0)").val(numberFormatCR(num.toFormat('', 3).toString()));
+    }
+    catch (err) {
+
+    }
+}
+
+
+/**
+ * Funcion que devuelve un numero separando los separadores de miles
+ * Puede recibir valores negativos y con decimales
+ */
+function numberFormatCR(numero) {
+    // Se coloca la , en lugar del . como separador decimal
+    numero = numero.replace(/\./g, ',');
+
+    // Variable que contendra el resultado final
+    var resultado = "";
+
+    // Si el numero empieza por el valor "-" (numero negativo)
+    if (numero[0] == "-") {
+        // Cogemos el numero eliminando los posibles puntos que tenga, y sin
+        // el signo negativo
+        nuevoNumero = numero.replace(/\./g, '').substring(1);
+    } else {
+        // Cogemos el numero eliminando los posibles puntos que tenga
+        nuevoNumero = numero.replace(/\./g, '');
+    }
+
+    // Si tiene decimales, se los quitamos al numero
+    if (numero.indexOf(",") >= 0)
+        nuevoNumero = nuevoNumero.substring(0, nuevoNumero.indexOf(","));
+
+    // Ponemos un punto cada 3 caracteres
+    for (var j, i = nuevoNumero.length - 1, j = 0; i >= 0; i--, j++)
+        resultado = nuevoNumero.charAt(i) + ((j > 0) && (j % 3 == 0) ? "." : "") + resultado;
+
+    // Si tiene decimales, se lo añadimos al numero una vez formateado con 
+    // los separadores de miles
+    if (numero.indexOf(",") >= 0)
+        resultado += numero.substring(numero.indexOf(","));
+
+    if (numero[0] == "-") {
+        // Devolvemos el valor añadiendo al inicio el signo negativo
+        return "-" + resultado;
+    } else {
+        return resultado;
+    }
 }

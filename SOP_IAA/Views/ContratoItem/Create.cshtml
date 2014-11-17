@@ -45,6 +45,7 @@
                                 <th style="text-align:center">Descripción</th>
                                 <th style="text-align:center">Unidad de Medida</th>
                                 <th style="text-align:center">Precio (₡)</th>
+                                <th style="text-align:center">Cantidad Aprobada</th>
                                 <th style="text-align:center"></th>
                             </tr>
                         </thead>
@@ -70,6 +71,10 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <!-- Función para realizar operaciones con decimales -->
+    <script src="~/Scripts/API Decimales/decimal.js"></script>
+
     <script src="~/Scripts/ContratoItem/CreateMethods.js"></script>
 
     <script src="~/Scripts/jquery-ui-1.11.1.js"></script>

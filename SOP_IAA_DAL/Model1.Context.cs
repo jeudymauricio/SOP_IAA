@@ -37,6 +37,8 @@ namespace SOP_IAA_DAL
         public virtual DbSet<item> item { get; set; }
         public virtual DbSet<itemReajuste> itemReajuste { get; set; }
         public virtual DbSet<laboratorioCalidad> laboratorioCalidad { get; set; }
+        public virtual DbSet<oMCI> oMCI { get; set; }
+        public virtual DbSet<ordenModificacion> ordenModificacion { get; set; }
         public virtual DbSet<persona> persona { get; set; }
         public virtual DbSet<pICI> pICI { get; set; }
         public virtual DbSet<planInversion> planInversion { get; set; }
@@ -50,7 +52,5 @@ namespace SOP_IAA_DAL
         public virtual DbSet<telefono> telefono { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
         public virtual DbSet<zona> zona { get; set; }
-        public virtual DbSet<oMCI> oMCI { get; set; }
-        public virtual DbSet<ordenModificacion> ordenModificacion { get; set; }
     }
 }

@@ -22,10 +22,21 @@ $(document).ready(
             minView: 'month'/*,
             startDate: fechaInicio*/
         });
+        //$("#txtFechaCargar").datetimepicker({
+        //    language: 'es',
+        //    autoclose: true,
+        //    format: "MM yyyy",
+        //    startView: 'year',
+        //    minView: 'year'/*,
+        //    startDate: fechaInicio*/
+        //});
 
         // Función del Wizard
         $('#rootwizard').bootstrapWizard({
             onTabShow: function (tab, navigation, index) {
+
+                clearTable();
+
                 // Dynamically change percentage completion on progress bar
                 var tabCount = navigation.find('li').length;
                 var current = index + 1;
@@ -44,102 +55,6 @@ $(document).ready(
                 //alert('Utilice los botones de Siguiente, Anterior para desplazarse');
                 //return false;
             }
-        });
-
-        // Función que permite agregar una fila con los detalles del item seleccionado en la sección items del Wizard
-        $('#btnAgregarItem').click(function () {
-            var dd = document.getElementById('ddlItems');
-            try {
-                // Se trata de obtener el valor del dropdown
-                var _id = dd.options[dd.selectedIndex].value;
-            } catch (error) {
-                return false;
-            }
-            // Se extrae la fecha seleccionada
-            var _fecha = document.getElementById('txtFecha')
-
-            // Se deshabilita el boton mientras se realiza la acción
-            $(this).toggleClass('disabled', true);
-
-            // Este ajax realiza una acción de controlador donde envía el id del ítem a buscar y recibe como retorno un JSON con los detalles del ítem
-            $.ajax({
-                url: '/OrdenModificacion/ItemDetalles/',
-                type: "GET",
-                dataType: "json",
-                data: {
-                    id: _id,
-                    fecha: _fecha.value
-                },
-                success: function (data) {
-                    var json = data;
-
-                    var fila = '<tr id=' + _id + '><td>' + json.codigoItem + '</td> ';
-                    fila += '<td>' + json.descripcion + '</td>';
-                    fila += '<td align="center">' + json.unidadMedida + '</td>';
-                    fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled="" value="₡' + numberFormatCR(removeCurrency(json.precioReajustado)) + '"></td>';
-                    fila += '<td align="right"><input class="form-control" style="text-align:right" onchange="alpha($(this))" id="txtCantidad' + counter + '" name="txtCantidad' + counter + '">';
-                    fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtCantidad' + counter + '" data-valmsg-replace="true"></span> </td>';
-                    fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled=""></td>';
-                    fila += '<td align="center"> <button class="remove btn btn-danger" onclick="eliminarItem(' + _id + ', \' ' + json.codigoItem + '\')">Quitar Item</button> </td></tr>';
-
-                    //Agrega el ingeniero a la tabla htlm
-                    $('#tbItems > tbody:last').append(fila);
-
-                    //Se agregan las validaciones de números
-                    $('#tbItems > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
-                        number: true, // Validación de números
-                        isNumberDecimal: true,
-                        required: true, // Validación de campos vacíos
-                        messages: {
-                            required: "Debe ingresar una cantidad.",
-                            number: "Ingrese una cantidad válida.",
-                            isNumberDecimal: "Ingrese una cantidad válida." // Validación propia declarada en el inicio del document.ready()
-                        }
-                    });
-
-                    // Aumenta el Contador
-                    counter += 1;
-
-                    //Elimina el ingeniero del dropdownlist
-                    $("#ddlItems option:selected").remove();
-
-                    // Actualiza el dropdown
-                    try {
-                        $('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
-                    }
-                    catch (error) {
-                        $('span.custom-combobox').find('input:text').val('');
-                    }
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    if (xhr.status == 99) {
-                        // error de fecha (error establecido manualmente)
-                        alert('Error de fecha.\nVerifique que indico un formato de fecha correcto.');
-                    }
-                    else if (xhr.status == 400) {
-                        // Bad request
-                        alert('Error: Consulta inválida.\n.');
-                    }
-                    else if (xhr.status === 401) {
-                        // Unauthorized error
-                        alert('Error: Acceso denegado.\n Verifique que tenga privilegios para realizar la operación.');
-                    }
-                    else if (xhr.status == 404) {
-                        // Not found
-                        alert('Error: no se encontraron los detalles del ítem.\nVerifique que el item pertenece al contrato.');
-                    }
-                    else if (xhr.status == 500) {
-                        // Server side error
-                        alert('Error del servidor.\n Espere unos segundos y vuelva a reitentar.');
-                    }
-                    else {
-                        alert('Error: \n ' + errorThrown + 'Reitente de nuevo.');
-                    }
-                }
-            });
-
-            // Se habilita nuevamente el botón
-            $(this).toggleClass('disabled', false);
         });
 
         // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
@@ -224,37 +139,26 @@ $(document).ready(
                 .appendTo('#formCreate');
 
             return true;
-        }),
-
-        // Función que permite quitar una fila con los detalles del ingeniero seleccionado en la sección Ingenieros del Wizard
-        $(document).on("click", "#tbItems button.remove", function () {
-
-            // Se quita la propiedad de dataTable(paginación)
-            $('#tbItems').dataTable().fnDestroy();
-
-            $(this).parents("tr").remove();
-
-            // Se agrega la propiedad de dataTable(paginación)
-            /*$('#tbItems').dataTable({
-                "language": {
-                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
-                }
-            });*/
         })
+
     }); // .\document.ready
+
+function clearTable() {
+    $("#tbItems tbody tr").remove();
+}
 
 function cargarItems(_idContrato) {
 
     // Se almacena el id del contrato
     idContrato = _idContrato;
-    var _fecha = document.getElementById('txtFechaCantidad').value;
+    var _fecha = document.getElementById('txtFecha').value;
 
-    $('#txtFechaCantidad').attr('disabled', 'disabled');
+    $('#txtFechaCargar').attr('disabled', 'disabled');
     $('#btnCargarItems').toggleClass('disabled', true);
 
     // Este ajax realiza una acción de controlador donde envía el id del ítem a buscar y recibe como retorno un JSON con los detalles del ítem
     $.ajax({
-        url: '/OrdenModificacion/cargarItems/',
+        url: '/OrdenModificacion/CargarPeriodo/',
         type: "GET",
         dataType: "json",
         data: {
@@ -270,20 +174,27 @@ function cargarItems(_idContrato) {
                 }
             });
 
-            //console.info(data);
-
             $.each($.parseJSON(json), function (idx, obj) {
-                
-                var fila = '<tr id="' + obj.Item5+ '"><td>' + obj.Item1 + '</td>';
-                fila += '<td>' + obj.Item2 + '</td>';
-                fila += '<td align="center">' + obj.Item3 + '</td>';
-                fila += '<td align="center"><input class="form-control" style="text-align:right" disabled="disabled" value="₡' + numberFormatCR(obj.Item4.toString()) + '"></td>';
-                fila += '<td align="center"><input class="form-control" style="text-align:right" value="0,0000" onchange="alpha($(this))" id="txtCantidad' + counter + '" name="txtCantidad' + counter + '" type="text" >'; /*</td>*/
-                fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtCantidad' + counter + '" data-valmsg-replace="true"></span> </td>';
-                fila += '<td align="center" style="max-width:100px"><input class="form-control" style="text-align:right" disabled="disabled" value="₡' + numberFormatCR(obj.Item4.toString()) + '"></td> </tr>';
+
+                var fila = '<tr id="' + obj.Item1+ '"><td>' + obj.Item2 + '</td>';
+                fila += '<td>' + obj.Item3 + '</td>';
+                fila += '<td align="center">' + obj.Item4 + '</td>';
+                fila += '<td align="center"><input class="form-control" style="text-align:right" disabled="disabled" value="' + numberFormatCR(new Decimal(obj.Item5).toDP(3).toFormat('', 3).toString()) + '"></td>';
+                fila += '<td align="center"><input class="form-control" style="text-align:right" disabled="disabled" value="' + numberFormatCR(new Decimal(obj.Item6).toDP(3).toFormat('', 3).toString()) + '"></td>';
+                fila += '<td align="center"><input class="form-control" style="text-align:right" disabled="disabled" value="' + numberFormatCR(new Decimal(obj.Item7).toDP(3).toFormat('', 3).toString()) + '"></td>';
+                fila += '<td align="center"><input class="form-control" style="text-align:right" value="0,000" onchange="alpha($(this))" id="txtCantidad' + counter + '" name="txtCantidad' + counter + '" type="text" >';
+                fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtCantidad' + counter + '" data-valmsg-replace="true"></span>';
+                fila += '</td> </tr>';
 
                 //Agrega el item a la tabla htlm
                 $('#tbItems > tbody:last').append(fila);
+
+                if (obj.Item7 >= 0) {
+                    $('#tbItems > tbody > tr:last').addClass('success');
+                }
+                else {
+                    $('#tbItems > tbody > tr:last').addClass('danger');
+                }
 
                 //Se agregan las validaciones de números
                 $('#tbItems > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
@@ -333,21 +244,6 @@ function cargarItems(_idContrato) {
             }
         }
     });
-}
-
-// Función que elimina la fila de un ítem de la lista
-function eliminarItem(_id, _codigoItem) {
-    // Se agrega nuevamente el item al dropdown
-    $("<option value=" + _id + ">" + _codigoItem + "</option>").appendTo("#ddlItems");
-
-    // Actualiza el dropdown
-    var dd = document.getElementById('ddlItems');
-    try {
-        $('span.custom-combobox').find('input:text').val(dd.options[dd.selectedIndex].text);
-    }
-    catch (error) {
-        $('span.custom-combobox').find('input:text').val('');
-    }
 }
 
 // Función que limpia los elementos no numéricos de los precios y establece el formato de CR

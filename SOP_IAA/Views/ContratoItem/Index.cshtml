@@ -25,6 +25,7 @@
                         <th>Código del Ítem</th>
                         <th>Descripción</th>
                         <th>Unidad de Medida</th>
+                        <th>Cantidad Aprobada</th>
                         <th>Precio Unitario</th>
                         <th></th>
                     </tr>
@@ -36,9 +37,10 @@
                             <td>@item.item.codigoItem</td>
                             <td>@item.item.descripcion</td>
                             <td>@item.item.unidadMedida</td>
+                            <td align="center"> @String.Format("{0:N3}", (item.cantidadAprobada))</td>
                             <td align="right"> @String.Format("{0:C4}",(item.precioUnitario))</td>
                             <td align="center">
-                                @Html.ActionLink("Cambiar Precio", "Edit", new { id = item.id }) |
+                                @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
                                 @Html.ActionLink("Eliminar del Contrato", "Delete", new { id = item.id })
                             </td>
                         </tr>

@@ -108,7 +108,7 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idContrato,idItem,precioUnitario")] contratoItem contratoItem, [Bind(Include="jsonItems")] string jsonItems)
+        public ActionResult Create([Bind(Include = "idContrato,idItem,precioUnitario,cantidadAprobada")] contratoItem contratoItem, [Bind(Include="jsonItems")] string jsonItems)
         {
             if (ModelState.IsValid)
             {
@@ -126,6 +126,7 @@ namespace SOP_IAA.Controllers
                         ci.idContrato = contratoItem.idContrato;
                         ci.idItem = int.Parse(child.idItem.Value);
                         ci.precioUnitario = decimal.Parse(child.precio.Value, culture);
+                        ci.cantidadAprobada = decimal.Parse(child.cantidadAprobada.Value, culture);
                         
                         // Se agrega el boleta-item a la base de datos
                         db.contratoItem.Add(ci);
@@ -167,7 +168,7 @@ namespace SOP_IAA.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id, idContrato, idItem, precioUnitario")] contratoItem contratoItem)
+        public ActionResult Edit([Bind(Include = "id, idContrato, idItem, precioUnitario, cantidadAprobada")] contratoItem contratoItem)
         {
             if (ModelState.IsValid)
             {
