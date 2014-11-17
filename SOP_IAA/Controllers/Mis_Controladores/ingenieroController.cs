@@ -78,8 +78,22 @@ namespace SOP_IAA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ingeniero ingeniero = db.ingeniero.Find(id);
-            db.ingeniero.Remove(ingeniero);
-            db.SaveChanges();
+
+            try
+            {
+                // Se elimina el ingeniero de todos los contratos donde exista
+                db.ingenieroContrato.RemoveRange(ingeniero.ingenieroContrato);
+
+                // Se elimina el ingeniero del sistema
+                db.ingeniero.Remove(ingeniero);
+
+                // Se guardan cambios en la base de datos
+                db.SaveChanges();
+            }
+            catch(Exception){
+
+            }
+
             return RedirectToAction("Index");
         }
     }

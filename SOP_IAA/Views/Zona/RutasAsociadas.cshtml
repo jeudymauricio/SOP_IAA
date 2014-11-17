@@ -27,7 +27,7 @@
                         <th>
                             Descripción
                         </th>
-                        <th></th>
+                        @*<th></th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -40,9 +40,9 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.descripcion)
                             </td>
-                            <td align="center">
+                            @*<td align="center">
                                 @Html.ActionLink("Eliminar", "Delete", new { id = item.id })
-                            </td>
+                            </td>*@
                         </tr>
                     }
                 </tbody>
