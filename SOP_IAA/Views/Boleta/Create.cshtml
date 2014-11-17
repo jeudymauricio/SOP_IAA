@@ -66,7 +66,7 @@
                             <div class="col-md-10">
                                 @{
                                     // Se pregunta si los proyectos estrcuturas vienen vacíos
-                                    if (Enumerable.Count(ViewBag.idProyecto_Estructura) < 1)
+                                    if (Enumerable.Count(ViewBag.idRuta) < 1)
                                     {
                                         // Si están vacíos entonces se desactiva el dropdown
                                         var items = new List<SelectListItem>()
@@ -148,7 +148,7 @@
                                             new SelectListItem {Text = "--- Sin Proyectos/Estructuras ---", Value = "-1"}
                                         };
 
-                                        @Html.DropDownList("idProyecto_Estructura", items, new { @class = "form-control", @id = "ddlRuta", @disabled = "disabled" });
+                                        @Html.DropDownList("idProyecto_Estructura", items, new { @class = "form-control", @id = "ddlProyectoEstructura", @disabled = "disabled" });
                                     }
                                     else
                                     {
