@@ -1,61 +1,169 @@
 ﻿@model SOP_IAA_DAL.ordenModificacion
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar OM";
 }
 
-<h2>Edit</h2>
+<h3>Editar OM de @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName(Model.fecha.Month).ToUpper() @Model.fecha.Year</h3>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(Html.BeginForm(null, null, FormMethod.Post, new { name = "formEdit", id = "formEdit" })))
 {
     @Html.AntiForgeryToken()
-    
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.fecha)
+    @Html.HiddenFor(model => model.numeroOficio)
+    @Html.HiddenFor(model => model.idContrato)
+
     <div class="form-horizontal">
-        <h4>ordenModificacion</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id)
+        <div id="tabPanelEditar">
+            <div class="panel-body">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.idContrato, "idContrato", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idContrato", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idContrato, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tabGeneral" data-toggle="tab">Datos OM</a>
+                    </li>
+                    <li>
+                        <a href="#tabItems" data-toggle="tab">Cantidades de Items</a>
+                    </li>
+                </ul>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.numeroOficio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.numeroOficio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.numeroOficio, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <!-- Tab de datos generales de la boleta -->
+                    <div class="tab-pane fade in active" id="tabGeneral">
+                        <br />
+                        <!-- Panel -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Datos de la Orden de Modificación
+                            </div>
+                            <!-- /.panel-heading -->
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.objetoOM, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.objetoOM, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.objetoOM, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.numeroOficio, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.numeroOficio, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                        @Html.ValidationMessageFor(model => model.numeroOficio, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                        @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.objetoOM, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.objetoOM, htmlAttributes: new { @class = "form-control", @rows = 4, @placeholder = "Máx 200 caracteres" })
+                                        @Html.ValidationMessageFor(model => model.objetoOM, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div><!-- .\ panel -->
+                        </div>
+                    </div>
+
+                    <!-- Tab de datos de los ítems de la OM -->
+                    <div class="tab-pane fade" id="tabItems">
+
+                        <br />
+                        <!-- Panel que contendrá la tabla dinámica de ítems -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Items a Modificar
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbItems" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center">Item</th>
+                                                <th style="text-align:center">Descripción</th>
+                                                <th style="text-align:center">Unidad</th>
+                                                <th style="text-align:center">Original</th>
+                                                <th style="text-align:center">Resumen OMs</th>
+                                                <th style="text-align:center">Realizado</th>
+                                                <th style="text-align:center">Aumento/Disminición(OM)</th>
+                                                <th style="text-align:center">Autorizado</th>
+                                                <th style="text-align:center">Disponible</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ítems -->
+                                            @*<idcontratoitem, codigoitem, descripcion, unidad, original, oms, realizado>*@
+                                            @foreach (var item in @ViewBag.items)
+                                            {
+                                                
+                                                var omci = Model.oMCI.Where(o => o.idContratoItem == (int)@item.Item1).First();
+                                                var Autorizado = (decimal)@item.Item5 + (decimal)@item.Item6 + omci.cantidad;
+                                                var Disponible = Autorizado - (decimal)@item.Item7;
+                                                var name = "txtCantidad" + item.Item1;
+                                                
+                                                <tr id="@item.Item1">
+                                                    <td>@item.Item2</td>
+                                                    <td>@item.Item3</td>
+                                                    <td align="center">@item.Item4</td>
+                                                    <td align="center">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@item.Item5">
+                                                    </td>
+                                                    <td align="center">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@item.Item6">
+                                                    </td>
+                                                    <td align="center">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@item.Item7">
+                                                    </td>
+                                                    <td align="center" id="@omci.idOrdenModificacion">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" value="@omci.cantidad" onchange="alpha($(this))" name="@name">
+                                                        <span class="text-danger field-validation-error" data-valmsg-for="@name" data-valmsg-replace="true"></span>
+                                                    </td>
+                                                    <td align="center">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@Autorizado">
+                                                    </td>
+                                                    <td align="center">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@Disponible">
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel-default -->
+                    </div><!-- .\ panel -->
+                </div><!-- .\ tab-content -->
+            </div><!-- .\ panel-body -->
+        </div><!-- .\ form-horizontal -->
+        <!-- Botón de submit -->
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="text-center">
+                <!-- col-md-offset-2 col-md-10 -->
+                <input type="submit" value="Guardar Cambios" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
 </div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <!-- Función para realizar operaciones con decimales -->
+    <script src="~/Scripts/API Decimales/decimal.js"></script>
+
+    <!-- Funciones internas de crear -->
+    <script src="~/Scripts/OrdenModificacion/EditMethods.js"></script>
+}

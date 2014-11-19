@@ -91,6 +91,7 @@ namespace SOP_IAA.Controllers
                 db.SaveChanges();
             }
             catch(Exception){
+                // Notity the error
 
             }
 

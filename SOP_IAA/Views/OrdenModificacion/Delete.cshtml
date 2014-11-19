@@ -1,14 +1,17 @@
 ﻿@model SOP_IAA_DAL.ordenModificacion
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar OM " + Model.numeroOficio;
 }
 
-<h2>Delete</h2>
+<h2> </h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>
+    @SOP_IAA_Utilerias.Utilerias.ValorRecurso(SOP_IAA_Utilerias.Utilerias.ArchivoRecurso.UtilRecursos, "MSJ_CONFIRM_ELIMINAR_OM")
+</h3>
+
 <div>
-    <h4>ordenModificacion</h4>
+    <h4> </h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -49,8 +52,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Eliminar OM" class="btn btn-danger" /> |
+            @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
         </div>
     }
 </div>

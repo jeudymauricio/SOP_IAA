@@ -80,6 +80,9 @@
     <Compile Include="ClassAnnotations\IngenieroAnnotations.cs" />
     <Compile Include="ClassAnnotations\PersonaAnnotations.cs" />
     <Compile Include="ClassAnnotations\OrdenModificacionAnotations.cs" />
+    <Compile Include="ClassAnnotations\RutaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />
+    <Compile Include="ClassAnnotations\ContratoAnnotations.cs" />
     <Compile Include="fondo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -92,6 +95,7 @@
     <Compile Include="inspector.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="IRepositorio.cs" />
     <Compile Include="item.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -101,10 +105,20 @@
     <Compile Include="laboratorioCalidad.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="oMCI.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -121,25 +135,15 @@
     <Compile Include="planInversion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="programa.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="programaSubProyectoContratoItem.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="proyecto_estructura.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositorio.cs" />
     <Compile Include="ruta.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="seccionControl.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="subProyecto.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="subproyectoContratoItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="telefono.cs">
@@ -151,23 +155,6 @@
     <Compile Include="zona.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <None Include="ClassAnnotations\ProyectoAnnotations" />
-    <Compile Include="ClassAnnotations\RutaAnnotations.cs" />
-    <Compile Include="ClassAnnotations\ZonaAnnotations.cs" />
-    <Compile Include="ClassAnnotations\ContratoAnnotations.cs" />
-    <Compile Include="IRepositorio.cs" />
-    <Compile Include="Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositorio.cs" />
     <EntityDeploy Include="Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>

@@ -71,8 +71,17 @@ namespace SOP_IAA.Controllers
         public ActionResult DeleteConfirmed(short id)
         {
             fondo fondo = db.fondo.Find(id);
-            db.fondo.Remove(fondo);
-            db.SaveChanges();
+            try
+            {
+                fondo.Contrato.Clear();
+                fondo.boleta.Clear();
+                db.fondo.Remove(fondo);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                // Notify error
+            }
             return RedirectToAction("Index");
         }
     }

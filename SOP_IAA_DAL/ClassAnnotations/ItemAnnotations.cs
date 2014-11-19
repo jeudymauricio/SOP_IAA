@@ -20,6 +20,7 @@ namespace SOP_IAA_DAL
         [StringLength(25)]
         public string codigoItem { get; set; }
 
+        [Required]
         [DisplayName("Descripción")]
         [StringLength(100)]
         public string descripcion { get; set; }

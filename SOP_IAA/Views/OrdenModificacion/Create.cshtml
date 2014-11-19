@@ -6,7 +6,7 @@
 
 <h3>Nueva Órden de Modificación</h3>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(Html.BeginForm(null, null, FormMethod.Post, new { name = "formCreate", id = "formCreate" })))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.idContrato)
@@ -69,16 +69,6 @@
                     </div>
                     <!-- Sección de datos de los items -->
                     <div class="tab-pane" id="step2" style="min-height:377px">
-                        <div>
-                            <div class="form-group">
-                                <div class="col-sm-3">
-                                    @*<input class="form-control" id="txtFechaCargar" placeholder="Fecha que aplica" title="Fecha valida para todo el mes" />*@
-                                </div>
-                                <div class="col-sm-9">
-                                    @*<input class="btn btn-primary" type="button" onclick="cargarItems(@ViewBag.idContrato)" value="Cargar ítems" id="btnCargarItems" />*@
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- Panel que contendrá la tabla dinámica de ítems -->
                         <div class="panel panel-default">
@@ -91,13 +81,15 @@
                                     <table id="tbItems" class="table">
                                         <thead>
                                             <tr>
-                                                <th style="text-align:center">Código Item</th>
+                                                <th style="text-align:center">Item</th>
                                                 <th style="text-align:center">Descripción</th>
-                                                <th style="text-align:center">Unidad de Medida</th>
-                                                <th style="text-align:center">Cantidad Programada</th>
-                                                <th style="text-align:center">Cantidad Realizada</th>
-                                                <th style="text-align:center">A Reajustar</th>
+                                                <th style="text-align:center">Unidad</th>
+                                                <th style="text-align:center">Original</th>
+                                                <th style="text-align:center">Resumen OMs</th>
+                                                <th style="text-align:center">Realizado</th>
                                                 <th style="text-align:center">Aumento/Disminición(OM)</th>
+                                                <th style="text-align:center">Autorizado</th>
+                                                <th style="text-align:center">Disponible</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -113,7 +105,7 @@
                     </div>
                 </div>
 
-                
+
 
                 <!-- 4. Declare buttons used by the wizard. -->
                 <!-- "pager wizard" required. -->
@@ -122,7 +114,10 @@
                     <li class="first previous"><a href="#" accesskey="f">Primero</a></li>
                     <li class="previous"><a href="#" accesskey="p" onclick="clearTable()">Anterior</a></li>
                     <li class="next"><a href="#" accesskey="n" onclick="cargarItems(@ViewBag.idContrato)">Siguiente</a></li>
-                    <li class="last" style="display:none;"><input type="submit" value="Crear Orden Modificación" class="btn btn-success" /></li>
+                    <li class="last" style="display:none;">
+                        <input type="submit" name="create" value="Crear Orden Modificación" class="btn btn-success" />
+                        <img src="~/Content/Images/loading.gif" id="loadingGif" style="display: none;" />
+                    </li>
                 </ul>
             </div><!-- ./tab-content -->
 

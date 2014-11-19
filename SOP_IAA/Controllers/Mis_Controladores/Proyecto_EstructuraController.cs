@@ -125,8 +125,27 @@ namespace SOP_IAA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             proyecto_estructura proyecto_estructura = db.proyecto_estructura.Find(id);
-            db.proyecto_estructura.Remove(proyecto_estructura);
-            db.SaveChanges();
+            try
+            {
+                // Se eliminan cada uno de los items de las boletas asociadas al PE
+                foreach(var b in proyecto_estructura.boleta){
+                    db.boletaItem.RemoveRange(b.boletaItem);
+                }
+
+                // Se eliminan las boletas del PE
+                db.boleta.RemoveRange(proyecto_estructura.boleta);
+
+                // Se elimina el PE de la BD
+                db.proyecto_estructura.Remove(proyecto_estructura);
+
+                // Se guardan los cambios en la BD
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                // Notify error
+            }
+
             return RedirectToAction("Index", new { idRuta = proyecto_estructura.idRuta });
         }
 

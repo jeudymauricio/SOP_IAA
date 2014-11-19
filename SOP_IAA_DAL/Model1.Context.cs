@@ -42,13 +42,9 @@ namespace SOP_IAA_DAL
         public virtual DbSet<persona> persona { get; set; }
         public virtual DbSet<pICI> pICI { get; set; }
         public virtual DbSet<planInversion> planInversion { get; set; }
-        public virtual DbSet<programa> programa { get; set; }
-        public virtual DbSet<programaSubProyectoContratoItem> programaSubProyectoContratoItem { get; set; }
         public virtual DbSet<proyecto_estructura> proyecto_estructura { get; set; }
         public virtual DbSet<ruta> ruta { get; set; }
         public virtual DbSet<seccionControl> seccionControl { get; set; }
-        public virtual DbSet<subProyecto> subProyecto { get; set; }
-        public virtual DbSet<subproyectoContratoItem> subproyectoContratoItem { get; set; }
         public virtual DbSet<telefono> telefono { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
         public virtual DbSet<zona> zona { get; set; }

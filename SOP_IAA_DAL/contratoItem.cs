@@ -20,7 +20,6 @@ namespace SOP_IAA_DAL
             this.itemReajuste = new HashSet<itemReajuste>();
             this.oMCI = new HashSet<oMCI>();
             this.pICI = new HashSet<pICI>();
-            this.subproyectoContratoItem = new HashSet<subproyectoContratoItem>();
         }
     
         public int id { get; set; }
@@ -35,6 +34,5 @@ namespace SOP_IAA_DAL
         public virtual ICollection<itemReajuste> itemReajuste { get; set; }
         public virtual ICollection<oMCI> oMCI { get; set; }
         public virtual ICollection<pICI> pICI { get; set; }
-        public virtual ICollection<subproyectoContratoItem> subproyectoContratoItem { get; set; }
     }
 }

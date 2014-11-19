@@ -17,7 +17,7 @@ namespace SOP_IAA_DAL
     {
         [Required]
         [DisplayName("Zona")]
-        [StringLength(10)]
+        [StringLength(20)]
         public string nombre { get; set; }
     }
 }

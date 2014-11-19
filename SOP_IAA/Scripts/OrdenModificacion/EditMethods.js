@@ -1,5 +1,5 @@
 ﻿/*
- *---------------------------------------------- Métodos de la vista 'Create' del OrdenModificaciónController ---------------------------------------------- 
+ *---------------------------------------------- Métodos de la vista 'Edit' del OrdenModificaciónController ---------------------------------------------- 
  */
 var counter = 1;
 
@@ -13,45 +13,19 @@ $(document).ready(
         }, "El valor no es un número correcto");
 
         // Función del DatePicker en los campos de Fecha sencillos
-        $("#txtFecha").datetimepicker({
-            language: 'es',
-            autoclose: true,
-            format: "dd/mm/yyyy",
-            startView: 'month',
-            minView: 'month'/*,
-            startDate: fechaInicio*/
-        });
-
-        // Función del Wizard
-        $('#rootwizard').bootstrapWizard({
-            onTabShow: function (tab, navigation, index) {
-
-                clearTable();
-
-                // Dynamically change percentage completion on progress bar
-                var tabCount = navigation.find('li').length;
-                var current = index + 1;
-                var percentDone = (current / tabCount) * 100;
-                $('#rootwizard').find('#progressBar').css({ width: percentDone + '%' });
-
-                // Optional: Show Done button when on last tab;
-                // It is invisible by default.
-                $('#rootwizard').find('.last').toggle(current >= tabCount);
-
-                // Optional: Hide Next button if on last tab;
-                // otherwise it shows but is disabled
-                $('#rootwizard').find('.next').toggle(current < tabCount);
-            },
-            onTabClick: function (tab, navigation, index) {
-                //alert('Utilice los botones de Siguiente, Anterior para desplazarse');
-                //return false;
-            }
-        });
+        //$("#txtFecha").datetimepicker({
+        //    language: 'es',
+        //    autoclose: true,
+        //    format: "dd/mm/yyyy",
+        //    startView: 'month',
+        //    minView: 'month'/*,
+        //    startDate: fechaInicio*/
+        //});
 
         //Antes de ir a la acción Post del submit, se agrega la lista de ítems
-        $("#formCreate").submit(function (eventObj) {
+        $("#formEdit").submit(function (eventObj) {
 
-            $("input[name='create']").toggleClass('disabled', true)
+            $("input[name='edit']").toggleClass('disabled', true)
             $("#loadingGif").show();
 
             // Array JSON que contendrá los idContrato y las cantidads de la OM
@@ -70,7 +44,7 @@ $(document).ready(
                 var txtCantidad = $(this).children("td").eq(6).find("input:eq(0)");
 
                 // Se obtienen los valores de cantidad
-                var cantidad = txtCantidad.val(); 
+                var cantidad = txtCantidad.val();
 
                 // Se remueve el signo de ₡ y los separadores de miles (en caso de tenerlos) al cantidad
                 cantidad = removeCurrency(cantidad);
@@ -88,15 +62,16 @@ $(document).ready(
 
                 // Se agregan los detalles al objeto
                 singleObj['idContratoItem'] = $(this).attr('id');
+                singleObj['idOrdenModificacion'] = $(this).children("td").eq(6).attr('id');
                 singleObj['cantidad'] = cantidad.toString();
 
                 // Se agrega el objeto con los detalles del ítem a la lista a enviar en el submit
                 items.push(singleObj);
-            })
+            });
 
             // Se verifica si debe hacerse el submit o no
             if (!doSubmit) {
-                $("input[name='create']").toggleClass('disabled', false)
+                $("input[name='edit']").toggleClass('disabled', false)
                 $("#loadingGif").hide();
                 return false;
             }
@@ -108,10 +83,66 @@ $(document).ready(
             $('<input />').attr('type', 'hidden')
                 .attr('name', 'jsonItems')
                 .attr('value', $.toJSON(jsonItems))
-                .appendTo('#formCreate');
+                .appendTo('#formEdit');
 
             return true;
         })
+
+        // Se recorre la tabla de items para colocar validadciones y formato en los números
+        $('#tbItems > tbody > tr').each(function () {
+            // Se ubican los input de Autorizado, Realizado, disponible y Aumento/Disminución(OM)
+            var txtOriginal = $(this).children("td").eq(3).find("input:eq(0)");
+            var txtResumenOMs = $(this).children("td").eq(4).find("input:eq(0)");
+            var txtRealizado = $(this).children("td").eq(5).find("input:eq(0)");
+            var txtOM = $(this).children("td").eq(6).find("input:eq(0)");
+            var txtAutorizado = $(this).children("td").eq(7).find("input:eq(0)");
+            var txtDisponible = $(this).children("td").eq(8).find("input:eq(0)");
+
+            // Se obtienen los valores de Autorizado, Realizado, disponible y Aumento/Disminución(OM)
+            var original = txtOriginal.val();
+            var resumenOMs = txtResumenOMs.val();
+            var realizado = txtRealizado.val();
+            var disponible = txtDisponible.val();
+            var om = txtOM.val();
+            var autorizado = txtAutorizado.val();
+
+            //Se agregan las validaciones de cantidad
+            txtOM.rules('add', {
+                number: true, // Validación de números
+                isNumberDecimal: true,
+                //range: [-999, 999],
+                required: true, // Validación de campos vacíos
+                messages: {
+                    required: "Debe ingresar una cantidad.",
+                    number: "Ingrese una cantidad válida.",
+                    //range: "Ingrese un numero entre -999,999 y 999,999",
+                    isNumberDecimal: "Ingrese una cantidad válida." // Validación propia declarada en el inicio del document.ready()
+                }
+            });
+
+            //console.info(original, resumenOMs, realizado, disponible, om, autorizado);
+            // Se remueve el signo de ₡ y los separadores de miles (en caso de tenerlos)
+            original = removeCurrency(original);
+            resumenOMs = removeCurrency(resumenOMs);
+            realizado = removeCurrency(realizado);
+            disponible = removeCurrency(disponible);
+            om = removeCurrency(om);
+            autorizado = removeCurrency(autorizado);
+
+            if (new Decimal(disponible).toDP(3).lessThan(0)) {
+                $(this).children("td").eq(8).addClass('danger');
+            }
+            else {
+                $(this).children("td").eq(8).addClass('success');
+            }
+
+            txtOriginal.val(numberFormatCR(new Decimal(original).toDP(3).toFormat('', 3).toString()));
+            txtResumenOMs.val(numberFormatCR(new Decimal(resumenOMs).toDP(3).toFormat('', 3).toString()));
+            txtRealizado.val(numberFormatCR(new Decimal(realizado).toDP(3).toFormat('', 3).toString()));
+            txtOM.val(numberFormatCR(new Decimal(om).toDP(3).toFormat('', 3).toString()));
+            txtAutorizado.val(numberFormatCR(autorizado));
+            txtDisponible.val(numberFormatCR(new Decimal(disponible).toDP(3).toFormat('', 3).toString()));
+        });
 
     }); // .\document.ready
 
@@ -161,7 +192,7 @@ function cargarItems(_idContrato) {
                 var autorizado = new Decimal(obj.Item5).toDP(3).plus(new Decimal(obj.Item6).toDP(3)).toDP(3);
                 fila += '<td align="center"><input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="' + numberFormatCR(autorizado.toFormat('', 3).toString()) + '"></td>';
 
-                var disponible = new Decimal(obj.Item5).toDP(3).plus(obj.Item6).minus(new Decimal(obj.Item7).toDP(3)).toDP(3);
+                var disponible = new Decimal(obj.Item5).toDP(3).minus(new Decimal(obj.Item7).toDP(3)).toDP(3);
                 fila += '<td align="center"><input class="form-control" style="text-align:right;min-width:100px;background-color: initial;" disabled="disabled" value="' + numberFormatCR(disponible.toFormat('', 3).toString()) + '"></td>';
 
                 fila += '</tr>';
@@ -169,7 +200,7 @@ function cargarItems(_idContrato) {
                 //Agrega el item a la tabla htlm
                 $('#tbItems > tbody:last').append(fila);
 
-                if (disponible.lessThan(0)) {
+                if (disponible.lessThanOrEqualTo(0)) {
                     $('#tbItems > tbody > tr:last').children("td").eq(8).addClass('danger');
                 }
                 else {

@@ -206,51 +206,6 @@ create table labCalidadContrato(
 )
 go
 
-/*
-drop table programa(
-	id int identity(1,1) not null,
-	idContrato int not null,
-	ano smallint not null,
-	trimestre tinyint not null,
-	fechaInicio	date not null,
-	fechaFin date not null,
-	monto money not null,
-	constraint pk_id_programa
-		primary key (id),
-	constraint uq_idContrato_ano_trimestre_programa
-        unique (idContrato, ano, trimestre),
-	constraint fk_idContrato_programa
-        foreign key (idContrato) references Contrato
-)
-go
-
-drop table tipoProyecto(
-	id int unique not null identity (1,1),
-	nombre varchar(50) not null,
-	constraint pk_id_TipoProyecto
-        primary key (id)
-)
-go
-
-drop table proyecto
-(
-	id int unique not null identity (1,1),
-	idPrograma int not null,
-	idTipoProyecto int not null,
-	idRuta int not null,
-	nombre varchar(50),
-	constraint pk_id_subProyecto
-        primary key (id),
-	constraint fk_idPrograma_proyecto
-        foreign key (idPrograma) references programa,
-	constraint fk_idTipoProyecto_proyecto
-        foreign key (idTipoProyecto) references tipoProyecto,
-	constraint fk_idRuta_ruta
-        foreign key (idRuta) references ruta
-)
-go
-*/
-
 ---alter table item add unique (codigoItem)
 create table item(
 	id int unique not null identity (1,1),
@@ -262,12 +217,13 @@ create table item(
 )
 go
 
----
+--- alter table contratoItem add cantidadAprobada decimal(10,3) not null default 0
 create table contratoItem(
 	id int not null identity(1,1),
 	idContrato int not null,
 	idItem int not null,
 	precioUnitario money not null,
+	cantidadAprobada decimal(10,3) not null default 0,
 	CONSTRAINT uq_idContrato_idItem UNIQUE(idContrato, idItem),
 	constraint pk_id_contratoItem
 		primary key(id),
@@ -297,25 +253,6 @@ create table itemReajuste(
 )
 go
 
-/*
-drop table proyectoItemReajuste(	
-	id int unique not null identity (1,1),
-	idProyecto int not null,
-	idContratoItem int not null,
-	fechaInicio date not null,
-	fechaFin date not null,
-	costoEstimado money not null,
-	CONSTRAINT uq_idProyecto_IdContratoItem UNIQUE (idProyecto, idContratoItem),
-	constraint pk_id_ProyectoItem
-        primary key (id),
-    constraint fk_idProyecto_proyectoItem
-        foreign key (idProyecto) references proyecto,
-    constraint fk_idContratoItem_proyectoItem
-        foreign key (idContratoItem) references contratoItem
-)
-go
-*/
---ALTER TABLE [dbo].[boleta] ALTER COLUMN seccionControl int not null,
 create table boleta(
 	id int unique not null identity (1,1),
 	idContrato int not null,
@@ -365,95 +302,6 @@ create table boletaItem(
 go
 
 -- =========================================================================
--- Tabla con la información de los subproyectos del contrato
--- =========================================================================
-create table subProyecto(
-	id int not null identity(1,1),
-	idContrato int not null,
-	idProyectoEstructura int not null,
-	nombre varchar(100) not null,
-	constraint pk_id_subProyecto
-		primary key (id),
-	constraint fk_idContrato_subProyecto
-		foreign key (idContrato) references contrato
-)
-go
-
--- =========================================================================
--- Tabla con la realción de subproyecto e items del contrato
--- =========================================================================
-create table subproyectoContratoItem(
-	id int not null identity(1,1),
-	idSubProyecto int not null,
-	idContratoItem int not null,
-	constraint pk_id_subProyectoContratoItem
-		primary key (id),
-	constraint fk_idSubProyecto_subProyectoContratoItem
-		foreign key (idSubProyecto) references subProyecto,
-	constraint fk_idContratoItem_subProyectoContratoItem
-		foreign key (idContratoItem) references contratoItem,
-	constraint uq_idSubProyecto_subProyectoContratoItem
-		unique (idSubProyecto, idContratoItem)
-)
-go
-
--- =========================================================================
--- Tabla con la información principal de un Programa de trabajo
--- =========================================================================
-create table programa(
-	id int not null identity(1,1),
-	idContrato int not null,
-	fecha date not null,
-	mes as month(fecha),
-	ano as year(fecha),
-	fechaInicio date not null,
-	fechaFin date not null,
-
-	constraint pk_id_programa
-		primary key (id),
-	constraint fk_idContrato_programa
-		foreign key (idContrato) references contrato,
-	constraint uq_mes_ano
-		unique (mes, ano)
-)
-go
-
--- =========================================================================
--- Tabla con la relación de un programa y los item de un subproyecto
--- =========================================================================
-create table programaSubProyectoContratoItem(
-	id int not null identity(1,1),
-	idPrograma int not null,
-	idSubProyectoContratoItem int not null,
-
-	constraint pk_id_programaSubProyectoContratoItem
-		primary key (id),
-	constraint fk_idContrato_programaSubProyectoContratoItem
-		foreign key (idPrograma) references programa,
-	constraint fk_idSubProyectoContratoItem_programaSubProyectoContratoItem
-		foreign key (idSubProyectoContratoItem) references subProyectoContratoItem,
-	constraint uq_idPrograma_idSubProyectoContratoItem
-		unique (idPrograma, idSubProyectoContratoItem)
-)
-go
-
--- =========================================================================
--- Tabla con la relación entre el programa, subproyectos, los items y secciones de control
--- =========================================================================
-create table progSubContrItem(
-	idPrograma int not null,
-	idSeccionControl int not null,
-
-	constraint pk_idPrograma_idSeccionControl
-		primary key (idPrograma, idSeccionControl),
-	constraint fk_idContrato_progSubContrItem
-		foreign key (idPrograma) references programa,
-	constraint fk_idSeccionControl_progSubContrItem
-		foreign key (idSeccionControl) references seccionControl,
-)
-go
-
--- =========================================================================
 -- Tabla con la información del plan de inversión
 -- =========================================================================
 create table planInversion(
@@ -495,5 +343,130 @@ create table pICI(
 )
 go
 
+-- =========================================================================
+-- Tabla con la información de una orden de modificación
+-- =========================================================================
+create table ordenModificacion(
+	id int not null identity(1,1),
+	idContrato int not null,
+	numeroOficio varchar(50) not null,
+	fecha date not null,
+	objetoOM varchar(200) not null,
+	
+	constraint pk_id_ordenModificacion
+		primary key (id),
+	constraint fk_idContrato_ordenModificacion
+		foreign key (idContrato) references contrato
+)
+go
 
-/*Hasta aquí*/
+-- =========================================================================
+-- Tabla con la relación de una orden de modificación y los ítems del contrato
+-- =========================================================================
+create table oMCI(
+	idOrdenModificacion int not null,
+	idContratoItem int not null,
+	cantidad decimal(10,3) not null,
+	
+	constraint pk_idOrdenModificacion_idContratoItem_oMCI
+		primary key (idOrdenModificacion, idContratoItem),
+	constraint fk_idOrdenModificacion_oMCI
+		foreign key (idOrdenModificacion) references ordenModificacion,
+	constraint fk_idContratoItem_oMCI
+		foreign key (idContratoItem) references contratoItem
+)
+go
+
+/******************************************* Hasta aquí *******************************************/
+
+/*
+-- =========================================================================
+-- Tabla con la información de los subproyectos del contrato
+-- =========================================================================
+drop table subProyecto(
+	id int not null identity(1,1),
+	idContrato int not null,
+	idProyectoEstructura int not null,
+	nombre varchar(100) not null,
+	constraint pk_id_subProyecto
+		primary key (id),
+	constraint fk_idContrato_subProyecto
+		foreign key (idContrato) references contrato
+)
+go
+
+-- =========================================================================
+-- Tabla con la realción de subproyecto e items del contrato
+-- =========================================================================
+drop table subproyectoContratoItem(
+	id int not null identity(1,1),
+	idSubProyecto int not null,
+	idContratoItem int not null,
+	constraint pk_id_subProyectoContratoItem
+		primary key (id),
+	constraint fk_idSubProyecto_subProyectoContratoItem
+		foreign key (idSubProyecto) references subProyecto,
+	constraint fk_idContratoItem_subProyectoContratoItem
+		foreign key (idContratoItem) references contratoItem,
+	constraint uq_idSubProyecto_subProyectoContratoItem
+		unique (idSubProyecto, idContratoItem)
+)
+go
+
+-- =========================================================================
+-- Tabla con la información principal de un Programa de trabajo
+-- =========================================================================
+drop table programa(
+	id int not null identity(1,1),
+	idContrato int not null,
+	fecha date not null,
+	mes as month(fecha),
+	ano as year(fecha),
+	fechaInicio date not null,
+	fechaFin date not null,
+
+	constraint pk_id_programa
+		primary key (id),
+	constraint fk_idContrato_programa
+		foreign key (idContrato) references contrato,
+	constraint uq_mes_ano
+		unique (mes, ano)
+)
+go
+
+-- =========================================================================
+-- Tabla con la relación de un programa y los item de un subproyecto
+-- =========================================================================
+drop table programaSubProyectoContratoItem(
+	id int not null identity(1,1),
+	idPrograma int not null,
+	idSubProyectoContratoItem int not null,
+
+	constraint pk_id_programaSubProyectoContratoItem
+		primary key (id),
+	constraint fk_idContrato_programaSubProyectoContratoItem
+		foreign key (idPrograma) references programa,
+	constraint fk_idSubProyectoContratoItem_programaSubProyectoContratoItem
+		foreign key (idSubProyectoContratoItem) references subProyectoContratoItem,
+	constraint uq_idPrograma_idSubProyectoContratoItem
+		unique (idPrograma, idSubProyectoContratoItem)
+)
+go
+
+-- =========================================================================
+-- Tabla con la relación entre el programa, subproyectos, los items y secciones de control
+-- =========================================================================
+drop table progSubContrItemSeccionControl(
+	idPrograma int not null,
+	idSeccionControl int not null,
+
+	constraint pk_idPrograma_idSeccionControl
+		primary key (idPrograma, idSeccionControl),
+	constraint fk_idContrato_progSubContrItem
+		foreign key (idPrograma) references programa,
+	constraint fk_idSeccionControl_progSubContrItem
+		foreign key (idSeccionControl) references seccionControl,
+)
+go
+
+*/

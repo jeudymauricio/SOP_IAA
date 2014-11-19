@@ -14,17 +14,11 @@ namespace SOP_IAA_DAL
     
     public partial class seccionControl
     {
-        public seccionControl()
-        {
-            this.programa = new HashSet<programa>();
-        }
-    
         public int id { get; set; }
         public int idRuta { get; set; }
         public int seccion { get; set; }
         public string descripcion { get; set; }
     
         public virtual ruta ruta { get; set; }
-        public virtual ICollection<programa> programa { get; set; }
     }
 }

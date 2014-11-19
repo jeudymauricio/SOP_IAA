@@ -207,9 +207,9 @@ namespace SOP_IAA.Controllers
                 db.boletaItem.RemoveRange(contratoItem.boletaItem);
                 db.pICI.RemoveRange(contratoItem.pICI);
                 db.oMCI.RemoveRange(contratoItem.oMCI);
-                db.subproyectoContratoItem.RemoveRange(contratoItem.subproyectoContratoItem);
+                //db.subproyectoContratoItem.RemoveRange(contratoItem.subproyectoContratoItem);
                 db.itemReajuste.RemoveRange(contratoItem.itemReajuste);
-                //db.itemReajuste.RemoveRange(contratoItem.itemReajuste);
+                db.itemReajuste.RemoveRange(contratoItem.itemReajuste);
                 db.contratoItem.Remove(contratoItem);
                 db.SaveChanges();
                 return RedirectToAction("Index", new { idContrato = contratoItem.idContrato });

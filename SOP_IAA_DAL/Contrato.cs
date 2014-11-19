@@ -21,8 +21,6 @@ namespace SOP_IAA_DAL
             this.ingenieroContrato = new HashSet<ingenieroContrato>();
             this.ordenModificacion = new HashSet<ordenModificacion>();
             this.planInversion = new HashSet<planInversion>();
-            this.programa = new HashSet<programa>();
-            this.subProyecto = new HashSet<subProyecto>();
             this.laboratorioCalidad = new HashSet<laboratorioCalidad>();
         }
     
@@ -42,8 +40,6 @@ namespace SOP_IAA_DAL
         public virtual ICollection<ingenieroContrato> ingenieroContrato { get; set; }
         public virtual ICollection<ordenModificacion> ordenModificacion { get; set; }
         public virtual ICollection<planInversion> planInversion { get; set; }
-        public virtual ICollection<programa> programa { get; set; }
-        public virtual ICollection<subProyecto> subProyecto { get; set; }
         public virtual fondo fondo { get; set; }
         public virtual zona zona { get; set; }
         public virtual ICollection<laboratorioCalidad> laboratorioCalidad { get; set; }

@@ -4,47 +4,156 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Detalles de OM del @Model.fecha.ToShortDateString()</h2>
 
 <div>
-    <h4>ordenModificacion</h4>
+    <h4></h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.numeroOficio)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.numeroOficio)
-        </dd>
+    <div class="form-horizontal">
+        <div id="tabPanelEditar">
+            <div class="panel-body">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fecha)
-        </dt>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tabGeneral" data-toggle="tab">Datos OM</a>
+                    </li>
+                    <li>
+                        <a href="#tabItems" data-toggle="tab">Cantidades de Items</a>
+                    </li>
+                </ul>
 
-        <dd>
-            @Html.DisplayFor(model => model.fecha)
-        </dd>
+                <!-- Tab panes -->
+                <div class="tab-content">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.objetoOM)
-        </dt>
+                    <!-- Tab de datos generales de la boleta -->
+                    <div class="tab-pane fade in active" id="tabGeneral">
+                        <br />
+                        <!-- Panel -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Datos de la Orden de Modificación
+                            </div>
+                            <!-- /.panel-heading -->
 
-        <dd>
-            @Html.DisplayFor(model => model.objetoOM)
-        </dd>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbDetallesGenerales" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>@Html.DisplayNameFor(model => model.numeroOficio)</th>
+                                                <td>@Html.DisplayFor(model => model.numeroOficio)</td>
+                                            </tr>
+                                            <tr>
+                                                <th>@Html.DisplayNameFor(model => model.fecha)</th>
+                                                <td>@Html.DisplayFor(model => model.fecha)</td>
+                                            </tr>
+                                            <tr>
+                                                <th>@Html.DisplayNameFor(model => model.objetoOM)</th>
+                                                <td>@Html.DisplayFor(model => model.objetoOM)</td>
+                                            </tr>
+                                            <tr>
+                                                <th>@Html.DisplayNameFor(model => model.Contrato.licitacion)</th>
+                                                <td>@Html.DisplayFor(model => model.Contrato.licitacion)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div><!-- .\ panel -->
+                        </div>
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Contrato.licitacion)
-        </dt>
+                    <!-- Tab de datos de los ítems de la OM -->
+                    <div class="tab-pane fade" id="tabItems">
 
-        <dd>
-            @Html.DisplayFor(model => model.Contrato.licitacion)
-        </dd>
+                        <br />
+                        <!-- Panel que contendrá la tabla dinámica de ítems -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Detalles de cantidad por Item
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbItems" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center">Item</th>
+                                                <th style="text-align:center">Descripción</th>
+                                                <th style="text-align:center">Unidad</th>
+                                                <th style="text-align:center">Original</th>
+                                                <th style="text-align:center">Resumen OMs</th>
+                                                <th style="text-align:center">Realizado</th>
+                                                <th style="text-align:center">Aumento/Disminición(OM)</th>
+                                                <th style="text-align:center">Autorizado</th>
+                                                <th style="text-align:center">Disponible</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Aqui se cargarán las filas dinámicamente con la información de los ítems -->
+                                            @*<idcontratoitem, codigoitem, descripcion, unidad, original, oms, realizado>*@
+                                            @foreach (var item in @ViewBag.items)
+                                            {
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                                                var omci = Model.oMCI.Where(o => o.idContratoItem == (int)@item.Item1).First();
+                                                var Autorizado = (decimal)@item.Item5 + (decimal)@item.Item6 + omci.cantidad;
+                                                var Disponible = Autorizado - (decimal)@item.Item7;
+
+                                                <tr id="@item.Item1">
+                                                    <td>@item.Item2</td>
+                                                    <td>@item.Item3</td>
+                                                    <td align="center">@item.Item4</td>
+                                                    <td align="center">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"),"{0:N3}", (item.Item5))">
+                                                    </td>
+                                                    <td align="center">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"), "{0:N3}", (item.Item6))">
+                                                    </td>
+                                                    <td align="center">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"), "{0:N3}", (item.Item7))">
+                                                    </td>
+                                                    <td align="center" id="@omci.idOrdenModificacion">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"), "{0:N3}", (omci.cantidad))">
+                                                    </td>
+                                                    <td align="center">
+                                                        <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"), "{0:N3}", (Autorizado))">
+                                                    </td>
+                                                    @if (@Disponible < 0)
+                                                    {
+                                                        <td align="center" class="danger">
+                                                            <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"), "{0:N3}", (Disponible))">
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td align="center" class="success">
+                                                            <input class="form-control" style="text-align:right;min-width:100px" disabled="disabled" value="@String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"), "{0:N3}", (Disponible))">
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel-default -->
+                    </div><!-- .\ panel -->
+                </div><!-- .\ tab-content -->
+            </div><!-- .\ panel-body -->
+        </div><!-- .\ form-horizontal -->
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("Atrás", "Index", new { idContrato = Model.idContrato })
+    </p>

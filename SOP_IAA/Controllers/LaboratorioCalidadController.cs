@@ -110,8 +110,16 @@ namespace SOP_IAA.Controllers
         public ActionResult DeleteConfirmed(short id)
         {
             laboratorioCalidad laboratorioCalidad = db.laboratorioCalidad.Find(id);
-            db.laboratorioCalidad.Remove(laboratorioCalidad);
-            db.SaveChanges();
+            try
+            {
+                laboratorioCalidad.Contrato.Clear();
+                db.laboratorioCalidad.Remove(laboratorioCalidad);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                // Notify error
+            }
             return RedirectToAction("Index");
         }
 

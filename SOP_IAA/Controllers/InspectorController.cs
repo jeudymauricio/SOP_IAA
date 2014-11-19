@@ -147,8 +147,27 @@ namespace SOP_IAA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             inspector inspector = db.inspector.Find(id);
-            db.inspector.Remove(inspector);
-            db.SaveChanges();
+            try
+            {
+                // Se eliminan los items de cada una de las boletas del inpector
+                foreach(var b in inspector.boleta){
+                    db.boletaItem.RemoveRange(b.boletaItem);
+                }
+                
+                // Se remueven todas las boletas asociadas al inspector
+                db.boleta.RemoveRange(inspector.boleta);
+
+                // Finalmente se elimina el inspector de la BD
+                db.inspector.Remove(inspector);
+
+                // Se guardan cambios en la BD
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                // Notity error
+            }
+
             return RedirectToAction("Index");
         }
 

@@ -228,6 +228,9 @@
   <data name="MSJ_CONFIRM_ELIMINAR_LABORATORIO" xml:space="preserve">
     <value>¿Está seguro de eliminar este laboratorio?</value>
   </data>
+  <data name="MSJ_CONFIRM_ELIMINAR_OM" xml:space="preserve">
+    <value>¿Está seguro de eliminar esta Orden de Modificación?</value>
+  </data>
   <data name="MSJ_CONFIRM_ELIMINAR_PLAN" xml:space="preserve">
     <value>¿Está seguro de eliminar el plan de este mes?</value>
   </data>

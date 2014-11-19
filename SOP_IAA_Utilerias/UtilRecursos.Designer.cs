@@ -394,6 +394,15 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar esta Orden de Modificación?.
+        /// </summary>
+        internal static string MSJ_CONFIRM_ELIMINAR_OM {
+            get {
+                return ResourceManager.GetString("MSJ_CONFIRM_ELIMINAR_OM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro de eliminar el plan de este mes?.
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_PLAN {

@@ -138,17 +138,16 @@
                                                 </td>
                                                 <td align="right"> 
                                                     @*@String.Format("{0:C4}", (item.precioUnitarioFecha))*@
-                                                    @String.Format("{0:C4}", (ViewBag.precios[item.idContratoItem]))
+                                                    @String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"),"{0:C4}", (ViewBag.precios[item.idContratoItem]))
                                                 </td>
                                                 <td align="right">
-                                                    @String.Format("{0:N3}", (item.cantidad))
+                                                    @String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"),"{0:N3}", (item.cantidad))
                                                 </td>
                                                 <td align="right">
-                                                    @*@String.Format("{0:C4}", (item.costoTotal))*@
-                                                    @String.Format("{0:C4}", (item.cantidad * ViewBag.precios[item.idContratoItem]))
+                                                    @String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"),"{0:C4}", (item.cantidad * ViewBag.precios[item.idContratoItem]))
                                                 </td>
                                                 <td align="right">
-                                                    @String.Format("{0:N3}", (item.redimientos))
+                                                    @String.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CR"), "{0:N3}", (item.redimientos))
                                                 </td>
                                             </tr>
                                         }

@@ -6,13 +6,21 @@ http://dba.stackexchange.com/questions/31420/how-to-create-unique-index-for-mont
 http://stackoverflow.com/questions/6629263/how-do-i-prevent-decimal-values-from-being-truncated-to-2-places-on-save-using-t
 http://www.reddybrek.com/allow-entity-framework-store-more-than-2-decimal-places
 
+insertar en varias tablas a la vez
+	http://stackoverflow.com/questions/4442915/entity-framework-inserting-into-multiple-tables-using-foreign-key
+	https://social.msdn.microsoft.com/Forums/en-US/1be124f2-e70d-462a-af2a-6ff8cbf97710/insert-into-multiple-tables-off-a-single-entity?forum=adodotnetentityframework
+
+modificar varias tablas a la vez
+	http://www.thereformedprogrammer.net/updating-a-many-to-many-relationship-in-entity-framework/
 
 
-<! ---------------------------------- decimales en EntityFramework ---------------------------------------------------->
+<!----------------- decimales en EntityFramework ---------------------------->
 	http://weiding331.blogspot.com/2014/01/entity-framework-decimal-value.html
 
 Transacciones EntityFramework
 	http://msdn.microsoft.com/en-us/library/vstudio/bb738523(v=vs.100).aspx
+
+
 
 Excepciones en c#
 	http://stackoverflow.com/questions/3967140/duplicate-key-exception-from-entity-framework
@@ -204,9 +212,6 @@ Validaciones en JS
 	http://stackoverflow.com/questions/20561712/jquery-validate-plugin-on-dynamic-form-inputs-not-working
 	http://stackoverflow.com/questions/11536271/validate-dynamically-added-input-fields
 	http://stackoverflow.com/questions/241145/jquery-validate-plugin-how-to-create-a-simple-custom-rule
-
-
-
 
 	http://stackoverflow.com/questions/13593731/input-type-submit-button-onclick-jquery-replacewith-prevents-form-from-submit
 

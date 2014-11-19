@@ -22,9 +22,16 @@ namespace SOP_IAA.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.item.Add(item);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.item.Add(item);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+                    return View(item);
+                }
             }
 
             return View(item);
@@ -54,8 +61,26 @@ namespace SOP_IAA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             item item = db.item.Find(id);
-            db.item.Remove(item);
-            db.SaveChanges();
+            try
+            {
+                foreach (var ci in item.contratoItem)
+                {
+                    db.boletaItem.RemoveRange(ci.boletaItem);
+                    db.itemReajuste.RemoveRange(ci.itemReajuste);
+                    db.oMCI.RemoveRange(ci.oMCI);
+                    db.pICI.RemoveRange(ci.pICI);
+                    //db.subproyectoContratoItem.RemoveRange(ci.subproyectoContratoItem);
+                }
+
+                db.contratoItem.RemoveRange(item.contratoItem);
+                db.item.Remove(item);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                // Notify error
+            }
+
             return RedirectToAction("Index");
         }
 

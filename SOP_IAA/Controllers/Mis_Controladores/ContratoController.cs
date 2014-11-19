@@ -287,24 +287,52 @@ namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
 
             try
             {
-                db.ingenieroContrato.RemoveRange(contrato.ingenieroContrato);
-                contrato.laboratorioCalidad.Clear();
-                foreach (programa prog in contrato.programa)
+                // Se remueven los planes de inversión
+                foreach (var pi in contrato.planInversion)
                 {
-                    /* hay que eliminar los proyectos de cada progproy */
-                    
+                    db.pICI.RemoveRange(pi.pICI);
                 }
-                contrato.programa.Clear();
+                db.planInversion.RemoveRange(contrato.planInversion);
+
+                // Se remueven las órdenes de modificación
+                foreach (var om in contrato.ordenModificacion)
+                {
+                    db.oMCI.RemoveRange(om.oMCI);
+                }
+                db.ordenModificacion.RemoveRange(contrato.ordenModificacion);
+
+                // Se remueven las boletas
+                foreach (var b in contrato.boleta)
+                {
+                    db.boletaItem.RemoveRange(b.boletaItem);
+                }
+                db.boleta.RemoveRange(contrato.boleta);
+
+                // Se remueven los reajustes del contrato
+                foreach (var ci in contrato.contratoItem)
+                {
+                    db.itemReajuste.RemoveRange(ci.itemReajuste);
+                }
+
+                // Se eliminan los items
+                db.contratoItem.RemoveRange(contrato.contratoItem);
+                // Se eliminan los contratos
+                db.ingenieroContrato.RemoveRange(contrato.ingenieroContrato);
+                // Se eliminan los laboratorios
+                contrato.laboratorioCalidad.Clear();
+                // Se elimina el contrato
                 db.Contrato.Remove(contrato);
+                // Se guardan los cambios.
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
+                //throw new Exception(ex.ToString());
+
             }
 
-            //return View();
+            return RedirectToAction("Index");
         }
 
         // Vista que corresponde al actionlink "Ir al Contrato" que despliega el contrato con su respectivo menú de acciones
