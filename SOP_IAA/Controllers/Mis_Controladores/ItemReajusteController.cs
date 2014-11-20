@@ -8,11 +8,29 @@ using System.Web;
 using System.Web.Mvc;
 using SOP_IAA_DAL;
 using Newtonsoft.Json;
+using OfficeOpenXml;
+using System.IO;
 
 namespace SOP_IAA.Controllers
 {
     public partial class ItemReajusteController : Controller
     {
+        private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
+
+        // GET: itemReajustes
+        public ActionResult Index(int? idContrato)
+        {
+            if (idContrato == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var ir = db.itemReajuste.Where(p => p.contratoItem.idContrato == idContrato).OrderByDescending(f => f.fecha);
+            var v = ir.GetType();
+            ViewBag.idContrato = idContrato;
+            return View(ir);
+        }
+
         public ActionResult Periodo(DateTime fecha, int? idContrato)
         {
             if (idContrato == null || fecha == null)
@@ -114,10 +132,10 @@ namespace SOP_IAA.Controllers
             }
 
             // Diccionario que contendrá los detalles de cada item consultado.
-            Dictionary<string,string> jObj;
+            Dictionary<string, string> jObj;
 
             // Lista que contendrá los detalles de cada item en tuplas
-            List<Tuple<string, string, string, string, string>> itemList = new List<Tuple<string, string, string, string,string>>();
+            List<Tuple<string, string, string, string, string>> itemList = new List<Tuple<string, string, string, string, string>>();
 
             // Se selecciona el contrato de la base de datos
             Contrato contrato = db.Contrato.Find(idContrato);
@@ -127,7 +145,7 @@ namespace SOP_IAA.Controllers
             {
                 // Obtener los detalles del item.
                 jObj = getItemDetail(ci.id);
-                
+
                 // Se guardan los detalles en una tupla
                 var itemDetalle = new Tuple<string, string, string, string, string>(jObj["codigoItem"], jObj["descripcion"], jObj["unidadMedida"], jObj["precioReajustado"], jObj["idContratoItem"]);
 
@@ -145,7 +163,7 @@ namespace SOP_IAA.Controllers
         /// <param name="id"> id del item de contrato a buscar</param>
         /// <param name="fecha">fecha de la boleta</param>
         /// <returns>Diccionario con los detalles del item del contrato(incluido su reajuste al mes si lo hay)</returns>
-        public Dictionary<string,string> getItemDetail(int? id)
+        public Dictionary<string, string> getItemDetail(int? id)
         {
             // Si el id o la fecha están vacíos se retorna un badrequest
             if (id == null)
@@ -175,7 +193,7 @@ namespace SOP_IAA.Controllers
             // Retorna un Diccionario con los detalles del ítem
             return result;
         }
-        
+
         // POST: itemReajustes/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -226,7 +244,8 @@ namespace SOP_IAA.Controllers
                 // Si no hubo problemas se guardan los cambios
                 return RedirectToAction("Index", new { idContrato = idContrato });
             }
-            catch(Exception){
+            catch (Exception)
+            {
                 ViewBag.idContrato = idContrato;
                 itemReajuste ir = new itemReajuste();
                 ModelState.AddModelError("", "No fue posible agregar los reajustes, verifique que no hay un reajuste para ese mes");
@@ -305,7 +324,7 @@ namespace SOP_IAA.Controllers
                 foreach (var child in jObj.Items.Children())
                 {
                     //
-                    string h =child.idReajuste.Value;
+                    string h = child.idReajuste.Value;
                     itemReajuste ir = db.itemReajuste.Find(int.Parse(h));
 
                     ir.reajuste = decimal.Parse(child.reajuste.Value, cultureNumber);
@@ -333,7 +352,7 @@ namespace SOP_IAA.Controllers
                 return View(ir);
             }
         }
-        
+
         /// <summary>
         /// Elimina todos los reajustes de un mes y año específicos
         /// </summary>
@@ -371,8 +390,127 @@ namespace SOP_IAA.Controllers
             }
             catch
             {
-                return RedirectToAction("Periodo", new { mes = fecha.Month, ano = fecha.Year, idContrato = idContrato});
+                return RedirectToAction("Periodo", new { mes = fecha.Month, ano = fecha.Year, idContrato = idContrato });
             }
         }
-    }
+
+        public ActionResult exportarInformesItems(int? idContrato)
+        {
+            if ((idContrato == null))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Contrato contrato = db.Contrato.Find(idContrato);
+
+            // Se verifica que el ítem exista en el contrato
+            if (contrato == null)
+            {
+                return new HttpNotFoundResult();
+            }
+            ExcelPackage pckTemplate = new ExcelPackage();
+            // Se indica la plantilla a utilizar
+            var template = new FileInfo(Server.MapPath("/Plantillas/Factor_Reajuste.xlsx"));
+            FileInfo newFile = new FileInfo(@"Sample2.xlsx");
+            ExcelPackage pkg = new ExcelPackage(newFile);
+            int sheetIndex = 1;
+
+            try
+            {
+                using (ExcelPackage package = new ExcelPackage(newFile, template))
+                {
+                    ExcelWorkbook workBook = package.Workbook;
+
+                    if (workBook != null)
+                    {
+
+                        if (workBook.Worksheets.Count > 0)
+                        {
+                            int cantidad = contrato.contratoItem.Count;
+
+                            ExcelWorksheet worksheet;
+
+                            worksheet = package.Workbook.Worksheets[sheetIndex];
+                            string _SheetName = string.Format("Hoja{0}", sheetIndex.ToString());
+
+                            // Se coloca el Número de Licitación
+                            worksheet.Cells["C3"].Value = contrato.licitacion;
+                            // Se coloca el lugar
+                            worksheet.Cells["C4"].Value = contrato.lugar;
+                            // Se coloca la zona
+                            worksheet.Cells["C5"].Value = contrato.zona.nombre;
+
+                            // Se indica desde donde empezar a llenar los datos
+                            const int startRow = 10;
+                            int row = startRow;
+
+                            // Se insertan las filas necesarias al excel con el mismo formato que la primera
+                            if (cantidad > 1)
+                            {
+                                worksheet.InsertRow(startRow, cantidad - 1, startRow);
+                            }
+                            
+                            // Se obtiene los estilos de las celdas
+                            int estiloFechas = worksheet.Cells["D9"].StyleID;
+                            int estiloReajustes = worksheet.Cells["D10"].StyleID;
+
+                            // Se obtiene el item con el mayor número de reajustes
+                            var itemOrdenados = contrato.contratoItem.OrderByDescending(ci => ci.itemReajuste.Count);
+                            
+                            // Se crea una lista con el total de las fechas y se colocan las fechas en el excel
+                            List<DateTime> l = new List<DateTime>();
+                            int col = 4;
+                            foreach (var i in itemOrdenados.First().itemReajuste)
+                            {
+                                l.Add(i.fecha);
+                                worksheet.Cells[9, col].StyleID = estiloFechas;
+                                worksheet.Cells[9, col++].Value = i.fecha;
+                            }
+
+                            foreach (var contItem in itemOrdenados)
+                            {
+                                col = 2;
+
+                                worksheet.Cells[row, col++].Value = contItem.item.codigoItem;
+                                worksheet.Cells[row, col++].Value = contItem.item.descripcion;
+
+                                // Se recorre la lista de fechas y se buscan los reajustes correspondientes
+                                foreach (var fechaIR in l)
+                                {
+                                    var ir = contItem.itemReajuste.Where(x => x.fecha == fechaIR).FirstOrDefault();
+                                    
+                                    //Se coloca el estilo de reajuste
+                                    worksheet.Cells[row, col].StyleID = estiloReajustes;
+                                    //Si no hay reajustes para esa fecha se coloca 0, de lo contrario se coloca el reajuste
+                                    if (ir == null)
+                                    {
+                                        worksheet.Cells[row, col++].Value = 0;
+                                    }
+                                    else
+                                    {
+                                        worksheet.Cells[row, col++].Value = ir.reajuste;
+                                    }
+                                }
+                                // Se cambia de Fila
+                                row++;
+                            }//foreach externo
+
+                        }
+                    }
+
+                    // Nombre que va a tener el archivo
+                    string nombreArchivo = "Reajustes del contrato " + contrato.licitacion + ".xlsx";
+                    return File(package.GetAsByteArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
+                }
+
+            }
+            catch (Exception e)
+            {
+                // Se indica que ocurrió un error en la operación
+                return JavaScript("alert('Hubo un error en la operación, reintente mas tarde');");
+            }
+        }
+
+
+    }// Fin Class
 }

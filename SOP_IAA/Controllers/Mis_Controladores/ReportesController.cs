@@ -162,6 +162,10 @@ namespace SOP_IAA.Controllers
             // Precio base del item
             decimal precio = ci.precioUnitario;
 
+            /// Para el primer entregable se omite esta sección y se deje el precio como viene en el contrato
+            #region reajustes_al_precio
+            /*
+            
             // Se busca si hay reajuste para ese mes
             var itemReajustado = db.itemReajuste.Where(ir => (ir.ano == fecha.Year) && (ir.mes == fecha.Month) && (ir.idContratoItem == ci.id));
 
@@ -174,6 +178,9 @@ namespace SOP_IAA.Controllers
                 // Se aplica el reajuste
                 precio = decimal.Round(precio * reajuste + precio, 4);
             }
+             
+             */
+            #endregion
 
             // Se retorna el precio a la fecha
             return precio;
@@ -310,7 +317,7 @@ namespace SOP_IAA.Controllers
                 }
 
                 // Nombre que va a tener el archivo
-                string nombreArchivo = "Informe Descriptivo del contarto " + contrato.licitacion + ".xlsx";
+                string nombreArchivo = "Informe Descriptivo del contrato " + contrato.licitacion + ".xlsx";
                 return File(package.GetAsByteArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
             }
         }

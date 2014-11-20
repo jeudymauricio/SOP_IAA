@@ -26,7 +26,7 @@ namespace SOP_IAA.Controllers
 
             var boleta = db.boleta.Where(b => b.idContrato == idContrato).Include(b => b.fondo).Include(b => b.inspector).Include(b => b.proyecto_estructura).Include(b => b.ruta);
 
-            return View(boleta.ToList());
+            return View(boleta.OrderByDescending(b => b.fecha).ToList());
         }
 
         // GET: Boleta/Create
@@ -139,6 +139,39 @@ namespace SOP_IAA.Controllers
         }
 
         /// <summary>
+        /// Con base en una fecha y un item del contrato, busca el precio reajustado a la fecha
+        /// </summary>
+        /// <param name="ci">Item del contrato</param>
+        /// <param name="fecha">Fecha que se desea consultar</param>
+        /// <returns></returns>
+        private decimal precioALaFecha(contratoItem ci, DateTime fecha)
+        {
+            // Precio base del item
+            decimal precio = ci.precioUnitario;
+
+            /// Para el primer entregable se omite esta sección y se deje el precio como viene en el contrato
+            #region reajustes_al_precio
+            /*
+            // Se busca si hay reajuste para ese mes
+            var itemReajustado = db.itemReajuste.Where(ir => (ir.ano == fecha.Year) && (ir.mes == fecha.Month) && (ir.idContratoItem == ci.id));
+
+            // Si hay reajuste se aplica
+            if (itemReajustado.Count() > 0)
+            {
+                // Reajuste del mes
+                decimal reajuste = itemReajustado.First().reajuste;
+
+                // Se aplica el reajuste
+                precio = decimal.Round(precio * reajuste + precio, 4);
+            }
+            */ 
+            #endregion
+
+            // Se retorna el precio a la fecha
+            return precio;
+        }
+
+        /// <summary>
         /// Acción invocada por ajax y que devuelve los detalles de un item específico
         /// </summary>
         /// <param name="id"> id del item de contrato a buscar</param>
@@ -183,20 +216,7 @@ namespace SOP_IAA.Controllers
             result.Add("unidadMedida", ci.item.unidadMedida);
 
             // Precio base del item
-            decimal precio = ci.precioUnitario;
-
-            // Se busca si hay reajuste para ese mes
-            var itemReajustado = db.itemReajuste.Where(ir => (ir.ano == fecha2.Year) && (ir.mes == fecha2.Month) && (ir.idContratoItem == ci.id));
-
-            // Si hay reajuste se aplica
-            if (itemReajustado.Count() > 0)
-            {
-                // Reajuste del mes
-                decimal reajuste = itemReajustado.First().reajuste;
-
-                // Se aplica el reajuste
-                precio = decimal.Round(precio * reajuste + precio, 4);
-            }
+            decimal precio = precioALaFecha(ci, fecha2);
 
             // Se almacena el precio
             result.Add("precioReajustado", precio.ToString());
@@ -223,20 +243,7 @@ namespace SOP_IAA.Controllers
             foreach (contratoItem ci in contratoItem)
             {
                 // Precio base del item
-                decimal precio = ci.precioUnitario;
-
-                // Se busca si hay reajuste para ese mes
-                var itemReajustado = db.itemReajuste.Where(ir => (ir.ano == fecha.Year) && (ir.mes == fecha.Month) && (ir.idContratoItem == ci.id));
-
-                // Si hay reajuste se aplica
-                if (itemReajustado.Count() > 0)
-                {
-                    // Reajuste del mes
-                    decimal reajuste = itemReajustado.First().reajuste;
-
-                    // Se aplica el reajuste
-                    precio = decimal.Round(precio * reajuste + precio, 4);
-                }
+                decimal precio = precioALaFecha(ci, fecha);
 
                 // Se almacena el precio
                 precios.Add(ci.id, precio);

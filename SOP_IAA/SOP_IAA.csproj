@@ -331,6 +331,7 @@
     <Content Include="Scripts\Contrato\jQuery.toDictionary.js" />
     <Content Include="Mvc.sitemap" />
     <Content Include="Plantillas\Informe_Descriptivo_Item.xlsx" />
+    <Content Include="Plantillas\Factor_Reajuste.xlsx" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

@@ -12,20 +12,6 @@ namespace SOP_IAA.Controllers
 {
     public partial class ItemReajusteController :  Controller
     {
-        private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
-
-        // GET: itemReajustes
-        public ActionResult Index(int? idContrato)
-        {
-            if (idContrato == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            var ir = db.itemReajuste.Where(p => p.contratoItem.idContrato == idContrato).OrderByDescending(f => f.fecha);
-            var v = ir.GetType();
-            ViewBag.contrato = idContrato;
-            return View(ir);
-        }
+        
     }
 }

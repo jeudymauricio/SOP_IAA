@@ -1,0 +1,13 @@
+﻿0. Colocar siempre el formato de cultura de Costa Rica en los encabezados de las vistas dentro de las llaves
+		@{
+			// Se especifica el formato de Costa Rica
+			System.Globalization.CultureInfo cultureCR = System.Globalization.CultureInfo.CreateSpecificCulture("es-CR");
+
+			// Se cambia la Cultura Actual por la de Costa Rica.
+			System.Threading.Thread.CurrentThread.CurrentCulture = cultureCR;
+		}
+
+1. Para el primer entregable se desactivaron los ajustes en los precios de las boletas (tanto en su controlador como en el de reportes), para volverlos a activar es cuestion de buscar 
+   las regiones llamadas "reajustes_al_precio" y decomentar su contenido.
+
+2. 

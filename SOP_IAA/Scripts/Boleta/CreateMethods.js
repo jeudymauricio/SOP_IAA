@@ -144,11 +144,11 @@ $(document).ready(
                     var fila = '<tr id=' + _id + '><td>' + json.codigoItem + '</td> ';
                     fila += '<td>' + json.descripcion + '</td>';
                     fila += '<td align="center">' + json.unidadMedida + '</td>';
-                    fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled="" value="₡' + numberFormatCR(removeCurrency(json.precioReajustado)) + '"></td>';
-                    fila += '<td align="right"><input class="form-control" style="text-align:right" onchange="alpha($(this))" id="txtCantidad' + counter + '" name="txtCantidad' + counter + '">';
+                    fila += '<td align="center"><input class="form-control" style="text-align:right" type="text" disabled="" value="₡' + numberFormatCR(removeCurrency(json.precioReajustado)) + '"></td>';
+                    fila += '<td align="center"><input class="form-control" style="text-align:right" onchange="alpha($(this))" id="txtCantidad' + counter + '" name="txtCantidad' + counter + '">';
                     fila += '<span class="text-danger field-validation-error" data-valmsg-for="txtCantidad' + counter + '" data-valmsg-replace="true"></span> </td>';
-                    fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled=""></td>';
-                    fila += '<td align="right"><input class="form-control" style="text-align:right" type="text" disabled=""></td>';
+                    fila += '<td align="center"><input class="form-control" style="text-align:right" type="text" disabled=""></td>';
+                    fila += '<td align="center"><input class="form-control" style="text-align:right" type="text" disabled=""></td>';
                     fila += '<td align="center"> <button class="remove btn btn-danger" onclick="eliminarItem(' + _id + ', \' ' + json.codigoItem + '\')">Quitar Item</button> </td></tr>';
 
                     //Agrega el ingeniero a la tabla htlm
@@ -160,9 +160,9 @@ $(document).ready(
                         isNumberDecimal: true,
                         required: true, // Validación de campos vacíos
                         messages: {
-                            required: "Debe ingresar un reajuste.",
-                            number: "Ingrese un reajuste válido.",
-                            isNumberDecimal: "Ingrese un reajuste válido." // Validación propia declarada en el inicio del document.ready()
+                            required: "Debe ingresar una cantidad.",
+                            number: "Ingrese una cantidad válida.",
+                            isNumberDecimal: "Ingrese una cantidad válida." // Validación propia declarada en el inicio del document.ready()
                         }
                     });
 

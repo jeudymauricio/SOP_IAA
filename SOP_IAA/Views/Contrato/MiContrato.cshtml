@@ -3,6 +3,12 @@
 @{
     ViewBag.Title = "Contratación" + @Model.licitacion;
     ViewBag.contratacion = @Model.licitacion;
+
+    // Se especifica el formato de Costa Rica
+    System.Globalization.CultureInfo cultureCR = System.Globalization.CultureInfo.CreateSpecificCulture("es-CR");
+
+    // Se cambia la Cultura Actual por la de Costa Rica.
+    System.Threading.Thread.CurrentThread.CurrentCulture = cultureCR;
 }
 
 <div class="row">
@@ -107,7 +113,7 @@
         <div class="panel panel-primary">
             <a href="@Url.Action("Index", "ControlInversion", new { idContrato = Model.id })">
                 <div class="panel-footer">
-                    <span class="pull-left">Control de Cantidades</span>
+                    <span class="pull-left">Avance Items</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                     <div class="clearfix"></div>
                 </div>
@@ -175,6 +181,10 @@
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.plazo)</th>
                                 <td>@Html.DisplayFor(model => model.plazo)</td>
+                            </tr>
+                            <tr>
+                                <th>Fecha de Finalización</th>
+                                <td>@Model.fechaInicio.AddDays(Model.plazo).ToLongDateString()</td>
                             </tr>
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.lugar)</th>

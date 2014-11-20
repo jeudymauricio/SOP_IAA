@@ -5,11 +5,17 @@
 }
 
 <h2></h2>
-<p>
-    @Html.ActionLink("Agregar Reajuste", "Create", new { idContrato = ViewBag.contrato }, new { @class = "btn btn-primary", @style = "width:150px" })
-</p>
-<!--http://stackoverflow.com/questions/20349711/group-model-elements-by-date-in-table-using-razor-->
+<div class="row">
+    <div class="col-md-6">
+        @Html.ActionLink("Agregar Reajuste", "Create", new { idContrato = ViewBag.idContrato }, new { @class = "btn btn-primary", @style = "width:150px" })
+    </div>
+    <div class="col-md-6" style="text-align:right">
+        @Html.ActionLink("Exportar a excel", "exportarInformesItems", new { idContrato = ViewBag.idContrato }, new { @class = "btn btn-primary", @style = "width:150px" })
+    </div>
+</div>
 
+<br />
+<!--http://stackoverflow.com/questions/20349711/group-model-elements-by-date-in-table-using-razor-->
 <div class="panel panel-default">
     <div class="panel-heading">
         Reajustes del Contrato
@@ -30,7 +36,7 @@
                         <tr>
                             <td>
                                 @{
-                                    var mes = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)group.First().mes);
+                        var mes = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)group.First().mes);
                                 }
                                 @group.First().ano
                                 @mes
@@ -38,7 +44,7 @@
                             <td>@Html.ActionLink("Ver Reajustes", "Periodo", new { fecha = group.First().fecha, idContrato = group.First().contratoItem.idContrato })</td>
 
                         </tr>
-                    
+
                     }
                 </tbody>
             </table>
@@ -48,7 +54,7 @@
     <!-- /.panel-body -->
 </div>
 <div>
-    @Html.ActionLink("Atrás", "MiContrato", "Contrato", new { id = ViewBag.contrato }, null)
+    @Html.ActionLink("Atrás", "MiContrato", "Contrato", new { id = ViewBag.idContrato }, null)
 </div>
 
 @section Scripts{
@@ -62,8 +68,8 @@
                 "language": {
                     "url": "/Scripts/plugins/dataTables/Spanish.txt"
                 }
-                
-                
+
+
             });
         })
     </script>

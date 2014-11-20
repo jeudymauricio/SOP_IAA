@@ -100,7 +100,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PáginasWebAyuda.txt" />
+    <Content Include="Archivos Importantes -LEER-\Apuntes del Proyecto.txt" />
+    <Content Include="Archivos Importantes -LEER-\PáginasWebAyuda.txt" />
     <Content Include="Scripts de Base de Datos\Datos a insertar en Base de Datos de IAA.sql" />
     <Content Include="Scripts de Base de Datos\New-Script-BD_.sql" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.ascx" />
