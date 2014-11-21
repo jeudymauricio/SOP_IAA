@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Web.Script.Serialization;
 using System.IO;
 using OfficeOpenXml;
+using System.Data.SqlClient;
 
 namespace SOP_IAA.Controllers
 {
@@ -33,6 +34,7 @@ namespace SOP_IAA.Controllers
                 return HttpNotFound();
             }
 
+            contrato.ordenModificacion = contrato.ordenModificacion.OrderByDescending(om => om.fecha).ToList();
             //var ordenModificacion = db.ordenModificacion.Include(o => o.Contrato);
             //var ordenModificacion = contrato.ordenModificacion;
 
@@ -129,7 +131,7 @@ namespace SOP_IAA.Controllers
             foreach (var item in contrato.contratoItem)
             {
                 // Se seleccionan las boletas hasta la fecha
-                var bo = item.boletaItem.Where(b => (b.boleta.fecha < fecha2));
+                var bo = item.boletaItem.Where(b => (b.boleta.fecha <= fecha2));
                 // Se seleccionan las ordenes de modificación válidas hasta la fecha
                 var om = item.oMCI.Where(o => (o.ordenModificacion.fecha < fecha2));
 
@@ -187,7 +189,7 @@ namespace SOP_IAA.Controllers
             foreach (var item in contrato.contratoItem)
             {
                 // Se seleccionan las boletas hasta la fecha
-                var bo = item.boletaItem.Where(b => (b.boleta.fecha < fecha));
+                var bo = item.boletaItem.Where(b => (b.boleta.fecha <= fecha));
                 // Se seleccionan las ordenes de modificación válidas hasta la fecha
                 var om = item.oMCI.Where(o => (o.ordenModificacion.fecha < fecha));
 
@@ -255,10 +257,27 @@ namespace SOP_IAA.Controllers
 
                     return RedirectToAction("Index", new { idContrato = ordenModificacion.idContrato });
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    // Notify Error
-                    ModelState.AddModelError("", "No se pudo agregar la OM");
+                    try
+                    {
+                        var sqlException = ex.InnerException.InnerException as SqlException;
+                        if (sqlException != null && sqlException.Errors.OfType<SqlError>()
+                        .Any(se => se.Number == 2601 || se.Number == 2627 /* PK/UKC violation */))
+                        {
+                            ModelState.AddModelError("", "No se pudo agregar la OM porque ya existe una para esa fecha");
+                            // it's a dupe... do something about it
+                        }
+                        else
+                        {
+                            // it's something else...
+                            ModelState.AddModelError("", "No se pudo agregar la OM");
+                        }
+                    }
+                    catch (Exception) 
+                    { 
+                        ModelState.AddModelError("", "No se pudo agregar la OM");
+                    }
                 }
             }
 

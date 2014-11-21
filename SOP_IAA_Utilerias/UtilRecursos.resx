@@ -202,19 +202,19 @@
     <value>¿Está seguro de eliminar esta boleta?</value>
   </data>
   <data name="MSJ_CONFIRM_ELIMINAR_CONTRATISTA" xml:space="preserve">
-    <value>¿Está seguro de eliminar este contratista?</value>
+    <value>¿Está seguro de eliminar este contratista? Si lo Elimina, eliminará también TODOS sus contratos.</value>
   </data>
   <data name="MSJ_CONFIRM_ELIMINAR_CONTRATO" xml:space="preserve">
     <value>¿Está seguro de eliminar este contrato?</value>
   </data>
   <data name="MSJ_CONFIRM_ELIMINAR_FONDO" xml:space="preserve">
-    <value>¿Está seguro de eliminar este fondo?</value>
+    <value>¿Está seguro de eliminar este fondo? Si lo Elimina, eliminará también TODOS sus contratos.</value>
   </data>
   <data name="MSJ_CONFIRM_ELIMINAR_INGENIERO" xml:space="preserve">
-    <value>¿Está seguro de eliminar este ingeniero?</value>
+    <value>¿Está seguro de eliminar este ingeniero? Si lo Elimina, lo eliminara también de los contratos donde esté.</value>
   </data>
   <data name="MSJ_CONFIRM_ELIMINAR_INSPECTOR" xml:space="preserve">
-    <value>¿Está seguro de eliminar este inspector?</value>
+    <value>¿Está seguro de eliminar este inspector? Si lo Elimina, eliminará TODAS las boletas en TODOS los contratos donde esté.</value>
   </data>
   <data name="MSJ_CONFIRM_ELIMINAR_ITEM" xml:space="preserve">
     <value>¿Está seguro de eliminar este item?</value>

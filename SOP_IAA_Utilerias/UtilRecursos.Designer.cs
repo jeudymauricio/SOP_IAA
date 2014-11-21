@@ -313,7 +313,7 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este contratista?.
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este contratista? Si lo Elimina, eliminará también TODOS sus contratos..
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_CONTRATISTA {
             get {
@@ -331,7 +331,7 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este fondo?.
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este fondo? Si lo Elimina, eliminará también TODOS sus contratos..
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_FONDO {
             get {
@@ -340,7 +340,7 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este ingeniero?.
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este ingeniero? Si lo Elimina, lo eliminara también de los contratos donde esté..
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_INGENIERO {
             get {
@@ -349,7 +349,7 @@ namespace SOP_IAA_Utilerias {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este inspector?.
+        ///   Busca una cadena traducida similar a ¿Está seguro de eliminar este inspector? Si lo Elimina, eliminará TODAS las boletas en TODOS los contratos donde esté..
         /// </summary>
         internal static string MSJ_CONFIRM_ELIMINAR_INSPECTOR {
             get {

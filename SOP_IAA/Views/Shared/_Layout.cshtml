@@ -26,6 +26,12 @@
     @Styles.Render("~/Content/css")
     <link rel="stylesheet" href="~/Content/StickyFooter.css" />
 
+
+    @if (Session["CurrentSession"] == null)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+
 </head>
 <body style="padding:0;">
 
@@ -50,12 +56,12 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         @*<li>
-                            <a href="#"><i class="fa fa-user fa-fw"></i> Perfil</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-gear fa-fw"></i> Configuración</a>
-                        </li>
-                        <li class="divider"></li>*@
+                                <a href="#"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-gear fa-fw"></i> Configuración</a>
+                            </li>
+                            <li class="divider"></li>*@
                         <li>
                             <a href=@Url.Action("Login", "Account")><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
                         </li>
@@ -69,19 +75,19 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         @*<li class="active">
-                            <a href="index"><i class="fa fa-briefcase fa-fw"></i> Contratos <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a class="active" href="/Contrato/index"> Todos </a>
-                                </li>
-                                <li>
-                                    <a href="#"> En curso </a>
-                                </li>
-                                <li>
-                                    <a href="#"> Finalizados </a>
-                                </li>
-                            </ul>
-                        </li>*@
+                                <a href="index"><i class="fa fa-briefcase fa-fw"></i> Contratos <span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a class="active" href="/Contrato/index"> Todos </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> En curso </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> Finalizados </a>
+                                    </li>
+                                </ul>
+                            </li>*@
                         <li>
                             <a href="/Contrato/index"><i class="fa fa-briefcase fa-fw"></i> Contratos </a>
                         </li>
@@ -113,16 +119,16 @@
                         <li>
                             <a href="/Ruta/index"><i class="fa fa-road fa-fw"></i> Rutas </a>
                         </li>
-                       
-                        
-                         @*<li>
-                            <a href="/SeccionControl/index"><i class="fa fa-arrows-alt fa-fw"></i> Secciones de Control </a>
-                        </li>*@
-                        
-    
-    
-    
-    @*<li>
+
+
+                        @*<li>
+                                <a href="/SeccionControl/index"><i class="fa fa-arrows-alt fa-fw"></i> Secciones de Control </a>
+                            </li>*@
+
+
+
+
+                        @*<li>
                                 <a href="#"><i class="fa fa-flask fa-fw"></i> Laboratorios <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
@@ -168,10 +174,10 @@
         $(document).ready(function () {
             $('nav a').removeClass('active');
             $('nav a[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active'); /*class="in"*/
-            try{
+            try {
                 $('nav a[href^="/' + location.pathname.split("/")[1] + '"]').parents().addClass('in');
             }
-            catch (error){};
+            catch (error) { };
         });
     </script>
 </body>

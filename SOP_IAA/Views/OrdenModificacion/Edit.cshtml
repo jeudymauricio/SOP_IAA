@@ -101,8 +101,12 @@
                                             @*<idcontratoitem, codigoitem, descripcion, unidad, original, oms, realizado>*@
                                             @foreach (var item in @ViewBag.items)
                                             {
-                                                
-                                                var omci = Model.oMCI.Where(o => o.idContratoItem == (int)@item.Item1).First();
+
+                                                var omci = Model.oMCI.Where(o => o.idContratoItem == (int)@item.Item1).FirstOrDefault();
+                                                if (omci == null)
+                                                {
+                                                    continue;
+                                                }
                                                 var Autorizado = (decimal)@item.Item5 + (decimal)@item.Item6 + omci.cantidad;
                                                 var Disponible = Autorizado - (decimal)@item.Item7;
                                                 var name = "txtCantidad" + item.Item1;

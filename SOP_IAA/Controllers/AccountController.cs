@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
 using SOP_IAA.Models;
+using SOP_IAA_DAL;
 
 namespace SOP_IAA.Controllers
 {
@@ -18,6 +19,9 @@ namespace SOP_IAA.Controllers
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
+        // Acceso a la base de datos para el Login
+        private Proyecto_IAAEntities db = new Proyecto_IAAEntities();
+
 
         public AccountController()
         {
@@ -44,6 +48,7 @@ namespace SOP_IAA.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            Session["CurrentSession"] = null;
             ViewBag.ReturnUrl = returnUrl;
             return View(returnUrl);
         }
@@ -56,11 +61,27 @@ namespace SOP_IAA.Controllers
         //public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         public ActionResult Login(LoginViewModel model, string returnUrl)
         {
+            Session["CurrentSession"] = null;
             if (ModelState.IsValid)
             {
+                var userResults = from u in db.usuario
+                                  where u.nombreUsuario == model.Usuario &&
+                                  u.contrasena == model.Clave
+                                  select u;
+                IQueryable<usuario> user = userResults;
+                if (user != null)
+                {
+                    foreach (var a in user)
+                    {
+                        Session["CurrentSession"] = a;
+                        return RedirectToLocal(returnUrl);
+                    }
+
+                }
+                #region sinlogin
                 //var user = await UserManager.FindAsync(model.Usuario, model.Clave);
                 //if (user != null)
-                if(model.Usuario.Equals("user"))
+               /* if(model.Usuario.Equals("user"))
                 {
                     //await SignInAsync(user, model.Recordar);
                     return RedirectToLocal(returnUrl);
@@ -68,11 +89,13 @@ namespace SOP_IAA.Controllers
                 else
                 {
                     ModelState.AddModelError("", "Nombre de usuario o contraseña no válidos.");
-                }
+                }*/
                 //return RedirectToLocal(returnUrl);
+                #endregion
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+            ModelState.AddModelError("", "Usuario o contraseña inválidos");
             return View(model);
         }
 

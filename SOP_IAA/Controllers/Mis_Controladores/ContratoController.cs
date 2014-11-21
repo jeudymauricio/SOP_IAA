@@ -57,20 +57,13 @@ namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
                     contrato.laboratorioCalidad.Add(db.laboratorioCalidad.Find((int)child));
                 }
 
-                //inserción del contrato a la DB
-                db.Contrato.Add(contrato);
-                db.SaveChanges();
-
-                //obtención del id del contrato
-                var idContrato = contrato.id;
-
                 //Obtener ingenieros.
                 jObj = JsonConvert.DeserializeObject(jsonIng);
                 foreach (var child in jObj.Ingenieros.Children())
                 {
                     //Creación del ingeniero-contrato.
                     ingenieroContrato ing_contrato = new ingenieroContrato();
-                    ing_contrato.idContrato = idContrato;
+
                     ing_contrato.idIngeniero = (int)child.idIngeniero;
                     ing_contrato.rol = child.Cargo;
                     ing_contrato.descripcion = child.Descripcion;
@@ -78,9 +71,13 @@ namespace SOP_IAA.Controllers // El namespace no debe incluir .Mis_Controladores
                     ing_contrato.fechaInicio = contrato.fechaInicio;
                     ing_contrato.fechaFin = contrato.fechaInicio.AddDays(contrato.plazo);
                     ing_contrato.activo = true;
-                    db.ingenieroContrato.Add(ing_contrato);
-                    db.SaveChanges();
+                    contrato.ingenieroContrato.Add(ing_contrato);
                 }
+
+                //inserción del contrato a la DB
+                db.Contrato.Add(contrato);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 

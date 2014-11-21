@@ -71,8 +71,17 @@ namespace SOP_IAA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             contratista contratista = db.contratista.Find(id);
-            db.contratista.Remove(contratista);
-            db.SaveChanges();
+            try
+            {
+                db.Contrato.RemoveRange(contratista.Contrato);
+                db.contratista.Remove(contratista);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                // Notify error
+            }
+
             return RedirectToAction("Index");
         }
     }

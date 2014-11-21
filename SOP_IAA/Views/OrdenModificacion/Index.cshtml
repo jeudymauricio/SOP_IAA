@@ -22,7 +22,7 @@
     <!-- /.panel-heading -->
     <div class="panel-body">
         <div class="table-responsive">
-            <table id="tbPlanInversion" class="table">
+            <table id="tbOrdenModificacion" class="table">
                 <thead>
                     <tr>
                         <th>
@@ -69,3 +69,19 @@
 <div>
     @Html.ActionLink("Atrás", "MiContrato", "Contrato", new { id = Model.id }, null)
 </div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" />
+    <script src="~/Scripts/plugins/dataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tbOrdenModificacion').dataTable({
+                order: [],
+                "language": {
+                    "url": "/Scripts/plugins/dataTables/Spanish.txt"
+                }
+            });
+        })
+    </script>
+}

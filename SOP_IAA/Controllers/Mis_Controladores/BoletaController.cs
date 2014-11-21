@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SOP_IAA_DAL;
 using Newtonsoft.Json;
+using System.Data.SqlClient;
 
 namespace SOP_IAA.Controllers
 {
@@ -269,9 +270,7 @@ namespace SOP_IAA.Controllers
                     // Como el formato de números utiliza la , como separador de decimales(es-CR), se debe convertir a formato inglés(en-US)
                     IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
 
-                    // Se agrega la boleta a la tabla boleta
-                    db.boleta.Add(boleta);
-                    db.SaveChanges();
+
 
                     // Obtener items.
                     dynamic jObj = JsonConvert.DeserializeObject(jsonItems);
@@ -289,13 +288,15 @@ namespace SOP_IAA.Controllers
                         //bi.precioUnitarioFecha = decimal.Parse(child.precio.Value, culture);
 
                         // Se agrega el boleta-item a la base de datos
-                        db.boletaItem.Add(bi);
-                        db.SaveChanges();
+                        boleta.boletaItem.Add(bi);
                     }
+
+                    db.boleta.Add(boleta);
+                    db.SaveChanges();
 
                     return RedirectToAction("Index", new { idContrato = boleta.idContrato });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     // Se verifica que al menos hay una ruta seleccionada
                     if (boleta.idRuta == 0)
@@ -310,7 +311,25 @@ namespace SOP_IAA.Controllers
                     //
                     else
                     {
-                        ModelState.AddModelError("", "Ocurrió un error al ingresar la boleta, verifique que no sea un duplicado");
+                        try
+                        {
+                            var sqlException = ex.InnerException.InnerException as SqlException;
+                            if (sqlException != null && sqlException.Errors.OfType<SqlError>()
+                            .Any(se => se.Number == 2601 || se.Number == 2627 /* PK/UKC violation */))
+                            {
+                                ModelState.AddModelError("", "No se pudo agregar la Boleta porque ya existe una con el mismo número");
+                                // it's a dupe... do something about it
+                            }
+                            else
+                            {
+                                // it's something else...
+                                ModelState.AddModelError("", "No se pudo agregar la OM");
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            ModelState.AddModelError("", "Ocurrió un error al ingresar la boleta, verifique que no sea un duplicado");
+                        }
                     }
                 }
             }
@@ -527,7 +546,6 @@ namespace SOP_IAA.Controllers
 
             try
             {
-
                 db.boletaItem.RemoveRange(boleta.boletaItem);
                 db.boleta.Remove(boleta);
                 db.SaveChanges();
@@ -535,7 +553,8 @@ namespace SOP_IAA.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("", e.Message.ToString());
+                //Error e.Message.ToString()
+                ModelState.AddModelError("", "NO fue posible eliminar la boleta");
             }
             return View(boleta);
         }

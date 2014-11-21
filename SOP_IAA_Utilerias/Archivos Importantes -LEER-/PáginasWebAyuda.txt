@@ -26,6 +26,8 @@ Excepciones en c#
 	http://stackoverflow.com/questions/3967140/duplicate-key-exception-from-entity-framework
 	http://stackoverflow.com/questions/24740376/best-way-to-catch-sql-unique-constraint-violations-in-c-sharp-during-inserts
 
+	http://blog.wassupy.com/2012/10/catching-unique-key-constraint.html --> Más explicado (para este caso poner var sqlException = ex.InnerException.InnerException as SqlException; y no es UpdateException, solo Exception)
+
 Exportar a Excel
 	http://epplus.codeplex.com/wikipage?title=WebapplicationExample
 	https://epplus.codeplex.com/discussions/219864
