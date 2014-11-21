@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using SOP_IAA_DAL;
 using Newtonsoft.Json;
 using System.Web.Script.Serialization;
+using System.IO;
+using OfficeOpenXml;
 
 namespace SOP_IAA.Controllers
 {
@@ -370,6 +372,207 @@ namespace SOP_IAA.Controllers
                 //Notify Error
             }
             return RedirectToAction("Index", new { idContrato = _idContrato });
+        }
+
+        public ActionResult exportarOM(int? idContrato)
+        {
+            if (idContrato == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Contrato contrato = db.Contrato.Find(idContrato);
+
+            // Se verifica que el ítem exista en el contrato
+            if (contrato == null)
+            {
+                return new HttpNotFoundResult();
+            }
+            ExcelPackage pckTemplate = new ExcelPackage();
+            // Se indica la plantilla a utilizar
+            var template = new FileInfo(Server.MapPath("/Plantillas/Orden_Modificacion.xlsx"));
+            FileInfo newFile = new FileInfo(@"Sample2.xlsx");
+            ExcelPackage pkg = new ExcelPackage(newFile);
+            int sheetIndex = 1;
+
+            try
+            {
+                using (ExcelPackage package = new ExcelPackage(newFile, template))
+                {
+                    ExcelWorkbook workBook = package.Workbook;
+
+                    if (workBook != null)
+                    {
+
+                        if (workBook.Worksheets.Count > 0)
+                        {
+                            int cantidad = contrato.contratoItem.Count;
+
+                            ExcelWorksheet worksheet;
+
+                            worksheet = package.Workbook.Worksheets[sheetIndex];
+                            string _SheetName = string.Format("Hoja{0}", sheetIndex.ToString());
+
+                            // Se coloca los datos de contrato
+                            worksheet.Cells["B4"].Value = contrato.contratista.nombre;
+                            worksheet.Cells["B5"].Value = contrato.licitacion;
+                            worksheet.Cells["B6"].Value = contrato.lugar;
+                            worksheet.Cells["B7"].Value = contrato.lineaContrato;
+                            worksheet.Cells["B8"].Value = contrato.zona.nombre;
+                            worksheet.Cells["B11"].Value = contrato.fechaInicio;
+                            worksheet.Cells["B12"].Value = contrato.fechaInicio.AddDays(contrato.plazo); // Tomar en cuenta los aumentos de plazo de las OM
+                            worksheet.Cells["B13"].Value = contrato.plazo;
+
+                            // Se indica desde donde empezar a llenar los datos
+                            const int startRow = 20;
+                            int row = startRow;
+
+                            // Se insertan las filas necesarias al excel con el mismo formato que la primera
+                            if (cantidad > 2)
+                            {
+                                worksheet.InsertRow(startRow, cantidad - 2, startRow);
+                            }
+
+                            // Se obtiene los estilos de las celdas
+                            int estiloOMTitulo = worksheet.Cells["K14"].StyleID;
+                            int estiloOMFecha = worksheet.Cells["K16"].StyleID;
+                            int estiloOMOficio = worksheet.Cells["K17"].StyleID;
+                            int estiloOMVariacion = worksheet.Cells["K18"].StyleID;
+                            int estiloOMDiv = worksheet.Cells["K19"].StyleID;
+                            int estiloOMHistorial = worksheet.Cells["K20"].StyleID;
+                            int estiloCondicional = worksheet.Cells["G21"].StyleID;
+                            int estiloMayorMenor = worksheet.Cells["K26"].StyleID;
+
+                            // Se obtiene el item con el mayor número de OMs
+                            var itemOrdenados = contrato.contratoItem.OrderByDescending(ci => ci.oMCI.Count);
+
+                            // Se crea una lista con el total de las fechas y se colocan las fechas en el excel
+                            List<DateTime> l = new List<DateTime>();
+                            
+                            int col = 11;
+                            int fila1 = startRow + cantidad;
+                            foreach (var i in itemOrdenados.First().oMCI)
+                            {
+                                // Se agrega la fecha a la lista
+                                l.Add(i.ordenModificacion.fecha);
+
+                                //Titulo de la OM -1,2,3,4...
+                                worksheet.Cells[14, col].StyleID = estiloOMTitulo;
+                                worksheet.Cells[14, col].Value = "OM" + (col - 10).ToString();
+
+                                //Objeto de la OM
+                                worksheet.Cells[15, col].Value = i.ordenModificacion.objetoOM;
+
+                                //Fecha de la OM
+                                worksheet.Cells[16, col].StyleID = estiloOMFecha;
+                                worksheet.Cells[16, col].Value = i.ordenModificacion.fecha;
+
+                                // Oficio de aprobación
+                                worksheet.Cells[17, col].StyleID = estiloOMOficio;
+                                worksheet.Cells[17, col].Value = i.ordenModificacion.numeroOficio;
+                                
+                                //Variacion de plazo
+                                worksheet.Cells[18, col].StyleID = estiloOMVariacion;
+                                //
+
+                                // Division de celdas (por estetica)
+                                worksheet.Cells[19, col].StyleID = estiloOMDiv;
+                                
+
+                                // Fórmula total de aumentos
+                                worksheet.Cells[fila1 + 3, col].StyleID = estiloMayorMenor;
+                                worksheet.Cells[fila1 + 3, col].Formula = "SUMIF(" + worksheet.Cells[startRow, col].Address + ":" + worksheet.Cells[fila1, col].Address + ",\">0\"," + worksheet.Cells[startRow, col].Address + ":" + worksheet.Cells[fila1, col].Address + ")";
+                                // Fórmula total de rebajas
+                                worksheet.Cells[fila1 + 4, col].StyleID = estiloMayorMenor;
+                                worksheet.Cells[fila1 + 4, col].Formula = "SUMIF(" + worksheet.Cells[startRow, col].Address + ":" + worksheet.Cells[fila1, col].Address + ",\"<0\"," + worksheet.Cells[startRow, col].Address + ":" + worksheet.Cells[fila1, col].Address + ")";
+                                col++;
+                            }
+
+                            worksheet.Cells[fila1+3,10].Formula = "sum(" + worksheet.Cells[fila1 + 3, 11].Address + ":" + worksheet.Cells[fila1 + 3, col].Address + ")";
+                            col++;
+                            worksheet.Cells[fila1+4,10].Formula = "sum(" + worksheet.Cells[fila1 + 4, 11].Address + ":" + worksheet.Cells[fila1 + 4, col].Address + ")";
+                            foreach (var ci in itemOrdenados)
+                            {
+                                worksheet.Cells["A"+row].Value = ci.item.codigoItem;
+                                worksheet.Cells["B"+row].Value = ci.item.descripcion;
+                                worksheet.Cells["C"+row].Value = ci.item.unidadMedida;
+                                worksheet.Cells["D"+row].Value = ci.precioUnitario;
+                                worksheet.Cells["E"+row].Value = cantidadObraRealizada(ci, DateTime.Now);
+
+                                // Se empiezaa colocar el historial de OMs siguiente el orden de la fecha
+                                // Se recorre la lista de fechas y se buscan los reajustes correspondientes
+                                col = 11;
+                                foreach (var fechaOM in l)
+                                {
+                                    var om = ci.oMCI.Where(x => x.ordenModificacion.fecha == fechaOM).FirstOrDefault();
+
+                                    //Se coloca el estilo de reajuste
+                                    worksheet.Cells[row, col].StyleID = estiloOMHistorial;
+                                    //Si no hay OMs para esa fecha se coloca 0, de lo contrario se coloca la cantidad de la OM
+                                    if (om == null)
+                                    {
+                                        worksheet.Cells[row, col++].Value = 0;
+                                    }
+                                    else
+                                    {
+                                        worksheet.Cells[row, col++].Value = om.cantidad;
+                                    }
+                                }
+                                // Se coloca el monto original especificado en el contrato
+                                worksheet.Cells["I"+row].Value = ci.cantidadAprobada;
+
+                                // Se coloca la fórmula para obtener el resumen de OM
+                                worksheet.Cells[row, 10].Formula = "SUM(" + worksheet.Cells[row, 11].Address + ":" + worksheet.Cells[row, col-1].Address + ")";
+                                // Se coloca la fórmula de Autorizado (Original - ResumenOM)
+                                worksheet.Cells["F" + row].Formula = worksheet.Cells[row, 9].Address + "-" + worksheet.Cells[row, 10].Address;
+                                // Fórmula para Disponible (Autorizado - Realizado)
+                                worksheet.Cells[row, 8].Formula = worksheet.Cells[row, 6].Address + "-" + worksheet.Cells[row, 5].Address;
+                                
+                                // Fórmula de Status
+                                worksheet.Cells["G" + row].StyleID = estiloCondicional;
+                                worksheet.Cells["G" + row].Formula = "IF(" + worksheet.Cells["F" + row].Address + "<" + worksheet.Cells["E" + row].Address + ",\"Error\",\"OK\")";
+
+                                // Se cambia de Fila para el próximo item
+                                row++;
+
+                            }// foreach itemOrdenados
+
+                            // Se colocan las fórmulas de sumatoria totales (sumaproductos, etc...)
+
+                            // Monto total original (Original * PrecioUnitario)
+                            worksheet.Cells["I" + (row + 2).ToString()].Formula = "SUMPRODUCT(" + worksheet.Cells["D" + startRow].Address + ":" + worksheet.Cells["D" + (row - 1).ToString()].Address + "," + worksheet.Cells["I" + startRow].Address + ":" + worksheet.Cells["I" + (row - 1).ToString()].Address + ")";
+
+                            // Monto total Actual (Autorizado * PrecioUnitario)
+                            worksheet.Cells["F" + (row + 2).ToString()].Formula = "SUMPRODUCT(" + worksheet.Cells["D" + startRow].Address + ":" + worksheet.Cells["D" + (row - 1).ToString()].Address + "," + worksheet.Cells["F" + startRow].Address + ":" + worksheet.Cells["F" + (row - 1).ToString()].Address + ")";
+                            
+                        }
+                    }
+
+                    // Nombre que va a tener el archivo
+                    string nombreArchivo = "OMs del Contrato " + contrato.licitacion + ".xlsx";
+                    return File(package.GetAsByteArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
+                }
+
+            }
+            catch (Exception e)
+            {
+                // Se indica que ocurrió un error en la operación
+                return JavaScript("alert('Hubo un error en la operación, reintente mas tarde');");
+            }
+        }
+
+        public decimal cantidadObraRealizada(contratoItem ci, DateTime fecha)
+        {
+            // Se seleccionan las boletas hasta la fecha
+            var bo = ci.boletaItem.Where(b => (b.boleta.fecha.Month <= fecha.Month && b.boleta.fecha.Year <= fecha.Year));
+
+            decimal cantidadLaborada = 0;
+            // Se recorren todas las boletas hasta la fecha para sumar sus cantidades
+            foreach (var boleta in bo)
+            {
+                cantidadLaborada += boleta.cantidad;
+            }
+            return cantidadLaborada;
         }
 
         protected override void Dispose(bool disposing)

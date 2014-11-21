@@ -332,6 +332,7 @@
     <Content Include="Mvc.sitemap" />
     <Content Include="Plantillas\Informe_Descriptivo_Item.xlsx" />
     <Content Include="Plantillas\Factor_Reajuste.xlsx" />
+    <Content Include="Plantillas\Orden_Modificacion.xlsx" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

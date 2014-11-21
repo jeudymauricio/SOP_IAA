@@ -1,15 +1,19 @@
 ﻿@model SOP_IAA_DAL.Contrato 
-       @*IEnumerable<SOP_IAA_DAL.ordenModificacion>*@
 
 @{
     ViewBag.Title = Model.licitacion + " OM";
 }
 
 <h2> </h2>
-
-<p>
-    @Html.ActionLink("Nueva Órden de Modificación", "Create", new { idContrato = @Model.id }, new { @class = "btn btn-primary" })
-</p>
+<div class="row">
+    <div class="col-md-6">
+        @Html.ActionLink("Nueva Órden de Modificación", "Create", new { idContrato = @Model.id }, new { @class = "btn btn-primary" })
+    </div>
+    <div class="col-md-6" style="text-align:right">
+        @Html.ActionLink("Exportar a excel", "exportarOM", new { idContrato = @Model.id }, new { @class = "btn btn-primary", @style = "width:150px" })
+    </div>
+</div>
+<br />
 
 <div class="panel panel-default">
     <div class="panel-heading">

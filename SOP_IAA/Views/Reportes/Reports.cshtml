@@ -4,7 +4,7 @@
     ViewBag.Title ="Reportes del item ";
 }
 
-<h2> Reportes del item @Model.item.codigoItem </h2>
+<h2> Boletas del item @Model.item.codigoItem </h2>
 <p>
     @Html.ActionLink("Exportar a Excel", "Export", new { id = Model.id }, new { @class = "btn btn-primary", @style = "width:150px" })
 </p>
