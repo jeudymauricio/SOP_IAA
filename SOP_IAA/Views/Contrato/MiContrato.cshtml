@@ -178,13 +178,22 @@
                                 <th>@Html.DisplayNameFor(model => model.fechaInicio)</th>
                                 <td>@Model.fechaInicio.ToLongDateString()</td>
                             </tr>
+                            @{
+                                var fechaInicio = Model.fechaInicio;
+                                var plazo = Model.plazo;
+                                foreach (var om in Model.ordenModificacion)
+                                {
+                                    plazo += om.AumentoPlazo;
+                                }
+                                var fechaFin = fechaInicio.AddDays(plazo);
+                            }
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.plazo)</th>
-                                <td>@Html.DisplayFor(model => model.plazo)</td>
+                                <td>@plazo</td>
                             </tr>
                             <tr>
                                 <th>Fecha de Finalización</th>
-                                <td>@Model.fechaInicio.AddDays(Model.plazo).ToLongDateString()</td>
+                                <td>@fechaFin.ToLongDateString()</td>
                             </tr>
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.lugar)</th>

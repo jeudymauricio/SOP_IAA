@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Proyecto_IAAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="boleta">
           <Key>
             <PropertyRef Name="id" />
@@ -152,6 +152,7 @@
           <Property Name="numeroOficio" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="fecha" Type="date" Nullable="false" />
           <Property Name="objetoOM" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="AumentoPlazo" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="persona">
           <Key>
@@ -779,8 +780,7 @@
             <End Role="zonaRuta" EntitySet="zonaRuta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Proyecto_IAAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -962,6 +962,7 @@
           <Property Name="objetoOM" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Contrato" Relationship="Self.fk_idContrato_ordenModificacion" FromRole="ordenModificacion" ToRole="Contrato" />
           <NavigationProperty Name="oMCI" Relationship="Self.fk_idOrdenModificacion_oMCI" FromRole="ordenModificacion" ToRole="oMCI" />
+          <Property Name="AumentoPlazo" Type="Int16" Nullable="false" />
         </EntityType>
         <EntityType Name="persona">
           <Key>
@@ -1701,6 +1702,7 @@
           <EntitySetMapping Name="ordenModificacion">
             <EntityTypeMapping TypeName="Proyecto_IAAModel.ordenModificacion">
               <MappingFragment StoreEntitySet="ordenModificacion">
+                <ScalarProperty Name="AumentoPlazo" ColumnName="AumentoPlazo" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="idContrato" ColumnName="idContrato" />
                 <ScalarProperty Name="numeroOficio" ColumnName="numeroOficio" />

@@ -10,4 +10,4 @@
 1. Para el primer entregable se desactivaron los ajustes en los precios de las boletas (tanto en su controlador como en el de reportes), para volverlos a activar es cuestion de buscar 
    las regiones llamadas "reajustes_al_precio" y decomentar su contenido.
 
-2. 
+2. Agregar lo de aumento de plazo al contrato

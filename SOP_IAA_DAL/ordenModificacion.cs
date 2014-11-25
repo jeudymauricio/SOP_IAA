@@ -24,6 +24,7 @@ namespace SOP_IAA_DAL
         public string numeroOficio { get; set; }
         public System.DateTime fecha { get; set; }
         public string objetoOM { get; set; }
+        public short AumentoPlazo { get; set; }
     
         public virtual Contrato Contrato { get; set; }
         public virtual ICollection<oMCI> oMCI { get; set; }

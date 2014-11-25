@@ -33,5 +33,7 @@ namespace SOP_IAA_DAL
         [StringLength(200)]
         public string objetoOM { get; set; }
 
+        [DisplayName("Aumenta de plazo (Días)")]
+        public short AumentoPlazo { get; set; }
     }
 }

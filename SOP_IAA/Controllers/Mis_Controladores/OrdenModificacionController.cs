@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 using System.IO;
 using OfficeOpenXml;
 using System.Data.SqlClient;
+using System.Drawing;
 
 namespace SOP_IAA.Controllers
 {
@@ -228,7 +229,7 @@ namespace SOP_IAA.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(
-            [Bind(Include = "id,idContrato,numeroOficio,fecha,objetoOM")] ordenModificacion ordenModificacion,
+            [Bind(Include = "id,idContrato,numeroOficio,fecha,objetoOM,AumentoPlazo")] ordenModificacion ordenModificacion,
             [Bind(Include = "jsonItems")] string jsonItems)
         {
             if (ModelState.IsValid)
@@ -313,7 +314,7 @@ namespace SOP_IAA.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(
-            [Bind(Include = "id,idContrato,numeroOficio,fecha,objetoOM")] ordenModificacion ordenModificacion,
+            [Bind(Include = "id,idContrato,numeroOficio,fecha,objetoOM,AumentoPlazo")] ordenModificacion ordenModificacion,
             [Bind(Include = "jsonItems")] string jsonItems)
         {
             if (ModelState.IsValid)
@@ -459,7 +460,7 @@ namespace SOP_IAA.Controllers
                             int estiloOMVariacion = worksheet.Cells["K18"].StyleID;
                             int estiloOMDiv = worksheet.Cells["K19"].StyleID;
                             int estiloOMHistorial = worksheet.Cells["K20"].StyleID;
-                            int estiloCondicional = worksheet.Cells["G21"].StyleID;
+                            int estiloCondicional = worksheet.Cells["G20"].StyleID;
                             int estiloMayorMenor = worksheet.Cells["K26"].StyleID;
 
                             // Se obtiene el item con el mayor número de OMs
@@ -492,7 +493,7 @@ namespace SOP_IAA.Controllers
                                 
                                 //Variacion de plazo
                                 worksheet.Cells[18, col].StyleID = estiloOMVariacion;
-                                //
+                                worksheet.Cells[18, col].Value = i.ordenModificacion.AumentoPlazo;
 
                                 // Division de celdas (por estetica)
                                 worksheet.Cells[19, col].StyleID = estiloOMDiv;
@@ -507,9 +508,14 @@ namespace SOP_IAA.Controllers
                                 col++;
                             }
 
+                            // Total de aumentos y total de disminuciones
                             worksheet.Cells[fila1+3,10].Formula = "sum(" + worksheet.Cells[fila1 + 3, 11].Address + ":" + worksheet.Cells[fila1 + 3, col].Address + ")";
                             col++;
                             worksheet.Cells[fila1+4,10].Formula = "sum(" + worksheet.Cells[fila1 + 4, 11].Address + ":" + worksheet.Cells[fila1 + 4, col].Address + ")";
+
+                            // Variación de plazo
+                            worksheet.Cells["B14"].Formula = "sum(" + worksheet.Cells["K18"].Address + ":" + worksheet.Cells[18, col-2].Address + ")";
+
                             foreach (var ci in itemOrdenados)
                             {
                                 worksheet.Cells["A"+row].Value = ci.item.codigoItem;
@@ -518,7 +524,7 @@ namespace SOP_IAA.Controllers
                                 worksheet.Cells["D"+row].Value = ci.precioUnitario;
                                 worksheet.Cells["E"+row].Value = cantidadObraRealizada(ci, DateTime.Now);
 
-                                // Se empiezaa colocar el historial de OMs siguiente el orden de la fecha
+                                // Se empieza a colocar el historial de OMs siguiente el orden de la fecha
                                 // Se recorre la lista de fechas y se buscan los reajustes correspondientes
                                 col = 11;
                                 foreach (var fechaOM in l)
@@ -542,28 +548,25 @@ namespace SOP_IAA.Controllers
 
                                 // Se coloca la fórmula para obtener el resumen de OM
                                 worksheet.Cells[row, 10].Formula = "SUM(" + worksheet.Cells[row, 11].Address + ":" + worksheet.Cells[row, col-1].Address + ")";
-                                // Se coloca la fórmula de Autorizado (Original - ResumenOM)
-                                worksheet.Cells["F" + row].Formula = worksheet.Cells[row, 9].Address + "-" + worksheet.Cells[row, 10].Address;
+                                // Se coloca la fórmula de Autorizado (Original + ResumenOM)
+                                worksheet.Cells["F" + row].Formula = worksheet.Cells[row, 9].Address + "+" + worksheet.Cells[row, 10].Address;
                                 // Fórmula para Disponible (Autorizado - Realizado)
                                 worksheet.Cells[row, 8].Formula = worksheet.Cells[row, 6].Address + "-" + worksheet.Cells[row, 5].Address;
                                 
                                 // Fórmula de Status
-                                worksheet.Cells["G" + row].StyleID = estiloCondicional;
+                                //worksheet.Cells["G" + row].StyleID = estiloCondicional;
                                 worksheet.Cells["G" + row].Formula = "IF(" + worksheet.Cells["F" + row].Address + "<" + worksheet.Cells["E" + row].Address + ",\"Error\",\"OK\")";
 
                                 // Se cambia de Fila para el próximo item
                                 row++;
 
                             }// foreach itemOrdenados
-
-                            // Se colocan las fórmulas de sumatoria totales (sumaproductos, etc...)
-
+                            
                             // Monto total original (Original * PrecioUnitario)
                             worksheet.Cells["I" + (row + 2).ToString()].Formula = "SUMPRODUCT(" + worksheet.Cells["D" + startRow].Address + ":" + worksheet.Cells["D" + (row - 1).ToString()].Address + "," + worksheet.Cells["I" + startRow].Address + ":" + worksheet.Cells["I" + (row - 1).ToString()].Address + ")";
 
                             // Monto total Actual (Autorizado * PrecioUnitario)
                             worksheet.Cells["F" + (row + 2).ToString()].Formula = "SUMPRODUCT(" + worksheet.Cells["D" + startRow].Address + ":" + worksheet.Cells["D" + (row - 1).ToString()].Address + "," + worksheet.Cells["F" + startRow].Address + ":" + worksheet.Cells["F" + (row - 1).ToString()].Address + ")";
-                            
                         }
                     }
 

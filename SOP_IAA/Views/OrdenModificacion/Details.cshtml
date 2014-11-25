@@ -10,7 +10,7 @@
     System.Threading.Thread.CurrentThread.CurrentCulture = cultureCR;
 }
 
-<h2>Detalles de OM del @Model.fecha.ToShortDateString()</h2>
+<h2>Detalles de OM del @Model.fecha.ToLongDateString()</h2>
 
 <div>
     <h4></h4>
@@ -54,20 +54,24 @@
                                         </thead>
                                         <tbody>
                                             <tr>
+                                                <th>@Html.DisplayNameFor(model => model.Contrato.licitacion)</th>
+                                                <td>@Html.DisplayFor(model => model.Contrato.licitacion)</td>
+                                            </tr>
+                                            <tr>
                                                 <th>@Html.DisplayNameFor(model => model.numeroOficio)</th>
                                                 <td>@Html.DisplayFor(model => model.numeroOficio)</td>
                                             </tr>
                                             <tr>
                                                 <th>@Html.DisplayNameFor(model => model.fecha)</th>
-                                                <td>@Html.DisplayFor(model => model.fecha)</td>
+                                                <td>@Model.fecha.ToLongDateString()</td>
                                             </tr>
                                             <tr>
                                                 <th>@Html.DisplayNameFor(model => model.objetoOM)</th>
                                                 <td>@Html.DisplayFor(model => model.objetoOM)</td>
                                             </tr>
                                             <tr>
-                                                <th>@Html.DisplayNameFor(model => model.Contrato.licitacion)</th>
-                                                <td>@Html.DisplayFor(model => model.Contrato.licitacion)</td>
+                                                <th>@Html.DisplayNameFor(model => model.AumentoPlazo)</th>
+                                                <td>@Html.DisplayFor(model => model.AumentoPlazo)</td>
                                             </tr>
                                         </tbody>
                                     </table>
