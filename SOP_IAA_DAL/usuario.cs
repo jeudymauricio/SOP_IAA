@@ -17,7 +17,7 @@ namespace SOP_IAA_DAL
         public int idPersona { get; set; }
         public string nombreUsuario { get; set; }
         public string contrasena { get; set; }
-        public Nullable<byte> tipo { get; set; }
+        public byte tipo { get; set; }
     
         public virtual persona persona { get; set; }
     }

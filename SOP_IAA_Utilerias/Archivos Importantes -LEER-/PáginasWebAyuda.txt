@@ -6,6 +6,9 @@ http://dba.stackexchange.com/questions/31420/how-to-create-unique-index-for-mont
 http://stackoverflow.com/questions/6629263/how-do-i-prevent-decimal-values-from-being-truncated-to-2-places-on-save-using-t
 http://www.reddybrek.com/allow-entity-framework-store-more-than-2-decimal-places
 
+http://stackoverflow.com/questions/13237193/data-annotation-to-validate-confirm-password
+
+
 insertar en varias tablas a la vez
 	http://stackoverflow.com/questions/4442915/entity-framework-inserting-into-multiple-tables-using-foreign-key
 	https://social.msdn.microsoft.com/Forums/en-US/1be124f2-e70d-462a-af2a-6ff8cbf97710/insert-into-multiple-tables-off-a-single-entity?forum=adodotnetentityframework

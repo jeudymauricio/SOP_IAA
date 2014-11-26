@@ -1,0 +1,49 @@
+﻿@model SOP_IAA_DAL.usuario
+
+@{
+    ViewBag.Title = "Detalles Usuario";
+}
+
+<h2>Detalles del usuario</h2>
+
+<div>
+    <h4> </h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nombre Completo
+        </dt>
+        <dd>
+            @Model.persona.nombre @Model.persona.apellido1 @Model.persona.apellido2
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombreUsuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombreUsuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipo)
+        </dt>
+        @if (Model.tipo == 1)
+        {
+            <dd>Administrador</dd>
+        }
+        else if (Model.tipo == 2)
+        {
+            <dd>Asistente</dd>
+        }
+        else
+        {
+            <dd>Observador</dd>
+        }
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.idPersona }) |
+    @Html.ActionLink("Atrás", "Index", "Contrato")
+</p>

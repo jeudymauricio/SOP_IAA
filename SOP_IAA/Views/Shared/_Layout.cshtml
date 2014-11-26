@@ -48,28 +48,40 @@
                 <a class="navbar-brand" href=@Url.Action("Index", "Contrato")>Ileana Aguilar Ingeniería y Administración</a>
             </div>
 
-            <ul class="nav navbar-top-links navbar-right">
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        @*<li>
-                                <a href="#"><i class="fa fa-user fa-fw"></i> Perfil</a>
+            @if (Session["CurrentSession"] != null)
+            {
+                <ul class="nav navbar-top-links navbar-right">
+                    <!-- /.dropdown -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li class="disabled">
+                                @{
+                                    SOP_IAA_DAL.usuario usuario = (SOP_IAA_DAL.usuario)Session["CurrentSession"];
+                                }
+                                <a href="#"><i class="fa fa-user fa-fw"></i> @usuario.nombreUsuario </a>
                             </li>
+                            @if (usuario.tipo == 1)
+                            {
+                                <li>
+                                    <a href="@Url.Action("Index", "Usuario")"><i class="fa fa-users fa-fw"></i> Administrar Usuarios </a>
+                                </li>
+                            }
                             <li>
-                                <a href="#"><i class="fa fa-gear fa-fw"></i> Configuración</a>
+                                <a href="@Url.Action("Details", "Usuario", new { id = @usuario.idPersona })"><i class="fa fa-gear fa-fw"></i> Configuración </a>
                             </li>
-                            <li class="divider"></li>*@
-                        <li>
-                            <a href=@Url.Action("Login", "Account")><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
+                            <li class="divider"></li>
+                            <li>
+                                <a href=@Url.Action("Login", "Account")><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión </a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                    <!-- /.dropdown -->
+                </ul>
+            }
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">

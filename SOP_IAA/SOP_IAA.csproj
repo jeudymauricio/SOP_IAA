@@ -211,6 +211,7 @@
     <Compile Include="Controllers\PlanInversionController.cs" />
     <Compile Include="Controllers\RutaController.cs" />
     <Compile Include="Controllers\SeccionControlController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ZonaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -450,6 +451,11 @@
     <Content Include="Views\OrdenModificacion\Details.cshtml" />
     <Content Include="Views\OrdenModificacion\Edit.cshtml" />
     <Content Include="Views\OrdenModificacion\Index.cshtml" />
+    <Content Include="Views\Usuario\Create.cshtml" />
+    <Content Include="Views\Usuario\Delete.cshtml" />
+    <Content Include="Views\Usuario\Details.cshtml" />
+    <Content Include="Views\Usuario\Edit.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
