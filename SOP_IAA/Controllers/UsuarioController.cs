@@ -67,9 +67,17 @@ namespace SOP_IAA.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.usuario.Add(usuario);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.usuario.Add(usuario);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    //
+                    ModelState.AddModelError("", "No se puede agregar el usuario porque el nombre de usuario ya existe, elija otro nombre de usuario");
+                }
             }
 
             ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", usuario.idPersona);
@@ -101,9 +109,17 @@ namespace SOP_IAA.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(usuario).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details", new { id = usuario.idPersona });
+                try
+                {
+                    db.Entry(usuario).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = usuario.idPersona });
+                }
+                catch (Exception e)
+                {
+                    //
+                    ModelState.AddModelError("", "No se puede agregar el usuario porque el nombre de usuario ya existe, elija otro nombre de usuario");
+                }
             }
             ViewBag.idPersona = new SelectList(db.persona, "id", "nombre", usuario.idPersona);
             return View(usuario);
@@ -132,7 +148,7 @@ namespace SOP_IAA.Controllers
             usuario usuario = db.usuario.Find(id);
             db.usuario.Remove(usuario);
             db.SaveChanges();
-            return RedirectToAction("Login", "Account", null);
+            return RedirectToAction("Index", "Usuario");
         }
 
         protected override void Dispose(bool disposing)
