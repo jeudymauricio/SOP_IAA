@@ -461,42 +461,63 @@ namespace SOP_IAA.Controllers
         {
             if (ModelState.IsValid)
             {
-                /// Primero se actualizan los datos de ítems
-                //Se encuentra la boleta
-                boleta boletaEditar = db.boleta.Find(boleta.id);
-
-                // Se remueven los anteriores items de la boleta
-                db.boletaItem.RemoveRange(boletaEditar.boletaItem);
-                db.SaveChanges();
-
-                // Se agregan los nuevos ítems
-                // Obtener items.
-                dynamic jObj = JsonConvert.DeserializeObject(jsonItems);
-                // Como el formato de números utiliza la , como separador de decimales(es-CR), se debe convertir a formato inglés(en-US)
-                IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
-                foreach (var child in jObj.Items.Children())
+                try
                 {
-                    //Creación del boleta-item.
-                    boletaItem bi = new boletaItem();
+                    // Se encuentra y se carga la boleta de la base de datos
+                    var boletaInDb = db.boleta.Include(b => b.boletaItem).Single(b => b.id == boleta.id);
 
-                    bi.idBoleta = boleta.id;
-                    bi.idContratoItem = int.Parse(child.idItemContrato.Value);
-                    bi.cantidad = decimal.Parse(child.cantidad.Value, culture);
-                    //bi.costoTotal = decimal.Parse(child.costoTotal.Value, culture);
-                    bi.redimientos = decimal.Parse(child.redimientos.Value, culture);
-                    //bi.precioUnitarioFecha = decimal.Parse(child.precio.Value, culture);
+                    // Se actualizan sus valores principales
+                    db.Entry(boletaInDb).CurrentValues.SetValues(boleta);
 
-                    // Se agrega el boleta-item a la base de datos
-                    db.boletaItem.Add(bi);
+                    // Se obtienen los ítems del editar
+                    // Lista para los items.
+                    List<boletaItem> listaItems = new List<boletaItem>();
+                    dynamic jObj = JsonConvert.DeserializeObject(jsonItems);
+                    // Se indica el formato de los decimales que es formato inglés(en-US)
+                    IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
+                    foreach (var child in jObj.Items.Children())
+                    {
+                        //Creación del boleta-item.
+                        boletaItem bi = new boletaItem();
 
-                    // Se guardan los cambios de la relacion boleta-item   
+                        bi.idBoleta = boleta.id;
+                        bi.idContratoItem = int.Parse(child.idItemContrato.Value);
+                        bi.cantidad = decimal.Parse(child.cantidad.Value, culture);
+                        bi.redimientos = decimal.Parse(child.redimientos.Value, culture);
+
+                        // Se agrega el boleta-item a la lista
+                        listaItems.Add(bi);
+                    }
+
+                    // Se remueven los items que no vengan dentro del editar
+                    foreach (var boletaItemInDb in boletaInDb.boletaItem.ToList())
+                        if (!listaItems.Any(bi => bi.idContratoItem == boletaItemInDb.idContratoItem))
+                            boletaInDb.boletaItem.Remove(boletaItemInDb);
+
+                    foreach (var bi in listaItems)
+                    {
+                        var boletaItemInDb = boletaInDb.boletaItem.SingleOrDefault(
+                            c => c.idContratoItem == bi.idContratoItem);
+
+                        if (boletaItemInDb != null)
+                            // Se actualizan los items de boleta existentes
+                            db.Entry(boletaItemInDb).CurrentValues.SetValues(bi);
+                        else
+                        {
+                            // Si no existe simplemente se agrega
+                            boletaInDb.boletaItem.Add(bi);
+                        }
+                    }
+
+                    // Se guardan los cambios en la base de datos
                     db.SaveChanges();
+
+                    return RedirectToAction("Index", new { idContrato = boleta.idContrato });
                 }
-
-                Repositorio<boleta> rep = new Repositorio<boleta>();
-                rep.Actualizar(boleta);
-
-                return RedirectToAction("Index", new { idContrato = boleta.idContrato });
+                catch (Exception)
+                {
+                    // Notify error
+                }
             }
             ViewBag.idFondo = new SelectList(db.fondo, "id", "nombre", boleta.idFondo);
             ViewBag.idInspector = new SelectList(db.inspector, "idPersona", "idPersona", boleta.idInspector);

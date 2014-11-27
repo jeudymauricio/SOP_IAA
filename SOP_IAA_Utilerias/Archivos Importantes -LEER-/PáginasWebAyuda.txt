@@ -8,6 +8,8 @@ http://www.reddybrek.com/allow-entity-framework-store-more-than-2-decimal-places
 
 http://stackoverflow.com/questions/13237193/data-annotation-to-validate-confirm-password
 
+ACtulizar datos usando las propuedades virtuales
+	http://stackoverflow.com/questions/13364665/updating-database-record-using-entity-framework-lazy-loading-and-virtual-proper
 
 insertar en varias tablas a la vez
 	http://stackoverflow.com/questions/4442915/entity-framework-inserting-into-multiple-tables-using-foreign-key
