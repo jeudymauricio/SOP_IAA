@@ -1,7 +1,7 @@
 ﻿@model SOP_IAA_DAL.ordenModificacion
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "OM " + @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName((int)@Model.fecha.Month).ToUpperInvariant() + " " + @Model.fecha.Year;
 
     // Se especifica el formato de Costa Rica
     System.Globalization.CultureInfo cultureCR = System.Globalization.CultureInfo.CreateSpecificCulture("es-CR");

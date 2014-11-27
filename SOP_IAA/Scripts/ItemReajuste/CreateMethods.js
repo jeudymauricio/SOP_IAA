@@ -169,12 +169,12 @@ function cargarItems(_idContrato) {
                 $('#tbItems > tbody > tr:last').children("td").eq(4).find('input:eq(0)').rules('add', {
                     number: true, // Validación de números
                     isNumberDecimal: true,
-                    range: [0, 999],
+                    range: [-999, 999],
                     required: true, // Validación de campos vacíos
                     messages: {
                         required: "Debe ingresar un reajuste.",
                         number: "Ingrese un reajuste válido.",
-                        range: "Ingrese un numero menor o igual a 999,9999",
+                        range: "Ingrese un numero entre -999,9999 y 999,9999",
                         isNumberDecimal: "Ingrese un reajuste válido." // Validación propia declarada en el inicio del document.ready()
                     }
                 });

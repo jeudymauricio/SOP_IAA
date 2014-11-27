@@ -191,7 +191,6 @@
     <Compile Include="Controllers\IngenieroController.cs" />
     <Compile Include="Controllers\InspectorController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
-    <Compile Include="Controllers\ItemReajusteController.cs" />
     <Compile Include="Controllers\LaboratorioCalidadController.cs" />
     <Compile Include="Controllers\Mis_Controladores\BoletaController.cs" />
     <Compile Include="Controllers\Mis_Controladores\ContratoController.cs" />

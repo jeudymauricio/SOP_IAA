@@ -531,7 +531,7 @@ namespace SOP_IAA.Controllers
                                 {
                                     var om = ci.oMCI.Where(x => x.ordenModificacion.fecha == fechaOM).FirstOrDefault();
 
-                                    //Se coloca el estilo de reajuste
+                                    //Se coloca el estilo
                                     worksheet.Cells[row, col].StyleID = estiloOMHistorial;
                                     //Si no hay OMs para esa fecha se coloca 0, de lo contrario se coloca la cantidad de la OM
                                     if (om == null)
@@ -585,8 +585,8 @@ namespace SOP_IAA.Controllers
 
         public decimal cantidadObraRealizada(contratoItem ci, DateTime fecha)
         {
-            // Se seleccionan las boletas hasta la fecha
-            var bo = ci.boletaItem.Where(b => (b.boleta.fecha.Month <= fecha.Month && b.boleta.fecha.Year <= fecha.Year));
+            // Se seleccionan las boletas hasta la fecha (dia, mes, año)
+            var bo = ci.boletaItem.Where(b => (b.boleta.fecha.Month <= fecha.Month && b.boleta.fecha.Year <= fecha.Year && b.boleta.fecha.Day <= fecha.Day));
 
             decimal cantidadLaborada = 0;
             // Se recorren todas las boletas hasta la fecha para sumar sus cantidades
