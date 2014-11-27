@@ -78,23 +78,29 @@ namespace SOP_IAA.Controllers
             {
                 // Primero se eliminan sus relaciones como ingeniero
                 // Se elimina el ingeniero de todos los contratos donde exista
-                db.ingenieroContrato.RemoveRange(persona.ingeniero.ingenieroContrato);
+                if (persona.ingeniero != null)
+                {
+                    db.ingenieroContrato.RemoveRange(persona.ingeniero.ingenieroContrato);
 
-                // Se elimina el ingeniero del sistema
-                db.ingeniero.Remove(persona.ingeniero);
+                    // Se elimina el ingeniero del sistema
+                    db.ingeniero.Remove(persona.ingeniero);
+                }
 
                 // Segundo se eliminan sus relaciones como inspector
                 // Se eliminan los items de cada una de las boletas del inpector
-                foreach (var b in persona.inspector.boleta)
+                if (persona.inspector != null)
                 {
-                    db.boletaItem.RemoveRange(b.boletaItem);
+                    foreach (var b in persona.inspector.boleta)
+                    {
+                        db.boletaItem.RemoveRange(b.boletaItem);
+                    }
+
+                    // Se remueven todas las boletas asociadas al inspector
+                    db.boleta.RemoveRange(persona.inspector.boleta);
+
+                    // Finalmente se elimina el inspector de la BD
+                    db.inspector.Remove(persona.inspector);
                 }
-
-                // Se remueven todas las boletas asociadas al inspector
-                db.boleta.RemoveRange(persona.inspector.boleta);
-
-                // Finalmente se elimina el inspector de la BD
-                db.inspector.Remove(persona.inspector);
 
                 // Finalmente se elimina la persona de la BD
                 db.persona.Remove(persona);
